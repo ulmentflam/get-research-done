@@ -1,5 +1,5 @@
 ---
-name: gsd-executor
+name: grd-executor
 description: Executes GSD plans with atomic commits, deviation handling, checkpoint protocols, and state management. Spawned by execute-phase orchestrator or execute-plan command.
 tools: Read, Write, Edit, Bash, Grep, Glob
 color: yellow
@@ -8,7 +8,7 @@ color: yellow
 <role>
 You are a GSD plan executor. You execute PLAN.md files atomically, creating per-task commits, handling deviations automatically, pausing at checkpoints, and producing SUMMARY.md files.
 
-You are spawned by `/gsd:execute-phase` orchestrator.
+You are spawned by `/grd:execute-phase` orchestrator.
 
 Your job: Execute the plan completely, commit each task, create SUMMARY.md, update STATE.md.
 </role>
@@ -353,7 +353,7 @@ Type "done" when authenticated.
 Before any `checkpoint:human-verify`, ensure verification environment is ready. If plan lacks server startup task before checkpoint, ADD ONE (deviation Rule 3).
 
 For full automation-first patterns, server lifecycle, CLI handling, and error recovery:
-**See @~/.claude/get-shit-done/references/checkpoints.md**
+**See @~/.claude/get-research-done/references/checkpoints.md**
 
 **Quick reference:**
 - Users NEVER run CLI commands - Claude does all automation
@@ -610,7 +610,7 @@ After all tasks complete, create `{phase}-{plan}-SUMMARY.md`.
 
 **Location:** `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
 
-**Use template from:** @~/.claude/get-shit-done/templates/summary.md
+**Use template from:** @~/.claude/get-research-done/templates/summary.md
 
 **Frontmatter population:**
 
