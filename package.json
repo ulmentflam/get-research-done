@@ -1,14 +1,14 @@
 {
-  "name": "get-shit-done-cc",
-  "version": "1.9.13",
-  "description": "A meta-prompting, context engineering and spec-driven development system for Claude Code by TÂCHES.",
+  "name": "get-research-done",
+  "version": "2.0.0",
+  "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation for Claude Code by TÂCHES.",
   "bin": {
-    "get-shit-done-cc": "bin/install.js"
+    "get-research-done": "bin/install.js"
   },
   "files": [
     "bin",
     "commands",
-    "get-shit-done",
+    "get-research-done",
     "agents",
     "hooks/dist",
     "scripts"
@@ -17,19 +17,22 @@
     "claude",
     "claude-code",
     "ai",
+    "research",
+    "ml",
+    "machine-learning",
     "meta-prompting",
     "context-engineering",
-    "spec-driven-development"
+    "hypothesis-driven"
   ],
   "author": "TÂCHES",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glittercowboy/get-shit-done.git"
+    "url": "git+https://github.com/glittercowboy/get-research-done.git"
   },
-  "homepage": "https://github.com/glittercowboy/get-shit-done",
+  "homepage": "https://github.com/glittercowboy/get-research-done",
   "bugs": {
-    "url": "https://github.com/glittercowboy/get-shit-done/issues"
+    "url": "https://github.com/glittercowboy/get-research-done/issues"
   },
   "engines": {
     "node": ">=16.7.0"
