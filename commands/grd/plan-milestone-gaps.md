@@ -1,5 +1,5 @@
 ---
-name: gsd:plan-milestone-gaps
+name: grd:plan-milestone-gaps
 description: Create phases to close all gaps identified by milestone audit
 allowed-tools:
   - Read
@@ -11,15 +11,15 @@ allowed-tools:
 ---
 
 <objective>
-Create all phases necessary to close gaps identified by `/gsd:audit-milestone`.
+Create all phases necessary to close gaps identified by `/grd:audit-milestone`.
 
 Reads MILESTONE-AUDIT.md, groups gaps into logical phases, creates phase entries in ROADMAP.md, and offers to plan each phase.
 
-One command creates all fix phases — no manual `/gsd:add-phase` per gap.
+One command creates all fix phases — no manual `/grd:add-phase` per gap.
 </objective>
 
 <execution_context>
-<!-- Spawns gsd-planner agent which has all planning expertise baked in -->
+<!-- Spawns grd-planner agent which has all planning expertise baked in -->
 </execution_context>
 
 <context>
@@ -51,7 +51,7 @@ Parse YAML frontmatter to extract structured gaps:
 
 If no audit file exists or has no gaps, error:
 ```
-No audit gaps found. Run `/gsd:audit-milestone` first.
+No audit gaps found. Run `/grd:audit-milestone` first.
 ```
 
 ## 2. Prioritize Gaps
@@ -188,22 +188,22 @@ git commit -m "docs(roadmap): add gap closure phases {N}-{M}"
 
 **Plan first gap closure phase**
 
-`/gsd:plan-phase {N}`
+`/grd:plan-phase {N}`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd:execute-phase {N}` — if plans already exist
+- `/grd:execute-phase {N}` — if plans already exist
 - `cat .planning/ROADMAP.md` — see updated roadmap
 
 ---
 
 **After all gap phases complete:**
 
-`/gsd:audit-milestone` — re-audit to verify gaps closed
-`/gsd:complete-milestone {version}` — archive when audit passes
+`/grd:audit-milestone` — re-audit to verify gaps closed
+`/grd:complete-milestone {version}` — archive when audit passes
 ```
 
 </process>
@@ -291,5 +291,5 @@ becomes:
 - [ ] ROADMAP.md updated with new phases
 - [ ] Phase directories created
 - [ ] Changes committed
-- [ ] User knows to run `/gsd:plan-phase` next
+- [ ] User knows to run `/grd:plan-phase` next
 </success_criteria>

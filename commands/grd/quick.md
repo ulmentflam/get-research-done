@@ -1,5 +1,5 @@
 ---
-name: gsd:quick
+name: grd:quick
 description: Execute a quick task with GSD guarantees (atomic commits, state tracking) but skip optional agents
 argument-hint: ""
 allowed-tools:
@@ -17,8 +17,8 @@ allowed-tools:
 Execute small, ad-hoc tasks with GSD guarantees (atomic commits, STATE.md tracking) while skipping optional agents (research, plan-checker, verifier).
 
 Quick mode is the same system with a shorter path:
-- Spawns gsd-planner (quick mode) + gsd-executor(s)
-- Skips gsd-phase-researcher, gsd-plan-checker, gsd-verifier
+- Spawns grd-planner (quick mode) + grd-executor(s)
+- Skips grd-phase-researcher, grd-plan-checker, grd-verifier
 - Quick tasks live in `.planning/quick/` separate from planned phases
 - Updates STATE.md "Quick Tasks Completed" table (NOT ROADMAP.md)
 
@@ -48,8 +48,8 @@ Default to "balanced" if not set.
 
 | Agent | quality | balanced | budget |
 |-------|---------|----------|--------|
-| gsd-planner | opus | opus | sonnet |
-| gsd-executor | opus | sonnet | sonnet |
+| grd-planner | opus | opus | sonnet |
+| grd-executor | opus | sonnet | sonnet |
 
 Store resolved models for use in Task calls below.
 
@@ -62,7 +62,7 @@ Check that an active GSD project exists:
 ```bash
 if [ ! -f .planning/ROADMAP.md ]; then
   echo "Quick mode requires an active project with ROADMAP.md."
-  echo "Run /gsd:new-project first."
+  echo "Run /grd:new-project first."
   exit 1
 fi
 ```
@@ -137,7 +137,7 @@ Store `$QUICK_DIR` for use in orchestration.
 
 **Step 5: Spawn planner (quick mode)**
 
-Spawn gsd-planner with quick mode context:
+Spawn grd-planner with quick mode context:
 
 ```
 Task(
@@ -165,7 +165,7 @@ Write plan to: ${QUICK_DIR}/${next_num}-PLAN.md
 Return: ## PLANNING COMPLETE with plan path
 </output>
 ",
-  subagent_type="gsd-planner",
+  subagent_type="grd-planner",
   model="{planner_model}",
   description="Quick plan: ${DESCRIPTION}"
 )
@@ -182,7 +182,7 @@ If plan not found, error: "Planner failed to create ${next_num}-PLAN.md"
 
 **Step 6: Spawn executor**
 
-Spawn gsd-executor with plan reference:
+Spawn grd-executor with plan reference:
 
 ```
 Task(
@@ -199,7 +199,7 @@ Project state: @.planning/STATE.md
 - Do NOT update ROADMAP.md (quick tasks are separate from planned phases)
 </constraints>
 ",
-  subagent_type="gsd-executor",
+  subagent_type="grd-executor",
   model="{executor_model}",
   description="Execute: ${DESCRIPTION}"
 )
@@ -291,7 +291,7 @@ Commit: ${commit_hash}
 
 ---
 
-Ready for next task: /gsd:quick
+Ready for next task: /grd:quick
 ```
 
 </process>

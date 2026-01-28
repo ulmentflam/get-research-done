@@ -1,5 +1,5 @@
 ---
-name: gsd:settings
+name: grd:settings
 description: Configure GSD workflow toggles and model profile
 allowed-tools:
   - Read
@@ -21,7 +21,7 @@ Updates `.planning/config.json` with workflow preferences and model profile sele
 ls .planning/config.json 2>/dev/null
 ```
 
-**If not found:** Error - run `/gsd:new-project` first.
+**If not found:** Error - run `/grd:new-project` first.
 
 ## 2. Read Current Config
 
@@ -117,13 +117,13 @@ Display:
 | Plan Checker         | {On/Off} |
 | Execution Verifier   | {On/Off} |
 
-These settings apply to future /gsd:plan-phase and /gsd:execute-phase runs.
+These settings apply to future /grd:plan-phase and /grd:execute-phase runs.
 
 Quick commands:
-- /gsd:set-profile <profile> — switch model profile
-- /gsd:plan-phase --research — force research
-- /gsd:plan-phase --skip-research — skip research
-- /gsd:plan-phase --skip-verify — skip plan check
+- /grd:set-profile <profile> — switch model profile
+- /grd:plan-phase --research — force research
+- /grd:plan-phase --skip-research — skip research
+- /grd:plan-phase --skip-verify — skip plan check
 ```
 
 </process>

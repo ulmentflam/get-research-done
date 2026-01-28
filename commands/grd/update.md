@@ -1,12 +1,12 @@
 ---
-name: gsd:update
+name: grd:update
 description: Update GSD to latest version with changelog display
 ---
 
 <objective>
 Check for GSD updates, install if available, and display what changed.
 
-Provides a better update experience than raw `npx get-shit-done-cc` by showing version diff and changelog entries.
+Provides a better update experience than raw `npx get-research-done-cc` by showing version diff and changelog entries.
 </objective>
 
 <process>
@@ -15,7 +15,7 @@ Provides a better update experience than raw `npx get-shit-done-cc` by showing v
 Read installed version:
 
 ```bash
-cat ~/.claude/get-shit-done/VERSION 2>/dev/null
+cat ~/.claude/get-research-done/VERSION 2>/dev/null
 ```
 
 **If VERSION file missing:**
@@ -36,14 +36,14 @@ Proceed to install step (treat as version 0.0.0 for comparison).
 Check npm for latest version:
 
 ```bash
-npm view get-shit-done-cc version 2>/dev/null
+npm view get-research-done-cc version 2>/dev/null
 ```
 
 **If npm check fails:**
 ```
 Couldn't check for updates (offline or npm unavailable).
 
-To update manually: `npx get-shit-done-cc --global`
+To update manually: `npx get-research-done-cc --global`
 ```
 
 STOP here if npm unavailable.
@@ -107,12 +107,12 @@ STOP here if ahead.
 
 ⚠️  **Note:** The installer performs a clean install of GSD folders:
 - `~/.claude/commands/gsd/` will be wiped and replaced
-- `~/.claude/get-shit-done/` will be wiped and replaced
-- `~/.claude/agents/gsd-*` files will be replaced
+- `~/.claude/get-research-done/` will be wiped and replaced
+- `~/.claude/agents/grd-*` files will be replaced
 
 Your custom files in other locations are preserved:
 - Custom commands in `~/.claude/commands/your-stuff/` ✓
-- Custom agents not prefixed with `gsd-` ✓
+- Custom agents not prefixed with `grd-` ✓
 - Custom hooks ✓
 - Your CLAUDE.md files ✓
 
@@ -132,7 +132,7 @@ Use AskUserQuestion:
 Run the update:
 
 ```bash
-npx get-shit-done-cc --global
+npx get-research-done-cc --global
 ```
 
 Capture output. If install fails, show error and STOP.
@@ -140,7 +140,7 @@ Capture output. If install fails, show error and STOP.
 Clear the update cache so statusline indicator disappears:
 
 ```bash
-rm -f ~/.claude/cache/gsd-update-check.json
+rm -f ~/.claude/cache/grd-update-check.json
 ```
 </step>
 
@@ -154,7 +154,7 @@ Format completion message (changelog was already shown in confirmation step):
 
 ⚠️  Restart Claude Code to pick up the new commands.
 
-[View full changelog](https://github.com/glittercowboy/get-shit-done/blob/main/CHANGELOG.md)
+[View full changelog](https://github.com/glittercowboy/get-research-done/blob/main/CHANGELOG.md)
 ```
 </step>
 

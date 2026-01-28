@@ -1,5 +1,5 @@
 ---
-name: gsd:execute-phase
+name: grd:execute-phase
 description: Execute all plans in a phase with wave-based parallelization
 argument-hint: "<phase-number> [--gaps-only]"
 allowed-tools:
@@ -23,8 +23,8 @@ Context budget: ~15% orchestrator, 100% fresh per subagent.
 </objective>
 
 <execution_context>
-@~/.claude/get-shit-done/references/ui-brand.md
-@~/.claude/get-shit-done/workflows/execute-phase.md
+@~/.claude/get-research-done/references/ui-brand.md
+@~/.claude/get-research-done/workflows/execute-phase.md
 </execution_context>
 
 <context>
@@ -51,8 +51,8 @@ Phase: $ARGUMENTS
 
    | Agent | quality | balanced | budget |
    |-------|---------|----------|--------|
-   | gsd-executor | opus | sonnet | sonnet |
-   | gsd-verifier | sonnet | sonnet | haiku |
+   | grd-executor | opus | sonnet | sonnet |
+   | grd-verifier | sonnet | sonnet | haiku |
 
    Store resolved models for use in Task calls below.
 
@@ -74,7 +74,7 @@ Phase: $ARGUMENTS
 
 4. **Execute waves**
    For each wave in order:
-   - Spawn `gsd-executor` for each plan in wave (parallel Task calls)
+   - Spawn `grd-executor` for each plan in wave (parallel Task calls)
    - Wait for completion (Task blocks)
    - Verify SUMMARYs created
    - Proceed to next wave
@@ -102,13 +102,13 @@ Phase: $ARGUMENTS
    **If `workflow.verifier` is `false`:** Skip to step 8 (treat as passed).
 
    **Otherwise:**
-   - Spawn `gsd-verifier` subagent with phase directory and goal
+   - Spawn `grd-verifier` subagent with phase directory and goal
    - Verifier checks must_haves against actual codebase (not SUMMARY claims)
    - Creates VERIFICATION.md with detailed report
    - Route by status:
      - `passed` → continue to step 8
      - `human_needed` → present items, get approval or feedback
-     - `gaps_found` → present gaps, offer `/gsd:plan-phase {X} --gaps`
+     - `gaps_found` → present gaps, offer `/grd:plan-phase {X} --gaps`
 
 8. **Update roadmap and state**
    - Update ROADMAP.md, STATE.md
@@ -162,15 +162,15 @@ Goal verified ✓
 
 **Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
 
-/gsd:discuss-phase {Z+1} — gather context and clarify approach
+/grd:discuss-phase {Z+1} — gather context and clarify approach
 
 <sub>/clear first → fresh context window</sub>
 
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- /gsd:plan-phase {Z+1} — skip discussion, plan directly
-- /gsd:verify-work {Z} — manual acceptance testing before continuing
+- /grd:plan-phase {Z+1} — skip discussion, plan directly
+- /grd:verify-work {Z} — manual acceptance testing before continuing
 
 ───────────────────────────────────────────────────────────────
 
@@ -193,15 +193,15 @@ All phase goals verified ✓
 
 **Audit milestone** — verify requirements, cross-phase integration, E2E flows
 
-/gsd:audit-milestone
+/grd:audit-milestone
 
 <sub>/clear first → fresh context window</sub>
 
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- /gsd:verify-work — manual acceptance testing
-- /gsd:complete-milestone — skip audit, archive directly
+- /grd:verify-work — manual acceptance testing
+- /grd:complete-milestone — skip audit, archive directly
 
 ───────────────────────────────────────────────────────────────
 
@@ -228,7 +228,7 @@ Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
 
 **Plan gap closure** — create additional plans to complete the phase
 
-/gsd:plan-phase {Z} --gaps
+/grd:plan-phase {Z} --gaps
 
 <sub>/clear first → fresh context window</sub>
 
@@ -236,16 +236,16 @@ Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
 
 **Also available:**
 - cat .planning/phases/{phase_dir}/{phase}-VERIFICATION.md — see full report
-- /gsd:verify-work {Z} — manual testing before planning
+- /grd:verify-work {Z} — manual testing before planning
 
 ───────────────────────────────────────────────────────────────
 
 ---
 
-After user runs /gsd:plan-phase {Z} --gaps:
+After user runs /grd:plan-phase {Z} --gaps:
 1. Planner reads VERIFICATION.md gaps
 2. Creates plans 04, 05, etc. to close gaps
-3. User runs /gsd:execute-phase {Z} again
+3. User runs /grd:execute-phase {Z} again
 4. Execute-phase runs incomplete plans (04, 05...)
 5. Verifier runs again → loop until passed
 </offer_next>
@@ -266,9 +266,9 @@ STATE_CONTENT=$(cat .planning/STATE.md)
 Spawn all plans in a wave with a single message containing multiple Task calls, with inlined content:
 
 ```
-Task(prompt="Execute plan at {plan_01_path}\n\nPlan:\n{plan_01_content}\n\nProject state:\n{state_content}", subagent_type="gsd-executor", model="{executor_model}")
-Task(prompt="Execute plan at {plan_02_path}\n\nPlan:\n{plan_02_content}\n\nProject state:\n{state_content}", subagent_type="gsd-executor", model="{executor_model}")
-Task(prompt="Execute plan at {plan_03_path}\n\nPlan:\n{plan_03_content}\n\nProject state:\n{state_content}", subagent_type="gsd-executor", model="{executor_model}")
+Task(prompt="Execute plan at {plan_01_path}\n\nPlan:\n{plan_01_content}\n\nProject state:\n{state_content}", subagent_type="grd-executor", model="{executor_model}")
+Task(prompt="Execute plan at {plan_02_path}\n\nPlan:\n{plan_02_content}\n\nProject state:\n{state_content}", subagent_type="grd-executor", model="{executor_model}")
+Task(prompt="Execute plan at {plan_03_path}\n\nPlan:\n{plan_03_content}\n\nProject state:\n{state_content}", subagent_type="grd-executor", model="{executor_model}")
 ```
 
 All three run in parallel. Task tool blocks until all complete.
@@ -282,7 +282,7 @@ Plans with `autonomous: false` have checkpoints. The execute-phase.md workflow h
 - Orchestrator presents to user, collects response
 - Spawns fresh continuation agent (not resume)
 
-See `@~/.claude/get-shit-done/workflows/execute-phase.md` step `checkpoint_handling` for complete details.
+See `@~/.claude/get-research-done/workflows/execute-phase.md` step `checkpoint_handling` for complete details.
 </checkpoint_handling>
 
 <deviation_rules>

@@ -1,8 +1,8 @@
 ---
-name: gsd:plan-phase
+name: grd:plan-phase
 description: Create detailed execution plan for a phase (PLAN.md) with verification loop
 argument-hint: "[phase] [--research] [--skip-research] [--gaps] [--skip-verify]"
-agent: gsd-planner
+agent: grd-planner
 allowed-tools:
   - Read
   - Write
@@ -15,7 +15,7 @@ allowed-tools:
 ---
 
 <execution_context>
-@~/.claude/get-shit-done/references/ui-brand.md
+@~/.claude/get-research-done/references/ui-brand.md
 </execution_context>
 
 <objective>
@@ -23,7 +23,7 @@ Create executable phase prompts (PLAN.md files) for a roadmap phase with integra
 
 **Default flow:** Research (if needed) → Plan → Verify → Done
 
-**Orchestrator role:** Parse arguments, validate phase, research domain (unless skipped or exists), spawn gsd-planner agent, verify plans with gsd-plan-checker, iterate until plans pass or max iterations reached, present results.
+**Orchestrator role:** Parse arguments, validate phase, research domain (unless skipped or exists), spawn grd-planner agent, verify plans with grd-plan-checker, iterate until plans pass or max iterations reached, present results.
 
 **Why subagents:** Research and planning burn context fast. Verification uses fresh context. User sees the flow between agents in main context.
 </objective>
@@ -48,7 +48,7 @@ Normalize phase input in step 2 before any directory lookups.
 ls .planning/ 2>/dev/null
 ```
 
-**If not found:** Error - user should run `/gsd:new-project` first.
+**If not found:** Error - user should run `/grd:new-project` first.
 
 **Resolve model profile for agent spawning:**
 
@@ -62,9 +62,9 @@ Default to "balanced" if not set.
 
 | Agent | quality | balanced | budget |
 |-------|---------|----------|--------|
-| gsd-phase-researcher | opus | sonnet | haiku |
-| gsd-planner | opus | opus | sonnet |
-| gsd-plan-checker | sonnet | sonnet | haiku |
+| grd-phase-researcher | opus | sonnet | haiku |
+| grd-planner | opus | opus | sonnet |
+| grd-plan-checker | sonnet | sonnet | haiku |
 
 Store resolved models for use in Task calls below.
 
@@ -158,7 +158,7 @@ Display stage banner:
 
 Proceed to spawn researcher
 
-### Spawn gsd-phase-researcher
+### Spawn grd-phase-researcher
 
 Gather context for research prompt:
 
@@ -206,7 +206,7 @@ Write research findings to: {phase_dir}/{phase}-RESEARCH.md
 
 ```
 Task(
-  prompt="First, read ~/.claude/agents/gsd-phase-researcher.md for your role and instructions.\n\n" + research_prompt,
+  prompt="First, read ~/.claude/agents/grd-phase-researcher.md for your role and instructions.\n\n" + research_prompt,
   subagent_type="general-purpose",
   model="{researcher_model}",
   description="Research Phase {phase}"
@@ -251,7 +251,7 @@ VERIFICATION_CONTENT=$(cat "${PHASE_DIR}"/*-VERIFICATION.md 2>/dev/null)
 UAT_CONTENT=$(cat "${PHASE_DIR}"/*-UAT.md 2>/dev/null)
 ```
 
-## 8. Spawn gsd-planner Agent
+## 8. Spawn grd-planner Agent
 
 Display stage banner:
 ```
@@ -292,7 +292,7 @@ Fill prompt with inlined content and spawn:
 </planning_context>
 
 <downstream_consumer>
-Output consumed by /gsd:execute-phase
+Output consumed by /grd:execute-phase
 Plans must be executable prompts with:
 
 - Frontmatter (wave, depends_on, files_modified, autonomous)
@@ -315,7 +315,7 @@ Before returning PLANNING COMPLETE:
 
 ```
 Task(
-  prompt="First, read ~/.claude/agents/gsd-planner.md for your role and instructions.\n\n" + filled_prompt,
+  prompt="First, read ~/.claude/agents/grd-planner.md for your role and instructions.\n\n" + filled_prompt,
   subagent_type="general-purpose",
   model="{planner_model}",
   description="Plan Phase {phase}"
@@ -341,7 +341,7 @@ Parse planner output:
 - Offer: Add context, Retry, Manual
 - Wait for user response
 
-## 10. Spawn gsd-plan-checker Agent
+## 10. Spawn grd-plan-checker Agent
 
 Display:
 ```
@@ -388,7 +388,7 @@ Return one of:
 ```
 Task(
   prompt=checker_prompt,
-  subagent_type="gsd-plan-checker",
+  subagent_type="grd-plan-checker",
   model="{checker_model}",
   description="Verify Phase {phase} plans"
 )
@@ -420,7 +420,7 @@ Read current plans for revision context:
 PLANS_CONTENT=$(cat "${PHASE_DIR}"/*-PLAN.md 2>/dev/null)
 ```
 
-Spawn gsd-planner with revision prompt:
+Spawn grd-planner with revision prompt:
 
 ```markdown
 <revision_context>
@@ -445,7 +445,7 @@ Return what changed.
 
 ```
 Task(
-  prompt="First, read ~/.claude/agents/gsd-planner.md for your role and instructions.\n\n" + revision_prompt,
+  prompt="First, read ~/.claude/agents/grd-planner.md for your role and instructions.\n\n" + revision_prompt,
   subagent_type="general-purpose",
   model="{planner_model}",
   description="Revise Phase {phase} plans"
@@ -496,7 +496,7 @@ Verification: {Passed | Passed with override | Skipped}
 
 **Execute Phase {X}** — run all {N} plans
 
-/gsd:execute-phase {X}
+/grd:execute-phase {X}
 
 <sub>/clear first → fresh context window</sub>
 
@@ -504,7 +504,7 @@ Verification: {Passed | Passed with override | Skipped}
 
 **Also available:**
 - cat .planning/phases/{phase-dir}/*-PLAN.md — review plans
-- /gsd:plan-phase {X} --research — re-research first
+- /grd:plan-phase {X} --research — re-research first
 
 ───────────────────────────────────────────────────────────────
 </offer_next>
@@ -514,11 +514,11 @@ Verification: {Passed | Passed with override | Skipped}
 - [ ] Phase validated against roadmap
 - [ ] Phase directory created if needed
 - [ ] Research completed (unless --skip-research or --gaps or exists)
-- [ ] gsd-phase-researcher spawned if research needed
+- [ ] grd-phase-researcher spawned if research needed
 - [ ] Existing plans checked
-- [ ] gsd-planner spawned with context (including RESEARCH.md if available)
+- [ ] grd-planner spawned with context (including RESEARCH.md if available)
 - [ ] Plans created (PLANNING COMPLETE or CHECKPOINT handled)
-- [ ] gsd-plan-checker spawned (unless --skip-verify)
+- [ ] grd-plan-checker spawned (unless --skip-verify)
 - [ ] Verification passed OR user override OR max iterations with user decision
 - [ ] User sees status between agent spawns
 - [ ] User knows next steps (execute or review)
