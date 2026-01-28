@@ -59,9 +59,9 @@ Generated in `hooks/dist/` (gitignored):
 
 | Task | Name | Commit | Files Modified |
 |------|------|--------|----------------|
-| 1 | Update statusline hook | 44fed67 | hooks/grd-statusline.js |
-| 2 | Update check-update hook | 44fed67 | hooks/grd-check-update.js |
-| 3 | Update build script and commit | 44fed67 | scripts/build-hooks.js |
+| 1 | Update statusline hook | c02338b | hooks/grd-statusline.js |
+| 2 | Update check-update hook | c02338b | hooks/grd-check-update.js |
+| 3 | Update build script and commit | c02338b | scripts/build-hooks.js |
 
 **Note:** Tasks 1 and 2 found the hook files already properly updated (likely from plan 01-01's git mv operations preserving content). Task 3 updated the build script and all changes were committed together.
 
@@ -143,7 +143,7 @@ None.
 **Single atomic commit:**
 
 ```
-44fed67 - refactor(01-04): update hooks and build script for GRD
+c02338b - refactor(01-04): update hooks and build script for GRD
 ```
 
 **Files changed:**
