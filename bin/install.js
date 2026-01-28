@@ -141,7 +141,7 @@ if (hasHelp) {
     ${cyan}--claude${reset}                  Install for Claude Code only
     ${cyan}--opencode${reset}                Install for OpenCode only
     ${cyan}--both${reset}                    Install for both Claude Code and OpenCode
-    ${cyan}-u, --uninstall${reset}           Uninstall GSD (remove all GSD files)
+    ${cyan}-u, --uninstall${reset}           Uninstall GRD (remove all GRD files)
     ${cyan}-c, --config-dir <path>${reset}   Specify custom config directory
     ${cyan}-h, --help${reset}                Show this help message
     ${cyan}--force-statusline${reset}        Replace existing statusline config
@@ -165,10 +165,10 @@ if (hasHelp) {
     ${dim}# Install to current project only${reset}
     npx get-shit-done-cc --claude --local
 
-    ${dim}# Uninstall GSD from Claude Code globally${reset}
+    ${dim}# Uninstall GRD from Claude Code globally${reset}
     npx get-shit-done-cc --claude --global --uninstall
 
-    ${dim}# Uninstall GSD from current project${reset}
+    ${dim}# Uninstall GRD from current project${reset}
     npx get-shit-done-cc --claude --local --uninstall
 
   ${yellow}Notes:${reset}
@@ -471,7 +471,7 @@ function copyWithPathReplacement(srcDir, destDir, pathPrefix, runtime) {
 }
 
 /**
- * Clean up orphaned files from previous GSD versions
+ * Clean up orphaned files from previous GRD versions
  */
 function cleanupOrphanedFiles(claudeDir) {
   const orphanedFiles = [
@@ -534,8 +534,8 @@ function cleanupOrphanedHooks(settings) {
 }
 
 /**
- * Uninstall GSD from the specified directory for a specific runtime
- * Removes only GSD-specific files/directories, preserves user content
+ * Uninstall GRD from the specified directory for a specific runtime
+ * Removes only GRD-specific files/directories, preserves user content
  * @param {boolean} isGlobal - Whether to uninstall from global or local
  * @param {string} runtime - Target runtime ('claude' or 'opencode')
  */
@@ -553,7 +553,7 @@ function uninstall(isGlobal, runtime = 'claude') {
     : targetDir.replace(process.cwd(), '.');
 
   const runtimeLabel = isOpencode ? 'OpenCode' : 'Claude Code';
-  console.log(`  Uninstalling GSD from ${cyan}${runtimeLabel}${reset} at ${cyan}${locationLabel}${reset}\n`);
+  console.log(`  Uninstalling GRD from ${cyan}${runtimeLabel}${reset} at ${cyan}${locationLabel}${reset}\n`);
 
   // Check if target directory exists
   if (!fs.existsSync(targetDir)) {
@@ -564,7 +564,7 @@ function uninstall(isGlobal, runtime = 'claude') {
 
   let removedCount = 0;
 
-  // 1. Remove GSD commands directory
+  // 1. Remove GRD commands directory
   if (isOpencode) {
     // OpenCode: remove command/gsd-*.md files
     const commandDir = path.join(targetDir, 'command');
@@ -576,7 +576,7 @@ function uninstall(isGlobal, runtime = 'claude') {
           removedCount++;
         }
       }
-      console.log(`  ${green}✓${reset} Removed GSD commands from command/`);
+      console.log(`  ${green}✓${reset} Removed GRD commands from command/`);
     }
   } else {
     // Claude Code: remove commands/gsd/ directory
@@ -596,7 +596,7 @@ function uninstall(isGlobal, runtime = 'claude') {
     console.log(`  ${green}✓${reset} Removed get-shit-done/`);
   }
 
-  // 3. Remove GSD agents (gsd-*.md files only)
+  // 3. Remove GRD agents (grd-*.md files only)
   const agentsDir = path.join(targetDir, 'agents');
   if (fs.existsSync(agentsDir)) {
     const files = fs.readdirSync(agentsDir);
@@ -609,11 +609,11 @@ function uninstall(isGlobal, runtime = 'claude') {
     }
     if (agentCount > 0) {
       removedCount++;
-      console.log(`  ${green}✓${reset} Removed ${agentCount} GSD agents`);
+      console.log(`  ${green}✓${reset} Removed ${agentCount} GRD agents`);
     }
   }
 
-  // 4. Remove GSD hooks
+  // 4. Remove GRD hooks
   const hooksDir = path.join(targetDir, 'hooks');
   if (fs.existsSync(hooksDir)) {
     const gsdHooks = ['gsd-statusline.js', 'gsd-check-update.js', 'gsd-check-update.sh'];
@@ -627,30 +627,30 @@ function uninstall(isGlobal, runtime = 'claude') {
     }
     if (hookCount > 0) {
       removedCount++;
-      console.log(`  ${green}✓${reset} Removed ${hookCount} GSD hooks`);
+      console.log(`  ${green}✓${reset} Removed ${hookCount} GRD hooks`);
     }
   }
 
-  // 5. Clean up settings.json (remove GSD hooks and statusline)
+  // 5. Clean up settings.json (remove GRD hooks and statusline)
   const settingsPath = path.join(targetDir, 'settings.json');
   if (fs.existsSync(settingsPath)) {
     let settings = readSettings(settingsPath);
     let settingsModified = false;
 
-    // Remove GSD statusline if it references our hook
+    // Remove GRD statusline if it references our hook
     if (settings.statusLine && settings.statusLine.command &&
         settings.statusLine.command.includes('gsd-statusline')) {
       delete settings.statusLine;
       settingsModified = true;
-      console.log(`  ${green}✓${reset} Removed GSD statusline from settings`);
+      console.log(`  ${green}✓${reset} Removed GRD statusline from settings`);
     }
 
-    // Remove GSD hooks from SessionStart
+    // Remove GRD hooks from SessionStart
     if (settings.hooks && settings.hooks.SessionStart) {
       const before = settings.hooks.SessionStart.length;
       settings.hooks.SessionStart = settings.hooks.SessionStart.filter(entry => {
         if (entry.hooks && Array.isArray(entry.hooks)) {
-          // Filter out GSD hooks
+          // Filter out GRD hooks
           const hasGsdHook = entry.hooks.some(h =>
             h.command && (h.command.includes('gsd-check-update') || h.command.includes('gsd-statusline'))
           );
@@ -660,7 +660,7 @@ function uninstall(isGlobal, runtime = 'claude') {
       });
       if (settings.hooks.SessionStart.length < before) {
         settingsModified = true;
-        console.log(`  ${green}✓${reset} Removed GSD hooks from settings`);
+        console.log(`  ${green}✓${reset} Removed GRD hooks from settings`);
       }
       // Clean up empty array
       if (settings.hooks.SessionStart.length === 0) {
@@ -687,7 +687,7 @@ function uninstall(isGlobal, runtime = 'claude') {
         const config = JSON.parse(fs.readFileSync(configPath, 'utf8'));
         let modified = false;
 
-        // Remove GSD permission entries
+        // Remove GRD permission entries
         if (config.permission) {
           for (const permType of ['read', 'external_directory']) {
             if (config.permission[permType]) {
@@ -712,7 +712,7 @@ function uninstall(isGlobal, runtime = 'claude') {
         if (modified) {
           fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n');
           removedCount++;
-          console.log(`  ${green}✓${reset} Removed GSD permissions from opencode.json`);
+          console.log(`  ${green}✓${reset} Removed GRD permissions from opencode.json`);
         }
       } catch (e) {
         // Ignore JSON parse errors
@@ -721,18 +721,18 @@ function uninstall(isGlobal, runtime = 'claude') {
   }
 
   if (removedCount === 0) {
-    console.log(`  ${yellow}⚠${reset} No GSD files found to remove.`);
+    console.log(`  ${yellow}⚠${reset} No GRD files found to remove.`);
   }
 
   console.log(`
-  ${green}Done!${reset} GSD has been uninstalled from ${runtimeLabel}.
+  ${green}Done!${reset} GRD has been uninstalled from ${runtimeLabel}.
   Your other files and settings have been preserved.
 `);
 }
 
 /**
- * Configure OpenCode permissions to allow reading GSD reference docs
- * This prevents permission prompts when GSD accesses the get-shit-done directory
+ * Configure OpenCode permissions to allow reading GRD reference docs
+ * This prevents permission prompts when GRD accesses the get-shit-done directory
  */
 function configureOpencodePermissions() {
   // OpenCode config file is at ~/.config/opencode/opencode.json
@@ -758,7 +758,7 @@ function configureOpencodePermissions() {
     config.permission = {};
   }
 
-  // Build the GSD path using the actual config directory
+  // Build the GRD path using the actual config directory
   // Use ~ shorthand if it's in the default location, otherwise use full path
   const defaultConfigDir = path.join(os.homedir(), '.config', 'opencode');
   const gsdPath = opencodeConfigDir === defaultConfigDir
@@ -791,7 +791,7 @@ function configureOpencodePermissions() {
 
   // Write config back
   fs.writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n');
-  console.log(`  ${green}✓${reset} Configured read permission for GSD docs`);
+  console.log(`  ${green}✓${reset} Configured read permission for GRD docs`);
 }
 
 /**
@@ -909,7 +909,7 @@ function install(isGlobal, runtime = 'claude') {
     const agentsDest = path.join(targetDir, 'agents');
     fs.mkdirSync(agentsDest, { recursive: true });
 
-    // Remove old GSD agents (gsd-*.md) before copying new ones
+    // Remove old GRD agents (grd-*.md) before copying new ones
     if (fs.existsSync(agentsDest)) {
       for (const file of fs.readdirSync(agentsDest)) {
         if (file.startsWith('gsd-') && file.endsWith('.md')) {
@@ -1007,7 +1007,7 @@ function install(isGlobal, runtime = 'claude') {
       settings.hooks.SessionStart = [];
     }
 
-    // Check if GSD update hook already exists
+    // Check if GRD update hook already exists
     const hasGsdUpdateHook = settings.hooks.SessionStart.some(entry =>
       entry.hooks && entry.hooks.some(h => h.command && h.command.includes('gsd-check-update'))
     );
@@ -1104,13 +1104,13 @@ function handleStatusline(settings, isInteractive, callback) {
   Your current statusline:
     ${dim}command: ${existingCmd}${reset}
 
-  GSD includes a statusline showing:
+  GRD includes a statusline showing:
     • Model name
     • Current task (from todo list)
     • Context window usage (color-coded)
 
   ${cyan}1${reset}) Keep existing
-  ${cyan}2${reset}) Replace with GSD statusline
+  ${cyan}2${reset}) Replace with GRD statusline
 `);
 
   rl.question(`  Choice ${dim}[1]${reset}: `, (answer) => {
@@ -1216,7 +1216,7 @@ function promptLocation(runtimes) {
 }
 
 /**
- * Install GSD for all selected runtimes
+ * Install GRD for all selected runtimes
  * @param {string[]} runtimes - Array of runtimes to install for
  * @param {boolean} isGlobal - Whether to install globally
  * @param {boolean} isInteractive - Whether running interactively
