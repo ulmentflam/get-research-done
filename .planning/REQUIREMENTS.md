@@ -99,6 +99,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | BRAND-02 | Phase 1 | Pending |
 | BRAND-03 | Phase 1 | Pending |
 | BRAND-04 | Phase 1 | Pending |
+| STATE-01 | Phase 1 | Pending |
+| STATE-02 | Phase 1 | Pending |
+| STATE-03 | Phase 1 | Pending |
 | DATA-01 | Phase 2 | Pending |
 | DATA-02 | Phase 2 | Pending |
 | DATA-03 | Phase 2 | Pending |
@@ -120,9 +123,6 @@ Which phases cover which requirements. Updated during roadmap creation.
 | NOTE-01 | Phase 6 | Pending |
 | NOTE-02 | Phase 6 | Pending |
 | NOTE-03 | Phase 6 | Pending |
-| STATE-01 | Phase 1 | Pending |
-| STATE-02 | Phase 1 | Pending |
-| STATE-03 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 25 total
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after initial definition*
+*Last updated: 2026-01-27 after roadmap creation*

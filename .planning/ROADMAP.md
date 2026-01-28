@@ -1,0 +1,154 @@
+# Roadmap: Get Research Done (GRD)
+
+## Overview
+
+GRD transforms the Get Shit Done (GSD) codebase into a recursive, agentic framework for ML research. This roadmap moves from foundational rebranding through data-first workflow implementation, culminating in the recursive validation loop that is GRD's core innovation. Each phase delivers a coherent capability, building from orchestration foundations through specialized agents to human-in-the-loop validation gates. The journey completes with notebook support, enabling researchers to graduate exploratory work into validated experiments.
+
+## Phases
+
+**Phase Numbering:**
+- Integer phases (1, 2, 3, 4, 5, 6): Planned milestone work
+- Decimal phases (e.g., 2.1, 2.2): Urgent insertions (if needed, marked with INSERTED)
+
+Decimal phases appear between their surrounding integers in numeric order.
+
+- [ ] **Phase 1: Core Orchestration & Branding** - Foundation layer with GRD identity and state management
+- [ ] **Phase 2: Data Reconnaissance** - Explorer agent for data-first EDA workflow
+- [ ] **Phase 3: Hypothesis Synthesis** - Architect agent transforms insights into testable objectives
+- [ ] **Phase 4: Recursive Validation Loop** - Researcher/Critic/Evaluator agents with state routing
+- [ ] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
+- [ ] **Phase 6: Notebook Support** - Jupyter integration and graduation path
+
+## Phase Details
+
+### Phase 1: Core Orchestration & Branding
+**Goal**: Establish GRD identity and orchestration foundation for specialized agents
+
+**Depends on**: Nothing (first phase)
+
+**Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04, STATE-01, STATE-02, STATE-03
+
+**Success Criteria** (what must be TRUE):
+  1. User can run `grd` command and see GRD-branded CLI with ASCII art
+  2. User can install via npm with `get-research-done` package name
+  3. GRD agents can spawn with isolated contexts and file-based state persistence
+  4. STATE.md tracks loop history and current research phase
+  5. User can resume interrupted sessions with full context restoration
+
+**Plans**: TBD
+
+Plans:
+- [ ] 01-01: TBD during planning
+
+### Phase 2: Data Reconnaissance
+**Goal**: Users can analyze raw data and surface anomalies before hypothesis formation
+
+**Depends on**: Phase 1
+
+**Requirements**: DATA-01, DATA-02, DATA-03, DATA-04
+
+**Success Criteria** (what must be TRUE):
+  1. User can run `/grd:explore` command to launch Explorer agent on raw dataset
+  2. Explorer generates DATA_REPORT.md with distributions, outliers, and anomaly flags
+  3. Explorer detects potential data leakage risks (feature/target overlap, temporal issues)
+  4. User cannot proceed to hypothesis synthesis without completed DATA_REPORT.md (data-first gating enforced)
+
+**Plans**: TBD
+
+Plans:
+- [ ] 02-01: TBD during planning
+
+### Phase 3: Hypothesis Synthesis
+**Goal**: Users can transform data insights into testable scientific hypotheses
+
+**Depends on**: Phase 2
+
+**Requirements**: HYPO-01, HYPO-02, HYPO-03, HYPO-04
+
+**Success Criteria** (what must be TRUE):
+  1. User can run `/grd:architect` command to synthesize hypothesis from DATA_REPORT.md
+  2. Architect generates OBJECTIVE.md with context, hypothesis, success metrics, constraints, and baselines
+  3. OBJECTIVE.md includes falsification criteria (what would disprove the hypothesis)
+  4. System enforces baseline definition before accepting hypothesis as complete
+
+**Plans**: TBD
+
+Plans:
+- [ ] 03-01: TBD during planning
+
+### Phase 4: Recursive Validation Loop
+**Goal**: Experiments are validated through skeptical criticism with automatic routing back to earlier phases when anomalies detected
+
+**Depends on**: Phase 3
+
+**Requirements**: LOOP-01, LOOP-02, LOOP-03, LOOP-04, LOOP-05, LOOP-06, LOOP-07
+
+**Success Criteria** (what must be TRUE):
+  1. Researcher agent can implement experiments (code, notebooks, training pipelines) from OBJECTIVE.md
+  2. Critic agent audits work and returns exit codes: PROCEED, REVISE_METHOD, or REVISE_DATA
+  3. REVISE_METHOD routes back to Researcher with critique feedback
+  4. REVISE_DATA routes back to Explorer for data re-verification
+  5. PROCEED routes to Evaluator for quantitative benchmarking
+  6. Each iteration creates isolated `experiments/run_NNN/` directory with code, logs, and outputs
+  7. Evaluator generates SCORECARD.json with metrics against hypothesis success criteria
+  8. Loop depth limits prevent infinite recursion (maximum iterations enforced)
+
+**Plans**: TBD
+
+Plans:
+- [ ] 04-01: TBD during planning
+
+### Phase 5: Human Evaluation Gate
+**Goal**: Humans make final validation decisions based on complete evidence packages
+
+**Depends on**: Phase 4
+
+**Requirements**: HUMAN-01, HUMAN-02, HUMAN-03
+
+**Success Criteria** (what must be TRUE):
+  1. System bundles evidence package: OBJECTIVE.md + DATA_REPORT.md + CRITIC_LOGS.md + SCORECARD.json
+  2. User receives interactive decision gate prompting for Seal/Iterate/Archive choice
+  3. Human decisions are logged in `human_eval/decision_log.md` with rationale
+  4. Failed hypotheses (Archive path) are preserved with explanation in `experiments/negative_results/`
+
+**Plans**: TBD
+
+Plans:
+- [ ] 05-01: TBD during planning
+
+### Phase 6: Notebook Support
+**Goal**: Users can execute Jupyter notebooks as experiments with explicit graduation to validated scripts
+
+**Depends on**: Phase 5
+
+**Requirements**: NOTE-01, NOTE-02, NOTE-03
+
+**Success Criteria** (what must be TRUE):
+  1. System can execute Jupyter notebooks as experiments via papermill or similar engine
+  2. Clear separation exists between `experiments/exploration/` (notebooks) and `experiments/validated/` (scripts)
+  3. Graduation checklist validates notebooks are refactored (no hardcoded paths, deterministic seeds, parameterized)
+  4. Critic enforces graduation requirements before marking notebooks as "validated"
+
+**Plans**: TBD
+
+Plans:
+- [ ] 06-01: TBD during planning
+
+## Progress
+
+**Execution Order:**
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+
+| Phase | Plans Complete | Status | Completed |
+|-------|----------------|--------|-----------|
+| 1. Core Orchestration & Branding | 0/TBD | Not started | - |
+| 2. Data Reconnaissance | 0/TBD | Not started | - |
+| 3. Hypothesis Synthesis | 0/TBD | Not started | - |
+| 4. Recursive Validation Loop | 0/TBD | Not started | - |
+| 5. Human Evaluation Gate | 0/TBD | Not started | - |
+| 6. Notebook Support | 0/TBD | Not started | - |
+
+---
+*Roadmap created: 2026-01-27*
+*Depth: standard (6 phases)*
+*Coverage: 25/25 requirements mapped*
