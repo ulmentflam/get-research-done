@@ -1,5 +1,7 @@
 # State Template
 
+<!-- STATE.md template v2.0 - GRD research loop tracking -->
+
 Template for `.planning/STATE.md` — the project's living memory.
 
 ---
@@ -71,6 +73,25 @@ None yet.
 Last session: [YYYY-MM-DD HH:MM]
 Stopped at: [Description of last completed action]
 Resume file: [Path to .continue-here*.md if exists, otherwise "None"]
+
+## Research Loop History
+
+**Active Loop:** [N/A - no active research loop]
+**Loop Status:** [idle/exploring/synthesizing/validating/complete]
+
+| Loop | Started | Focus Area | Status | Outcome |
+|------|---------|------------|--------|---------|
+| - | - | - | - | - |
+
+**Current Loop Progress:**
+- [ ] Data reconnaissance (Explorer)
+- [ ] Hypothesis synthesis (Architect)
+- [ ] Implementation (Researcher)
+- [ ] Validation (Critic)
+- [ ] Evaluation (Evaluator)
+
+**Loop Notes:**
+_Notes from current research iteration appear here_
 ```
 
 <purpose>
@@ -160,6 +181,23 @@ Enables instant resumption:
 - When was last session
 - What was last completed
 - Is there a .continue-here file to resume from
+
+### Research Loop History
+Tracks recursive validation cycles (STATE-01 requirement):
+- **Active Loop**: Which research loop is currently running (or N/A)
+- **Loop Status**: Current stage (idle/exploring/synthesizing/validating/complete)
+- **Loop Table**: History of completed and ongoing loops with outcomes
+- **Current Loop Progress**: Checklist tracking which agents have contributed
+- **Loop Notes**: Insights, decisions, and findings from the current iteration
+
+When a research loop starts (future phases), this section tracks:
+- Explorer's data reconnaissance
+- Architect's hypothesis synthesis
+- Researcher's implementation
+- Critic's validation challenges
+- Evaluator's metric assessments
+
+This enables the recursive "hypothesis → experiment → validate → refine" cycle that distinguishes GRD from linear development workflows.
 
 </sections>
 
