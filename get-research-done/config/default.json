@@ -1,0 +1,15 @@
+{
+  "workflow": {
+    "commit_planning_docs": true,
+    "auto_execute": false,
+    "checkpoint_verification": true
+  },
+  "agents": {
+    "default_profile": "balanced",
+    "spawn_timeout": 600000
+  },
+  "state": {
+    "track_research_loops": true,
+    "session_restoration": true
+  }
+}
