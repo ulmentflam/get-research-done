@@ -123,11 +123,11 @@ Template for `.planning/codebase/STRUCTURE.md` - captures physical file organiza
 ## Directory Layout
 
 ```
-get-shit-done/
+get-research-done/
 ├── bin/                # Executable entry points
 ├── commands/           # Slash command definitions
-│   └── gsd/           # GSD-specific commands
-├── get-shit-done/     # Skill resources
+│   └── grd/           # GRD-specific commands
+├── get-research-done/     # Skill resources
 │   ├── references/    # Principle documents
 │   ├── templates/     # File templates
 │   └── workflows/     # Multi-step procedures
@@ -145,25 +145,25 @@ get-shit-done/
 - Key files: install.js - handles npx installation
 - Subdirectories: None
 
-**commands/gsd/**
+**commands/grd/**
 - Purpose: Slash command definitions for Claude Code
 - Contains: *.md files (one per command)
 - Key files: new-project.md, plan-phase.md, execute-plan.md
 - Subdirectories: None (flat structure)
 
-**get-shit-done/references/**
+**get-research-done/references/**
 - Purpose: Core philosophy and guidance documents
 - Contains: principles.md, questioning.md, plan-format.md
 - Key files: principles.md - system philosophy
 - Subdirectories: None
 
-**get-shit-done/templates/**
+**get-research-done/templates/**
 - Purpose: Document templates for .planning/ files
 - Contains: Template definitions with frontmatter
 - Key files: project.md, roadmap.md, plan.md, summary.md
 - Subdirectories: codebase/ (new - for stack/architecture/structure templates)
 
-**get-shit-done/workflows/**
+**get-research-done/workflows/**
 - Purpose: Reusable multi-step procedures
 - Contains: Workflow definitions called by commands
 - Key files: execute-plan.md, research-phase.md
@@ -206,20 +206,20 @@ get-shit-done/
 ## Where to Add New Code
 
 **New Slash Command:**
-- Primary code: `commands/gsd/{command-name}.md`
+- Primary code: `commands/grd/{command-name}.md`
 - Tests: `tests/commands/{command-name}.test.js` (if testing implemented)
 - Documentation: Update `README.md` with new command
 
 **New Template:**
-- Implementation: `get-shit-done/templates/{name}.md`
+- Implementation: `get-research-done/templates/{name}.md`
 - Documentation: Template is self-documenting (includes guidelines)
 
 **New Workflow:**
-- Implementation: `get-shit-done/workflows/{name}.md`
-- Usage: Reference from command with `@~/.claude/get-shit-done/workflows/{name}.md`
+- Implementation: `get-research-done/workflows/{name}.md`
+- Usage: Reference from command with `@~/.claude/get-research-done/workflows/{name}.md`
 
 **New Reference Document:**
-- Implementation: `get-shit-done/references/{name}.md`
+- Implementation: `get-research-done/references/{name}.md`
 - Usage: Reference from commands/workflows as needed
 
 **Utilities:**
@@ -228,7 +228,7 @@ get-shit-done/
 
 ## Special Directories
 
-**get-shit-done/**
+**get-research-done/**
 - Purpose: Resources installed to ~/.claude/
 - Source: Copied by bin/install.js during installation
 - Committed: Yes (source of truth)

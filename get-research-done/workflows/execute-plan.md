@@ -6,7 +6,7 @@ Execute a phase prompt (PLAN.md) and create the outcome summary (SUMMARY.md).
 Read STATE.md before any operation to load project context.
 Read config.json for planning behavior settings.
 
-@~/.claude/get-shit-done/references/git-integration.md
+@~/.claude/get-research-done/references/git-integration.md
 </required_reading>
 
 <process>
@@ -24,7 +24,7 @@ Default to "balanced" if not set.
 
 | Agent | quality | balanced | budget |
 |-------|---------|----------|--------|
-| gsd-executor | opus | sonnet | sonnet |
+| grd-executor | opus | sonnet | sonnet |
 
 Store resolved model for use in Task calls below.
 </step>
@@ -225,7 +225,7 @@ No segmentation benefit - execute entirely in main
 ```
 1. Run init_agent_tracking step first (see step below)
 
-2. Use Task tool with subagent_type="gsd-executor" and model="{executor_model}":
+2. Use Task tool with subagent_type="grd-executor" and model="{executor_model}":
 
    Prompt: "Execute plan at .planning/phases/{phase}-{plan}-PLAN.md
 
@@ -377,7 +377,7 @@ For Pattern A (fully autonomous) and Pattern C (decision-dependent), skip this s
 
    B. If routing = Subagent:
       ```
-      Spawn Task tool with subagent_type="gsd-executor" and model="{executor_model}":
+      Spawn Task tool with subagent_type="grd-executor" and model="{executor_model}":
 
       Prompt: "Execute tasks [task numbers/names] from plan at [plan path].
 
@@ -958,7 +958,7 @@ After TDD plan completion, ensure:
 - Standard plans: Multiple tasks, 1 commit per task, 2-4 commits total
 - TDD plans: Single feature, 2-3 commits for RED/GREEN/REFACTOR cycle
 
-See `~/.claude/get-shit-done/references/tdd.md` for TDD plan structure.
+See `~/.claude/get-research-done/references/tdd.md` for TDD plan structure.
 </tdd_plan_execution>
 
 <task_commit>
@@ -1126,7 +1126,7 @@ I'll verify after: [verification]
 - If verification passes or N/A: continue to next task
 - If verification fails: inform user, wait for resolution
 
-See ~/.claude/get-shit-done/references/checkpoints.md for complete checkpoint guidance.
+See ~/.claude/get-research-done/references/checkpoints.md for complete checkpoint guidance.
 </step>
 
 <step name="checkpoint_return_for_orchestrator">
@@ -1260,7 +1260,7 @@ grep -A 50 "^user_setup:" .planning/phases/XX-name/{phase}-{plan}-PLAN.md | head
 
 **If user_setup exists and is not empty:**
 
-Create `.planning/phases/XX-name/{phase}-USER-SETUP.md` using template from `~/.claude/get-shit-done/templates/user-setup.md`.
+Create `.planning/phases/XX-name/{phase}-USER-SETUP.md` using template from `~/.claude/get-research-done/templates/user-setup.md`.
 
 **Content generation:**
 
@@ -1321,7 +1321,7 @@ Set `USER_SETUP_CREATED=true` if file was generated, for use in completion messa
 
 <step name="create_summary">
 Create `{phase}-{plan}-SUMMARY.md` as specified in the prompt's `<output>` section.
-Use ~/.claude/get-shit-done/templates/summary.md for structure.
+Use ~/.claude/get-research-done/templates/summary.md for structure.
 
 **File location:** `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
 
@@ -1714,14 +1714,14 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 **{phase}-{next-plan}: [Plan Name]** — [objective from next PLAN.md]
 
-`/gsd:execute-phase {phase}`
+`/grd:execute-phase {phase}`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd:verify-work {phase}-{plan}` — manual acceptance testing before continuing
+- `/grd:verify-work {phase}-{plan}` — manual acceptance testing before continuing
 - Review what was built before continuing
 
 ---
@@ -1775,15 +1775,15 @@ All {Y} plans finished.
 
 **Phase {Z+1}: {Next Phase Name}** — {Goal from ROADMAP.md}
 
-`/gsd:plan-phase {Z+1}`
+`/grd:plan-phase {Z+1}`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd:verify-work {Z}` — manual acceptance testing before continuing
-- `/gsd:discuss-phase {Z+1}` — gather context first
+- `/grd:verify-work {Z}` — manual acceptance testing before continuing
+- `/grd:discuss-phase {Z+1}` — gather context first
 - Review phase accomplishments before continuing
 
 ---
@@ -1813,15 +1813,15 @@ All {Y} plans finished.
 
 **Complete Milestone** — archive and prepare for next
 
-`/gsd:complete-milestone`
+`/grd:complete-milestone`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/gsd:verify-work` — manual acceptance testing before completing milestone
-- `/gsd:add-phase <description>` — add another phase before completing
+- `/grd:verify-work` — manual acceptance testing before completing milestone
+- `/grd:add-phase <description>` — add another phase before completing
 - Review accomplishments before archiving
 
 ---
