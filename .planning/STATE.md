@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 1 of 6 (Core Orchestration & Branding)
-Plan: 2 of 6 (01-02 completed)
+Plan: 2 of 6 (01-01 and 01-02 completed)
 Status: In progress
-Last activity: 2026-01-28 — Completed 01-02-PLAN.md (GRD ASCII art branding)
+Last activity: 2026-01-28 — Completed 01-01-PLAN.md (Core directory and file renaming)
 
-Progress: [█░░░░░░░░░] 10%
+Progress: [██░░░░░░░░] 20%
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 1
-- Average duration: 2 min
-- Total execution time: 0.03 hours
+- Total plans completed: 2
+- Average duration: 2.5 min
+- Total execution time: 0.08 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
-| 01 | 1 | 2min | 2min |
+| 01 | 2 | 5min | 2.5min |
 
 **Recent Trend:**
-- Last 5 plans: 01-02 (2min)
-- Trend: Baseline (first plan)
+- Last 5 plans: 01-02 (2min), 01-01 (3min)
+- Trend: Consistent baseline
 
 *Updated after each plan completion*
 
@@ -45,6 +45,8 @@ Recent decisions affecting current work:
 
 | Decision | Made In | Impact |
 |----------|---------|--------|
+| Use git mv for all renames to preserve file history | 01-01 | All directory and file renames tracked in git history |
+| Rename directories and files before updating content | 01-01 | Structural changes complete before textual content updates |
 | Preserve directory/package names during rebranding | 01-02 | Technical identifiers (get-shit-done paths, get-shit-done-cc package) stay unchanged until later plans update them |
 | Use Unicode box-drawing for GRD ASCII art | 01-02 | Terminal branding pattern: filled-in block letters with cyan color |
 
@@ -61,8 +63,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-28T04:25:58Z (execution)
-Stopped at: Completed 01-02-PLAN.md
+Last session: 2026-01-28T04:27:00Z (execution)
+Stopped at: Completed 01-01-PLAN.md
 Resume file: None
 
 ---
