@@ -1,4 +1,4 @@
-# GSD Maintainer Guide
+# GRD Maintainer Guide
 
 Quick reference for release workflows and maintenance tasks.
 

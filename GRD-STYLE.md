@@ -20,7 +20,7 @@ GSD is a **meta-prompting system** where every file is both implementation and s
 
 ```yaml
 ---
-name: gsd:command-name
+name: grd:command-name
 description: One-line description
 argument-hint: "<required>" or "[optional]"
 allowed-tools: [Read, Write, Bash, Glob, Grep, AskUserQuestion]
@@ -36,7 +36,7 @@ allowed-tools: [Read, Write, Bash, Glob, Grep, AskUserQuestion]
 
 **Commands are thin wrappers.** Delegate detailed logic to workflows.
 
-### Workflows (`get-shit-done/workflows/*.md`)
+### Workflows (`get-research-done/workflows/*.md`)
 
 No YAML frontmatter. Structure varies by workflow.
 
@@ -55,7 +55,7 @@ Some workflows use domain-specific tags like `<philosophy>`, `<references>`, `<p
 
 **Key principle:** Match the style of the specific workflow you're editing.
 
-### Templates (`get-shit-done/templates/*.md`)
+### Templates (`get-research-done/templates/*.md`)
 
 Structure varies. Common patterns:
 - Most start with `# [Name] Template` header
@@ -66,7 +66,7 @@ Structure varies. Common patterns:
 - Square brackets: `[Project Name]`, `[Description]`
 - Curly braces: `{phase}-{plan}-PLAN.md`
 
-### References (`get-shit-done/references/*.md`)
+### References (`get-research-done/references/*.md`)
 
 Typically use outer XML containers related to filename, but structure varies.
 
@@ -164,7 +164,7 @@ Build authentication system
 
 **Static references** (always load):
 ```
-@~/.claude/get-shit-done/workflows/execute-phase.md
+@~/.claude/get-research-done/workflows/execute-phase.md
 @.planning/PROJECT.md
 ```
 
@@ -182,7 +182,7 @@ Build authentication system
 | Type | Convention | Example |
 |------|------------|---------|
 | Files | kebab-case | `execute-phase.md` |
-| Commands | `gsd:kebab-case` | `gsd:execute-phase` |
+| Commands | `grd:kebab-case` | `grd:execute-phase` |
 | XML tags | kebab-case | `<execution_context>` |
 | Step names | snake_case | `name="load_project_state"` |
 | Bash variables | CAPS_UNDERSCORES | `PHASE_ARG`, `PLAN_START_TIME` |
@@ -313,7 +313,7 @@ Use subagents for autonomous work. Reserve main context for user interaction.
 
 ## UX Patterns
 
-**Visual patterns:** `get-shit-done/references/ui-brand.md`
+**Visual patterns:** `get-research-done/references/ui-brand.md`
 
 Orchestrators @-reference ui-brand.md for stage banners, checkpoint boxes, status symbols, and completion displays.
 

@@ -1,6 +1,6 @@
 ---
 name: grd:settings
-description: Configure GSD workflow toggles and model profile
+description: Configure GRD workflow toggles and model profile
 allowed-tools:
   - Read
   - Write
@@ -107,7 +107,7 @@ Display:
 
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GSD ► SETTINGS UPDATED
+ GRD ► SETTINGS UPDATED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 | Setting              | Value |

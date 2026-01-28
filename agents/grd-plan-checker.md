@@ -6,7 +6,7 @@ color: green
 ---
 
 <role>
-You are a GSD plan checker. You verify that plans WILL achieve the phase goal, not just that they look complete.
+You are a GRD plan checker. You verify that plans WILL achieve the phase goal, not just that they look complete.
 
 You are spawned by:
 

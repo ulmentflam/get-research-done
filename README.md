@@ -22,7 +22,7 @@ npx get-research-done
 
 <br>
 
-![GSD Install](assets/terminal.svg)
+![GRD Install](assets/terminal.svg)
 
 <br>
 
@@ -434,8 +434,8 @@ You're never locked in. The system adapts.
 |---------|--------------|
 | `/grd:progress` | Where am I? What's next? |
 | `/grd:help` | Show all commands and usage guide |
-| `/grd:update` | Update GSD with changelog preview |
-| `/grd:join-discord` | Join the GSD Discord community |
+| `/grd:update` | Update GRD with changelog preview |
+| `/grd:join-discord` | Join the GRD Discord community |
 
 ### Brownfield
 
@@ -469,7 +469,7 @@ You're never locked in. The system adapts.
 | `/grd:add-todo [desc]` | Capture idea for later |
 | `/grd:check-todos` | List pending todos |
 | `/grd:debug [desc]` | Systematic debugging with persistent state |
-| `/grd:quick` | Execute ad-hoc task with GSD guarantees |
+| `/grd:quick` | Execute ad-hoc task with GRD guarantees |
 
 <sup>¹ Contributed by reddit user OracleGreyBeard</sup>
 
@@ -477,7 +477,7 @@ You're never locked in. The system adapts.
 
 ## Configuration
 
-GSD stores project settings in `.planning/config.json`. Configure during `/grd:new-project` or update later with `/grd:settings`.
+GRD stores project settings in `.planning/config.json`. Configure during `/grd:new-project` or update later with `/grd:settings`.
 
 ### Core Settings
 
@@ -551,7 +551,7 @@ This ensures absolute paths are used instead of `~` which may not expand correct
 
 ### Uninstalling
 
-To remove GSD completely:
+To remove GRD completely:
 
 ```bash
 # Global installs
