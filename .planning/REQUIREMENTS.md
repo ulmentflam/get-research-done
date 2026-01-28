@@ -9,10 +9,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Branding & Installation
 
-- [ ] **BRAND-01**: Rename GSD → GRD in all files, commands, and references
-- [ ] **BRAND-02**: Create new ASCII art logo for GRD CLI branding
-- [ ] **BRAND-03**: Update npm package name to get-research-done
-- [ ] **BRAND-04**: Update README and installation documentation
+- [x] **BRAND-01**: Rename GSD → GRD in all files, commands, and references
+- [x] **BRAND-02**: Create new ASCII art logo for GRD CLI branding
+- [x] **BRAND-03**: Update npm package name to get-research-done
+- [x] **BRAND-04**: Update README and installation documentation
 
 ### Data Reconnaissance (Explorer Phase)
 
@@ -52,9 +52,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### State & Configuration
 
-- [ ] **STATE-01**: STATE.md tracks current phase, active run, loop history
-- [ ] **STATE-02**: Config system for workflow preferences (inherited from GSD)
-- [ ] **STATE-03**: Context restoration for resuming work across sessions
+- [x] **STATE-01**: STATE.md tracks current phase, active run, loop history
+- [x] **STATE-02**: Config system for workflow preferences (inherited from GSD)
+- [x] **STATE-03**: Context restoration for resuming work across sessions
 
 ## v2 Requirements
 
@@ -95,13 +95,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BRAND-01 | Phase 1 | Pending |
-| BRAND-02 | Phase 1 | Pending |
-| BRAND-03 | Phase 1 | Pending |
-| BRAND-04 | Phase 1 | Pending |
-| STATE-01 | Phase 1 | Pending |
-| STATE-02 | Phase 1 | Pending |
-| STATE-03 | Phase 1 | Pending |
+| BRAND-01 | Phase 1 | Complete |
+| BRAND-02 | Phase 1 | Complete |
+| BRAND-03 | Phase 1 | Complete |
+| BRAND-04 | Phase 1 | Complete |
+| STATE-01 | Phase 1 | Complete |
+| STATE-02 | Phase 1 | Complete |
+| STATE-03 | Phase 1 | Complete |
 | DATA-01 | Phase 2 | Pending |
 | DATA-02 | Phase 2 | Pending |
 | DATA-03 | Phase 2 | Pending |
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-27 after roadmap creation*
+*Last updated: 2026-01-28 after Phase 1 completion*
