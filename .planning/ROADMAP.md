@@ -35,10 +35,15 @@ Decimal phases appear between their surrounding integers in numeric order.
   4. STATE.md tracks loop history and current research phase
   5. User can resume interrupted sessions with full context restoration
 
-**Plans**: TBD
+**Plans**: 6 plans
 
 Plans:
-- [ ] 01-01: TBD during planning
+- [ ] 01-01-PLAN.md — Rename core directories and files (commands/, get-research-done/, agents/, hooks/)
+- [ ] 01-02-PLAN.md — Create GRD ASCII art branding for CLI installer
+- [ ] 01-03-PLAN.md — Update text references across commands, agents, and workflows
+- [ ] 01-04-PLAN.md — Update hooks and build scripts for GRD naming
+- [ ] 01-05-PLAN.md — Update package.json, README, and extend STATE.md template
+- [ ] 01-06-PLAN.md — Final verification and human approval checkpoint
 
 ### Phase 2: Data Reconnaissance
 **Goal**: Users can analyze raw data and surface anomalies before hypothesis formation
@@ -141,7 +146,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Core Orchestration & Branding | 0/TBD | Not started | - |
+| 1. Core Orchestration & Branding | 0/6 | Planned | - |
 | 2. Data Reconnaissance | 0/TBD | Not started | - |
 | 3. Hypothesis Synthesis | 0/TBD | Not started | - |
 | 4. Recursive Validation Loop | 0/TBD | Not started | - |
