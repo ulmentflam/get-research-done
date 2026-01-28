@@ -89,16 +89,16 @@ function getGlobalDir(runtime, explicitDir = null) {
 }
 
 const banner = `
-${cyan}   ██████╗ ███████╗██████╗
-  ██╔════╝ ██╔════╝██╔══██╗
-  ██║  ███╗███████╗██║  ██║
-  ██║   ██║╚════██║██║  ██║
-  ╚██████╔╝███████║██████╔╝
-   ╚═════╝ ╚══════╝╚═════╝${reset}
+${cyan}   ██████╗ ██████╗ ██████╗
+  ██╔════╝ ██╔══██╗██╔══██╗
+  ██║  ███╗██████╔╝██║  ██║
+  ██║   ██║██╔══██╗██║  ██║
+  ╚██████╔╝██║  ██║██████╔╝
+   ╚═════╝ ╚═╝  ╚═╝╚═════╝${reset}
 
-  Get Shit Done ${dim}v${pkg.version}${reset}
-  A meta-prompting, context engineering and spec-driven
-  development system for Claude Code (and opencode) by TÂCHES.
+  Get Research Done ${dim}v${pkg.version}${reset}
+  A recursive, agentic framework for ML research
+  with hypothesis-driven experimentation for Claude Code by TÂCHES.
 `;
 
 // Parse --config-dir argument
