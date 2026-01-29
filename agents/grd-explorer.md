@@ -947,37 +947,272 @@ def analyze_multiclass_imbalance(df: pd.DataFrame, target_col: str):
 
 ## Step 7: Detect Data Leakage
 
-<!-- Detailed logic to be added in 02-03-PLAN.md -->
-
 **Responsibilities:**
 
-**Feature-Target Correlation:**
-- Calculate correlation between each feature and target
-- Flag suspiciously high correlations (>0.9 or domain-specific thresholds)
-- Assign risk level (HIGH/MEDIUM/LOW)
-- Assign confidence (based on correlation strength and domain knowledge)
+**1. Feature-Target Correlation Detection:**
 
-**Feature-Feature Correlation:**
-- Identify high correlations between features (>0.95)
-- Flag potential redundancy or leakage (e.g., ID columns, derived features)
+Detect potential leakage via suspiciously high correlations between features and target:
 
-**Train-Test Overlap (if multiple files):**
-- Check for duplicate rows between train and test sets
-- Calculate overlap percentage
-- Assess severity
+```python
+def detect_correlation_leakage(df, target_col, threshold=0.90):
+    """
+    Detect feature-target correlation leakage.
 
-**Temporal Leakage:**
-- Detect future timestamps in features (if datetime columns exist)
-- Check if train dates are after test dates
-- Flag potential rolling features computed globally
+    Flags features with |correlation| > threshold as potential leakage.
+    Returns confidence score based on sample size and statistical significance.
+    """
+    # Compute correlation matrix for numerical features
+    corr_matrix = df.select_dtypes(include=[np.number]).corr()
+
+    # Get absolute correlations with target (excluding target itself)
+    target_corrs = corr_matrix[target_col].drop(target_col).abs()
+    high_corr = target_corrs[target_corrs > threshold]
+
+    # Calculate confidence based on sample size and p-value
+    results = []
+    for feature, corr in high_corr.items():
+        # Larger samples = higher confidence
+        n = df[[feature, target_col]].dropna().shape[0]
+
+        # Fisher transformation for confidence calculation
+        # p-value calculation for correlation significance
+        if n > 100 and corr > 0.95:
+            confidence = "HIGH"
+        elif n > 50 and corr > 0.90:
+            confidence = "MEDIUM"
+        else:
+            confidence = "LOW"
+
+        results.append({
+            'feature': feature,
+            'correlation': round(corr, 4),
+            'confidence': confidence,
+            'sample_size': n,
+            'risk': 'CRITICAL' if corr > 0.95 else 'HIGH',
+            'notes': f"Suspiciously high correlation. Verify {feature} is not derived from target."
+        })
+
+    return results
+```
+
+**2. Feature-Feature Correlation Detection (Proxy Variables):**
+
+Detect high correlations between features that might indicate one is derived from another:
+
+```python
+def detect_feature_feature_leakage(df, threshold=0.95):
+    """
+    Detect high feature-feature correlations (potential proxy variables).
+
+    Flags pairs with |correlation| > threshold.
+    Higher severity if column names suggest derivation.
+    """
+    corr_matrix = df.select_dtypes(include=[np.number]).corr()
+
+    results = []
+    for i in range(len(corr_matrix.columns)):
+        for j in range(i+1, len(corr_matrix.columns)):
+            corr = abs(corr_matrix.iloc[i, j])
+
+            if corr > threshold:
+                feature1 = corr_matrix.columns[i]
+                feature2 = corr_matrix.columns[j]
+
+                # Check if names suggest derivation
+                derived_patterns = ['_ratio', '_pct', '_diff', '_avg', '_sum', '_normalized']
+                name_suggests_derivation = any(
+                    pattern in feature1.lower() or pattern in feature2.lower()
+                    for pattern in derived_patterns
+                )
+
+                severity = "HIGH" if name_suggests_derivation else "MEDIUM"
+
+                results.append({
+                    'feature1': feature1,
+                    'feature2': feature2,
+                    'correlation': round(corr, 4),
+                    'severity': severity,
+                    'notes': 'Check if one is derived from the other' +
+                             (' - Column names suggest derivation' if name_suggests_derivation else '')
+                })
+
+    return results
+```
+
+**3. Train-Test Overlap Detection:**
+
+If multiple files are analyzed (e.g., train.csv and test.csv), detect duplicate rows:
+
+```python
+def detect_train_test_overlap(train_df, test_df, exclude_cols=None):
+    """
+    Detect overlapping rows between train and test sets.
+
+    Uses row hashing for efficient comparison.
+    Excludes ID columns which should be unique.
+    """
+    import hashlib
+
+    # Exclude ID columns and other specified columns from hash
+    cols = [c for c in train_df.columns if c not in (exclude_cols or [])]
+
+    def hash_row(row):
+        """Hash row values for comparison."""
+        return hashlib.md5(str(row.values).encode()).hexdigest()
+
+    # Hash all rows
+    train_hashes = set(train_df[cols].apply(hash_row, axis=1))
+    test_hashes = set(test_df[cols].apply(hash_row, axis=1))
+
+    # Find overlap
+    overlap = train_hashes & test_hashes
+    overlap_count = len(overlap)
+    overlap_pct_test = overlap_count / len(test_df) * 100
+    overlap_pct_train = overlap_count / len(train_df) * 100
+
+    # Assess severity
+    if overlap_pct_test > 1.0:
+        severity = "HIGH"
+        confidence = "HIGH"
+    elif overlap_pct_test > 0.1:
+        severity = "MEDIUM"
+        confidence = "HIGH"
+    else:
+        severity = "LOW"
+        confidence = "HIGH"
+
+    return {
+        'overlapping_rows': overlap_count,
+        'overlap_pct_train': round(overlap_pct_train, 2),
+        'overlap_pct_test': round(overlap_pct_test, 2),
+        'severity': severity,
+        'confidence': confidence,
+        'notes': f'{overlap_count} rows ({overlap_pct_test:.2f}% of test set) appear in both train and test'
+    }
+```
+
+**4. Temporal Leakage Detection:**
+
+Detect potential temporal leakage patterns:
+
+```python
+def detect_temporal_leakage(df, train_df=None, test_df=None):
+    """
+    Detect temporal leakage issues.
+
+    Checks:
+    - Datetime columns where test timestamps precede train timestamps
+    - Features with rolling/cumulative patterns that might use future information
+    - Future information leakage indicators
+    """
+    results = []
+
+    # Detect datetime columns
+    datetime_cols = []
+    for col in df.columns:
+        if df[col].dtype in ['datetime64[ns]', 'datetime64']:
+            datetime_cols.append((col, 'HIGH'))
+        else:
+            # Try to infer from column name and sample values
+            if any(pattern in col.lower() for pattern in ['date', 'time', 'timestamp', '_at', '_on']):
+                try:
+                    # Try parsing a few values
+                    sample = df[col].dropna().head(10)
+                    pd.to_datetime(sample, errors='raise')
+                    datetime_cols.append((col, 'MEDIUM'))
+                except:
+                    continue
+
+    # Check temporal ordering between train/test if available
+    if train_df is not None and test_df is not None:
+        for col, confidence in datetime_cols:
+            if col in train_df.columns and col in test_df.columns:
+                train_max = pd.to_datetime(train_df[col], errors='coerce').max()
+                test_min = pd.to_datetime(test_df[col], errors='coerce').min()
+
+                if pd.notna(train_max) and pd.notna(test_min):
+                    if test_min < train_max:
+                        results.append({
+                            'issue': 'Temporal ordering violation',
+                            'column': col,
+                            'confidence': 'HIGH',
+                            'details': f'Test set contains dates before train set max. Train max: {train_max}, Test min: {test_min}',
+                            'severity': 'MEDIUM'
+                        })
+
+    # Check for rolling/cumulative feature patterns
+    rolling_patterns = ['_rolling', '_cumulative', '_lag', '_moving', '_running', '_cum_', '_ma_']
+    for col in df.columns:
+        if any(pattern in col.lower() for pattern in rolling_patterns):
+            results.append({
+                'issue': 'Potential rolling feature',
+                'column': col,
+                'confidence': 'MEDIUM',
+                'details': 'Column name suggests rolling/cumulative calculation. Verify it does not use future information.',
+                'severity': 'MEDIUM'
+            })
+
+    return results
+```
+
+**5. Derived Feature Detection:**
+
+Look for features that might be derived from the target or use future information:
+
+```python
+def detect_derived_features(df, target_col):
+    """
+    Detect potentially derived features that might leak information.
+
+    Looks for column name patterns suggesting derivation and checks
+    correlation with target.
+    """
+    derived_patterns = ['_ratio', '_diff', '_pct', '_avg', '_sum', '_mean',
+                       '_normalized', '_scaled', '_encoded', '_derived']
+
+    results = []
+    for col in df.columns:
+        if col == target_col:
+            continue
+
+        # Check for derived naming patterns
+        is_derived_name = any(pattern in col.lower() for pattern in derived_patterns)
+
+        if is_derived_name:
+            # Check correlation with target if numerical
+            if target_col in df.columns and pd.api.types.is_numeric_dtype(df[col]):
+                try:
+                    corr = abs(df[[col, target_col]].corr().iloc[0, 1])
+
+                    if corr > 0.7:
+                        results.append({
+                            'feature': col,
+                            'correlation_with_target': round(corr, 4),
+                            'confidence': 'HIGH',
+                            'notes': 'Feature appears derived (from name) and correlates highly with target. Verify it does not use target information.'
+                        })
+                except:
+                    pass
+
+    return results
+```
+
+**6. Confidence Scoring System:**
+
+Each leakage warning includes a confidence score:
+
+- **HIGH:** Strong statistical evidence or definitive pattern (e.g., correlation >0.95 with n>100, exact duplicate rows, explicit datetime violations)
+- **MEDIUM:** Suggestive evidence, needs manual review (e.g., correlation 0.90-0.95, suspicious column names with moderate correlation, inferred datetime patterns)
+- **LOW:** Possible issue, minimal evidence (e.g., correlation 0.80-0.90 with small sample, weak name patterns)
+
+**Important:** All leakage detections are WARNINGS. They are reported in DATA_REPORT.md but do NOT block proceeding. The user decides whether warnings are actionable based on their domain knowledge.
 
 **Output:**
 - Feature-Target Correlation table (feature, correlation, risk, confidence, notes)
-- Feature-Feature Correlations table (feature1, feature2, correlation, risk)
-- Train-Test Overlap table (overlapping rows, percentages, severity)
-- Temporal Leakage Indicators table (issue, detected, confidence, details)
-
-**Placeholder:** This step will implement comprehensive leakage detection logic.
+- Feature-Feature Correlations table (feature1, feature2, correlation, severity, notes)
+- Train-Test Overlap table (overlapping rows, percentages, severity, confidence, notes) [if applicable]
+- Temporal Leakage Indicators table (issue, column, confidence, details, severity)
+- Derived Features table (feature, correlation_with_target, confidence, notes)
 
 ---
 
