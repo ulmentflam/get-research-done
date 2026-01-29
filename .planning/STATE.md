@@ -11,29 +11,29 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 2 of 6 (Data Reconnaissance) — IN PROGRESS
-Plan: 2 of 4 (Data Loading & Profiling complete)
+Plan: 3 of 4 (Explorer Leakage & Reporting complete)
 Status: In progress
-Last activity: 2026-01-29 — Completed 02-02-PLAN.md (Data Loading & Profiling)
+Last activity: 2026-01-29 — Completed 02-03-PLAN.md (Explorer Leakage & Reporting)
 
-Progress: [██████████████░░░░░░░░░░░░░░░░░] 50% (Phase 2: 2/4 plans complete)
+Progress: [█████████████████░░░░░░░░░░░░░░░] 75% (Phase 2: 3/4 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 8
-- Average duration: 3.0 min
-- Total execution time: 0.52 hours
+- Total plans completed: 9
+- Average duration: 3.7 min
+- Total execution time: 0.67 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 6 | 17.2min | 2.9min |
-| 02 | 2 | 9.0min | 4.5min |
+| 02 | 3 | 18.0min | 6.0min |
 
 **Recent Trend:**
-- Last 5 plans: 02-02 (4min), 02-01 (5min), 01-06 (4min), 01-05 (5min), 01-04 (3min)
-- Trend: Consistent execution, all plans completed successfully
+- Last 5 plans: 02-03 (9min), 02-02 (4min), 02-01 (5min), 01-06 (4min), 01-05 (5min)
+- Trend: Phase 2 plans averaging longer (6min vs 2.9min in Phase 1) due to complex agent logic implementation
 
 *Updated after each plan completion*
 
@@ -64,6 +64,10 @@ Recent decisions affecting current work:
 | MCAR/MAR/MNAR classification via statistical tests | 02-02 | Chi-square for categorical, t-test for numerical relationships |
 | Cloud streaming with smart_open | 02-02 | Stream from S3/GCS without full download, uses environment auth |
 | PyArrow backend for Parquet | 02-02 | Memory-mapped, columnar selection, zero-copy conversion |
+| Leakage warnings are advisory only | 02-03 | User decides if warnings are actionable based on domain knowledge |
+| Correlation thresholds: >0.90 feature-target, >0.95 feature-feature | 02-03 | Balances sensitivity with false positive minimization |
+| Train-test overlap severity: HIGH if >1% of test | 02-03 | Pragmatic threshold that catches meaningful overlap |
+| Confidence scoring for leakage (HIGH/MEDIUM/LOW) | 02-03 | Based on sample size and statistical significance, guides prioritization |
 
 ### Pending Todos
 
@@ -79,7 +83,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29 (execution)
-Stopped at: Completed 02-02-PLAN.md (Data Loading & Profiling)
+Stopped at: Completed 02-03-PLAN.md (Explorer Leakage & Reporting)
 Resume file: None
 
 ---
