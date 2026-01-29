@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 3 of 6 (Hypothesis Synthesis) — IN PROGRESS
-Plan: 2 of 4 (Architect Command & Agent complete)
+Plan: 3 of 4 (Validation & Constraints complete)
 Status: In progress
-Last activity: 2026-01-29 — Completed 03-02-PLAN.md (Architect Command & Agent)
+Last activity: 2026-01-29 — Completed 03-03-PLAN.md (Validation & Constraints)
 
-Progress: [█████████████████████████░░░░░░] 75% (12/16 plans complete across phases 1-3)
+Progress: [████████████████████████████░░] 81% (13/16 plans complete across phases 1-3)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 12
-- Average duration: 3.4 min
-- Total execution time: 0.79 hours
+- Total plans completed: 13
+- Average duration: 3.3 min
+- Total execution time: 0.85 hours
 
 **By Phase:**
 
@@ -30,11 +30,11 @@ Progress: [███████████████████████
 |-------|-------|-------|----------|
 | 01 | 6 | 17.2min | 2.9min |
 | 02 | 4 | 21.0min | 5.3min |
-| 03 | 2 | 5.2min | 2.6min |
+| 03 | 3 | 7.2min | 2.4min |
 
 **Recent Trend:**
-- Last 5 plans: 03-02 (4min), 03-01 (1min), 02-04 (3min), 02-03 (9min), 02-02 (4min)
-- Trend: Phase 3 maintaining fast pace (avg 2.6min) — agent patterns well-established
+- Last 5 plans: 03-03 (2min), 03-02 (4min), 03-01 (1min), 02-04 (3min), 02-03 (9min)
+- Trend: Phase 3 maintaining fast pace (avg 2.4min) — validation patterns straightforward
 
 *Updated after each plan completion*
 
@@ -81,6 +81,12 @@ Recent decisions affecting current work:
 | Max 15 iterations for refinement | 03-02 | Escape hatches: finalize/reset/continue after limit |
 | Metric weight normalization automatic | 03-02 | If sum != 1.0, normalize automatically and log in completion message |
 | Explicit Write tool call for artifacts | 03-02 | Agent must use Write tool explicitly, not implicit file generation |
+| Validation implemented as inline agent guidance | 03-03 | Not executable code - agent applies rules using reasoning during Step 6 execution |
+| Metric weights must sum to 1.0 | 03-03 | ERROR if invalid (±0.01 tolerance), blocks OBJECTIVE.md generation until fixed |
+| Baseline missing is WARNING only | 03-03 | Soft gate warns but allows proceeding - user decides if baseline needed before experiments |
+| Data characteristics extracted in Step 1.3 | 03-03 | Datetime columns, class imbalance, leakage warnings, missing data, sample size used for validation |
+| Class imbalance + accuracy metric warning | 03-03 | If HIGH imbalance and accuracy selected, recommend F1/precision/recall/AUC instead |
+| HIGH confidence leakage integrated | 03-03 | Warns if DATA_REPORT.md flagged leakage with HIGH confidence, lists features to exclude |
 
 ### Pending Todos
 
@@ -96,7 +102,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29 (execution)
-Stopped at: Completed 03-02-PLAN.md (Architect Command & Agent)
+Stopped at: Completed 03-03-PLAN.md (Validation & Constraints)
 Resume file: None
 
 ---
