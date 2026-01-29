@@ -58,10 +58,13 @@ Plans:
   3. Explorer detects potential data leakage risks (feature/target overlap, temporal issues)
   4. User cannot proceed to hypothesis synthesis without completed DATA_REPORT.md (data-first gating enforced)
 
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 02-01: TBD during planning
+- [ ] 02-01-PLAN.md — Create /grd:explore command, grd-explorer agent skeleton, and DATA_REPORT.md template
+- [ ] 02-02-PLAN.md — Implement Explorer agent data loading, sampling, and statistical profiling
+- [ ] 02-03-PLAN.md — Implement Explorer agent leakage detection and report generation
+- [ ] 02-04-PLAN.md — Integrate soft gate into /grd:architect and verify complete workflow
 
 ### Phase 3: Hypothesis Synthesis
 **Goal**: Users can transform data insights into testable scientific hypotheses
@@ -147,7 +150,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Core Orchestration & Branding | 6/6 | Complete | 2026-01-28 |
-| 2. Data Reconnaissance | 0/TBD | Not started | - |
+| 2. Data Reconnaissance | 0/4 | Not started | - |
 | 3. Hypothesis Synthesis | 0/TBD | Not started | - |
 | 4. Recursive Validation Loop | 0/TBD | Not started | - |
 | 5. Human Evaluation Gate | 0/TBD | Not started | - |
