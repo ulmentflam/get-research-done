@@ -549,6 +549,67 @@ All {N} phases executed.
 
 </process>
 
+## Critic Exit Code Routing (Phase 4+)
+
+When executing phases that include the recursive validation loop (Phase 4+), the Critic agent returns exit codes that determine workflow routing:
+
+| Exit Code | Action | Target |
+|-----------|--------|--------|
+| PROCEED | Continue to Evaluator | Quantitative benchmarking |
+| REVISE_METHOD | Return to Researcher | With critique feedback |
+| REVISE_DATA | Return to Explorer | For targeted re-analysis |
+
+### REVISE_DATA Handling
+
+When Critic returns REVISE_DATA:
+1. Extract data-specific concerns from Critic feedback
+2. Spawn grd-explorer agent with `--targeted` flag
+3. Pass concerns as context: "Re-examine: {concern_list}"
+4. Explorer updates DATA_REPORT.md (append or revise sections)
+5. Resume validation loop from Researcher
+
+**Example concerns that trigger REVISE_DATA:**
+- "Feature X shows 0.92 correlation with target but not in leakage warnings"
+- "Class imbalance severity may be understated for this domain"
+- "Temporal leakage check missing for time-series features"
+- "Outlier analysis didn't account for domain-specific bounds"
+
+### Targeted Re-exploration
+
+Unlike full exploration, targeted re-analysis:
+- Only re-examines aspects flagged by Critic
+- Does not re-run all profiling/detection
+- Appends "## Targeted Re-analysis" section to DATA_REPORT.md
+- Includes timestamp and Critic iteration reference
+
+**DATA_REPORT.md structure after targeted re-analysis:**
+```markdown
+## Targeted Re-analysis
+
+**Iteration:** 2 (from Critic feedback iteration 1)
+**Date:** 2026-02-15
+**Concern:** Feature correlation with target
+
+### Re-examination: Feature X correlation
+
+Original analysis: Pearson correlation = 0.92 (p < 0.001)
+
+Time-based splits analysis:
+- Temporal split 1 (2023-01): r = 0.89
+- Temporal split 2 (2023-06): r = 0.35
+- Temporal split 3 (2024-01): r = 0.38
+
+**Finding:** Feature X exhibits temporal leakage. High correlation in training period degrades significantly in validation periods.
+
+**Recommendation:** Exclude Feature X from model features (HIGH severity).
+```
+
+**Routing implementation:**
+This routing is wired in Phase 4. The execute-phase orchestrator detects Critic exit codes and spawns appropriate agents. Explorer agent recognizes `--targeted` flag and adjusts its workflow accordingly.
+
+**Maximum iterations:**
+To prevent infinite loops, validation cycles are limited to 5 iterations (configurable). After max iterations, Critic must either PROCEED or escalate to human review.
+
 <context_efficiency>
 Orchestrator: ~10-15% context (frontmatter, spawning, results).
 Subagents: Fresh 200k each (full workflow + execution).
