@@ -74,6 +74,27 @@ Initialize:
 - max_iterations = 15
 - changes_log = []  # Track what changed between iterations
 
+### 1.3 Extract Data Characteristics for Validation
+
+If DATA_REPORT.md exists, extract characteristics that affect validation:
+
+**Characteristics to extract (as agent guidance):**
+- `has_datetime_columns`: Look for datetime column indicators in DATA_REPORT.md
+- `has_class_imbalance`: Look for class balance section, note severity (HIGH/MEDIUM/LOW)
+- `leakage_warnings`: Extract HIGH confidence leakage indicators
+- `missing_data_columns`: Note columns with significant missing data
+- `sample_size`: Extract row count for sample size considerations
+
+**How to extract (agent guidance):**
+- Read DATA_REPORT.md
+- Look for "## Class Balance" section - note any imbalance severity
+- Look for "## Leakage Analysis" section - extract HIGH confidence warnings
+- Look for "## Missing Data" section - note problematic columns
+- Look for "Shape:" or "Rows:" to get sample size
+- Look for datetime columns in "## Column Profiles" or data type sections
+
+**Store extracted characteristics for use in validation (Step 6) and constraint generation (Step 7).**
+
 ## Step 2: Initial Proposal
 
 **If auto-propose mode:**
@@ -363,6 +384,19 @@ Check methodology is appropriate for task:
 - If holdout: test_size should be between 0.1 and 0.5
 - If data has datetime columns (from DATA_REPORT.md) and strategy is not time-series-split: WARN about potential temporal leakage
 
+**Data-informed warnings (from extracted characteristics in Step 1.3):**
+
+- **If class imbalance is HIGH and user selects "accuracy" as primary metric:**
+  - WARN: "High class imbalance detected. Consider using F1, precision/recall, or AUC instead of accuracy."
+  - Note: Stratified k-fold recommended over standard k-fold
+
+- **If leakage warnings exist with HIGH confidence:**
+  - WARN: "DATA_REPORT.md flagged potential leakage in feature '{feature}'. Exclude from hypothesis if using this feature."
+  - List all HIGH confidence leakage features
+
+- **If datetime columns exist and evaluation is not time-series-split:**
+  - WARN: "Data has temporal features. Consider time-series-split to avoid temporal leakage."
+
 **Present to user if warning:**
 ```
 WARNING: Data has datetime columns but using {selected_strategy}.
@@ -531,6 +565,18 @@ has_falsification_criteria: {true|false}
 - Data constraints from DATA_REPORT.md
 - Resource constraints if mentioned
 - Scope boundaries
+
+**Auto-generate constraints from data characteristics:**
+
+If data characteristics were extracted in Step 1.3, automatically populate constraints:
+
+- **Class imbalance:** "Class imbalance ({severity}): Consider stratified sampling or class weights"
+- **Leakage features:** "Exclude feature '{feature}' due to potential leakage (confidence: HIGH)"
+- **Missing data:** "Handle missing data in: {columns}"
+- **Temporal features:** "Temporal data present: Use time-aware split or feature engineering"
+- **Sample size:** "Dataset size: {rows} rows - {appropriate_methodology_guidance}"
+
+These constraints are added to OBJECTIVE.md automatically based on DATA_REPORT.md findings.
 
 **Non-Goals section (optional):**
 - Explicit exclusions if discussed during refinement
