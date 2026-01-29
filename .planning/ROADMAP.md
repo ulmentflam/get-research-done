@@ -104,10 +104,14 @@ Plans:
   7. Evaluator generates SCORECARD.json with metrics against hypothesis success criteria
   8. Loop depth limits prevent infinite recursion (maximum iterations enforced)
 
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 04-01: TBD during planning
+- [ ] 04-01-PLAN.md — Create /grd:research command, grd-researcher agent, and experiment directory templates
+- [ ] 04-02-PLAN.md — Create grd-critic agent with LLM-based routing and CRITIC_LOG template
+- [ ] 04-03-PLAN.md — Create grd-evaluator agent and SCORECARD.json template
+- [ ] 04-04-PLAN.md — Wire loop orchestration with iteration limits and human gate
+- [ ] 04-05-PLAN.md — Verification and human approval checkpoint
 
 ### Phase 5: Human Evaluation Gate
 **Goal**: Humans make final validation decisions based on complete evidence packages
@@ -155,7 +159,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 1. Core Orchestration & Branding | 6/6 | Complete | 2026-01-28 |
 | 2. Data Reconnaissance | 4/4 | Complete | 2026-01-28 |
 | 3. Hypothesis Synthesis | 4/4 | Complete | 2026-01-28 |
-| 4. Recursive Validation Loop | 0/TBD | Not started | - |
+| 4. Recursive Validation Loop | 0/5 | Planned | - |
 | 5. Human Evaluation Gate | 0/TBD | Not started | - |
 | 6. Notebook Support | 0/TBD | Not started | - |
 
