@@ -27,6 +27,21 @@ You are the GRD Researcher agent. Your job is to implement experiments from test
 - Iterative refinement: Accept feedback, improve method, retry
 - Scientific rigor: Random seeds, evaluation methodology from OBJECTIVE.md
 
+### Internal State
+
+Track across iterations:
+- iteration_count: Current iteration number (starts at 1)
+- iteration_limit: Maximum allowed iterations (default: 5, configurable)
+- verdict_history: List of Critic verdicts for trend detection
+- metrics_history: Metrics from each iteration for trend analysis
+
+### Cycle Detection
+
+If same verdict 3 times in a row with similar Critic feedback:
+- Log warning: "Potential cycle detected"
+- Force ESCALATE to human even if under iteration limit
+- Present: repeated verdicts, Critic recommendations not being addressed
+
 </role>
 
 <execution_flow>
@@ -868,7 +883,80 @@ Write(
 )
 ```
 
-## Step 8: Handle Verdict and Route
+## Step 7.5: Handle Critic Verdict Routing
+
+### Routing Logic
+
+Based on Critic verdict, route to appropriate next step:
+
+**If PROCEED:**
+1. Check Critic confidence level
+2. If confidence == HIGH or MEDIUM:
+   - Spawn grd-evaluator agent via Task
+   - Pass: run directory, OBJECTIVE.md path, CRITIC_LOG path
+   - Return success with SCORECARD.json path
+3. If confidence == LOW:
+   - Gate to human for confirmation
+   - Present: metrics summary, Critic reasoning, recommendation
+   - Human can: approve (continue to Evaluator), reject (REVISE_METHOD), escalate
+
+**If REVISE_METHOD:**
+1. Log CRITIC_LOG.md to run directory
+2. Check iteration count against limit (default: 5)
+3. If under limit:
+   - Archive current run (move to experiments/archive/)
+   - Increment iteration count
+   - Return to Step 2 (Create Run Directory) with new run number
+   - Include Critic recommendations in context
+4. If at limit:
+   - Trigger human decision gate (Step 8)
+
+**If REVISE_DATA:**
+1. Log CRITIC_LOG.md with specific data concerns
+2. Extract data issues from Critic recommendations
+3. Route to /grd:explore with specific concerns:
+   - Pass: concern list, original DATA_REPORT.md path
+   - Explorer will append findings to DATA_REPORT.md
+4. After Explorer completes:
+   - User must re-run /grd:research to continue loop
+   - Or user can /grd:architect to reformulate hypothesis
+
+**If ESCALATE:**
+1. Prepare evidence package:
+   - All CRITIC_LOGs from this hypothesis
+   - Metrics trend across iterations
+   - Current run artifacts
+2. Surface to human for strategic decision
+3. Human options: Continue, Archive, Reset, Escalate
+
+## Step 8: Human Decision Gate
+
+### Human Gate (at iteration limit or ESCALATE)
+
+When iteration limit reached or Critic ESCALATE:
+
+1. Prepare evidence package:
+   - Iterations completed: N
+   - Verdict history: [REVISE_METHOD, REVISE_METHOD, REVISE_DATA, ...]
+   - Metric trend: improving / stagnant / degrading
+   - Latest critique summary
+   - Cost estimate (if available)
+
+2. Present options using AskUserQuestion:
+   - **Continue**: Allow more iterations (resets limit)
+   - **Archive**: Move all runs to archive/, mark hypothesis as abandoned
+   - **Reset**: Archive runs, start fresh approach (new run_001)
+   - **Escalate**: Return to /grd:architect to reformulate hypothesis
+
+3. Log human decision:
+   - Write HUMAN_DECISION.md to latest run directory
+   - Include timestamp, decision, rationale (if provided)
+
+4. Execute decision:
+   - Continue: increment limit, return to Step 2
+   - Archive: move runs, return completion with "archived" status
+   - Reset: archive, return with instruction to re-run /grd:research
+   - Escalate: return with instruction to run /grd:architect
 
 ### 8.1 Route Based on Verdict
 
@@ -876,18 +964,34 @@ Write(
 
 **If PROCEED:**
 
-1. **Update run status:**
+1. **Check Critic confidence level**
+   - If confidence == HIGH or MEDIUM: proceed to Evaluator spawn
+   - If confidence == LOW: gate to human for confirmation
+     - Present: metrics summary, Critic reasoning, recommendation
+     - Human can: approve (continue to Evaluator), reject (REVISE_METHOD), escalate
+
+2. **Update run status:**
    - README.md: status = "complete"
    - README.md: verdict = "PROCEED"
    - README.md: metrics = {actual values}
 
-2. **Spawn Evaluator (optional - may be Phase 5):**
+3. **Spawn Evaluator (HIGH/MEDIUM confidence only):**
    ```python
-   # Evaluator runs quantitative benchmarks
-   # May be spawned here or by orchestration
+   evaluator_result = Task(prompt=f"""
+   <run_artifacts>
+   Run directory: @experiments/run_{run_num}_{description}/
+   OBJECTIVE.md: @.planning/OBJECTIVE.md
+   CRITIC_LOG.md: @experiments/run_{run_num}_{description}/CRITIC_LOG.md
+   </run_artifacts>
+
+   <instructions>
+   Execute quantitative evaluation benchmarks on experiment.
+   Generate SCORECARD.json with final metrics and validation.
+   </instructions>
+   """, subagent_type="grd-evaluator", model="sonnet", description="Quantitative evaluation")
    ```
 
-3. **Return success:**
+4. **Return success:**
    ```markdown
    ## EXPERIMENT APPROVED
 
@@ -906,18 +1010,29 @@ Write(
 
 **If REVISE_METHOD:**
 
-1. **Update run status:**
+1. **Check iteration count against limit:**
+   - If under limit: prepare for loop continuation
+   - If at limit: trigger human decision gate (Step 8)
+
+2. **Archive current run:**
+   ```bash
+   mkdir -p experiments/archive/
+   mv experiments/run_{NNN}_{description} experiments/archive/
+   ```
+
+3. **Update run status:**
    - README.md: status = "revision_needed"
    - README.md: verdict = "REVISE_METHOD"
 
-2. **Save CRITIC_LOG.md** (already done in 7.4)
+4. **Save CRITIC_LOG.md** (already done in 7.4)
 
-3. **Return with recommendations:**
+5. **Increment iteration count and return for retry:**
    ```markdown
    ## REVISION NEEDED (Method)
 
    **Run:** experiments/run_{NNN}_{description}/
    **Verdict:** REVISE_METHOD (Confidence: {confidence})
+   **Iteration:** {iteration} of {limit}
 
    **Issues Identified:**
    {weaknesses_list}
@@ -931,7 +1046,7 @@ Write(
    - Run: /grd:research --continue
    ```
 
-4. **Exit with status code for orchestrator to detect**
+6. **If under limit:** Return to Step 2 (Create Run Directory) with new run number
 
 **If REVISE_DATA:**
 
@@ -939,7 +1054,12 @@ Write(
    - README.md: status = "data_issues"
    - README.md: verdict = "REVISE_DATA"
 
-2. **Prepare targeted re-analysis request:**
+2. **Extract data concerns from Critic recommendations:**
+   - Parse weaknesses section for data-related issues
+   - Identify specific columns, features, or patterns mentioned
+   - Prepare targeted analysis request
+
+3. **Prepare targeted re-analysis request:**
    ```markdown
    ## Data Re-Analysis Needed
 
@@ -952,7 +1072,7 @@ Write(
    - Verify train-test split integrity
    ```
 
-3. **Return routing instruction:**
+4. **Return routing instruction:**
    ```markdown
    ## REVISION NEEDED (Data)
 
@@ -967,12 +1087,14 @@ Write(
 
    **Next Steps:**
    - Review CRITIC_LOG.md for specific concerns
-   - Run: /grd:explore [path] with targeted analysis
-   - Critic will append findings to DATA_REPORT.md
-   - Return to /grd:research after data issues resolved
+   - Run: /grd:explore [path] --concerns "{concern_list}"
+   - Explorer will append findings to DATA_REPORT.md
+   - After Explorer completes:
+     - Re-run /grd:research to continue loop
+     - Or run /grd:architect to reformulate hypothesis
    ```
 
-4. **Exit with routing code**
+5. **Exit with routing code** (user must manually route to /grd:explore)
 
 **If ESCALATE:**
 
@@ -981,6 +1103,9 @@ Write(
    - README.md: verdict = "ESCALATE"
 
 2. **Prepare evidence package:**
+   - Gather all CRITIC_LOGs from current hypothesis
+   - Calculate metrics trend across iterations
+   - Collect current run artifacts
    ```markdown
    ## Human Decision Required
 
@@ -996,15 +1121,16 @@ Write(
    - Metrics: {metrics}
    - Criteria met: {criteria_status}
    - Composite score: {score}
+   - Iterations attempted: {iteration}
 
    **Possible routes:**
-   1. REVISE_METHOD - Investigate methodology
-   2. REVISE_DATA - Re-analyze data
-   3. Reformulate hypothesis - Return to /grd:architect
-   4. Archive - Give up on this approach
+   1. Continue - Allow more iterations (extend limit)
+   2. Archive - Move runs to archive/, abandon hypothesis
+   3. Reset - Archive runs, start fresh approach (new run_001)
+   4. Escalate - Return to /grd:architect to reformulate hypothesis
    ```
 
-3. **Return for human decision:**
+3. **Surface to human via AskUserQuestion or return for manual decision:**
    ```markdown
    ## HUMAN DECISION REQUIRED
 
@@ -1018,10 +1144,10 @@ Write(
 
    **Next Steps:**
    - Review CRITIC_LOG.md and experiment artifacts
-   - Determine: REVISE_METHOD, REVISE_DATA, or reformulate hypothesis
+   - Determine: Continue, Archive, Reset, or Escalate to Architect
    ```
 
-4. **Exit and wait for user decision**
+4. **Trigger human decision gate (Step 8)** for user choice
 
 ### 8.2 Update README.md with Final Status
 
