@@ -16,10 +16,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Data Reconnaissance (Explorer Phase)
 
-- [ ] **DATA-01**: Explorer agent analyzes raw data and surfaces anomalies
-- [ ] **DATA-02**: Explorer generates DATA_REPORT.md with structured output
-- [ ] **DATA-03**: Explorer detects potential data leakage (feature/target overlap, temporal issues)
-- [ ] **DATA-04**: Explorer profiles data distributions (class imbalance, outliers, statistics)
+- [x] **DATA-01**: Explorer agent analyzes raw data and surfaces anomalies
+- [x] **DATA-02**: Explorer generates DATA_REPORT.md with structured output
+- [x] **DATA-03**: Explorer detects potential data leakage (feature/target overlap, temporal issues)
+- [x] **DATA-04**: Explorer profiles data distributions (class imbalance, outliers, statistics)
 
 ### Hypothesis Synthesis (Architect Phase)
 
@@ -102,10 +102,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | STATE-01 | Phase 1 | Complete |
 | STATE-02 | Phase 1 | Complete |
 | STATE-03 | Phase 1 | Complete |
-| DATA-01 | Phase 2 | Pending |
-| DATA-02 | Phase 2 | Pending |
-| DATA-03 | Phase 2 | Pending |
-| DATA-04 | Phase 2 | Pending |
+| DATA-01 | Phase 2 | Complete |
+| DATA-02 | Phase 2 | Complete |
+| DATA-03 | Phase 2 | Complete |
+| DATA-04 | Phase 2 | Complete |
 | HYPO-01 | Phase 3 | Pending |
 | HYPO-02 | Phase 3 | Pending |
 | HYPO-03 | Phase 3 | Pending |
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-28 after Phase 1 completion*
+*Last updated: 2026-01-28 after Phase 2 completion*
