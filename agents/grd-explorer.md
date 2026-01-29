@@ -1218,34 +1218,188 @@ Each leakage warning includes a confidence score:
 
 ## Step 8: Generate Recommendations
 
-<!-- Detailed logic to be added in 02-03-PLAN.md -->
-
 **Responsibilities:**
-- Synthesize findings into actionable items
-- Classify recommendations:
-  - **Must Address (Blocking):** Issues that will cause model failure or invalid results
-  - **Should Address (Non-blocking):** Issues that will reduce model quality but not break it
-- Provide specific, actionable guidance
-- Add notes for context
+- Synthesize findings from all analysis steps into actionable items
+- Classify recommendations by severity (Must Address vs Should Address)
+- Provide specific, actionable guidance for each issue
+- Add contextual notes for domain-specific interpretation
 
-**Examples:**
+### Recommendation Generation Logic
 
-**Blocking:**
-- High-confidence data leakage detected (feature X correlates 0.98 with target)
-- Train-test overlap: 15% of test rows appear in train set
-- Target variable has missing values
+**Classify findings into two tiers:**
 
-**Non-blocking:**
-- 23% missing data in feature Y—consider imputation
-- 47 outliers in feature Z (5% of data)—investigate or clip
-- High class imbalance (20:1 ratio)—consider resampling
+```python
+def generate_recommendations(analysis_results):
+    """
+    Generate tiered recommendations from all analysis steps.
+
+    Tier 1 (Must Address - Blocking): Critical issues that invalidate results
+    Tier 2 (Should Address - Non-blocking): Quality issues that reduce model performance
+    """
+    must_address = []
+    should_address = []
+    notes = []
+
+    # === 1. Leakage Analysis ===
+    if 'leakage' in analysis_results:
+        leakage = analysis_results['leakage']
+
+        # Feature-target correlation leakage
+        if 'feature_target' in leakage:
+            for item in leakage['feature_target']:
+                if item['confidence'] == 'HIGH' and item['risk'] == 'CRITICAL':
+                    must_address.append({
+                        'type': 'Data Leakage',
+                        'issue': f"Feature '{item['feature']}' has correlation {item['correlation']} with target",
+                        'action': f"Remove feature or verify it's computed without target information",
+                        'severity': 'CRITICAL'
+                    })
+                elif item['confidence'] in ['HIGH', 'MEDIUM']:
+                    should_address.append({
+                        'type': 'Potential Leakage',
+                        'issue': f"Feature '{item['feature']}' correlates {item['correlation']} with target",
+                        'action': f"Investigate feature derivation. {item['notes']}",
+                        'severity': 'HIGH'
+                    })
+
+        # Train-test overlap
+        if 'train_test_overlap' in leakage:
+            overlap = leakage['train_test_overlap']
+            if overlap['severity'] == 'HIGH':
+                must_address.append({
+                    'type': 'Train-Test Overlap',
+                    'issue': f"{overlap['overlapping_rows']} rows ({overlap['overlap_pct_test']}% of test) appear in both sets",
+                    'action': "Remove overlapping rows from test set to ensure valid evaluation",
+                    'severity': 'HIGH'
+                })
+            elif overlap['severity'] == 'MEDIUM':
+                should_address.append({
+                    'type': 'Train-Test Overlap',
+                    'issue': f"{overlap['overlapping_rows']} rows overlap between train and test",
+                    'action': "Review and remove if not intentional (e.g., time series with overlap)",
+                    'severity': 'MEDIUM'
+                })
+
+        # Temporal leakage
+        if 'temporal' in leakage:
+            for item in leakage['temporal']:
+                if item['issue'] == 'Temporal ordering violation':
+                    should_address.append({
+                        'type': 'Temporal Leakage',
+                        'issue': item['details'],
+                        'action': "Verify temporal split is correct or filter test dates",
+                        'severity': 'HIGH'
+                    })
+
+    # === 2. Missing Data ===
+    if 'missing_data' in analysis_results:
+        for item in analysis_results['missing_data']:
+            # Critical: Target has missing values
+            if item.get('is_target', False) and item['missing_count'] > 0:
+                must_address.append({
+                    'type': 'Missing Target',
+                    'issue': f"Target column has {item['missing_count']} ({item['missing_pct']:.1f}%) missing values",
+                    'action': "Remove rows with missing target or investigate data collection issue",
+                    'severity': 'CRITICAL'
+                })
+            # High missing percentage
+            elif item['missing_pct'] > 50:
+                should_address.append({
+                    'type': 'High Missing Data',
+                    'issue': f"Column '{item['column']}' has {item['missing_pct']:.1f}% missing values",
+                    'action': f"Consider dropping column or imputing. Mechanism: {item['mechanism']}",
+                    'severity': 'MEDIUM'
+                })
+            # Moderate missing percentage
+            elif item['missing_pct'] > 5:
+                notes.append(f"Column '{item['column']}' has {item['missing_pct']:.1f}% missing ({item['mechanism']}). Consider imputation strategy.")
+
+    # === 3. Outliers ===
+    if 'outliers' in analysis_results:
+        for item in analysis_results['outliers']:
+            if item['severity'] == 'HIGH':
+                should_address.append({
+                    'type': 'Severe Outliers',
+                    'issue': f"Column '{item['column']}' has {item['zscore_pct']:.1f}% outliers (Z-score method)",
+                    'action': "Investigate outliers - may indicate data quality issues or need transformation (log, clip, winsorize)",
+                    'severity': 'MEDIUM'
+                })
+
+    # === 4. Class Imbalance ===
+    if 'class_balance' in analysis_results:
+        balance = analysis_results['class_balance']
+        if balance.get('severity') == 'HIGH':
+            should_address.append({
+                'type': 'Class Imbalance',
+                'issue': f"Imbalance ratio: {balance['imbalance_ratio']:.4f} (minority: {balance['minority_count']}, majority: {balance['majority_count']})",
+                'action': balance['recommendation'],
+                'severity': 'MEDIUM'
+            })
+        elif balance.get('severity') == 'MEDIUM':
+            notes.append(f"Class imbalance detected (ratio: {balance['imbalance_ratio']:.4f}). {balance['recommendation']}")
+
+    # === 5. Data Quality Notes ===
+    if 'data_overview' in analysis_results:
+        overview = analysis_results['data_overview']
+        if overview.get('rows_analyzed') < overview.get('rows'):
+            notes.append(f"Analysis used {overview['rows_analyzed']:,} sampled rows from {overview['rows']:,} total. Full dataset may reveal additional issues.")
+
+    return {
+        'must_address': must_address,
+        'should_address': should_address,
+        'notes': notes
+    }
+```
+
+**Usage:**
+```python
+# Collect all analysis results
+analysis_results = {
+    'leakage': {
+        'feature_target': feature_target_leakage,
+        'feature_feature': feature_feature_leakage,
+        'train_test_overlap': overlap_results,
+        'temporal': temporal_leakage
+    },
+    'missing_data': missing_patterns,
+    'outliers': outlier_analysis,
+    'class_balance': balance_analysis,
+    'data_overview': data_overview
+}
+
+# Generate recommendations
+recommendations = generate_recommendations(analysis_results)
+
+# Report structure
+print("\n## Recommendations\n")
+print("### Must Address (Blocking Issues)\n")
+if recommendations['must_address']:
+    for i, rec in enumerate(recommendations['must_address'], 1):
+        print(f"{i}. **[{rec['severity']}] {rec['type']}:** {rec['issue']}")
+        print(f"   → Action: {rec['action']}\n")
+else:
+    print("None - no blocking issues detected.\n")
+
+print("### Should Address (Non-Blocking)\n")
+if recommendations['should_address']:
+    for i, rec in enumerate(recommendations['should_address'], 1):
+        print(f"{i}. **{rec['type']}:** {rec['issue']}")
+        print(f"   → Action: {rec['action']}\n")
+else:
+    print("None - no quality issues detected.\n")
+
+print("### Notes\n")
+if recommendations['notes']:
+    for note in recommendations['notes']:
+        print(f"- {note}")
+else:
+    print("No additional observations.")
+```
 
 **Output:**
-- Must Address checklist
-- Should Address checklist
-- Notes section for additional observations
-
-**Placeholder:** This step will generate prioritized recommendations.
+- Must Address checklist (blocking issues with CRITICAL/HIGH severity)
+- Should Address checklist (non-blocking quality issues)
+- Notes section for context and observations
 
 ---
 
@@ -1257,9 +1411,256 @@ Each leakage warning includes a confidence score:
 - Replace placeholders with actual values
 - Ensure all tables are complete and formatted correctly
 - Add metadata (dataset name, timestamp, source path)
+- Write report to `.planning/DATA_REPORT.md`
+
+### Report Generation Process
+
+**1. Read Template:**
+```python
+import os
+from pathlib import Path
+from datetime import datetime
+
+# Read template
+template_path = os.path.expanduser("~/.claude/get-research-done/templates/data-report.md")
+with open(template_path, 'r') as f:
+    template = f.read()
+```
+
+**2. Populate Metadata:**
+```python
+# Generate metadata
+report_metadata = {
+    'timestamp': datetime.utcnow().isoformat() + 'Z',
+    'dataset_name': Path(dataset_path).stem,
+    'source_path': dataset_path,
+    'agent_version': 'GRD Explorer v1.0',
+    'sampling_note': analysis_results['data_overview']['sampling']
+}
+```
+
+**3. Populate Each Section:**
+
+```python
+def populate_data_report(template, analysis_results, recommendations):
+    """
+    Populate DATA_REPORT.md template with analysis findings.
+
+    Sections:
+    1. Data Overview
+    2. Column Summary
+    3. Distributions & Statistics
+    4. Missing Data Analysis
+    5. Outliers & Anomalies
+    6. Class Balance (if target specified)
+    7. Data Leakage Analysis
+    8. Recommendations
+    """
+
+    report = template
+
+    # === Data Overview ===
+    overview = analysis_results['data_overview']
+    report = report.replace('{{rows}}', f"{overview['rows']:,}")
+    report = report.replace('{{rows_analyzed}}', f"{overview.get('rows_analyzed', overview['rows']):,}")
+    report = report.replace('{{columns}}', str(overview['columns']))
+    report = report.replace('{{memory_mb}}', f"{overview['memory_mb']:.2f}")
+    report = report.replace('{{format}}', overview['format'])
+    report = report.replace('{{sampling_note}}', overview['sampling'])
+
+    # === Column Summary ===
+    column_summary_table = "| Column | Type | Non-Null | Unique | Sample Values |\n"
+    column_summary_table += "|--------|------|----------|--------|---------------|\n"
+    for prof in analysis_results['column_profiles']:
+        samples = ', '.join([str(s) for s in prof['samples'][:3]])
+        column_summary_table += f"| {prof['column']} | {prof['type']} | {prof['non_null']} | {prof['unique']} | {samples} |\n"
+    report = report.replace('{{column_summary_table}}', column_summary_table)
+
+    # === Numerical Distributions ===
+    if analysis_results.get('numerical_profiles'):
+        num_dist_table = "| Column | Mean | Std | Min | 25% | 50% | 75% | Max |\n"
+        num_dist_table += "|--------|------|-----|-----|-----|-----|-----|-----|\n"
+        for prof in analysis_results['numerical_profiles']:
+            num_dist_table += f"| {prof['column']} | {prof['mean']:.2f} | {prof['std']:.2f} | {prof['min']:.2f} | {prof['25%']:.2f} | {prof['50%']:.2f} | {prof['75%']:.2f} | {prof['max']:.2f} |\n"
+        report = report.replace('{{numerical_distributions_table}}', num_dist_table)
+    else:
+        report = report.replace('{{numerical_distributions_table}}', "*No numerical columns found.*")
+
+    # === Categorical Distributions ===
+    if analysis_results.get('categorical_profiles'):
+        cat_dist_table = "| Column | Unique Values | Top Value | Frequency | Note |\n"
+        cat_dist_table += "|--------|---------------|-----------|-----------|------|\n"
+        for prof in analysis_results['categorical_profiles']:
+            cat_dist_table += f"| {prof['column']} | {prof['unique_count']} | {prof['top_value']} | {prof['top_freq']} ({prof['top_pct']:.1f}%) | {prof['cardinality_note']} |\n"
+        report = report.replace('{{categorical_distributions_table}}', cat_dist_table)
+    else:
+        report = report.replace('{{categorical_distributions_table}}', "*No categorical columns found.*")
+
+    # === Missing Data ===
+    if analysis_results.get('missing_data'):
+        missing_table = "| Column | Missing Count | Missing % | Mechanism | Confidence |\n"
+        missing_table += "|--------|---------------|-----------|-----------|------------|\n"
+        for item in analysis_results['missing_data']:
+            missing_table += f"| {item['column']} | {item['missing_count']} | {item['missing_pct']:.1f}% | {item['mechanism']} | {item['confidence']} |\n"
+        report = report.replace('{{missing_data_table}}', missing_table)
+    else:
+        report = report.replace('{{missing_data_table}}', "*No missing data detected.*")
+
+    # === Outliers ===
+    if analysis_results.get('outliers'):
+        outlier_table = "| Column | Z-Score Count | Z-Score % | IQR Count | IQR % | Severity |\n"
+        outlier_table += "|--------|---------------|-----------|-----------|-------|----------|\n"
+        for item in analysis_results['outliers']:
+            outlier_table += f"| {item['column']} | {item['zscore_count']} | {item['zscore_pct']:.2f}% | {item['iqr_count']} | {item['iqr_pct']:.2f}% | {item['severity']} |\n"
+        report = report.replace('{{outliers_table}}', outlier_table)
+
+        # Top anomalies
+        if analysis_results.get('top_anomalies'):
+            anomaly_table = "| Column | Value | Z-Score | Reason |\n"
+            anomaly_table += "|--------|-------|---------|--------|\n"
+            for item in analysis_results['top_anomalies'][:20]:
+                anomaly_table += f"| {item['column']} | {item['value']} | {item['z_score']:.2f} | {item['reason']} |\n"
+            report = report.replace('{{top_anomalies_table}}', anomaly_table)
+    else:
+        report = report.replace('{{outliers_table}}', "*No outliers detected.*")
+        report = report.replace('{{top_anomalies_table}}', "*N/A*")
+
+    # === Class Balance ===
+    if analysis_results.get('class_balance') and analysis_results['class_balance'].get('status') != 'skipped':
+        balance = analysis_results['class_balance']
+        balance_table = "| Class | Count | Percentage |\n"
+        balance_table += "|-------|-------|------------|\n"
+        for cls, count in balance['value_counts'].items():
+            pct = balance['distribution'][cls] * 100
+            balance_table += f"| {cls} | {count:,} | {pct:.2f}% |\n"
+        balance_table += f"\n**Imbalance Ratio:** {balance['imbalance_ratio']:.4f}\n"
+        balance_table += f"**Severity:** {balance['severity']}\n"
+        balance_table += f"**Recommendation:** {balance['recommendation']}\n"
+        report = report.replace('{{class_balance_table}}', balance_table)
+    else:
+        report = report.replace('{{class_balance_table}}', "*No target column specified (unsupervised analysis).*")
+
+    # === Leakage Analysis ===
+    if analysis_results.get('leakage'):
+        leakage = analysis_results['leakage']
+
+        # Feature-target correlations
+        if leakage.get('feature_target'):
+            ft_table = "| Feature | Correlation | Risk | Confidence | Notes |\n"
+            ft_table += "|---------|-------------|------|------------|-------|\n"
+            for item in leakage['feature_target']:
+                ft_table += f"| {item['feature']} | {item['correlation']} | {item['risk']} | {item['confidence']} | {item['notes']} |\n"
+            report = report.replace('{{feature_target_leakage_table}}', ft_table)
+        else:
+            report = report.replace('{{feature_target_leakage_table}}', "*No high correlations detected.*")
+
+        # Feature-feature correlations
+        if leakage.get('feature_feature'):
+            ff_table = "| Feature 1 | Feature 2 | Correlation | Severity | Notes |\n"
+            ff_table += "|-----------|-----------|-------------|----------|-------|\n"
+            for item in leakage['feature_feature']:
+                ff_table += f"| {item['feature1']} | {item['feature2']} | {item['correlation']} | {item['severity']} | {item['notes']} |\n"
+            report = report.replace('{{feature_feature_leakage_table}}', ff_table)
+        else:
+            report = report.replace('{{feature_feature_leakage_table}}', "*No high feature-feature correlations detected.*")
+
+        # Train-test overlap
+        if leakage.get('train_test_overlap'):
+            overlap = leakage['train_test_overlap']
+            overlap_text = f"**Overlapping Rows:** {overlap['overlapping_rows']}\n"
+            overlap_text += f"**Train Overlap:** {overlap['overlap_pct_train']}%\n"
+            overlap_text += f"**Test Overlap:** {overlap['overlap_pct_test']}%\n"
+            overlap_text += f"**Severity:** {overlap['severity']}\n"
+            overlap_text += f"**Notes:** {overlap['notes']}\n"
+            report = report.replace('{{train_test_overlap}}', overlap_text)
+        else:
+            report = report.replace('{{train_test_overlap}}', "*Single file analysis - no train-test overlap check.*")
+
+        # Temporal leakage
+        if leakage.get('temporal'):
+            temp_table = "| Issue | Column | Confidence | Details | Severity |\n"
+            temp_table += "|-------|--------|------------|---------|----------|\n"
+            for item in leakage['temporal']:
+                temp_table += f"| {item['issue']} | {item['column']} | {item['confidence']} | {item['details']} | {item['severity']} |\n"
+            report = report.replace('{{temporal_leakage_table}}', temp_table)
+        else:
+            report = report.replace('{{temporal_leakage_table}}', "*No temporal leakage detected.*")
+    else:
+        report = report.replace('{{feature_target_leakage_table}}', "*Leakage analysis not performed.*")
+        report = report.replace('{{feature_feature_leakage_table}}', "*N/A*")
+        report = report.replace('{{train_test_overlap}}', "*N/A*")
+        report = report.replace('{{temporal_leakage_table}}', "*N/A*")
+
+    # === Recommendations ===
+    # Must Address
+    if recommendations['must_address']:
+        must_list = ""
+        for i, rec in enumerate(recommendations['must_address'], 1):
+            must_list += f"{i}. **[{rec['severity']}] {rec['type']}:** {rec['issue']}\n"
+            must_list += f"   - **Action:** {rec['action']}\n\n"
+        report = report.replace('{{must_address_recommendations}}', must_list)
+    else:
+        report = report.replace('{{must_address_recommendations}}', "*None - no blocking issues detected.*")
+
+    # Should Address
+    if recommendations['should_address']:
+        should_list = ""
+        for i, rec in enumerate(recommendations['should_address'], 1):
+            should_list += f"{i}. **{rec['type']}:** {rec['issue']}\n"
+            should_list += f"   - **Action:** {rec['action']}\n\n"
+        report = report.replace('{{should_address_recommendations}}', should_list)
+    else:
+        report = report.replace('{{should_address_recommendations}}', "*None - no quality issues detected.*")
+
+    # Notes
+    if recommendations['notes']:
+        notes_list = "\n".join([f"- {note}" for note in recommendations['notes']])
+        report = report.replace('{{recommendation_notes}}', notes_list)
+    else:
+        report = report.replace('{{recommendation_notes}}', "*No additional observations.*")
+
+    return report
+```
+
+**4. Write Report to File:**
+```python
+# Generate populated report
+populated_report = populate_data_report(template, analysis_results, recommendations)
+
+# Write to .planning/DATA_REPORT.md
+output_path = Path(".planning/DATA_REPORT.md")
+output_path.parent.mkdir(exist_ok=True)
+
+with open(output_path, 'w') as f:
+    f.write(populated_report)
+
+print(f"\n✓ DATA_REPORT.md generated at {output_path.absolute()}")
+```
+
+**5. Multi-File Handling:**
+
+If multiple files were analyzed (train/test/val):
+- Include per-file sections first (Data Overview for each)
+- Add comparison/drift analysis section
+- Include train-test overlap analysis
+- Note which file metrics correspond to in each table
+
+**6. Adaptive Depth:**
+
+**Summary mode (default):**
+- Basic statistics only
+- Top 20 anomalies
+- Summary tables
+
+**Detailed mode (--detailed flag):**
+- Include skewness/kurtosis
+- Full histograms as text tables
+- Extended percentiles (5%, 10%, 90%, 95%)
+- All anomalies (not just top 20)
 
 **Output:**
 - `.planning/DATA_REPORT.md` — comprehensive, structured report
+- Announcement: "DATA_REPORT.md generated at .planning/DATA_REPORT.md"
 
 **Template reference:** @get-research-done/templates/data-report.md
 
