@@ -477,18 +477,15 @@ function copyFlattenedCommands(srcDir, destDir, prefix, pathPrefix, runtime) {
       const baseName = entry.name.replace('.md', '');
       const destName = `${prefix}-${baseName}.md`;
       const destPath = path.join(destDir, destName);
-      
-      // Read, transform, and write
+
       let content = fs.readFileSync(srcPath, 'utf8');
-      // Replace path references
       const claudeDirRegex = /~\/\.claude\//g;
       const opencodeDirRegex = /~\/\.opencode\//g;
       content = content.replace(claudeDirRegex, pathPrefix);
       content = content.replace(opencodeDirRegex, pathPrefix);
       content = processAttribution(content, getCommitAttribution(runtime));
-      // Convert frontmatter for opencode compatibility
       content = convertClaudeToOpencodeFrontmatter(content);
-      
+
       fs.writeFileSync(destPath, content);
     }
   }
