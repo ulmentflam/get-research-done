@@ -6,22 +6,22 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step
 
-**Current focus:** Phase 2 started — Data Reconnaissance
+**Current focus:** Phase 4 started — Recursive Validation Loop
 
 ## Current Position
 
 Phase: 4 of 6 (Recursive Validation Loop) — IN PROGRESS
-Plan: 3 of 5 (Evaluator Agent & Quantitative Benchmarking complete)
+Plan: 1 of 5 (Research Command & Agent complete)
 Status: Phase 4 in progress
-Last activity: 2026-01-29 — Completed 04-03-PLAN.md (Evaluator Agent & Quantitative Benchmarking)
+Last activity: 2026-01-29 — Completed 04-01-PLAN.md (Research Command & Agent)
 
-Progress: [█████████████████████████████████░░░] 85% (17/20 plans complete across phases 1-4)
+Progress: [████████████████████████████████░░░░] 81% (17/21 plans complete across phases 1-4)
 
 ## Performance Metrics
 
 **Velocity:**
 - Total plans completed: 17
-- Average duration: 3.1 min
+- Average duration: 3.2 min
 - Total execution time: 0.98 hours
 
 **By Phase:**
@@ -31,11 +31,11 @@ Progress: [███████████████████████
 | 01 | 6 | 17.2min | 2.9min |
 | 02 | 4 | 21.0min | 5.3min |
 | 03 | 4 | 11.2min | 2.8min |
-| 04 | 3 | 9.0min | 3.0min |
+| 04 | 1 | 5.0min | 5.0min |
 
 **Recent Trend:**
-- Last 5 plans: 04-03 (3min), 03-04 (4min), 03-03 (2min), 03-02 (4min), 03-01 (1min)
-- Trend: Phase 4 progressing at consistent pace (avg 3.0min) — agent creation and template work
+- Last 5 plans: 04-01 (5min), 03-04 (4min), 03-03 (2min), 03-02 (4min), 03-01 (1min)
+- Trend: Phase 4 started with command and agent creation (5min) — foundational workflow infrastructure
 
 *Updated after each plan completion*
 
@@ -89,11 +89,12 @@ Recent decisions affecting current work:
 | Class imbalance + accuracy metric warning | 03-03 | If HIGH imbalance and accuracy selected, recommend F1/precision/recall/AUC instead |
 | HIGH confidence leakage integrated | 03-03 | Warns if DATA_REPORT.md flagged leakage with HIGH confidence, lists features to exclude |
 | Phase 3 workflow verified end-to-end | 03-04 | Complete hypothesis synthesis workflow integration confirmed - command, agent, template all properly wired |
-| Evaluator only runs after Critic PROCEED | 04-03 | Verification gate prevents wasting compute on experiments that haven't passed Critic review |
-| MLflow logging is optional | 04-03 | Graceful skip if unavailable - SCORECARD.json is canonical artifact |
-| Data version via SHA-256 hash | 04-03 | Reproducibility requires exact data version recorded in SCORECARD |
-| Composite score weighted by metric weights | 04-03 | Evaluation respects user-defined metric importance from OBJECTIVE.md |
-| Confidence intervals for robustness | 04-03 | 95% CI computed via t-distribution or bootstrap for uncertainty quantification |
+| Hard gate on OBJECTIVE.md | 04-01 | /grd:research requires OBJECTIVE.md (cannot proceed without hypothesis) |
+| Soft reference to DATA_REPORT.md | 04-01 | Optional context for experiment design, not required |
+| Data referenced with SHA-256 hashes | 04-01 | Provenance tracking via hashing, symlinks not copies |
+| Researcher spawns Critic internally | 04-01 | Command spawns Researcher, Researcher spawns Critic via Task tool |
+| Four verdict types defined | 04-01 | PROCEED/REVISE_METHOD/REVISE_DATA/ESCALATE for Critic routing |
+| Complete snapshot per run | 04-01 | Each experiments/run_NNN/ contains code, config, data refs, logs, outputs, metrics, critique |
 
 ### Pending Todos
 
@@ -109,7 +110,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-29 (execution)
-Stopped at: Completed 04-03-PLAN.md (Evaluator Agent & Quantitative Benchmarking) — Phase 4 in progress
+Stopped at: Completed 04-01-PLAN.md (Research Command & Agent) — Phase 4 in progress
 Resume file: None
 
 ---
