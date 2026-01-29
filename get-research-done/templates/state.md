@@ -27,6 +27,45 @@ Last activity: [YYYY-MM-DD] — [What happened]
 
 Progress: [░░░░░░░░░░] 0%
 
+## Research Loop State
+
+**Active Hypothesis:** {{hypothesis_id_or_none}}
+**Objective:** {{brief_hypothesis_statement}}
+**Status:** {{not_started|in_progress|pending_review|archived}}
+
+### Current Iteration
+
+- **Iteration:** {{N}} of {{limit}} (default limit: 5)
+- **Current Run:** experiments/{{run_NNN_description}}
+- **Phase:** {{researcher|critic|evaluator|human_review}}
+
+### Loop History
+
+| Iteration | Run | Verdict | Confidence | Metrics Summary |
+|-----------|-----|---------|------------|-----------------|
+| 1 | run_001_baseline | REVISE_METHOD | MEDIUM | acc=0.72 |
+| 2 | run_002_tuned | PROCEED | HIGH | acc=0.85 |
+
+### Verdict Trend
+
+- **Pattern:** {{improving|stagnant|degrading|mixed}}
+- **Consecutive same verdicts:** {{N}}
+- **Last 3 verdicts:** {{verdict1, verdict2, verdict3}}
+
+### Human Decisions
+
+| Timestamp | Decision | Rationale |
+|-----------|----------|-----------|
+| {{timestamp}} | {{Continue|Archive|Reset|Escalate}} | {{user_rationale}} |
+
+### Data Revisions
+
+If REVISE_DATA was triggered:
+
+| Iteration | Concerns | Explorer Result |
+|-----------|----------|-----------------|
+| {{N}} | {{concern_list}} | {{DATA_REPORT_updated|no_change}} |
+
 ## Performance Metrics
 
 **Velocity:**
@@ -56,6 +95,12 @@ Recent decisions affecting current work:
 - [Phase X]: [Decision summary]
 - [Phase Y]: [Decision summary]
 
+### Research Decisions
+
+| Decision | Iteration | Impact |
+|----------|-----------|--------|
+| {{decision_description}} | {{N}} | {{what_changed}} |
+
 ### Pending Todos
 
 [From .planning/todos/pending/ — ideas captured during sessions]
@@ -67,6 +112,11 @@ None yet.
 [Issues that affect future work]
 
 None yet.
+
+### Research Blockers
+
+- **Current:** {{blocker_or_none}}
+- **Requires:** {{human_action|data_fix|method_change}}
 
 ## Session Continuity
 
