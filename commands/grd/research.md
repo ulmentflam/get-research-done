@@ -52,7 +52,7 @@ This command launches Phase 4 of the recursive validation loop—the Researcher 
 
 <process>
 
-## Phase 1: Setup - Validate Context
+## Phase 1: Setup and State Loading
 
 **Check if project initialized:**
 
@@ -60,16 +60,11 @@ This command launches Phase 4 of the recursive validation loop—the Researcher 
 [ ! -f .planning/PROJECT.md ] && echo "ERROR: Project not initialized. Run /grd:new-project first." && exit 1
 ```
 
-**Check for OBJECTIVE.md (hard gate):**
+**Check OBJECTIVE.md exists (hard gate):**
 
 ```bash
-ls .planning/OBJECTIVE.md 2>/dev/null
+[ ! -f .planning/OBJECTIVE.md ] && echo "ERROR: No OBJECTIVE.md found. Run /grd:architect first." && exit 1
 ```
-
-**If OBJECTIVE.md does NOT exist:**
-- ERROR: "OBJECTIVE.md not found. Run /grd:architect first to define hypothesis."
-- Exit immediately
-- This is a HARD GATE - cannot proceed without hypothesis
 
 **If OBJECTIVE.md exists:**
 - Read and extract:
@@ -84,6 +79,32 @@ ls .planning/OBJECTIVE.md 2>/dev/null
   Metrics: [list with weights]
   Evaluation: [strategy]
   ```
+
+**Determine iteration state:**
+
+If `--continue` flag:
+- Find latest run directory in experiments/
+- Read CRITIC_LOG.md for verdict and recommendations
+- If verdict != REVISE_METHOD: warn "No REVISE_METHOD to continue from"
+- Set iteration_count from previous run + 1
+
+If `--iteration N`:
+- Use provided N as iteration_count
+- Warn if N conflicts with existing runs
+
+Otherwise (fresh start):
+- Set iteration_count = 1
+- Scan experiments/ for existing runs to determine next run number
+
+**Load iteration limit:**
+- Default: 5
+- Override with `--limit N` if provided
+- Log: "Iteration limit: N"
+
+**Update STATE.md:**
+- Set current_phase: "research"
+- Set current_iteration: N
+- Set active_hypothesis: (from OBJECTIVE.md)
 
 **Determine run number:**
 
@@ -104,13 +125,7 @@ fi
 RUN_NUM=$(printf "%03d" $NEXT_RUN)
 ```
 
-**Check for continuation mode:**
-
-Parse flags:
-- `--continue` - Continue from previous run with Critic feedback
-- `--iteration N` - Specify iteration number manually (overrides auto-increment)
-
-**If continuing:**
+**If continuing from REVISE_METHOD:**
 
 ```bash
 # Load previous CRITIC_LOG.md
@@ -210,9 +225,29 @@ Return:
 ", subagent_type="grd-researcher", model="sonnet", description="Implement and validate experiment")
 ```
 
-## Phase 3: Wait for Critic Routing
+## Phase 3: Handle Loop Completion
 
-Researcher spawns Critic internally via Task tool. The command waits for final verdict.
+After Researcher returns:
+
+**If PROCEED + Evaluator complete:**
+- Display SCORECARD.json summary
+- Log: "Experiment validated. Ready for Phase 5 human review."
+- Update STATE.md: status = "pending_human_review"
+
+**If iteration limit reached:**
+- Display human decision prompt
+- Log decision to STATE.md
+- Update STATE.md: status = "human_decision_required"
+
+**If REVISE_DATA:**
+- Display data concerns from Critic
+- Log: "Routing to /grd:explore for data re-verification"
+- Provide command: `/grd:explore --concerns "..."`
+- Update STATE.md: status = "data_verification_required"
+
+**If archived/reset:**
+- Update STATE.md: status = "archived" or "reset"
+- Provide next steps guidance
 
 **Researcher → Critic handoff:**
 - Researcher completes experiment implementation
@@ -363,23 +398,28 @@ Use AskUserQuestion if verdict requires human decision:
 <arguments>
 
 **[description]** (optional)
-- Brief description for run naming
-- Examples: "baseline", "lr_sweep", "feature_eng"
-- Used to create: experiments/run_001_baseline/
-- If omitted, uses auto-generated description from hypothesis
+- One-line description for run naming
+- Examples: "baseline", "lr_sweep", "feature_engineering"
+- If omitted, uses "experiment"
 
 **Flags:**
 
 `--continue`
-- Continue from previous run with Critic feedback
-- Loads CRITIC_LOG.md from last run
-- Increments iteration counter
-- Use after REVISE_METHOD verdict
+- Continue from previous run after REVISE_METHOD verdict
+- Loads latest CRITIC_LOG.md recommendations
+- Increments iteration count
 
 `--iteration N`
-- Specify iteration number manually (overrides auto-increment)
-- Use for: Resuming after interruption, manual organization
-- Example: `--iteration 5` creates run_005_*
+- Manually specify iteration number
+- Useful for resuming after interruption
+
+`--limit N`
+- Override default iteration limit (default: 5)
+- Use with caution - higher limits increase cost
+
+`--from-archive RUN_NAME`
+- Restore archived run and continue from there
+- Moves run back to experiments/
 
 </arguments>
 
