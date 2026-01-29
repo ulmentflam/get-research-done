@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 2 of 6 (Data Reconnaissance) — COMPLETE
-Plan: 4 of 4 (Integration & Verification complete)
-Status: Phase complete - ready for Phase 3
-Last activity: 2026-01-29 — Completed 02-04-PLAN.md (Integration & Verification)
+Phase: 3 of 6 (Hypothesis Synthesis) — IN PROGRESS
+Plan: 1 of 4 (Template Creation complete)
+Status: In progress
+Last activity: 2026-01-28 — Completed 03-01-PLAN.md (Template Creation)
 
-Progress: [████████████████████░░░░░░░░░░░] 100% (Phase 2: 4/4 plans complete)
+Progress: [█████████████████████░░░░░░░░░░] 68% (11/16 plans complete across phases 1-3)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 10
-- Average duration: 3.8 min
-- Total execution time: 0.70 hours
+- Total plans completed: 11
+- Average duration: 3.5 min
+- Total execution time: 0.72 hours
 
 **By Phase:**
 
@@ -30,10 +30,11 @@ Progress: [████████████████████░░░
 |-------|-------|-------|----------|
 | 01 | 6 | 17.2min | 2.9min |
 | 02 | 4 | 21.0min | 5.3min |
+| 03 | 1 | 1.2min | 1.2min |
 
 **Recent Trend:**
-- Last 5 plans: 02-04 (3min), 02-03 (9min), 02-02 (4min), 02-01 (5min), 01-06 (4min)
-- Trend: Phase 2 complete averaging 5.3min/plan (higher than Phase 1's 2.9min) due to complex agent logic and integration work
+- Last 5 plans: 03-01 (1min), 02-04 (3min), 02-03 (9min), 02-02 (4min), 02-01 (5min)
+- Trend: Phase 3 started with fast template creation (1.2min) — simpler than agent logic
 
 *Updated after each plan completion*
 
@@ -70,6 +71,11 @@ Recent decisions affecting current work:
 | Confidence scoring for leakage (HIGH/MEDIUM/LOW) | 02-03 | Based on sample size and statistical significance, guides prioritization |
 | Soft gate warns but doesn't block | 02-04 | /grd:architect warns if DATA_REPORT.md missing but allows proceeding - user decides if data-first needed |
 | REVISE_DATA routes to targeted re-analysis | 02-04 | Critic can return to Explorer with specific concerns, appends to DATA_REPORT.md |
+| Flexible prose hypothesis format | 03-01 | What/why/expected structure instead of rigid null/alternative hypothesis (research advisor feel) |
+| Weighted metrics with composite scoring | 03-01 | Metrics have weights that must sum to 1.0, final success = weighted average |
+| Evaluation methodology upfront | 03-01 | Strategy defined in OBJECTIVE.md before experiments to prevent p-hacking |
+| Falsification criteria required | 03-01 | At least one criterion (quantitative preferred), guides Critic routing |
+| Baseline warnings not blocking | 03-01 | System warns if baselines empty but allows proceeding |
 
 ### Pending Todos
 
@@ -84,8 +90,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-29 (execution)
-Stopped at: Completed 02-04-PLAN.md (Integration & Verification) - Phase 2 complete
+Last session: 2026-01-28 (execution)
+Stopped at: Completed 03-01-PLAN.md (Template Creation)
 Resume file: None
 
 ---
