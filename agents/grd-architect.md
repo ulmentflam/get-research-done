@@ -311,51 +311,89 @@ This step happens naturally as iteration loop completes.
 
 ## Step 6: Validate Completeness
 
-Before generating OBJECTIVE.md, verify all required sections:
+Before generating OBJECTIVE.md, run comprehensive validation checks. Collect all errors and warnings, then present to user.
 
-**Check hypothesis components:**
+**Validation is implemented as inline guidance** - you apply these rules using your reasoning capabilities during execution.
 
-- [ ] Hypothesis has "what" statement (clear, testable)
-- [ ] Hypothesis has "why" rationale (grounded in data or domain knowledge)
-- [ ] Hypothesis has "expected outcome" (predicted result)
+### 6.1 Hypothesis Completeness Validation
 
-**Check metrics:**
+Check required elements are present and non-empty:
 
-- [ ] At least one metric defined
-- [ ] Each metric has threshold and comparison operator
-- [ ] Weights assigned to all metrics
-- [ ] Weights sum to 1.0 (tolerance: ±0.01)
+**Logic to follow:**
+- Hypothesis statement must be at least 20 characters
+- Expected outcome must be specified
+- At least one success metric must be defined
+- Evaluation methodology must be specified
+- At least one falsification criterion must be present
+- Context section should have substantial content (>50 characters)
 
-If weights don't sum to 1.0:
-  - Normalize weights automatically
-  - Note: "Normalized metric weights to sum to 1.0"
+**Error handling:**
+- Missing required elements = ERROR (block generation, ask user to fix)
+- Short context = WARNING (allow proceeding)
 
-**Check evaluation methodology:**
+### 6.2 Metric Weight Validation
 
-- [ ] Strategy specified (k-fold, stratified-k-fold, time-series-split, holdout)
-- [ ] Parameters provided (k value or test size)
-- [ ] Justification explains why strategy is appropriate
+Ensure weights sum to 1.0 with tolerance:
 
-**Check falsification criteria:**
+**Logic to follow:**
+- Sum all metric weights
+- If |sum - 1.0| > 0.01: ERROR "Metric weights sum to {sum}, should be 1.0"
+- Check each weight is between 0 and 1
+- Invalid weight (outside 0-1 range) = ERROR
 
-- [ ] At least one criterion defined
-- [ ] Each criterion has metric, threshold, type
-- [ ] Quantitative criteria preferred (warn if only qualitative)
+**Present to user if error:**
+```
+ERROR: Metric weights sum to {calculated_sum}, should be 1.0
 
-**Check baseline status:**
+Current metrics:
+- {metric_1}: {weight_1}
+- {metric_2}: {weight_2}
+...
 
-If baselines empty or not defined:
+Please adjust weights to sum to 1.0.
+```
 
-**Warn user with soft gate:**
+### 6.3 Evaluation Methodology Validation
+
+Check methodology is appropriate for task:
+
+**Logic to follow:**
+- Valid strategies: k-fold, stratified-k-fold, time-series-split, holdout
+- If k-fold: k must be >= 2, warn if k > 20
+- If holdout: test_size should be between 0.1 and 0.5
+- If data has datetime columns (from DATA_REPORT.md) and strategy is not time-series-split: WARN about potential temporal leakage
+
+**Present to user if warning:**
+```
+WARNING: Data has datetime columns but using {selected_strategy}.
+Consider time-series-split to avoid temporal leakage.
+
+Continue anyway? (yes/no)
+```
+
+### 6.4 Baseline Soft Gate
+
+Implement baseline warning system (SOFT GATE - warns but does NOT block):
+
+**Logic to follow:**
+- If baselines array is empty or not defined:
+  - WARN: "No baseline defined. Cannot claim improvement without comparison point."
+  - Present options: own implementation, literature citation, random/majority baseline
+  - Ask: "Continue without baseline? (You can add one later)"
+  - User says yes: proceed with warning noted
+  - User says no: return to Step 3 with baseline suggestions
+- This is a SOFT GATE - warns but does NOT block
+
+**Present to user:**
 ```
 ⚠️  WARNING: No baseline defined.
 
-Cannot claim improvement without comparison. Consider:
-- Random baseline (predicts randomly)
-- Majority baseline (predicts most common class)
-- Simple model baseline (logistic regression, decision tree)
-- Literature citation (published benchmark)
-- Current production model (if applicable)
+Without a baseline, you cannot claim your model "improves" anything.
+
+Options:
+1. Run your own baseline (e.g., logistic regression, decision tree)
+2. Cite literature baseline for this task/dataset
+3. Establish random/majority-class baseline for lower bound
 
 Continue without baseline? (yes/no)
 ```
@@ -369,16 +407,55 @@ Continue without baseline? (yes/no)
 - Set frontmatter: baseline_defined: false
 - Continue to generation
 
-**Check context section:**
+### 6.5 Falsification Criteria Validation
 
-- [ ] Context has sufficient content (>50 characters)
-- [ ] References DATA_REPORT.md findings if available
-- [ ] Includes known constraints
+Ensure criteria are meaningful:
 
-**Validation summary:**
+**Logic to follow:**
+- At least one falsification criterion required (ERROR if missing)
+- Criterion metrics should match defined success metrics (WARN if mismatch)
+- Quantitative criteria should have thresholds (WARN if missing)
+- All criteria should have explanations (WARN if missing)
+- If only qualitative criteria: WARN "Consider adding quantitative criteria for objectivity"
 
-All checks passed: Proceed to Step 7
-Issues found: Warn user, offer to fix, or allow proceeding with warning
+### 6.6 Full Validation Orchestration
+
+Combine all validations and present to user:
+
+**Order of operations:**
+1. Run all validations (6.1-6.5), collect errors and warnings
+2. If errors exist: Present errors, ask user to fix, do NOT proceed to Step 7
+3. If only warnings: Present warnings, ask user to confirm proceeding
+4. If clean: Proceed directly to Step 7
+
+**Present validation results:**
+```
+## Validation Results
+
+### Errors (must fix before proceeding)
+{errors_list or "None"}
+
+### Warnings (review recommended)
+{warnings_list or "None"}
+
+### Baseline Status
+{baseline_status_message}
+{baseline_recommendations if applicable}
+
+---
+
+{if errors}
+Please address the errors above before proceeding.
+{ask for corrections via AskUserQuestion}
+
+{else if warnings}
+Proceed with OBJECTIVE.md generation? (yes/no)
+
+{else}
+All validations passed. Generating OBJECTIVE.md...
+```
+
+**Important:** Baseline missing is a WARNING only. User can proceed. All other validation failures (metric weights, missing required fields) are ERRORS that must be fixed before generation.
 
 ## Step 7: Generate OBJECTIVE.md
 
