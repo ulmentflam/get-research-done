@@ -23,10 +23,10 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Hypothesis Synthesis (Architect Phase)
 
-- [ ] **HYPO-01**: Architect role transforms data insights + goals into testable hypothesis
-- [ ] **HYPO-02**: OBJECTIVE.md template with context, hypothesis, metrics, constraints, baselines
-- [ ] **HYPO-03**: Hypothesis must include falsification criteria (what would disprove it)
-- [ ] **HYPO-04**: Baseline enforcement — cannot claim improvement without defined baseline
+- [x] **HYPO-01**: Architect role transforms data insights + goals into testable hypothesis
+- [x] **HYPO-02**: OBJECTIVE.md template with context, hypothesis, metrics, constraints, baselines
+- [x] **HYPO-03**: Hypothesis must include falsification criteria (what would disprove it)
+- [x] **HYPO-04**: Baseline enforcement — cannot claim improvement without defined baseline
 
 ### Recursive Validation Loop
 
@@ -106,10 +106,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DATA-02 | Phase 2 | Complete |
 | DATA-03 | Phase 2 | Complete |
 | DATA-04 | Phase 2 | Complete |
-| HYPO-01 | Phase 3 | Pending |
-| HYPO-02 | Phase 3 | Pending |
-| HYPO-03 | Phase 3 | Pending |
-| HYPO-04 | Phase 3 | Pending |
+| HYPO-01 | Phase 3 | Complete |
+| HYPO-02 | Phase 3 | Complete |
+| HYPO-03 | Phase 3 | Complete |
+| HYPO-04 | Phase 3 | Complete |
 | LOOP-01 | Phase 4 | Pending |
 | LOOP-02 | Phase 4 | Pending |
 | LOOP-03 | Phase 4 | Pending |
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-28 after Phase 2 completion*
+*Last updated: 2026-01-28 after Phase 3 completion*
