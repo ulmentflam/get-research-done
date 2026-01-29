@@ -79,10 +79,13 @@ Plans:
   3. OBJECTIVE.md includes falsification criteria (what would disprove the hypothesis)
   4. System enforces baseline definition before accepting hypothesis as complete
 
-**Plans**: TBD
+**Plans**: 4 plans
 
 Plans:
-- [ ] 03-01: TBD during planning
+- [ ] 03-01-PLAN.md — Create OBJECTIVE.md template with all required sections
+- [ ] 03-02-PLAN.md — Update /grd:architect command and create grd-architect agent
+- [ ] 03-03-PLAN.md — Add validation logic and baseline warning system
+- [ ] 03-04-PLAN.md — Integration verification and human approval checkpoint
 
 ### Phase 4: Recursive Validation Loop
 **Goal**: Experiments are validated through skeptical criticism with automatic routing back to earlier phases when anomalies detected
@@ -151,7 +154,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 |-------|----------------|--------|-----------|
 | 1. Core Orchestration & Branding | 6/6 | Complete | 2026-01-28 |
 | 2. Data Reconnaissance | 4/4 | Complete | 2026-01-28 |
-| 3. Hypothesis Synthesis | 0/TBD | Not started | - |
+| 3. Hypothesis Synthesis | 0/4 | Planned | - |
 | 4. Recursive Validation Loop | 0/TBD | Not started | - |
 | 5. Human Evaluation Gate | 0/TBD | Not started | - |
 | 6. Notebook Support | 0/TBD | Not started | - |
