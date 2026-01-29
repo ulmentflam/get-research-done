@@ -11,28 +11,28 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 2 of 6 (Data Reconnaissance) — IN PROGRESS
-Plan: 1 of 4 (Explorer Foundation complete)
+Plan: 2 of 4 (Data Loading & Profiling complete)
 Status: In progress
-Last activity: 2026-01-28 — Completed 02-01-PLAN.md (Explorer Foundation)
+Last activity: 2026-01-29 — Completed 02-02-PLAN.md (Data Loading & Profiling)
 
-Progress: [███████████░░░░░░░░░░░░░░░░░░░░] 41% (Phase 2: 1/4 plans complete)
+Progress: [██████████████░░░░░░░░░░░░░░░░░] 50% (Phase 2: 2/4 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 7
+- Total plans completed: 8
 - Average duration: 3.0 min
-- Total execution time: 0.37 hours
+- Total execution time: 0.52 hours
 
 **By Phase:**
 
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 01 | 6 | 17.2min | 2.9min |
-| 02 | 1 | 5.0min | 5.0min |
+| 02 | 2 | 9.0min | 4.5min |
 
 **Recent Trend:**
-- Last 5 plans: 02-01 (5min), 01-06 (4min), 01-05 (5min), 01-04 (3min), 01-03 (2.7min)
+- Last 5 plans: 02-02 (4min), 02-01 (5min), 01-06 (4min), 01-05 (5min), 01-04 (3min)
 - Trend: Consistent execution, all plans completed successfully
 
 *Updated after each plan completion*
@@ -59,6 +59,11 @@ Recent decisions affecting current work:
 | Created explore command with optional path argument | 02-01 | Supports both scripted (/grd:explore path) and interactive (prompts for path) usage |
 | Structured Explorer with 10-step workflow | 02-01 | Clear separation: load → profile → distributions → missing → outliers → balance → leakage → recommendations → report → completion |
 | Designed DATA_REPORT.md with severity thresholds | 02-01 | Blocking vs non-blocking classification with confidence levels for actionable prioritization |
+| Use reservoir sampling for datasets >100k rows | 02-02 | Seed=42 for reproducibility, documents sampling in report |
+| Dual outlier detection (Z-score + IQR) | 02-02 | Z-score for normal distributions, IQR for skewed data |
+| MCAR/MAR/MNAR classification via statistical tests | 02-02 | Chi-square for categorical, t-test for numerical relationships |
+| Cloud streaming with smart_open | 02-02 | Stream from S3/GCS without full download, uses environment auth |
+| PyArrow backend for Parquet | 02-02 | Memory-mapped, columnar selection, zero-copy conversion |
 
 ### Pending Todos
 
@@ -73,8 +78,8 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-28 (execution)
-Stopped at: Completed 02-01-PLAN.md (Explorer Foundation)
+Last session: 2026-01-29 (execution)
+Stopped at: Completed 02-02-PLAN.md (Data Loading & Profiling)
 Resume file: None
 
 ---
