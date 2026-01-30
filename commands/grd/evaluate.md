@@ -566,67 +566,68 @@ Logged to:
 
 **If decision is Archive:**
 
-1. **Determine hypothesis name:**
-   ```bash
-   # Extract from OBJECTIVE.md "what" section
-   HYPOTHESIS_NAME=$(grep -A 5 "^### What" .planning/OBJECTIVE.md | head -6 | tail -5 | tr '\n' ' ' | sed 's/  */ /g' | cut -c 1-60)
-   # Sanitize for filename (replace spaces with underscores, remove special chars)
-   HYPOTHESIS_SLUG=$(echo "$HYPOTHESIS_NAME" | tr ' ' '_' | tr -cd '[:alnum:]_-' | tr '[:upper:]' '[:lower:]')
-   ARCHIVE_NAME="$(date +%Y-%m-%d)_$HYPOTHESIS_SLUG"
-   ```
+**Step 1: Determine archive path**
 
-2. **Create archive directory:**
-   ```bash
-   mkdir -p experiments/archive/"$ARCHIVE_NAME"
-   ```
+```bash
+# Extract hypothesis name from OBJECTIVE.md (sanitize for filesystem)
+HYPOTHESIS_RAW=$(grep -A 1 "## Hypothesis" .planning/OBJECTIVE.md | tail -1 | head -c 50)
+HYPOTHESIS_NAME=$(echo "$HYPOTHESIS_RAW" | tr ' ' '_' | tr -cd '[:alnum:]_-' | tr '[:upper:]' '[:lower:]')
 
-3. **Move final run to archive:**
-   ```bash
-   # Move current run (with DECISION.md) to archive
-   mv "$RUN_DIR" experiments/archive/"$ARCHIVE_NAME"/final_run
-   ```
+# Date prefix
+DATE_PREFIX=$(date +%Y-%m-%d)
 
-4. **Create ITERATION_SUMMARY.md:**
-   ```bash
-   # Collapse other runs into summary
-   cat > experiments/archive/"$ARCHIVE_NAME"/ITERATION_SUMMARY.md << EOF
-# Iteration Summary
+# Archive directory path
+ARCHIVE_DIR="experiments/archive/${DATE_PREFIX}_${HYPOTHESIS_NAME}"
 
-Total iterations: $TOTAL_RUNS
+# Create archive directory
+mkdir -p "$ARCHIVE_DIR"
 
-## Verdict History
-[Table of all runs with verdicts, scores, key observations]
+echo "Creating archive directory: $ARCHIVE_DIR"
+```
 
-## Metric Trends
-[Best/worst values achieved across iterations]
+**Step 2: Identify final and intermediate runs**
 
-## Key Learnings
-[Extracted from Critic feedback across runs]
-EOF
-   ```
+```bash
+# Find all run directories
+ALL_RUNS=$(ls -d experiments/run_* 2>/dev/null | sort)
 
-5. **Create ARCHIVE_REASON.md:**
-   ```bash
-   # Use template from get-research-done/templates/archive-reason.md
-   # Populate with:
-   # - Hypothesis name and statement
-   # - Final iteration count
-   # - User rationale (required)
-   # - What we learned (user fills)
-   # - What would need to change (user fills)
-   # - Final metrics (best achieved vs targets)
+# Final run is the current one being evaluated (with DECISION.md)
+FINAL_RUN="$RUN_DIR"
 
-   cat > experiments/archive/"$ARCHIVE_NAME"/ARCHIVE_REASON.md << EOF
-[Generated content from archive-reason.md template]
-EOF
-   ```
+# Intermediate runs are all others
+INTERMEDIATE_RUNS=$(echo "$ALL_RUNS" | grep -v "$(basename $FINAL_RUN)")
 
-6. **Clean up intermediate runs (optional):**
-   ```bash
-   # Prompt user: delete or zip intermediate runs?
-   # If zip: tar czf experiments/archive/$ARCHIVE_NAME/intermediate_runs.tar.gz experiments/run_*
-   # If delete: rm -rf experiments/run_*
-   ```
+# Count intermediate runs
+INTERMEDIATE_COUNT=$(echo "$INTERMEDIATE_RUNS" | grep -c "run_" || echo 0)
+TOTAL_ITERATIONS=$(echo "$ALL_RUNS" | grep -c "run_")
+
+echo "Identified:"
+echo "  Final run: $FINAL_RUN"
+echo "  Intermediate runs: $INTERMEDIATE_COUNT"
+echo "  Total iterations: $TOTAL_ITERATIONS"
+```
+
+**Step 3: Move final run to archive**
+
+Display progress:
+```
+Moving final run to archive...
+  From: $FINAL_RUN
+  To: $ARCHIVE_DIR/run_final/
+```
+
+```bash
+# Move final run directory to archive (preserves full structure)
+mv "$FINAL_RUN" "$ARCHIVE_DIR/run_final"
+
+# Verify move succeeded
+if [ ! -d "$ARCHIVE_DIR/run_final" ]; then
+  echo "ERROR: Failed to move final run to archive"
+  exit 1
+fi
+
+echo "✓ Final run moved to archive"
+```
 
 **Display archive confirmation:**
 ```
