@@ -379,59 +379,187 @@ Proceed to Phase 4 (Decision Logging) and Phase 5 (Archive Handling)
 
 ## Phase 4: Decision Logging
 
-**Create per-run DECISION.md:**
+After user decision captured, generate decision records and update project state.
+
+**Step 1: Extract evidence data for logging**
 
 ```bash
-# Use template from get-research-done/templates/decision.md
-# Populate with:
-# - Timestamp (ISO 8601)
-# - Hypothesis (from OBJECTIVE.md)
-# - Decision (Seal/Iterate/Archive)
-# - Rationale (user-provided if Archive, optional otherwise)
-# - Evidence summary (verdict, scores, metrics)
+# Extract key data from evidence package for DECISION.md
+TIMESTAMP_ISO=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+TIMESTAMP_LOCAL=$(date +"%Y-%m-%d %H:%M")
+TIMESTAMP_DATE=$(date +"%Y-%m-%d")
 
+# Extract hypothesis brief from OBJECTIVE.md (what section)
+HYPOTHESIS_BRIEF=$(grep -A 5 "^### What" .planning/OBJECTIVE.md | tail -n +2 | head -5 | tr '\n' ' ' | sed 's/  */ /g' | cut -c 1-100)
+
+# Extract Critic data from CRITIC_LOG.md
+CRITIC_CONFIDENCE=$(grep "^\*\*Confidence:\*\*" "$RUN_DIR/CRITIC_LOG.md" | head -1 | sed 's/.*: //')
+
+# Extract Evaluator data from SCORECARD.json
+COMPOSITE_SCORE=$(jq -r '.composite_score' "$RUN_DIR/metrics/SCORECARD.json")
+THRESHOLD=$(jq -r '.threshold' "$RUN_DIR/metrics/SCORECARD.json")
+
+# Get primary metric (highest weight or first)
+KEY_METRIC_NAME=$(jq -r '.metrics | to_entries | max_by(.value.weight) | .key' "$RUN_DIR/metrics/SCORECARD.json")
+KEY_METRIC_VALUE=$(jq -r --arg name "$KEY_METRIC_NAME" '.metrics[$name].value' "$RUN_DIR/metrics/SCORECARD.json")
+KEY_METRIC_THRESHOLD=$(jq -r --arg name "$KEY_METRIC_NAME" '.metrics[$name].threshold' "$RUN_DIR/metrics/SCORECARD.json")
+KEY_METRIC_COMPARISON=$(jq -r --arg name "$KEY_METRIC_NAME" '.metrics[$name].comparison' "$RUN_DIR/metrics/SCORECARD.json")
+```
+
+**Step 2: Build metrics table for DECISION.md**
+
+```bash
+# Extract all metrics from SCORECARD.json, sorted by weight descending
+METRICS_TABLE=$(jq -r '.metrics | to_entries | sort_by(-.value.weight) | .[] |
+  "| \(.key) | \(.value.value) | \(.value.comparison)\(.value.threshold) | \(.value.status) |"' \
+  "$RUN_DIR/metrics/SCORECARD.json")
+```
+
+**Step 3: Generate decision-specific context**
+
+```bash
+# Populate decision context section based on type
+if [ "$DECISION" = "Seal" ]; then
+  DECISION_CONTEXT="### For Seal
+- Hypothesis validated
+- Ready for production/publication
+- All success criteria met"
+
+elif [ "$DECISION" = "Iterate" ]; then
+  # Extract Critic's recommendation if available
+  CRITIC_RECOMMENDATION=$(grep -A 10 "^\*\*Recommendation:\*\*" "$RUN_DIR/CRITIC_LOG.md" | tail -n +2 | head -5 | tr '\n' ' ' | sed 's/  */ /g')
+  DECISION_CONTEXT="### For Iterate
+- Continuing experimentation
+- Direction: Based on Critic recommendation
+- Next focus: ${CRITIC_RECOMMENDATION:-Further refinement needed}"
+
+elif [ "$DECISION" = "Archive" ]; then
+  DECISION_CONTEXT="### For Archive
+- Hypothesis abandoned
+- Reason: ${RATIONALE:-Not provided}
+- Preserved as negative result"
+fi
+```
+
+**Step 4: Create per-run DECISION.md**
+
+Use Write tool to create DECISION.md in run directory:
+
+```bash
+# Generate DECISION.md from template
 cat > "$RUN_DIR/DECISION.md" << EOF
-[Generated content from decision.md template]
+# Human Decision: $RUN_NAME
+
+**Timestamp:** $TIMESTAMP_ISO
+**Hypothesis:** $HYPOTHESIS_BRIEF
+**Decision:** $DECISION
+**Rationale:** ${RATIONALE:-Not provided}
+
+## Evidence Summary
+
+**Critic Verdict:** PROCEED (Confidence: $CRITIC_CONFIDENCE)
+**Composite Score:** $COMPOSITE_SCORE (threshold: $THRESHOLD)
+**Key Metric:** $KEY_METRIC_NAME=$KEY_METRIC_VALUE (target: $KEY_METRIC_COMPARISON$KEY_METRIC_THRESHOLD)
+
+## Metrics Detail
+
+| Metric | Value | Threshold | Status |
+|--------|-------|-----------|--------|
+$METRICS_TABLE
+
+## Decision Context
+
+$DECISION_CONTEXT
+
+---
+
+*Decision recorded: $TIMESTAMP_ISO*
+*Run directory: $RUN_DIR/*
 EOF
 ```
 
-**Append to central decision log:**
+**Step 5: Create/append to central decision_log.md**
+
+Use Write tool with append logic:
 
 ```bash
-# Create human_eval/ directory if doesn't exist
+# Ensure human_eval directory exists
 mkdir -p human_eval
 
-# Initialize decision_log.md if doesn't exist
+# Create log file if doesn't exist (use decision-log.md template header)
 if [ ! -f human_eval/decision_log.md ]; then
   cat > human_eval/decision_log.md << EOF
 # Human Evaluation Decision Log
 
-Chronological record of all human evaluation decisions.
+This log tracks all human evaluation decisions for this research project.
 
-| Date | Run | Decision | Run Directory |
-|------|-----|----------|---------------|
+| Timestamp | Run | Decision | Key Metric | Reference |
+|-----------|-----|----------|------------|-----------|
 EOF
 fi
 
-# Append current decision
-TIMESTAMP=$(date -u +"%Y-%m-%d")
-echo "| $TIMESTAMP | $RUN_NAME | $DECISION | $RUN_DIR/ |" >> human_eval/decision_log.md
+# Append new entry (chronological, newest at bottom)
+echo "| $TIMESTAMP_LOCAL | $RUN_NAME | $DECISION | $KEY_METRIC_NAME=$KEY_METRIC_VALUE | $RUN_DIR/ |" >> human_eval/decision_log.md
 ```
 
-**Update STATE.md:**
+**Step 6: Update STATE.md Research Loop State**
+
+Update appropriate sections based on decision:
 
 ```bash
-# Add decision to appropriate section based on type
+# Update Research Loop State > Status based on decision
 if [ "$DECISION" = "Seal" ]; then
-  # Add to validated experiments list in STATE.md
-  echo "- **$RUN_NAME:** Sealed on $TIMESTAMP" >> .planning/STATE.md
+  # Mark hypothesis as validated
+  sed -i '' 's/^\*\*Status:\*\* .*/\*\*Status:\*\* validated/' .planning/STATE.md
+
+elif [ "$DECISION" = "Iterate" ]; then
+  # Keep loop active, mark phase as researcher for next iteration
+  sed -i '' 's/^\*\*Phase:\*\* .*/\*\*Phase:\*\* researcher/' .planning/STATE.md
+
 elif [ "$DECISION" = "Archive" ]; then
-  # Add to archived hypotheses in STATE.md
-  echo "- **Archived:** $TIMESTAMP - $HYPOTHESIS_NAME" >> .planning/STATE.md
+  # Mark hypothesis as archived
+  sed -i '' 's/^\*\*Status:\*\* .*/\*\*Status:\*\* archived/' .planning/STATE.md
 fi
 
-# Update loop status
-sed -i '' 's/loop_status: .*/loop_status: human_decision_complete/' .planning/STATE.md
+# Add entry to Human Decisions table
+RATIONALE_EXCERPT=$(echo "${RATIONALE:-Not provided}" | head -c 50)
+
+# Find Human Decisions table and append entry
+# Using awk to find table and insert after header row
+awk -v date="$TIMESTAMP_DATE" -v dec="$DECISION" -v rat="$RATIONALE_EXCERPT" '
+  /^### Human Decisions/ { in_section=1 }
+  in_section && /^\| Timestamp \| Decision \| Rationale \|$/ {
+    print
+    print "| " date " | " dec " | " rat " |"
+    in_section=0
+    next
+  }
+  { print }
+' .planning/STATE.md > .planning/STATE.md.tmp && mv .planning/STATE.md.tmp .planning/STATE.md
+
+# Update Loop History table with final decision annotation
+# Mark current run with decision in parentheses
+sed -i '' "s|\(^.*| $RUN_NAME |.*\)|\1 (Human: $DECISION)|" .planning/STATE.md
+```
+
+**Step 7: Display confirmation**
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► DECISION LOGGED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Decision: {Seal|Iterate|Archive}
+
+Logged to:
+- experiments/{run_name}/DECISION.md
+- human_eval/decision_log.md
+- .planning/STATE.md (Research Loop State updated)
+
+{Next steps based on decision:
+  - Seal: "Experiment validated. Review run directory for artifacts."
+  - Iterate: "Ready for next iteration. Run /grd:research --continue"
+  - Archive: "Proceeding with archive workflow..." (triggers Phase 5)}
 ```
 
 ## Phase 5: Archive Handling (if Archive decision)
