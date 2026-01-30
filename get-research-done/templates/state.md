@@ -38,6 +38,7 @@ Progress: [░░░░░░░░░░] 0%
 - **Iteration:** {{N}} of {{limit}} (default limit: 5)
 - **Current Run:** experiments/{{run_NNN_description}}
 - **Phase:** {{researcher|critic|evaluator|human_review}}
+- **Data Revisions:** {{data_revision_count}} of {{data_revision_limit}} (default limit: 2)
 
 ### Loop History
 
@@ -60,11 +61,15 @@ Progress: [░░░░░░░░░░] 0%
 
 ### Data Revisions
 
-If REVISE_DATA was triggered:
+Track REVISE_DATA cycles within current hypothesis:
 
-| Iteration | Concerns | Explorer Result |
-|-----------|----------|-----------------|
-| {{N}} | {{concern_list}} | {{DATA_REPORT_updated|no_change}} |
+| Iteration | Concerns | Explorer Result | Action Taken |
+|-----------|----------|-----------------|--------------|
+| {{N}} | {{concern_list}} | {{result_summary}} | {{action}} |
+
+**Data Revision Limits:**
+- Current count: {{data_revision_count}} of {{data_revision_limit}}
+- If limit reached: Escalate to human (data quality may be insufficient for hypothesis)
 
 ## Performance Metrics
 
@@ -253,6 +258,19 @@ When a research loop starts (future phases), this section tracks:
 - Evaluator's metric assessments
 
 This enables the recursive "hypothesis → experiment → validate → refine" cycle that distinguishes GRD from linear development workflows.
+
+### Data Revisions Table
+
+Tracks REVISE_DATA cycles within the current hypothesis:
+- **Iteration**: Which experiment iteration triggered data revision
+- **Concerns**: Summary of data concerns from Critic (truncated)
+- **Explorer Result**: Outcome of re-analysis (addressed, critical issue, etc.)
+- **Action Taken**: What happened next (loop continues, escalated, etc.)
+
+Data revisions are tracked separately from method revisions because:
+- Data issues are more fundamental than hyperparameter tuning
+- Lower limit (default 2) prevents infinite data loops
+- Multiple data revisions suggest hypothesis may not be viable with current data
 
 </sections>
 
