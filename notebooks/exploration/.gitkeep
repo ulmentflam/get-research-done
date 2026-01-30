@@ -1,0 +1,27 @@
+# Exploration Notebooks
+
+This directory contains exploratory Jupyter notebooks.
+
+## Conventions
+
+- Number notebooks sequentially: 001_initial_test.ipynb, 002_revised_method.ipynb
+- Organize subdirectories at your discretion
+- Notebooks here run through GRD validation loop via /grd:research
+- On Critic PROCEED verdict, graduate notebooks to src/experiments/ using /grd:graduate
+
+## Graduation Requirements
+
+- Random seed must be explicitly set (numpy, torch, random, etc.)
+- Cell tagged 'parameters' for parameterization (encouraged but not required)
+- Hardcoded paths: advisory warning (doesn't block graduation)
+
+## Notebook Execution
+
+- Fresh kernel for every run (reproducibility over speed)
+- Cell-level timeout to catch infinite loops
+- Both executed notebook AND extracted outputs saved to experiments/run_NNN/
+
+## After Graduation
+
+Original notebooks stay here after graduation (not archived/deleted).
+Graduated scripts land in src/experiments/ with header referencing source notebook.

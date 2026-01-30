@@ -1,0 +1,53 @@
+# Validated Experiments
+
+This directory contains graduated Python scripts from exploration notebooks.
+
+## How Scripts Arrive Here
+
+1. Notebook runs through GRD validation loop (/grd:research)
+2. Critic returns PROCEED verdict
+3. User graduates notebook via /grd:graduate
+4. nbconvert creates .py file, template adds metadata header
+
+## Script Requirements
+
+- Self-contained: runs without notebook dependencies
+- Parameterized: argparse CLI arguments
+- Reproducible: explicit random seeds
+- Tested: core functions have tests (recommended)
+
+## Traceability
+
+Each script header references its source notebook:
+
+```python
+"""
+Validated experiment: My Experiment
+
+Source notebook: notebooks/exploration/001_initial.ipynb
+Source run: experiments/run_003_baseline
+Critic verdict: PROCEED (2026-01-30)
+Graduated: 2026-01-30T12:00:00Z
+"""
+```
+
+## Refactoring Checklist
+
+Graduated scripts include a checklist for manual completion:
+
+- [ ] Remove/convert magic commands (grep "^%")
+- [ ] Extract code into functions
+- [ ] Replace parameter cell with argparse
+- [ ] Add docstrings and type hints
+- [ ] Set all random seeds explicitly
+- [ ] Write tests for core functions
+
+## Running Validated Scripts
+
+```bash
+# Run with default parameters
+python src/experiments/my_experiment.py
+
+# Run with custom parameters
+python src/experiments/my_experiment.py --random-seed 123 --learning-rate 0.001
+```
