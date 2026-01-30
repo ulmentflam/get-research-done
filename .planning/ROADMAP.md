@@ -18,7 +18,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Recursive Validation Loop** - Researcher/Critic/Evaluator agents with state routing
 - [x] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
 - [x] **Phase 6: Notebook Support** - Jupyter integration and graduation path
-- [ ] **Phase 7: REVISE_DATA Auto-Routing** - Complete recursive loop automation (gap closure)
+- [x] **Phase 7: REVISE_DATA Auto-Routing** - Complete recursive loop automation (gap closure)
 - [ ] **Phase 8: Baseline Orchestration** - Ensure baseline experiments run before comparisons (gap closure)
 - [ ] **Phase 9: Hardware Profiling & Long-Running Experiments** - Capture hardware context and handle extended training runs
 
@@ -181,8 +181,8 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 07-01-PLAN.md — Update grd-researcher Step 7.6 to auto-spawn Explorer on REVISE_DATA
-- [ ] 07-02-PLAN.md — Extend Explorer for targeted re-analysis and update STATE.md template
+- [x] 07-01-PLAN.md — Update grd-researcher Step 7.6 to auto-spawn Explorer on REVISE_DATA
+- [x] 07-02-PLAN.md — Extend Explorer for targeted re-analysis and update STATE.md template
 
 ### Phase 8: Baseline Orchestration
 **Goal**: Ensure baseline experiments are run before comparison experiments
@@ -234,7 +234,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
-| 7. REVISE_DATA Auto-Routing | 0/2 | Planned | - |
+| 7. REVISE_DATA Auto-Routing | 2/2 | Complete | 2026-01-30 |
 | 8. Baseline Orchestration | 0/? | Planned | - |
 | 9. Hardware Profiling & Long-Running Experiments | 0/? | Planned | - |
 
