@@ -85,26 +85,52 @@ This command launches Phase 4 of the recursive validation loop—the Researcher 
 If `--continue` flag:
 - Find latest run directory in experiments/
 - Read CRITIC_LOG.md for verdict and recommendations
-- If verdict != REVISE_METHOD: warn "No REVISE_METHOD to continue from"
+- If verdict != REVISE_METHOD and verdict != REVISE_DATA: warn "No revision verdict to continue from"
+- Load verdict history from previous runs
 - Set iteration_count from previous run + 1
 
 If `--iteration N`:
 - Use provided N as iteration_count
 - Warn if N conflicts with existing runs
+- Load verdict history from runs 1 through N-1
+
+If `--from-archive RUN_NAME`:
+- Restore archived run from experiments/archive/
+- Move back to experiments/
+- Extract iteration count from run
+- Load critique history
 
 Otherwise (fresh start):
 - Set iteration_count = 1
+- Initialize empty verdict_history
 - Scan experiments/ for existing runs to determine next run number
 
 **Load iteration limit:**
 - Default: 5
 - Override with `--limit N` if provided
-- Log: "Iteration limit: N"
+- Log: "Iteration limit: {N}"
+- Store for Researcher agent
+
+**Load verdict history:**
+```bash
+# Load all CRITIC_LOG.md files to build verdict history
+for run_dir in experiments/run_*; do
+  if [ -f "$run_dir/CRITIC_LOG.md" ]; then
+    # Extract verdict, confidence, iteration from CRITIC_LOG
+    VERDICT=$(grep "^\*\*Verdict:\*\*" "$run_dir/CRITIC_LOG.md" | head -1)
+    CONFIDENCE=$(grep "^\*\*Confidence:\*\*" "$run_dir/CRITIC_LOG.md" | head -1)
+    # Add to verdict_history array
+  fi
+done
+```
 
 **Update STATE.md:**
 - Set current_phase: "research"
-- Set current_iteration: N
+- Set current_iteration: {iteration_count}
+- Set iteration_limit: {limit}
 - Set active_hypothesis: (from OBJECTIVE.md)
+- Update loop_history table with current iteration
+- Set loop_status: "researcher" (in progress)
 
 **Determine run number:**
 
@@ -227,42 +253,205 @@ Return:
 
 ## Phase 3: Handle Loop Completion
 
-After Researcher returns:
+After Researcher returns, parse verdict and update STATE.md accordingly.
 
-**If PROCEED + Evaluator complete:**
-- Display SCORECARD.json summary
-- Log: "Experiment validated. Ready for Phase 5 human review."
-- Update STATE.md: status = "pending_human_review"
+**Extract verdict from Researcher response:**
+```bash
+# Parse Researcher return message for verdict
+VERDICT=$(echo "$RESEARCHER_OUTPUT" | grep "^\*\*Verdict:\*\*" | sed 's/\*\*Verdict:\*\* //' | cut -d' ' -f1)
+CONFIDENCE=$(echo "$RESEARCHER_OUTPUT" | grep "^\*\*Confidence:\*\*" | sed 's/\*\*Confidence:\*\* //')
+ITERATION=$(echo "$RESEARCHER_OUTPUT" | grep "^\*\*Iteration:\*\*" | sed 's/\*\*Iteration:\*\* //')
+```
 
-**If iteration limit reached:**
-- Display human decision prompt
-- Log decision to STATE.md
-- Update STATE.md: status = "human_decision_required"
+**Route based on verdict:**
 
-**If REVISE_DATA:**
-- Display data concerns from Critic
-- Log: "Routing to /grd:explore for data re-verification"
-- Provide command: `/grd:explore --concerns "..."`
-- Update STATE.md: status = "data_verification_required"
+### If PROCEED (HIGH/MEDIUM confidence)
 
-**If archived/reset:**
-- Update STATE.md: status = "archived" or "reset"
-- Provide next steps guidance
+Researcher has spawned Evaluator automatically.
+
+```bash
+# Update STATE.md
+echo "Updating STATE.md: verdict=PROCEED, status=evaluator_running"
+
+# Add to loop history
+echo "| $ITERATION | $RUN_NAME | PROCEED | $CONFIDENCE | {metrics} |" >> .planning/STATE.md
+
+# Update loop status
+sed -i 's/loop_status: .*/loop_status: evaluator/' .planning/STATE.md
+```
+
+**Display:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► EXPERIMENT APPROVED ✓
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Verdict:** PROCEED (Confidence: {confidence})
+**Run:** experiments/{run_NNN_description}/
+
+Evaluator running quantitative benchmarks...
+SCORECARD.json will be generated in metrics/ directory.
+
+Next: Ready for Phase 5 human review after Evaluator completes.
+```
+
+### If PROCEED (LOW confidence) - Human gate
+
+Researcher has paused for human confirmation.
+
+```bash
+# Prompt human for decision
+echo "Low confidence PROCEED - human confirmation required"
+```
+
+**Display concerns and options:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► HUMAN CONFIRMATION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Verdict:** PROCEED (LOW confidence)
+**Run:** experiments/{run_NNN_description}/
+
+Metrics pass but concerns exist:
+{list_concerns_from_critic}
+
+Options:
+1. Approve - Proceed to Evaluator despite concerns
+2. Revise - Treat as REVISE_METHOD, address concerns first
+3. Investigate - Manual review before deciding
+```
+
+### If REVISE_METHOD (under limit)
+
+Researcher has archived run and is ready for retry.
+
+```bash
+# Update STATE.md
+echo "| $ITERATION | $RUN_NAME | REVISE_METHOD | $CONFIDENCE | {metrics} |" >> .planning/STATE.md
+
+# Update iteration count
+NEW_ITERATION=$((ITERATION + 1))
+sed -i "s/current_iteration: .*/current_iteration: $NEW_ITERATION/" .planning/STATE.md
+
+# Update loop status
+sed -i 's/loop_status: .*/loop_status: researcher/' .planning/STATE.md
+```
+
+**Display:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► REVISION NEEDED (Method)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Iteration:** {iteration} of {limit}
+**Run archived:** experiments/archive/{run_NNN_description}/
+
+Issues identified:
+{list_weaknesses}
+
+Recommendations:
+{list_recommendations}
+
+Next: /grd:research --continue
+```
+
+### If REVISE_METHOD (limit reached)
+
+Researcher has triggered human decision gate.
+
+```bash
+# Update STATE.md
+echo "| $ITERATION | $RUN_NAME | REVISE_METHOD | $CONFIDENCE | limit_reached |" >> .planning/STATE.md
+sed -i 's/loop_status: .*/loop_status: human_review/' .planning/STATE.md
+```
+
+**Display human decision prompt** (already handled by Researcher Step 8)
+
+### If REVISE_DATA
+
+Researcher has identified data quality issues.
+
+```bash
+# Update STATE.md
+echo "| $ITERATION | $RUN_NAME | REVISE_DATA | $CONFIDENCE | data_concerns |" >> .planning/STATE.md
+sed -i 's/loop_status: .*/loop_status: data_verification_required/' .planning/STATE.md
+
+# Add to data_revisions table
+echo "| $ITERATION | {concern_list} | pending |" >> .planning/STATE.md
+```
+
+**Display:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► REVISION NEEDED (Data)
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Data concerns identified:**
+{list_data_concerns}
+
+**Recommended analysis:**
+{specific_concerns_for_explorer}
+
+Next steps:
+1. Run: /grd:explore [path] --concerns "{concern_list}"
+2. After Explorer updates DATA_REPORT.md:
+   - Run /grd:research --continue to retry with updated data context
+   - Or run /grd:architect to reformulate hypothesis
+```
+
+### If ESCALATE
+
+Researcher has escalated to human for strategic decision.
+
+```bash
+# Update STATE.md
+echo "| $ITERATION | $RUN_NAME | ESCALATE | N/A | ambiguous_failure |" >> .planning/STATE.md
+sed -i 's/loop_status: .*/loop_status: human_review/' .planning/STATE.md
+
+# Add blocker
+echo "- **Current:** Ambiguous failure - cannot determine root cause" >> .planning/STATE.md
+echo "- **Requires:** Human strategic decision" >> .planning/STATE.md
+```
+
+**Display:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ GRD ► HUMAN DECISION REQUIRED
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+**Reason:** Ambiguous failure - Critic could not determine root cause
+
+Evidence:
+{evidence_package_from_researcher}
+
+Options:
+1. Continue - Allow more iterations
+2. Archive - Abandon hypothesis
+3. Reset - Start fresh approach
+4. Escalate - Reformulate hypothesis via /grd:architect
+```
+
+### If Archived/Reset (Human decision outcome)
+
+```bash
+# Update STATE.md based on decision
+if [ "$DECISION" = "Archive" ]; then
+  sed -i 's/loop_status: .*/loop_status: archived/' .planning/STATE.md
+  echo "- **Status:** Hypothesis archived - {reason}" >> .planning/STATE.md
+elif [ "$DECISION" = "Reset" ]; then
+  sed -i 's/loop_status: .*/loop_status: idle/' .planning/STATE.md
+  sed -i 's/current_iteration: .*/current_iteration: 0/' .planning/STATE.md
+fi
+```
 
 **Researcher → Critic handoff:**
 - Researcher completes experiment implementation
 - Passes experiment artifacts to Critic
 - Critic audits and returns verdict
-- Researcher handles routing
+- Researcher handles routing (including Evaluator spawn on PROCEED)
 
-**Command does NOT spawn Critic directly.** Researcher manages Critic interaction.
-
-**Possible outcomes:**
-
-1. **PROCEED** - Critic approved, Researcher spawns Evaluator
-2. **REVISE_METHOD** - Methodological issues, Researcher logs and exits for retry
-3. **REVISE_DATA** - Data quality issues, route back to /grd:explore
-4. **ESCALATE** - Ambiguous failure, surface to human decision
+**Command does NOT spawn Critic or Evaluator directly.** Researcher orchestrates the full loop.
 
 ## Phase 4: Present Results
 
