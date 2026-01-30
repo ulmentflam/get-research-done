@@ -1,7 +1,7 @@
 {
   "name": "get-research-done",
   "version": "2.0.0",
-  "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation for Claude Code by TÂCHES.",
+  "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation for Claude Code by Ulmentflam.",
   "bin": {
     "get-research-done": "bin/install.js"
   },
@@ -24,15 +24,15 @@
     "context-engineering",
     "hypothesis-driven"
   ],
-  "author": "TÂCHES",
+  "author": "Ulmentflam",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/glittercowboy/get-research-done.git"
+    "url": "git+https://github.com/ulmentflam/get-research-done.git"
   },
-  "homepage": "https://github.com/glittercowboy/get-research-done",
+  "homepage": "https://github.com/ulmentflam/get-research-done",
   "bugs": {
-    "url": "https://github.com/glittercowboy/get-research-done/issues"
+    "url": "https://github.com/ulmentflam/get-research-done/issues"
   },
   "engines": {
     "node": ">=16.7.0"
