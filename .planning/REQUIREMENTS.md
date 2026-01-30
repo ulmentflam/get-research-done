@@ -30,13 +30,13 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Recursive Validation Loop
 
-- [ ] **LOOP-01**: Researcher agent implements experiments and produces code/notebooks
-- [ ] **LOOP-02**: Critic agent audits work with exit codes (PROCEED/REVISE_METHOD/REVISE_DATA)
-- [ ] **LOOP-03**: State router implements conditional branching based on Critic exit codes
-- [ ] **LOOP-04**: REVISE_METHOD routes back to Researcher with critique feedback
-- [ ] **LOOP-05**: REVISE_DATA routes back to Explorer for data re-verification
-- [ ] **LOOP-06**: Evaluator agent runs quantitative benchmarks and produces SCORECARD.json
-- [ ] **LOOP-07**: Experiment versioning creates isolated run_NNN/ directories per iteration
+- [x] **LOOP-01**: Researcher agent implements experiments and produces code/notebooks
+- [x] **LOOP-02**: Critic agent audits work with exit codes (PROCEED/REVISE_METHOD/REVISE_DATA)
+- [x] **LOOP-03**: State router implements conditional branching based on Critic exit codes
+- [x] **LOOP-04**: REVISE_METHOD routes back to Researcher with critique feedback
+- [x] **LOOP-05**: REVISE_DATA routes back to Explorer for data re-verification
+- [x] **LOOP-06**: Evaluator agent runs quantitative benchmarks and produces SCORECARD.json
+- [x] **LOOP-07**: Experiment versioning creates isolated run_NNN/ directories per iteration
 
 ### Human Evaluation Gate
 
@@ -110,13 +110,13 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HYPO-02 | Phase 3 | Complete |
 | HYPO-03 | Phase 3 | Complete |
 | HYPO-04 | Phase 3 | Complete |
-| LOOP-01 | Phase 4 | Pending |
-| LOOP-02 | Phase 4 | Pending |
-| LOOP-03 | Phase 4 | Pending |
-| LOOP-04 | Phase 4 | Pending |
-| LOOP-05 | Phase 4 | Pending |
-| LOOP-06 | Phase 4 | Pending |
-| LOOP-07 | Phase 4 | Pending |
+| LOOP-01 | Phase 4 | Complete |
+| LOOP-02 | Phase 4 | Complete |
+| LOOP-03 | Phase 4 | Complete |
+| LOOP-04 | Phase 4 | Complete |
+| LOOP-05 | Phase 4 | Complete |
+| LOOP-06 | Phase 4 | Complete |
+| LOOP-07 | Phase 4 | Complete |
 | HUMAN-01 | Phase 5 | Pending |
 | HUMAN-02 | Phase 5 | Pending |
 | HUMAN-03 | Phase 5 | Pending |
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-28 after Phase 3 completion*
+*Last updated: 2026-01-30 after Phase 4 completion*
