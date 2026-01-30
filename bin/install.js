@@ -133,7 +133,7 @@ console.log(banner);
 
 // Show help if requested
 if (hasHelp) {
-  console.log(`  ${yellow}Usage:${reset} npx get-shit-done-cc [options]
+  console.log(`  ${yellow}Usage:${reset} npx get-research-done [options]
 
   ${yellow}Options:${reset}
     ${cyan}-g, --global${reset}              Install globally (to config directory)
@@ -148,28 +148,28 @@ if (hasHelp) {
 
   ${yellow}Examples:${reset}
     ${dim}# Interactive install (prompts for runtime and location)${reset}
-    npx get-shit-done-cc
+    npx get-research-done
 
     ${dim}# Install for Claude Code globally${reset}
-    npx get-shit-done-cc --claude --global
+    npx get-research-done --claude --global
 
     ${dim}# Install for OpenCode globally${reset}
-    npx get-shit-done-cc --opencode --global
+    npx get-research-done --opencode --global
 
     ${dim}# Install for both runtimes globally${reset}
-    npx get-shit-done-cc --both --global
+    npx get-research-done --both --global
 
     ${dim}# Install to custom config directory${reset}
-    npx get-shit-done-cc --claude --global --config-dir ~/.claude-bc
+    npx get-research-done --claude --global --config-dir ~/.claude-bc
 
     ${dim}# Install to current project only${reset}
-    npx get-shit-done-cc --claude --local
+    npx get-research-done --claude --local
 
     ${dim}# Uninstall GRD from Claude Code globally${reset}
-    npx get-shit-done-cc --claude --global --uninstall
+    npx get-research-done --claude --global --uninstall
 
     ${dim}# Uninstall GRD from current project${reset}
-    npx get-shit-done-cc --claude --local --uninstall
+    npx get-research-done --claude --local --uninstall
 
   ${yellow}Notes:${reset}
     The --config-dir option is useful when you have multiple Claude Code
@@ -277,8 +277,8 @@ function convertClaudeToOpencodeFrontmatter(content) {
   convertedContent = convertedContent.replace(/\bAskUserQuestion\b/g, 'question');
   convertedContent = convertedContent.replace(/\bSlashCommand\b/g, 'skill');
   convertedContent = convertedContent.replace(/\bTodoWrite\b/g, 'todowrite');
-  // Replace /gsd:command with /gsd-command for opencode (flat command structure)
-  convertedContent = convertedContent.replace(/\/gsd:/g, '/gsd-');
+  // Replace /grd:command with /grd-command for opencode (flat command structure)
+  convertedContent = convertedContent.replace(/\/grd:/g, '/grd-');
   // Replace ~/.claude with ~/.config/opencode (OpenCode's correct config location)
   convertedContent = convertedContent.replace(/~\/\.claude\b/g, '~/.config/opencode');
 
@@ -373,12 +373,12 @@ function convertClaudeToOpencodeFrontmatter(content) {
 
 /**
  * Copy commands to a flat structure for OpenCode
- * OpenCode expects: command/gsd-help.md (invoked as /gsd-help)
- * Source structure: commands/gsd/help.md
+ * OpenCode expects: command/grd-help.md (invoked as /grd-help)
+ * Source structure: commands/grd/help.md
  * 
- * @param {string} srcDir - Source directory (e.g., commands/gsd/)
+ * @param {string} srcDir - Source directory (e.g., commands/grd/)
  * @param {string} destDir - Destination directory (e.g., command/)
- * @param {string} prefix - Prefix for filenames (e.g., 'gsd')
+ * @param {string} prefix - Prefix for filenames (e.g., 'grd')
  * @param {string} pathPrefix - Path prefix for file references
  * @param {string} runtime - Target runtime ('claude' or 'opencode')
  */
@@ -387,7 +387,7 @@ function copyFlattenedCommands(srcDir, destDir, prefix, pathPrefix, runtime) {
     return;
   }
   
-  // Remove old gsd-*.md files before copying new ones
+  // Remove old grd-*.md files before copying new ones
   if (fs.existsSync(destDir)) {
     for (const file of fs.readdirSync(destDir)) {
       if (file.startsWith(`${prefix}-`) && file.endsWith('.md')) {
@@ -405,10 +405,10 @@ function copyFlattenedCommands(srcDir, destDir, prefix, pathPrefix, runtime) {
     
     if (entry.isDirectory()) {
       // Recurse into subdirectories, adding to prefix
-      // e.g., commands/gsd/debug/start.md -> command/gsd-debug-start.md
+      // e.g., commands/grd/debug/start.md -> command/grd-debug-start.md
       copyFlattenedCommands(srcPath, destDir, `${prefix}-${entry.name}`, pathPrefix, runtime);
     } else if (entry.name.endsWith('.md')) {
-      // Flatten: help.md -> gsd-help.md
+      // Flatten: help.md -> grd-help.md
       const baseName = entry.name.replace('.md', '');
       const destName = `${prefix}-${baseName}.md`;
       const destPath = path.join(destDir, destName);
@@ -475,8 +475,8 @@ function copyWithPathReplacement(srcDir, destDir, pathPrefix, runtime) {
  */
 function cleanupOrphanedFiles(claudeDir) {
   const orphanedFiles = [
-    'hooks/gsd-notify.sh',  // Removed in v1.6.x
-    'hooks/statusline.js',  // Renamed to gsd-statusline.js in v1.9.0
+    'hooks/gsd-notify.sh',  // Removed in v1.6.x (legacy GSD)
+    'hooks/statusline.js',  // Renamed to grd-statusline.js
   ];
 
   for (const relPath of orphanedFiles) {
@@ -493,11 +493,13 @@ function cleanupOrphanedFiles(claudeDir) {
  */
 function cleanupOrphanedHooks(settings) {
   const orphanedHookPatterns = [
-    'gsd-notify.sh',  // Removed in v1.6.x
-    'hooks/statusline.js',  // Renamed to gsd-statusline.js in v1.9.0
-    'gsd-intel-index.js',  // Removed in v1.9.2
-    'gsd-intel-session.js',  // Removed in v1.9.2
-    'gsd-intel-prune.js',  // Removed in v1.9.2
+    'gsd-notify.sh',  // Removed (legacy GSD)
+    'hooks/statusline.js',  // Renamed to grd-statusline.js
+    'gsd-intel-index.js',  // Removed (legacy GSD)
+    'gsd-intel-session.js',  // Removed (legacy GSD)
+    'gsd-intel-prune.js',  // Removed (legacy GSD)
+    'gsd-statusline.js',  // Legacy GSD hook
+    'gsd-check-update.js',  // Legacy GSD hook
   ];
 
   let cleaned = false;
@@ -566,12 +568,12 @@ function uninstall(isGlobal, runtime = 'claude') {
 
   // 1. Remove GRD commands directory
   if (isOpencode) {
-    // OpenCode: remove command/gsd-*.md files
+    // OpenCode: remove command/grd-*.md files
     const commandDir = path.join(targetDir, 'command');
     if (fs.existsSync(commandDir)) {
       const files = fs.readdirSync(commandDir);
       for (const file of files) {
-        if (file.startsWith('gsd-') && file.endsWith('.md')) {
+        if (file.startsWith('grd-') && file.endsWith('.md')) {
           fs.unlinkSync(path.join(commandDir, file));
           removedCount++;
         }
@@ -579,21 +581,21 @@ function uninstall(isGlobal, runtime = 'claude') {
       console.log(`  ${green}✓${reset} Removed GRD commands from command/`);
     }
   } else {
-    // Claude Code: remove commands/gsd/ directory
-    const gsdCommandsDir = path.join(targetDir, 'commands', 'gsd');
-    if (fs.existsSync(gsdCommandsDir)) {
-      fs.rmSync(gsdCommandsDir, { recursive: true });
+    // Claude Code: remove commands/grd/ directory
+    const grdCommandsDir = path.join(targetDir, 'commands', 'grd');
+    if (fs.existsSync(grdCommandsDir)) {
+      fs.rmSync(grdCommandsDir, { recursive: true });
       removedCount++;
-      console.log(`  ${green}✓${reset} Removed commands/gsd/`);
+      console.log(`  ${green}✓${reset} Removed commands/grd/`);
     }
   }
 
-  // 2. Remove get-shit-done directory
-  const gsdDir = path.join(targetDir, 'get-shit-done');
-  if (fs.existsSync(gsdDir)) {
-    fs.rmSync(gsdDir, { recursive: true });
+  // 2. Remove get-research-done directory
+  const grdDir = path.join(targetDir, 'get-research-done');
+  if (fs.existsSync(grdDir)) {
+    fs.rmSync(grdDir, { recursive: true });
     removedCount++;
-    console.log(`  ${green}✓${reset} Removed get-shit-done/`);
+    console.log(`  ${green}✓${reset} Removed get-research-done/`);
   }
 
   // 3. Remove GRD agents (grd-*.md files only)
@@ -602,7 +604,7 @@ function uninstall(isGlobal, runtime = 'claude') {
     const files = fs.readdirSync(agentsDir);
     let agentCount = 0;
     for (const file of files) {
-      if (file.startsWith('gsd-') && file.endsWith('.md')) {
+      if (file.startsWith('grd-') && file.endsWith('.md')) {
         fs.unlinkSync(path.join(agentsDir, file));
         agentCount++;
       }
@@ -616,9 +618,9 @@ function uninstall(isGlobal, runtime = 'claude') {
   // 4. Remove GRD hooks
   const hooksDir = path.join(targetDir, 'hooks');
   if (fs.existsSync(hooksDir)) {
-    const gsdHooks = ['gsd-statusline.js', 'gsd-check-update.js', 'gsd-check-update.sh'];
+    const grdHooks = ['grd-statusline.js', 'grd-check-update.js', 'grd-check-update.sh'];
     let hookCount = 0;
-    for (const hook of gsdHooks) {
+    for (const hook of grdHooks) {
       const hookPath = path.join(hooksDir, hook);
       if (fs.existsSync(hookPath)) {
         fs.unlinkSync(hookPath);
@@ -639,7 +641,7 @@ function uninstall(isGlobal, runtime = 'claude') {
 
     // Remove GRD statusline if it references our hook
     if (settings.statusLine && settings.statusLine.command &&
-        settings.statusLine.command.includes('gsd-statusline')) {
+        settings.statusLine.command.includes('grd-statusline')) {
       delete settings.statusLine;
       settingsModified = true;
       console.log(`  ${green}✓${reset} Removed GRD statusline from settings`);
@@ -652,7 +654,7 @@ function uninstall(isGlobal, runtime = 'claude') {
         if (entry.hooks && Array.isArray(entry.hooks)) {
           // Filter out GRD hooks
           const hasGsdHook = entry.hooks.some(h =>
-            h.command && (h.command.includes('gsd-check-update') || h.command.includes('gsd-statusline'))
+            h.command && (h.command.includes('grd-check-update') || h.command.includes('grd-statusline'))
           );
           return !hasGsdHook;
         }
@@ -693,7 +695,7 @@ function uninstall(isGlobal, runtime = 'claude') {
             if (config.permission[permType]) {
               const keys = Object.keys(config.permission[permType]);
               for (const key of keys) {
-                if (key.includes('get-shit-done')) {
+                if (key.includes('get-research-done')) {
                   delete config.permission[permType][key];
                   modified = true;
                 }
@@ -732,7 +734,7 @@ function uninstall(isGlobal, runtime = 'claude') {
 
 /**
  * Configure OpenCode permissions to allow reading GRD reference docs
- * This prevents permission prompts when GRD accesses the get-shit-done directory
+ * This prevents permission prompts when GRD accesses the get-research-done directory
  */
 function configureOpencodePermissions() {
   // OpenCode config file is at ~/.config/opencode/opencode.json
@@ -761,9 +763,9 @@ function configureOpencodePermissions() {
   // Build the GRD path using the actual config directory
   // Use ~ shorthand if it's in the default location, otherwise use full path
   const defaultConfigDir = path.join(os.homedir(), '.config', 'opencode');
-  const gsdPath = opencodeConfigDir === defaultConfigDir
-    ? '~/.config/opencode/get-shit-done/*'
-    : `${opencodeConfigDir}/get-shit-done/*`;
+  const grdPath = opencodeConfigDir === defaultConfigDir
+    ? '~/.config/opencode/get-research-done/*'
+    : `${opencodeConfigDir}/get-research-done/*`;
   
   let modified = false;
 
@@ -771,8 +773,8 @@ function configureOpencodePermissions() {
   if (!config.permission.read || typeof config.permission.read !== 'object') {
     config.permission.read = {};
   }
-  if (config.permission.read[gsdPath] !== 'allow') {
-    config.permission.read[gsdPath] = 'allow';
+  if (config.permission.read[grdPath] !== 'allow') {
+    config.permission.read[grdPath] = 'allow';
     modified = true;
   }
 
@@ -780,8 +782,8 @@ function configureOpencodePermissions() {
   if (!config.permission.external_directory || typeof config.permission.external_directory !== 'object') {
     config.permission.external_directory = {};
   }
-  if (config.permission.external_directory[gsdPath] !== 'allow') {
-    config.permission.external_directory[gsdPath] = 'allow';
+  if (config.permission.external_directory[grdPath] !== 'allow') {
+    config.permission.external_directory[grdPath] = 'allow';
     modified = true;
   }
 
@@ -861,49 +863,49 @@ function install(isGlobal, runtime = 'claude') {
   // Clean up orphaned files from previous versions
   cleanupOrphanedFiles(targetDir);
 
-  // OpenCode uses 'command/' (singular) with flat structure: command/gsd-help.md
-  // Claude Code uses 'commands/' (plural) with nested structure: commands/gsd/help.md
+  // OpenCode uses 'command/' (singular) with flat structure: command/grd-help.md
+  // Claude Code uses 'commands/' (plural) with nested structure: commands/grd/help.md
   if (isOpencode) {
     // OpenCode: flat structure in command/ directory
     const commandDir = path.join(targetDir, 'command');
     fs.mkdirSync(commandDir, { recursive: true });
     
-    // Copy commands/gsd/*.md as command/gsd-*.md (flatten structure)
-    const gsdSrc = path.join(src, 'commands', 'gsd');
-    copyFlattenedCommands(gsdSrc, commandDir, 'gsd', pathPrefix, runtime);
-    if (verifyInstalled(commandDir, 'command/gsd-*')) {
-      const count = fs.readdirSync(commandDir).filter(f => f.startsWith('gsd-')).length;
+    // Copy commands/grd/*.md as command/grd-*.md (flatten structure)
+    const grdSrc = path.join(src, 'commands', 'grd');
+    copyFlattenedCommands(grdSrc, commandDir, 'grd', pathPrefix, runtime);
+    if (verifyInstalled(commandDir, 'command/grd-*')) {
+      const count = fs.readdirSync(commandDir).filter(f => f.startsWith('grd-')).length;
       console.log(`  ${green}✓${reset} Installed ${count} commands to command/`);
     } else {
-      failures.push('command/gsd-*');
+      failures.push('command/grd-*');
     }
   } else {
     // Claude Code: nested structure in commands/ directory
     const commandsDir = path.join(targetDir, 'commands');
     fs.mkdirSync(commandsDir, { recursive: true });
     
-    const gsdSrc = path.join(src, 'commands', 'gsd');
-    const gsdDest = path.join(commandsDir, 'gsd');
-    copyWithPathReplacement(gsdSrc, gsdDest, pathPrefix, runtime);
-    if (verifyInstalled(gsdDest, 'commands/gsd')) {
-      console.log(`  ${green}✓${reset} Installed commands/gsd`);
+    const grdSrc = path.join(src, 'commands', 'grd');
+    const grdDest = path.join(commandsDir, 'grd');
+    copyWithPathReplacement(grdSrc, grdDest, pathPrefix, runtime);
+    if (verifyInstalled(grdDest, 'commands/grd')) {
+      console.log(`  ${green}✓${reset} Installed commands/grd`);
     } else {
-      failures.push('commands/gsd');
+      failures.push('commands/grd');
     }
   }
 
-  // Copy get-shit-done skill with path replacement
-  const skillSrc = path.join(src, 'get-shit-done');
-  const skillDest = path.join(targetDir, 'get-shit-done');
+  // Copy get-research-done skill with path replacement
+  const skillSrc = path.join(src, 'get-research-done');
+  const skillDest = path.join(targetDir, 'get-research-done');
   copyWithPathReplacement(skillSrc, skillDest, pathPrefix, runtime);
-  if (verifyInstalled(skillDest, 'get-shit-done')) {
-    console.log(`  ${green}✓${reset} Installed get-shit-done`);
+  if (verifyInstalled(skillDest, 'get-research-done')) {
+    console.log(`  ${green}✓${reset} Installed get-research-done`);
   } else {
-    failures.push('get-shit-done');
+    failures.push('get-research-done');
   }
 
   // Copy agents to agents directory (subagents must be at root level)
-  // Only delete gsd-*.md files to preserve user's custom agents
+  // Only delete grd-*.md files to preserve user's custom agents
   const agentsSrc = path.join(src, 'agents');
   if (fs.existsSync(agentsSrc)) {
     const agentsDest = path.join(targetDir, 'agents');
@@ -912,7 +914,7 @@ function install(isGlobal, runtime = 'claude') {
     // Remove old GRD agents (grd-*.md) before copying new ones
     if (fs.existsSync(agentsDest)) {
       for (const file of fs.readdirSync(agentsDest)) {
-        if (file.startsWith('gsd-') && file.endsWith('.md')) {
+        if (file.startsWith('grd-') && file.endsWith('.md')) {
           fs.unlinkSync(path.join(agentsDest, file));
         }
       }
@@ -941,7 +943,7 @@ function install(isGlobal, runtime = 'claude') {
 
   // Copy CHANGELOG.md
   const changelogSrc = path.join(src, 'CHANGELOG.md');
-  const changelogDest = path.join(targetDir, 'get-shit-done', 'CHANGELOG.md');
+  const changelogDest = path.join(targetDir, 'get-research-done', 'CHANGELOG.md');
   if (fs.existsSync(changelogSrc)) {
     fs.copyFileSync(changelogSrc, changelogDest);
     if (verifyFileInstalled(changelogDest, 'CHANGELOG.md')) {
@@ -952,7 +954,7 @@ function install(isGlobal, runtime = 'claude') {
   }
 
   // Write VERSION file for whats-new command
-  const versionDest = path.join(targetDir, 'get-shit-done', 'VERSION');
+  const versionDest = path.join(targetDir, 'get-research-done', 'VERSION');
   fs.writeFileSync(versionDest, pkg.version);
   if (verifyFileInstalled(versionDest, 'VERSION')) {
     console.log(`  ${green}✓${reset} Wrote VERSION (${pkg.version})`);
@@ -984,7 +986,7 @@ function install(isGlobal, runtime = 'claude') {
   // If critical components failed, exit with error
   if (failures.length > 0) {
     console.error(`\n  ${yellow}Installation incomplete!${reset} Failed: ${failures.join(', ')}`);
-    console.error(`  Try running directly: node ~/.npm/_npx/*/node_modules/get-shit-done-cc/bin/install.js --global\n`);
+    console.error(`  Try running directly: node ~/.npm/_npx/*/node_modules/get-research-done/bin/install.js --global\n`);
     process.exit(1);
   }
 
@@ -992,11 +994,11 @@ function install(isGlobal, runtime = 'claude') {
   const settingsPath = path.join(targetDir, 'settings.json');
   const settings = cleanupOrphanedHooks(readSettings(settingsPath));
   const statuslineCommand = isGlobal
-    ? buildHookCommand(targetDir, 'gsd-statusline.js')
-    : 'node ' + dirName + '/hooks/gsd-statusline.js';
+    ? buildHookCommand(targetDir, 'grd-statusline.js')
+    : 'node ' + dirName + '/hooks/grd-statusline.js';
   const updateCheckCommand = isGlobal
-    ? buildHookCommand(targetDir, 'gsd-check-update.js')
-    : 'node ' + dirName + '/hooks/gsd-check-update.js';
+    ? buildHookCommand(targetDir, 'grd-check-update.js')
+    : 'node ' + dirName + '/hooks/grd-check-update.js';
 
   // Configure SessionStart hook for update checking (skip for opencode - different hook system)
   if (!isOpencode) {
@@ -1009,7 +1011,7 @@ function install(isGlobal, runtime = 'claude') {
 
     // Check if GRD update hook already exists
     const hasGsdUpdateHook = settings.hooks.SessionStart.some(entry =>
-      entry.hooks && entry.hooks.some(h => h.command && h.command.includes('gsd-check-update'))
+      entry.hooks && entry.hooks.some(h => h.command && h.command.includes('grd-check-update'))
     );
 
     if (!hasGsdUpdateHook) {
@@ -1056,7 +1058,7 @@ function finishInstall(settingsPath, settings, statuslineCommand, shouldInstallS
   }
 
   const program = isOpencode ? 'OpenCode' : 'Claude Code';
-  const command = isOpencode ? '/gsd-help' : '/gsd:help';
+  const command = isOpencode ? '/grd-help' : '/grd:help';
   console.log(`
   ${green}Done!${reset} Launch ${program} and run ${cyan}${command}${reset}.
 
@@ -1260,7 +1262,7 @@ if (hasGlobal && hasLocal) {
   // Uninstall mode
   if (!hasGlobal && !hasLocal) {
     console.error(`  ${yellow}--uninstall requires --global or --local${reset}`);
-    console.error(`  Example: npx get-shit-done-cc --claude --global --uninstall`);
+    console.error(`  Example: npx get-research-done --claude --global --uninstall`);
     process.exit(1);
   }
   const runtimes = selectedRuntimes.length > 0 ? selectedRuntimes : ['claude'];
