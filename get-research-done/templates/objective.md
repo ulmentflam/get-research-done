@@ -32,6 +32,7 @@ evaluation:
 
 # Baseline status
 baseline_defined: {{true|false}}
+baseline_count: {{number_of_baselines_or_0}}
 
 # Falsification criteria
 has_falsification_criteria: {{true|false}}
@@ -150,17 +151,47 @@ has_falsification_criteria: {{true|false}}
 
 ## Baselines
 
-<!-- Comparison points. Either run your own baseline OR cite literature values. -->
+<!-- Comparison points for hypothesis validation. -->
 
 | Baseline | Type | Expected Performance | Citation | Status |
 |----------|------|---------------------|----------|--------|
 | {{baseline_name}} | {{own_implementation|literature_citation}} | {{metric_value}} | {{paper_or_url}} | {{pending|complete}} |
 
+**Baseline Ordering (IMPORTANT):**
+- **First baseline listed = PRIMARY baseline (required)**
+  - Researcher agent blocks if primary baseline results not found
+  - Must have completed run with metrics.json before main experiment
+- **Subsequent baselines = SECONDARY baselines (optional)**
+  - Researcher warns if missing but proceeds
+  - SCORECARD shows comparison for all available baselines
+
+**Running Baselines:**
+```bash
+# Run primary baseline first
+/grd:research --baseline {{primary_baseline_name}}
+
+# Then run main experiment
+/grd:research
+
+# Optionally add secondary baselines
+/grd:research --baseline {{secondary_baseline_name}}
+```
+
 **Baseline Types:**
 - **own_implementation**: You will run this baseline yourself during experimentation
+  - Results stored in experiments/run_*_{{baseline_name}}/metrics.json
+  - Full provenance tracked (code, config, data hash)
 - **literature_citation**: Published result from paper/benchmark
+  - Expected performance entered manually in table
+  - No per-fold data for statistical significance testing
 
-**Warning:** If this section is empty, the system will flag it. Baselines provide essential context for evaluating hypothesis success.
+**Warning:** If this section is empty, the system will warn but proceed. Baselines provide essential context for evaluating hypothesis success.
+
+**Skip Validation:** Use `--skip-baseline` flag to bypass validation (not recommended):
+```bash
+/grd:research --skip-baseline
+```
+This is logged for audit trail and noted in SCORECARD.
 
 **Caching:** Baseline results can be cached if configuration hasn't changed. No need to re-run baseline for every experiment iteration.
 
