@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step
 
-**Current focus:** v1.0 shipped — planning next milestone
+**Current focus:** v1.1 Research UX Refinement
 
 ## Current Position
 
-Phase: v1.0 complete
-Plan: All 39 plans complete
-Status: Milestone shipped, ready for next milestone
-Last activity: 2026-01-30 — v1.0 milestone archived
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-01-30 — Milestone v1.1 started
 
-Progress: [████████████████████████████████████████████████████████████████] 100% (39/39 plans complete)
+Progress: [░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░░] 0%
 
 ## Milestone History
 

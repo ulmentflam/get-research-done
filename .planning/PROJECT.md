@@ -8,6 +8,16 @@ A recursive, agentic framework for machine learning research that brings structu
 
 Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
+## Current Milestone: v1.1 Research UX Refinement
+
+**Goal:** Streamline GRD for research workflows by removing GSD legacy, adding accessible EDA for non-data-scientists, and creating fast exploration paths.
+
+**Target features:**
+- Remove/repurpose GSD commands that don't fit research workflows
+- Rename phase/milestone concepts to match research terminology
+- Quick explore (`/grd:quick-explore`) — Fast EDA with summary output for quick decisions
+- Accessible EDA (`/grd:insights`) — Plain English data insights for business analysts
+
 ## Current State
 
 **Version:** v1.0 (shipped 2026-01-30)
@@ -43,6 +53,13 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - ✓ Hardware profiling and long-running experiment support — v1.0
 
 ### Active
+
+- [ ] GSD command cleanup — Remove/repurpose commands that don't fit research workflows
+- [ ] Research terminology — Rename phase/milestone concepts to match research style
+- [ ] Quick explore — Fast EDA producing summary for quick decisions
+- [ ] Accessible EDA — Plain English insights for business analysts (no code, no jargon)
+
+### Future
 
 - [ ] MLflow integration for experiment tracking
 - [ ] DVC integration for data versioning
@@ -160,4 +177,4 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | Random seed as hard graduation requirement | Enforces reproducibility for notebook-to-script | ✓ Good |
 
 ---
-*Last updated: 2026-01-30 after v1.0 milestone*
+*Last updated: 2026-01-30 after v1.1 milestone started*
