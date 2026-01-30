@@ -978,6 +978,54 @@ execution:
 
 ## Step 5: Execute Experiment
 
+## Step 5.0: Handle Long-Running Experiment Approval
+
+**Responsibilities:**
+- Check if experiment is long-running (from Step 1.6)
+- Request session-level approval if needed (once per session)
+- Configure timeout settings based on approval
+
+### Session-Level Approval
+
+```python
+from src.grd.experiment import ExperimentTimeoutManager
+
+# Initialize timeout manager (once per session)
+if not hasattr(self, 'timeout_manager'):
+    self.timeout_manager = ExperimentTimeoutManager()
+
+if duration_estimate['is_long_running']:
+    if not self.timeout_manager.long_running_approved:
+        # Request approval (session-level)
+        print(f"\n{'='*60}")
+        print("LONG-RUNNING EXPERIMENT DETECTED")
+        print(f"{'='*60}")
+        print(f"Estimated duration: {duration_estimate['estimated_minutes']:.1f} minutes")
+        print(f"This exceeds the standard 10-minute task timeout.")
+        print(f"\nApproving long-running mode for this session.")
+        print(f"No further prompts will appear during the experimentation loop.")
+        print(f"{'='*60}\n")
+
+        self.timeout_manager.request_long_running_approval(
+            duration_estimate['estimated_minutes']
+        )
+
+    # Get appropriate timeout (None = no timeout)
+    execution_timeout = self.timeout_manager.get_timeout(
+        duration_estimate['estimated_seconds']
+    )
+else:
+    execution_timeout = 600  # Standard 10-minute timeout
+
+# Store for execution step
+experiment_timeout = execution_timeout
+```
+
+**Session-level approval ensures:**
+- User informed of expected duration ONCE
+- No repeated prompts during REVISE_METHOD/REVISE_DATA loops
+- Approval tracked in experiment metadata for audit
+
 ### 5.1 For Notebook Experiments
 
 If experiment_type == 'notebook':
@@ -996,7 +1044,7 @@ result = execute_notebook_experiment(
         'data_path': '{data_path}',
         # ... other parameters from config.yaml
     },
-    execution_timeout=300,  # 5 min per cell
+    execution_timeout=experiment_timeout or 3600,  # Default 1 hour if no timeout
     retry_on_failure=True
 )
 
@@ -1047,24 +1095,35 @@ AskUserQuestion(
 
 ### 5.3 Direct Script Execution (if simple)
 
-```bash
-cd experiments/run_{NNN}_{description}
-python code/train.py 2>&1 | tee logs/training.log
+```python
+# Execute with appropriate timeout
+if experiment_timeout is not None:
+    result = subprocess.run(
+        ['python', 'code/train.py'],
+        cwd=f'experiments/run_{run_num}_{description}',
+        capture_output=True,
+        timeout=experiment_timeout
+    )
+else:
+    # Long-running mode - no timeout
+    result = subprocess.run(
+        ['python', 'code/train.py'],
+        cwd=f'experiments/run_{run_num}_{description}',
+        capture_output=True
+    )
 ```
 
 **Capture exit code:**
-```bash
-EXIT_CODE=$?
-if [ $EXIT_CODE -ne 0 ]; then
-  echo "ERROR: Experiment failed with exit code $EXIT_CODE"
-  echo "Check logs/training.log for details"
-fi
+```python
+if result.returncode != 0:
+    print(f"ERROR: Experiment failed with exit code {result.returncode}")
+    print(f"Check logs/training.log for details")
 ```
 
 **Monitor progress:**
 - Stream stdout to both terminal and log file
 - Check for errors
-- Timeout after reasonable duration (e.g., 10 minutes for simple models)
+- Timeout configured based on duration estimate (10 min default, disabled for long-running)
 
 ### 5.4 Manual Script Execution Instructions (if complex)
 
