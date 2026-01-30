@@ -256,62 +256,126 @@ Show if user needs detailed breakdown or multiple metrics with mixed results:
 
 **Present decision options:**
 
+After evidence presentation, prompt user with three decision paths:
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- DECISION OPTIONS
+ GRD ► DECISION GATE
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-1. Seal — Hypothesis validated, ready for production/publication
-2. Iterate — Continue experimentation with refinements
-3. Archive — Abandon hypothesis, preserve as negative result
+How would you like to proceed?
+
+1. **Seal** — Hypothesis validated, ready for production/publication
+2. **Iterate** — Continue experimentation (Critic suggests: {direction})
+3. **Archive** — Abandon hypothesis, preserve as negative result
+```
+
+**Extract Critic recommendation before prompting:**
+
+```bash
+# Parse CRITIC_LOG.md for last recommendation
+CRITIC_RECOMMENDATION=$(grep -A 10 "## Recommendations" "$RUN_DIR/CRITIC_LOG.md" | tail -10)
+
+# Determine suggested direction
+if echo "$CRITIC_RECOMMENDATION" | grep -q "method\|algorithm\|architecture\|hyperparameter"; then
+  DIRECTION="REVISE_METHOD"
+  SUGGESTION="method refinement"
+elif echo "$CRITIC_RECOMMENDATION" | grep -q "data\|feature\|sample\|leakage"; then
+  DIRECTION="REVISE_DATA"
+  SUGGESTION="data concerns"
+else
+  DIRECTION="continue experimentation"
+  SUGGESTION="further iteration"
+fi
 ```
 
 **Use AskUserQuestion for decision:**
 
-```
-header: "Human Evaluation Decision"
-question: "Based on evidence above, how would you like to proceed?"
-options:
-  - "Seal" — Accept and validate experiment
-  - "Iterate" — Continue with more runs
-  - "Archive" — Abandon hypothesis
-```
-
-**If user selects "Iterate":**
-
-Auto-suggest next direction based on Critic's last recommendation from CRITIC_LOG.md:
-- If CRITIC_LOG has recommendations: "Critic suggests: {recommendation}"
-- Offer: "Would you like to continue with Critic's recommendation or specify a new direction?"
-
-No confirmation needed - proceed to Phase 4 logging.
-
-**If user selects "Seal":**
-
-No confirmation needed - proceed to Phase 4 logging.
-
-**If user selects "Archive":**
-
-**Confirmation required:**
-
-Use AskUserQuestion:
-```
-header: "Confirm Archive"
-question: "This will archive all runs and abandon the hypothesis. Are you sure?"
-options:
-  - "Yes, archive" — Proceed with archival
-  - "Cancel" — Return to decision options
+```javascript
+AskUserQuestion({
+  header: "Experiment Decision: {run_name}",
+  question: "How would you like to proceed?",
+  options: [
+    "Seal — Hypothesis validated, ready for production/publication",
+    "Iterate — Continue experimentation (Critic suggests: {SUGGESTION})",
+    "Archive — Abandon hypothesis, preserve as negative result"
+  ]
+})
 ```
 
-If confirmed, **require rationale:**
+**Handle decision based on user selection:**
 
-Use AskUserQuestion:
-```
-header: "Archive Rationale"
-question: "Why is this hypothesis being abandoned? (Required for negative results documentation)"
-options: null  # Free text input
+### If user selects "Seal":
+- No confirmation needed (affirmative action)
+- Store decision: `DECISION="Seal"`
+- Proceed directly to Phase 4 (Decision Logging)
+- Display: "Hypothesis sealed. Decision logged to {run_dir}/DECISION.md"
+
+### If user selects "Iterate":
+- No confirmation needed
+- Store decision: `DECISION="Iterate"`
+- Extract Critic's last recommendation from CRITIC_LOG.md
+- Auto-suggest next steps based on direction:
+  - If REVISE_METHOD: "Continue with method refinement. Next: /grd:research --continue"
+  - If REVISE_DATA: "Data concerns identified. Next: /grd:explore with specific concerns, then /grd:research --continue"
+  - If generic: "Continue experimentation. Next: /grd:research --continue"
+- Display recommendation with next command
+- Proceed to Phase 4 (Decision Logging)
+
+### If user selects "Archive":
+- **Confirmation gate required** (destructive action)
+
+**Confirmation step:**
+
+```javascript
+AskUserQuestion({
+  header: "Confirm Archive",
+  question: "This will archive all runs and mark the hypothesis as failed. Continue?",
+  options: [
+    "Yes, archive with rationale",
+    "Cancel"
+  ]
+})
 ```
 
-Store rationale for ARCHIVE_REASON.md generation.
+If user selects "Cancel":
+- Return to decision gate (re-prompt with Seal/Iterate/Archive options)
+- Do not proceed to archival
+
+If user selects "Yes, archive with rationale":
+- **Require rationale** (mandatory for archive)
+
+**Rationale capture:**
+
+```javascript
+AskUserQuestion({
+  header: "Archive Rationale",
+  question: "Why is this hypothesis being abandoned? (Required - saved in ARCHIVE_REASON.md)",
+  // Free-form text input expected from user response
+})
+```
+
+**Validate rationale:**
+- Check rationale is not empty or whitespace-only
+- If empty, prompt again: "Rationale is required to preserve context for future researchers. Please provide reason for abandonment."
+- Loop until valid rationale provided
+- Store rationale in variable: `ARCHIVE_RATIONALE="{user_input}"`
+
+Store decision and rationale:
+```bash
+DECISION="Archive"
+ARCHIVE_RATIONALE="{user_provided_text}"
+```
+
+Proceed to Phase 4 (Decision Logging) and Phase 5 (Archive Handling)
+
+---
+
+**Implementation notes:**
+- Seal: Direct path to logging (no gates)
+- Iterate: Direct path with auto-suggestion (no gates)
+- Archive: Two-step confirmation (confirm → rationale) before proceeding
+- All three paths eventually reach Phase 4 for DECISION.md creation
 
 ## Phase 4: Decision Logging
 
