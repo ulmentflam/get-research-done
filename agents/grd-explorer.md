@@ -106,6 +106,52 @@ if analysis_mode['type'] == 'revision':
 
 ---
 
+## Step 0.5: Capture Hardware Profile
+
+**Responsibilities:**
+- Capture complete hardware context for reproducibility
+- Store profile for inclusion in DATA_REPORT.md
+- Enable duration estimation for Researcher
+
+### Hardware Profile Capture
+
+**Capture hardware context at EDA start:**
+
+```python
+from src.grd.hardware import capture_hardware_profile
+
+def capture_and_store_hardware():
+    """Capture hardware profile for reproducibility."""
+    hardware_profile = capture_hardware_profile()
+
+    # Store globally for DATA_REPORT.md generation
+    global _hardware_profile
+    _hardware_profile = hardware_profile
+
+    # Log summary
+    print(f"\nHardware Profile Captured:")
+    print(f"  CPU: {hardware_profile['cpu']['brand']}")
+    print(f"  Cores: {hardware_profile['cpu']['cores_physical']} physical, {hardware_profile['cpu']['cores_logical']} logical")
+    print(f"  Memory: {hardware_profile['memory']['total_gb']:.1f} GB")
+
+    if hardware_profile['gpu']:
+        print(f"  GPU: {hardware_profile['gpu']['name']}")
+        print(f"  GPU Memory: {hardware_profile['gpu']['total_memory_gb']:.1f} GB")
+        print(f"  CUDA: {hardware_profile['gpu'].get('cuda_version', 'N/A')}")
+    else:
+        print(f"  GPU: None detected")
+
+    return hardware_profile
+
+hardware_profile = capture_and_store_hardware()
+```
+
+**Hardware profile is used in:**
+- Step 9: Write DATA_REPORT.md (Hardware Profile section)
+- Passed to Researcher for duration estimation
+
+---
+
 ## Step 1: Load Data
 
 **Responsibilities:**
@@ -1690,19 +1736,50 @@ report_metadata = {
 **3. Populate Each Section:**
 
 ```python
+def generate_hardware_section(profile: dict) -> str:
+    """Generate Hardware Profile section for DATA_REPORT.md"""
+    section = f"""### CPU
+- **Model:** {profile['cpu']['brand']}
+- **Architecture:** {profile['cpu']['architecture']}
+- **Cores:** {profile['cpu']['cores_physical']} physical, {profile['cpu']['cores_logical']} logical
+- **Frequency:** {profile['cpu']['frequency_mhz']:.0f} MHz
+
+### Memory
+- **Total:** {profile['memory']['total_gb']:.1f} GB
+- **Available:** {profile['memory']['available_gb']:.1f} GB
+
+### Disk
+- **Total:** {profile['disk']['total_gb']:.1f} GB
+- **Free:** {profile['disk']['free_gb']:.1f} GB
+
+### GPU
+"""
+    if profile['gpu']:
+        section += f"""- **Model:** {profile['gpu']['name']}
+- **Memory:** {profile['gpu']['total_memory_gb']:.1f} GB
+- **CUDA Version:** {profile['gpu'].get('cuda_version', 'N/A')}
+- **Compute Capability:** {profile['gpu'].get('compute_capability', 'N/A')}
+- **Device Count:** {profile['gpu']['device_count']}
+"""
+    else:
+        section += "- **Status:** No GPU detected\n"
+
+    return section
+
 def populate_data_report(template, analysis_results, recommendations):
     """
     Populate DATA_REPORT.md template with analysis findings.
 
     Sections:
     1. Data Overview
-    2. Column Summary
-    3. Distributions & Statistics
-    4. Missing Data Analysis
-    5. Outliers & Anomalies
-    6. Class Balance (if target specified)
-    7. Data Leakage Analysis
-    8. Recommendations
+    2. Hardware Profile
+    3. Column Summary
+    4. Distributions & Statistics
+    5. Missing Data Analysis
+    6. Outliers & Anomalies
+    7. Class Balance (if target specified)
+    8. Data Leakage Analysis
+    9. Recommendations
     """
 
     report = template
@@ -1715,6 +1792,13 @@ def populate_data_report(template, analysis_results, recommendations):
     report = report.replace('{{memory_mb}}', f"{overview['memory_mb']:.2f}")
     report = report.replace('{{format}}', overview['format'])
     report = report.replace('{{sampling_note}}', overview['sampling'])
+
+    # === Hardware Profile ===
+    if _hardware_profile:
+        hardware_section = generate_hardware_section(_hardware_profile)
+        report = report.replace('{{hardware_profile_section}}', hardware_section)
+    else:
+        report = report.replace('{{hardware_profile_section}}', '*Hardware profile not captured.*')
 
     # === Column Summary ===
     column_summary_table = "| Column | Type | Non-Null | Unique | Sample Values |\n"
