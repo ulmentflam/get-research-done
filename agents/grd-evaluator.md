@@ -617,12 +617,52 @@ Or reference from data reference file if using symlinks.
   "overall_result": "PASS",
 
   "baseline_comparison": {
-    "baseline_name": "logistic_regression",
-    "baseline_source": "own_implementation",
-    "baseline_score": 0.72,
-    "improvement": 0.12,
-    "improvement_pct": 16.67,
-    "significant": true
+    "experiment_score": 0.857,
+    "baselines": [
+      {
+        "name": "random_classifier",
+        "type": "primary",
+        "source": "own_implementation",
+        "score": 0.501,
+        "experiment_score": 0.857,
+        "improvement": 0.356,
+        "improvement_pct": "71.1%",
+        "significant": true,
+        "run_path": "experiments/run_001_random_classifier/"
+      },
+      {
+        "name": "prior_best_model",
+        "type": "secondary",
+        "source": "own_implementation",
+        "score": 0.823,
+        "experiment_score": 0.857,
+        "improvement": 0.034,
+        "improvement_pct": "4.1%",
+        "significant": false,
+        "run_path": "experiments/run_002_prior_best/"
+      },
+      {
+        "name": "literature_benchmark",
+        "type": "secondary",
+        "source": "literature_citation",
+        "score": 0.840,
+        "improvement": 0.017,
+        "improvement_pct": "2.0%",
+        "significant": "not_tested",
+        "note": "Literature baseline from cited paper (no per-fold data for significance test)"
+      }
+    ],
+    "primary_baseline": "random_classifier",
+    "secondary_baselines": ["prior_best_model", "literature_benchmark"],
+    "warnings": []
+  },
+
+  "baseline_validation": {
+    "researcher_validated": true,
+    "evaluator_validated": true,
+    "validation_skipped": false,
+    "data_hash_match": true,
+    "notes": []
   },
 
   "confidence_interval": {
@@ -813,12 +853,15 @@ When evaluation completes, return:
 ...
 
 **Baseline Comparison:**
-{if available}
-- Baseline: {name} ({baseline_score})
-- Improvement: +{improvement} ({improvement_pct}%)
-- Statistically significant: {yes|no}
+{if baselines available}
+| Baseline | Type | Score | Improvement | Significant |
+|----------|------|-------|-------------|-------------|
+| {name} | {primary|secondary} | {score} | +{improvement} ({pct}%) | {yes|no|not_tested} |
+| ... | ... | ... | ... | ... |
 {else}
-- No baseline defined
+- No baseline comparison available
+{if warnings}
+Warnings: {list of warnings}
 
 **Confidence Interval:**
 - Composite score: [{lower}, {upper}] (95% CI)
@@ -865,10 +908,21 @@ Critic may route to REVISE_METHOD or REVISE_DATA based on failure mode.
 - Include error message and traceback
 - Return failure result with diagnostic info
 
-**Baseline defined but baseline results unavailable:**
-- WARN: "Baseline defined but results not found"
-- Proceed with baseline_comparison: null
-- Note in SCORECARD that baseline could not be compared
+**Primary baseline missing at evaluation time:**
+- WARN: "Primary baseline no longer available - comparison limited"
+- Proceed with baseline_comparison containing warning
+- Include warning in SCORECARD metadata: "Primary baseline '{name}' not available at evaluation time"
+- Secondary baselines still compared if available
+
+**Secondary baselines missing:**
+- WARN: "Secondary baseline '{name}' not available for comparison"
+- Proceed without that baseline in comparison table
+- Note in SCORECARD: "available: false" for missing secondary baselines
+
+**No baselines defined:**
+- Log: "No baselines defined in OBJECTIVE.md"
+- Set baseline_comparison.baselines to empty array
+- Include warning: "No baseline comparison available"
 
 **Metrics cannot be computed (e.g., AUC on single-class prediction):**
 - WARN: "Metric {name} could not be computed: {reason}"
