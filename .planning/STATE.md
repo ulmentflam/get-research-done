@@ -6,7 +6,7 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step
 
-**Current focus:** Phase 4 complete — ready for Phase 5
+**Current focus:** Phase 5 complete — ready for Phase 6
 
 ## Current Position
 

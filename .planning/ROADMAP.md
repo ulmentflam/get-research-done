@@ -16,7 +16,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 2: Data Reconnaissance** - Explorer agent for data-first EDA workflow
 - [x] **Phase 3: Hypothesis Synthesis** - Architect agent transforms insights into testable objectives
 - [x] **Phase 4: Recursive Validation Loop** - Researcher/Critic/Evaluator agents with state routing
-- [ ] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
+- [x] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
 - [ ] **Phase 6: Notebook Support** - Jupyter integration and graduation path
 
 ## Phase Details
@@ -129,11 +129,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 05-01-PLAN.md — Create /grd:evaluate command and decision/archive templates
-- [ ] 05-02-PLAN.md — Implement evidence presentation and decision gate
-- [ ] 05-03-PLAN.md — Implement decision logging (per-run and central)
-- [ ] 05-04-PLAN.md — Implement archive flow for negative results
-- [ ] 05-05-PLAN.md — Verification and human approval checkpoint
+- [x] 05-01-PLAN.md — Create /grd:evaluate command and decision/archive templates
+- [x] 05-02-PLAN.md — Implement evidence presentation and decision gate
+- [x] 05-03-PLAN.md — Implement decision logging (per-run and central)
+- [x] 05-04-PLAN.md — Implement archive flow for negative results
+- [x] 05-05-PLAN.md — Verification and human approval checkpoint
 
 ### Phase 6: Notebook Support
 **Goal**: Users can execute Jupyter notebooks as experiments with explicit graduation to validated scripts
@@ -164,7 +164,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Data Reconnaissance | 4/4 | Complete | 2026-01-28 |
 | 3. Hypothesis Synthesis | 4/4 | Complete | 2026-01-28 |
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
-| 5. Human Evaluation Gate | 0/5 | Planned | - |
+| 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
 | 6. Notebook Support | 0/TBD | Not started | - |
 
 ---

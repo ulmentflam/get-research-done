@@ -40,9 +40,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Human Evaluation Gate
 
-- [ ] **HUMAN-01**: Evidence Package bundles OBJECTIVE + DATA_REPORT + CRITIC_LOGS + SCORECARD
-- [ ] **HUMAN-02**: Decision gate prompts human for Seal/Iterate/Archive decision
-- [ ] **HUMAN-03**: Decision log tracks human decisions with rationale in decision_log.md
+- [x] **HUMAN-01**: Evidence Package bundles OBJECTIVE + DATA_REPORT + CRITIC_LOGS + SCORECARD
+- [x] **HUMAN-02**: Decision gate prompts human for Seal/Iterate/Archive decision
+- [x] **HUMAN-03**: Decision log tracks human decisions with rationale in decision_log.md
 
 ### Notebook Support
 
@@ -117,9 +117,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | LOOP-05 | Phase 4 | Complete |
 | LOOP-06 | Phase 4 | Complete |
 | LOOP-07 | Phase 4 | Complete |
-| HUMAN-01 | Phase 5 | Pending |
-| HUMAN-02 | Phase 5 | Pending |
-| HUMAN-03 | Phase 5 | Pending |
+| HUMAN-01 | Phase 5 | Complete |
+| HUMAN-02 | Phase 5 | Complete |
+| HUMAN-03 | Phase 5 | Complete |
 | NOTE-01 | Phase 6 | Pending |
 | NOTE-02 | Phase 6 | Pending |
 | NOTE-03 | Phase 6 | Pending |
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-30 after Phase 4 completion*
+*Last updated: 2026-01-30 after Phase 5 completion*
