@@ -153,74 +153,104 @@ done > /tmp/verdict_history.txt
 **Display evaluation banner:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
- GRD ► HUMAN EVALUATION GATE
+ GRD ► EVIDENCE PACKAGE: {run_name}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Run: {run_name}
 Iteration: {N} of {total_runs}
 ```
 
-**Present executive summary first:**
+**Present executive summary first (always):**
+
+Read and parse evidence files:
+1. SCORECARD.json → composite_score, overall_result, individual metrics
+2. CRITIC_LOG.md → verdict (PROCEED), confidence (HIGH/MEDIUM/LOW), strengths, weaknesses, recommendations
+3. OBJECTIVE.md → hypothesis statement (what section), success metrics with thresholds
+4. DATA_REPORT.md (optional) → sample size, class balance, leakage warnings
+
+Determine verdict category:
+- **VALIDATED**: Critic PROCEED + composite_score >= threshold + overall_result = PASS
+- **FAILED**: composite_score < threshold OR overall_result = FAIL
+- **INCONCLUSIVE**: Critic PROCEED with LOW confidence OR mixed metric results (some pass, some fail with borderline composite)
+
+Display executive summary:
 
 ```
 ## Executive Summary
 
-**Hypothesis:** [brief "what" statement from OBJECTIVE.md]
+**Hypothesis:** {brief_what_statement_from_OBJECTIVE}
 
-**Verdict:** {VALIDATED | INCONCLUSIVE | FAILED}
-- Critic: PROCEED ({confidence})
-- Evaluator: {composite_score} (threshold: {threshold})
+**Verdict:** {VALIDATED|FAILED|INCONCLUSIVE} ({confidence} confidence)
+**Key Result:** {primary_metric}={value} (target: {comparison}{threshold}) {PASS|FAIL}
+**Composite Score:** {score} (threshold: {threshold})
 
-**Key Metric:** {primary_metric_name} = {value} (target: {comparison} {threshold})
-Status: {PASS | FAIL}
+**Recommendation:** {one_sentence_from_critic_or_derived}
 ```
 
 **Determine drill-down depth adaptively:**
 
-This section provides drill-down details. Claude decides how much to show based on:
-- Complexity of experiment
-- Confidence level (LOW confidence → more detail)
-- Number of metrics (many metrics → summarize)
-- Verdict clarity (FAIL or edge cases → more analysis)
+After executive summary, Claude decides which sections to present based on:
+- **Complexity**: Multiple metrics → show full metrics table
+- **Confidence**: LOW confidence → show critic reasoning in detail
+- **Verdict clarity**: FAILED or INCONCLUSIVE → show more analysis
+- **Data concerns**: If DATA_REPORT.md has warnings → show data characteristics
+- **Multiple iterations**: If total_runs > 1 → show iteration timeline
 
-**Potential drill-down sections:**
+**Potential drill-down sections (Claude selects relevant):**
 
-### Data Characteristics (if relevant)
-- Sample size
-- Class balance
-- Feature types
-- Data quality notes from DATA_REPORT.md
+### Data Characteristics
+Show if DATA_REPORT.md exists and has relevant warnings or context:
+- **Sample size:** {N} samples, {M} features
+- **Class balance:** {distribution if classification}
+- **Leakage warnings:** {HIGH confidence warnings from DATA_REPORT.md}
+- **Data quality:** {missing data percentage, outliers addressed}
 
-### Iteration Timeline (if multiple runs)
+### Iteration Timeline
+Show if multiple runs exist (total_runs > 1):
 ```
 Iteration history ({total_runs} runs):
-- run_001: REVISE_METHOD (improved architecture)
-- run_002: REVISE_METHOD (tuned hyperparameters)
-- run_003: PROCEED (current) ✓
+- run_001_baseline: REVISE_METHOD (initial architecture)
+- run_002_tuned: REVISE_METHOD (hyperparameter optimization)
+- run_003_final: PROCEED (current) ✓
 ```
 
+Brief by default. User can request full history expansion.
+
 ### Critic Reasoning
+Show if verdict is borderline, confidence is LOW, or concerns exist:
+
 **Strengths:**
-{list from CRITIC_LOG.md}
+- {strength_1 from CRITIC_LOG.md}
+- {strength_2}
 
 **Concerns:**
-{weaknesses list, or "None identified"}
+- {weakness_1 or "None identified"}
 
-**Recommendation:**
-{recommendation text}
+**Why PROCEED was given:**
+{Extract reasoning from CRITIC_LOG.md}
+
+**Residual concerns:**
+{Any caveats or conditions mentioned}
 
 ### Full Metrics Detail
+Show if user needs detailed breakdown or multiple metrics with mixed results:
+
 | Metric | Value | Threshold | Weight | Status |
 |--------|-------|-----------|--------|--------|
-| {metric_1} | {value} | {threshold} | {weight} | {PASS/FAIL} |
-| {metric_2} | {value} | {threshold} | {weight} | {PASS/FAIL} |
+| {metric_1} | {value} | {comparison}{threshold} | {weight} | {PASS|FAIL} |
+| {metric_2} | {value} | {comparison}{threshold} | {weight} | {PASS|FAIL} |
 ...
 
-**Composite Score:** {weighted_average} (threshold: {overall_threshold})
+**Composite Score:** {weighted_average} = {calculation} (threshold: {overall_threshold})
 
 ---
 
-Claude should present executive summary always, then selectively include drill-down sections as needed for informed decision-making.
+**Implementation notes:**
+- DO NOT dump raw file contents
+- Parse JSON/Markdown and extract relevant fields
+- Present digestible summary with context
+- Offer drill-down based on complexity and clarity
+- Primary metric = highest weighted or first in metrics list
 
 ## Phase 3: Decision Gate
 
