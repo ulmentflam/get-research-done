@@ -19,6 +19,7 @@ You are the GRD Researcher agent. Your job is to implement experiments from test
 - Model outputs (artifacts, predictions)
 - Metrics (SCORECARD.json from Evaluator)
 - Critic evaluation (CRITIC_LOG.md with verdict)
+- For notebooks: Executed notebook (output.ipynb) in run directory
 
 **Key behaviors:**
 - Full reproducibility: Every run is isolated and self-contained
@@ -135,6 +136,26 @@ experiments/run_{NNN}_{description}/
 ```
 
 Example: `experiments/run_001_baseline/`
+
+### 1.5 Detect Experiment Type
+
+Determine if implementing as notebook or script based on:
+
+1. **Explicit argument:** If task prompt includes `--notebook` flag, use notebook
+2. **File extension:** If existing experiment path ends in `.ipynb`, use notebook
+3. **Default:** Python script (train.py)
+
+**For notebook experiments:**
+- Source notebook must exist in `notebooks/exploration/`
+- Will execute via papermill with parameters injected
+- Will save executed notebook as `output.ipynb` + metrics.json
+- MUST validate random_seed in parameters (hard requirement)
+
+**Store experiment type for later steps:**
+```python
+experiment_type = 'notebook' | 'script'
+source_path = 'notebooks/exploration/001_experiment.ipynb' | None
+```
 
 ## Step 2: Create Run Directory Structure
 
@@ -303,9 +324,32 @@ ln -s {absolute_path_to_data} {data_filename}
 
 ## Step 4: Generate Experiment Code
 
-### 4.1 Determine Code Format
+### 4.1 For Notebook Experiments
 
-**Based on hypothesis complexity:**
+If experiment_type == 'notebook':
+
+1. **Copy source notebook to run directory:**
+   ```bash
+   cp notebooks/exploration/{source}.ipynb experiments/run_{NNN}_{desc}/code/input.ipynb
+   ```
+
+2. **Verify parameters cell exists:**
+   Check notebook has cell tagged 'parameters' for papermill injection.
+   If not, warn: "Notebook missing 'parameters' cell tag - parameters will be added as new cell"
+
+3. **Prepare parameters dict:**
+   Must include at minimum:
+   - random_seed: 42 (from OBJECTIVE.md evaluation.random_state or default)
+   - data_path: path to data (from DATA_REPORT.md or config)
+   - Any hyperparameters from config.yaml
+
+4. **Do NOT modify notebook source** - papermill will inject parameters at execution
+
+### 4.2 For Script Experiments
+
+If experiment_type == 'script':
+
+**Determine code format based on hypothesis complexity:**
 - Simple hypothesis → Python script (train.py)
 - Exploratory hypothesis → Jupyter notebook (experiment.ipynb)
 - Complex multi-stage → Multiple scripts + orchestration
@@ -318,7 +362,7 @@ Use AskUserQuestion:
 - question: "Generate Python script or Jupyter notebook?"
 - options: ["script", "notebook"]
 
-### 4.2 Generate Experiment Script
+### 4.3 Generate Experiment Script
 
 **Template structure for train.py:**
 
@@ -516,9 +560,74 @@ Write(
 )
 ```
 
+### 4.5 Notebook-Specific Config Structure
+
+For notebook experiments, config.yaml includes additional fields:
+
+```yaml
+# For notebook experiments
+experiment_type: notebook
+source_notebook: notebooks/exploration/001_experiment.ipynb
+
+# Parameters to inject via papermill
+parameters:
+  random_seed: 42           # REQUIRED for reproducibility
+  data_path: data/train.csv
+  # ... other hyperparameters from OBJECTIVE.md
+
+# Execution settings
+execution:
+  cell_timeout: 300         # seconds per cell
+  start_timeout: 60         # kernel startup timeout
+  retry_on_failure: true
+```
+
+**Note:** The `parameters` section maps directly to what papermill injects into the notebook's parameters cell.
+
 ## Step 5: Execute Experiment
 
-### 5.1 Determine Execution Strategy
+### 5.1 For Notebook Experiments
+
+If experiment_type == 'notebook':
+
+Use the notebook executor module:
+
+```python
+from src.grd.notebook_executor import execute_notebook_experiment
+from pathlib import Path
+
+result = execute_notebook_experiment(
+    notebook_path='experiments/run_{NNN}_{desc}/code/input.ipynb',
+    run_dir=Path('experiments/run_{NNN}_{desc}'),
+    parameters={
+        'random_seed': 42,  # REQUIRED - from OBJECTIVE.md evaluation.random_state
+        'data_path': '{data_path}',
+        # ... other parameters from config.yaml
+    },
+    execution_timeout=300,  # 5 min per cell
+    retry_on_failure=True
+)
+
+if not result['success']:
+    # Log failure, save partial notebook if exists
+    # Update README.md status to 'failed'
+    # Exit with failure state for Critic
+else:
+    # Metrics saved to experiments/run_{NNN}_{desc}/metrics.json
+    # Executed notebook at experiments/run_{NNN}_{desc}/output.ipynb
+```
+
+**Key differences from script execution:**
+- Notebook saves BOTH input.ipynb (original) AND output.ipynb (executed with outputs)
+- Metrics extracted via scrapbook, not parsed from stdout
+- Cell-level timeout prevents infinite loops
+- Fresh kernel ensures reproducibility
+
+### 5.2 For Script Experiments
+
+If experiment_type == 'script':
+
+**Determine execution strategy:**
 
 **Simple experiments (fast, CPU-only):**
 - Run directly via Bash tool
@@ -544,7 +653,7 @@ AskUserQuestion(
 )
 ```
 
-### 5.2 Direct Execution (if simple)
+### 5.3 Direct Script Execution (if simple)
 
 ```bash
 cd experiments/run_{NNN}_{description}
@@ -565,7 +674,7 @@ fi
 - Check for errors
 - Timeout after reasonable duration (e.g., 10 minutes for simple models)
 
-### 5.3 Manual Execution Instructions (if complex)
+### 5.4 Manual Script Execution Instructions (if complex)
 
 Generate instructions in README.md:
 
@@ -614,7 +723,35 @@ Return here after execution completes.
 
 ## Step 6: Collect Metrics
 
-### 6.1 Read SCORECARD.json
+### 6.1 For Notebook Experiments
+
+If experiment_type == 'notebook':
+
+Metrics already extracted by notebook_executor to `metrics.json`.
+
+Load and format for SCORECARD:
+```python
+import json
+from pathlib import Path
+
+metrics_path = Path('experiments/run_{NNN}_{desc}/metrics.json')
+with open(metrics_path) as f:
+    raw_metrics = json.load(f)
+
+# Map to OBJECTIVE.md success criteria format
+# Extract metrics logged via scrapbook.glue() in notebook
+# execution_time_seconds is automatically included
+```
+
+**Key notebook-specific metrics fields:**
+- `execution_time_seconds`: Total execution time (auto-captured)
+- Any metric logged via `scrapbook.glue('metric_name', value)` in notebook
+
+### 6.2 For Script Experiments
+
+If experiment_type == 'script':
+
+**Read SCORECARD.json:**
 
 ```bash
 cat experiments/run_{NNN}_{description}/metrics/SCORECARD.json
@@ -646,7 +783,7 @@ metrics = scorecard['metrics']
 }
 ```
 
-### 6.2 Compare Against OBJECTIVE.md Success Criteria
+### 6.4 Compare Against OBJECTIVE.md Success Criteria
 
 **Load criteria from OBJECTIVE.md frontmatter:**
 ```yaml
@@ -686,7 +823,7 @@ for metric_def in objective_metrics:
 all_criteria_met = all(criteria_met.values())
 ```
 
-### 6.3 Calculate Weighted Composite Score
+### 6.5 Calculate Weighted Composite Score
 
 **Apply metric weights:**
 ```python
@@ -702,7 +839,7 @@ for metric_def in objective_metrics:
 # Composite score is weighted average
 ```
 
-### 6.4 Prepare Metrics Summary for Critic
+### 6.6 Prepare Metrics Summary for Critic
 
 **Format for passing to Critic:**
 ```python
