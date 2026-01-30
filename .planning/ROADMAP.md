@@ -216,7 +216,7 @@ Plans:
 
 **Success Criteria** (what must be TRUE):
   1. Explorer agent captures hardware profile (GPU, CUDA, CPU cores, RAM, disk) during EDA
-  2. Hardware profile stored in DATA_REPORT.md or dedicated HARDWARE_PROFILE.md
+  2. Hardware profile stored in DATA_REPORT.md
   3. Researcher agent estimates experiment duration based on hardware specs and data size
   4. Long-running experiments (training, sweeps) bypass standard timeout with user confirmation
   5. Once user confirms long-running mode, no further prompts during experimentation loop (session-level approval)
