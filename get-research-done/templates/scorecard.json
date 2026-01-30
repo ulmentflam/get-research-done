@@ -39,12 +39,42 @@
   "overall_result": "{{PASS|FAIL}}",
 
   "baseline_comparison": {
-    "baseline_name": "{{baseline_name_or_null}}",
-    "baseline_source": "{{own_implementation|literature_citation}}",
-    "baseline_score": "{{float_baseline_composite_or_null}}",
-    "improvement": "{{float_difference_experiment_minus_baseline}}",
-    "improvement_pct": "{{percentage_improvement}}",
-    "significant": "{{true|false|not_tested}}"
+    "experiment_score": "{{weighted_composite_score}}",
+    "baselines": [
+      {
+        "name": "{{primary_baseline_name}}",
+        "type": "primary",
+        "source": "{{own_implementation|literature_citation}}",
+        "score": "{{baseline_composite_score}}",
+        "experiment_score": "{{experiment_composite_score}}",
+        "improvement": "{{float_experiment_minus_baseline}}",
+        "improvement_pct": "{{percentage_string}}",
+        "significant": "{{true|false|not_tested}}",
+        "run_path": "{{experiments/run_NNN_baseline/}}",
+        "note": "{{optional_note_for_literature_baselines}}"
+      },
+      {
+        "name": "{{secondary_baseline_name}}",
+        "type": "secondary",
+        "source": "{{own_implementation|literature_citation}}",
+        "score": "{{baseline_composite_score}}",
+        "improvement": "{{float_improvement}}",
+        "improvement_pct": "{{percentage_string}}",
+        "significant": "{{true|false|not_tested}}",
+        "run_path": "{{experiments/run_NNN_secondary/|null_if_literature}}"
+      }
+    ],
+    "primary_baseline": "{{primary_baseline_name_or_null}}",
+    "secondary_baselines": ["{{secondary_name_1}}", "{{secondary_name_2}}"],
+    "warnings": ["{{warning_if_any_baseline_unavailable}}"]
+  },
+
+  "baseline_validation": {
+    "researcher_validated": "{{true|false}}",
+    "evaluator_validated": "{{true|false}}",
+    "validation_skipped": "{{true_if_skip_baseline_used|false}}",
+    "data_hash_match": "{{true_if_same_data|false_with_warning}}",
+    "notes": ["{{validation_notes_if_any}}"]
   },
 
   "confidence_interval": {
@@ -74,7 +104,9 @@
     "description": "This template shows the structure and placeholder format for SCORECARD.json",
     "usage": "grd-evaluator agent populates this template with actual evaluation results",
     "weights_constraint": "All metric weights must sum to 1.0",
-    "baseline_optional": "baseline_comparison can be null if no baseline defined in OBJECTIVE.md",
+    "baseline_structure": "baselines array supports multiple comparisons: first is primary (required), rest are secondary (optional)",
+    "baseline_types": "primary = required for experiment to proceed; secondary = optional additional comparisons",
+    "baseline_validation": "Tracks both Researcher (start) and Evaluator (end) validation states",
     "mlflow_integration": "These fields are also logged to MLflow if available",
     "phase_5_requirement": "ready_for_human_review: true signals Phase 5 can proceed"
   }
