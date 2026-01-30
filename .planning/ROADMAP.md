@@ -210,9 +210,10 @@ Plans:
   2. Hardware profile stored in DATA_REPORT.md or dedicated HARDWARE_PROFILE.md
   3. Researcher agent estimates experiment duration based on hardware specs and data size
   4. Long-running experiments (training, sweeps) bypass standard timeout with user confirmation
-  5. User sees estimated completion time, progress updates, and can monitor status
-  6. Hardware context included in experiment metadata for reproducibility
-  7. Graceful handling of experiments that run hours/days (checkpoint awareness, resumability hints)
+  5. Once user confirms long-running mode, no further prompts during experimentation loop (session-level approval)
+  6. User sees estimated completion time, progress updates, and can monitor status
+  7. Hardware context included in experiment metadata for reproducibility
+  8. Graceful handling of experiments that run hours/days (checkpoint awareness, resumability hints)
 
 **Plans**: TBD (created during /gsd:plan-phase)
 
