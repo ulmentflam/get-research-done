@@ -20,7 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 6: Notebook Support** - Jupyter integration and graduation path
 - [x] **Phase 7: REVISE_DATA Auto-Routing** - Complete recursive loop automation (gap closure)
 - [x] **Phase 8: Baseline Orchestration** - Ensure baseline experiments run before comparisons (gap closure)
-- [ ] **Phase 9: Hardware Profiling & Long-Running Experiments** - Capture hardware context and handle extended training runs
+- [x] **Phase 9: Hardware Profiling & Long-Running Experiments** - Capture hardware context and handle extended training runs
 
 ## Phase Details
 
@@ -227,10 +227,10 @@ Plans:
 **Plans**: 4 plans
 
 Plans:
-- [ ] 09-01-PLAN.md — Create hardware profiler and duration estimator modules
-- [ ] 09-02-PLAN.md — Create timeout manager and checkpoint handler modules
-- [ ] 09-03-PLAN.md — Update Explorer agent with hardware profiling step
-- [ ] 09-04-PLAN.md — Update Researcher agent with duration estimation and timeout handling
+- [x] 09-01-PLAN.md — Create hardware profiler and duration estimator modules
+- [x] 09-02-PLAN.md — Create timeout manager and checkpoint handler modules
+- [x] 09-03-PLAN.md — Update Explorer agent with hardware profiling step
+- [x] 09-04-PLAN.md — Update Researcher agent with duration estimation and timeout handling
 
 ## Progress
 
@@ -247,7 +247,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
 | 7. REVISE_DATA Auto-Routing | 2/2 | Complete | 2026-01-30 |
 | 8. Baseline Orchestration | 3/3 | Complete | 2026-01-30 |
-| 9. Hardware Profiling & Long-Running Experiments | 0/4 | Planned | - |
+| 9. Hardware Profiling & Long-Running Experiments | 4/4 | Complete | 2026-01-30 |
 
 ---
 *Roadmap created: 2026-01-27*
