@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step
 
-**Current focus:** Phase 5 complete — ready for Phase 6
+**Current focus:** Phase 6 in progress — notebook support
 
 ## Current Position
 
-Phase: 5 of 6 (Human Evaluation Gate) — COMPLETE
-Plan: 5 of 5 complete (Phase verification)
-Status: Phase 5 complete, ready for Phase 6
-Last activity: 2026-01-30 — Completed 05-05-PLAN.md (Phase Verification)
+Phase: 6 of 6 (Notebook Support)
+Plan: 2 of 5 complete (Graduation template & directory structure)
+Status: In progress
+Last activity: 2026-01-30 — Completed 06-02-PLAN.md
 
-Progress: [████████████████████████████████████████] 100% (25/25 plans complete across phases 1-5)
+Progress: [███████████████████████████████████████████████░░░] 90% (27/30 plans complete)
 
 ## Performance Metrics
 
@@ -33,10 +33,11 @@ Progress: [███████████████████████
 | 03 | 4 | 11.2min | 2.8min |
 | 04 | 5 | 22.0min | 4.4min |
 | 05 | 5 | 16.0min | 3.2min |
+| 06 | 2 | 4.0min | 2.0min |
 
 **Recent Trend:**
-- Last 5 plans: 05-05 (3min), 05-04 (3min), 05-03 (3min), 05-02 (3min), 05-01 (4min)
-- Trend: Phase 5 complete with consistent 3min velocity across all wave executions
+- Last 5 plans: 06-02 (2min), 06-01 (2min), 05-05 (3min), 05-04 (3min), 05-03 (3min)
+- Trend: Phase 6 started with fast template/structure work
 
 *Updated after each plan completion*
 
@@ -122,6 +123,9 @@ Recent decisions affecting current work:
 | ITERATION_SUMMARY.md generation | 05-04 | Collapsed history table with metric trends, verdict distribution, and key observations from all attempts |
 | metadata.json for archives | 05-04 | Programmatic access to archival context (timestamps, metrics, iteration counts) |
 | decision_log.md updated to archive location | 05-04 | References point to experiments/archive/ not original experiments/run_NNN/ path |
+| Graduated script uses docstring header for metadata | 06-02 | Source notebook reference, run directory, and critic verdict embedded in module docstring rather than separate metadata file |
+| Refactoring checklist as TODO comments | 06-02 | Embedded in graduated script template for manual completion post-graduation |
+| Directory .gitkeep files as documentation | 06-02 | Dual-purpose files serve as git markers and directory documentation |
 
 ### Pending Todos
 
@@ -140,7 +144,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30 (execution)
-Stopped at: Completed 05-05-PLAN.md (Phase Verification) — Phase 5 complete
+Stopped at: Completed 06-02-PLAN.md (Graduation template & directory structure)
 Resume file: None
 
 ---
