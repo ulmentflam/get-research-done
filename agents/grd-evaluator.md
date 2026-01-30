@@ -416,33 +416,111 @@ composite_threshold = objective.get("composite_threshold", 0.5)
 overall_result = "PASS" if composite_score >= composite_threshold else "FAIL"
 ```
 
-**Baseline comparison (if baseline_defined: true):**
+**Multi-baseline comparison:**
 
-If baseline results are available:
-- Load baseline scorecard or compute baseline metrics
-- Calculate improvement: experiment_score - baseline_score
-- Calculate percentage improvement
-- Determine statistical significance (if applicable)
+Uses baseline_data from Step 1.5 to compare experiment against all available baselines.
 
 ```python
-if baseline_defined:
-    baseline_score = load_baseline_score(baseline_name)
-    improvement = composite_score - baseline_score
-    improvement_pct = (improvement / baseline_score) * 100
+def calculate_composite(metrics: dict) -> float:
+    """Calculate composite score from individual metrics if not pre-computed."""
+    # Use weights from OBJECTIVE.md if available
+    # Fall back to equal weights if not
+    if 'composite_score' in metrics:
+        return metrics['composite_score']
 
-    # Statistical significance test (e.g., paired t-test if fold results available)
-    significant = test_significance(fold_results, baseline_fold_results)
+    metric_values = [v for k, v in metrics.items()
+                     if k not in ['timestamp', 'run_id', 'iteration']]
+    return sum(metric_values) / len(metric_values) if metric_values else 0.0
 
+
+# Multi-baseline comparison
+if baseline_data['primary']['available'] or any(b['available'] for b in baseline_data['secondary']):
+    baseline_comparisons = []
+
+    # Compare against primary baseline
+    if baseline_data['primary'] and baseline_data['primary']['available']:
+        primary = baseline_data['primary']
+        primary_score = primary['metrics'].get('composite_score', calculate_composite(primary['metrics']))
+        improvement = composite_score - primary_score
+        improvement_pct = (improvement / primary_score) * 100 if primary_score != 0 else 0
+
+        baseline_comparisons.append({
+            'name': primary['name'],
+            'type': 'primary',
+            'source': 'own_implementation',  # or from OBJECTIVE.md baseline definition
+            'score': primary_score,
+            'experiment_score': composite_score,
+            'improvement': improvement,
+            'improvement_pct': f"{improvement_pct:.1f}%",
+            'significant': test_significance(fold_results, primary['metrics'].get('per_fold', [])),
+            'run_path': primary['run_path']
+        })
+
+    # Compare against each secondary baseline
+    for secondary in baseline_data['secondary']:
+        if secondary['available']:
+            sec_score = secondary['metrics'].get('composite_score', calculate_composite(secondary['metrics']))
+            improvement = composite_score - sec_score
+            improvement_pct = (improvement / sec_score) * 100 if sec_score != 0 else 0
+
+            baseline_comparisons.append({
+                'name': secondary['name'],
+                'type': 'secondary',
+                'source': secondary.get('source', 'own_implementation'),
+                'score': sec_score,
+                'experiment_score': composite_score,
+                'improvement': improvement,
+                'improvement_pct': f"{improvement_pct:.1f}%",
+                'significant': test_significance(fold_results, secondary['metrics'].get('per_fold', [])),
+                'run_path': secondary['run_path']
+            })
+        else:
+            # Log unavailable secondary baseline
+            baseline_comparisons.append({
+                'name': secondary['name'],
+                'type': 'secondary',
+                'available': False,
+                'note': 'Secondary baseline not available for comparison'
+            })
+
+    # Format as comparison table for SCORECARD
     baseline_comparison = {
-        "baseline_name": baseline_name,
-        "baseline_source": "own_implementation",  # or "literature_citation"
-        "baseline_score": baseline_score,
-        "improvement": improvement,
-        "improvement_pct": improvement_pct,
-        "significant": significant
+        'experiment_score': composite_score,
+        'baselines': baseline_comparisons,
+        'primary_baseline': baseline_data['primary']['name'] if baseline_data['primary'] and baseline_data['primary']['available'] else None,
+        'secondary_baselines': [b['name'] for b in baseline_data['secondary'] if b.get('available', False)],
+        'warnings': baseline_data.get('warnings', [])
     }
 else:
-    baseline_comparison = None
+    baseline_comparison = {
+        'experiment_score': composite_score,
+        'baselines': [],
+        'warnings': ['No baseline comparison available']
+    }
+```
+
+**Statistical significance testing:**
+
+```python
+def test_significance(experiment_folds: list, baseline_folds: list, alpha: float = 0.05) -> bool | str:
+    """Test if experiment significantly outperforms baseline using paired t-test."""
+    from scipy import stats
+
+    # Need per-fold results for both experiment and baseline
+    if not baseline_folds or len(baseline_folds) != len(experiment_folds):
+        return "not_tested"  # Cannot test without paired fold data
+
+    # Extract composite scores per fold
+    exp_scores = [fold.get('composite', sum(fold.values()) / len(fold)) for fold in experiment_folds]
+    base_scores = [fold.get('composite', sum(fold.values()) / len(fold)) for fold in baseline_folds]
+
+    # Paired t-test (one-tailed: experiment > baseline)
+    t_stat, p_value = stats.ttest_rel(exp_scores, base_scores)
+
+    # One-tailed p-value for "greater than"
+    p_one_tailed = p_value / 2 if t_stat > 0 else 1 - p_value / 2
+
+    return p_one_tailed < alpha
 ```
 
 **Confidence intervals:**
