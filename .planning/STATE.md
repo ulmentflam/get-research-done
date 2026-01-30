@@ -123,6 +123,10 @@ Recent decisions affecting current work:
 | ITERATION_SUMMARY.md generation | 05-04 | Collapsed history table with metric trends, verdict distribution, and key observations from all attempts |
 | metadata.json for archives | 05-04 | Programmatic access to archival context (timestamps, metrics, iteration counts) |
 | decision_log.md updated to archive location | 05-04 | References point to experiments/archive/ not original experiments/run_NNN/ path |
+| Mandatory random_seed parameter in execute_notebook_experiment | 06-01 | Enforces reproducibility at API level - ValueError if random_seed missing from parameters |
+| Tiered graduation validation | 06-01 | Seeds block graduation (errors), paths/magics warn only (advisory warnings) |
+| Retry-on-failure enabled by default | 06-01 | Transient errors handled with automatic retry before marking run as failed |
+| Dual metrics storage (notebook + JSON) | 06-01 | Metrics in scrapbook AND metrics.json for programmatic access |
 | Graduated script uses docstring header for metadata | 06-02 | Source notebook reference, run directory, and critic verdict embedded in module docstring rather than separate metadata file |
 | Refactoring checklist as TODO comments | 06-02 | Embedded in graduated script template for manual completion post-graduation |
 | Directory .gitkeep files as documentation | 06-02 | Dual-purpose files serve as git markers and directory documentation |
