@@ -35,6 +35,9 @@ Track across iterations:
 - iteration_limit: Maximum allowed iterations (default: 5, configurable)
 - verdict_history: List of Critic verdicts for trend detection
 - metrics_history: Metrics from each iteration for trend analysis
+- data_revision_count: Number of REVISE_DATA cycles in current hypothesis (starts at 0)
+- data_revision_limit: Maximum allowed data revisions (default: 2, separate from iteration_limit)
+- data_revision_history: List of data concerns addressed
 
 ### Cycle Detection
 
