@@ -3,17 +3,56 @@
 **Created:** {{timestamp}}
 **Iteration:** {{iteration_number}}
 **Status:** {{status}}
+**Experiment Type:** {{experiment_type}} (script | notebook)
 **Hypothesis:** {{brief_hypothesis_from_objective}}
 
 ## Summary
 
 {{one_paragraph_explaining_what_why_how}}
 
+## Notebook Execution
+
+> Note: This section only appears for notebook experiments (experiment_type == 'notebook')
+
+- **Source Notebook:** {{source_notebook}}
+- **Input Notebook:** code/input.ipynb (copy of source)
+- **Executed Notebook:** output.ipynb (with outputs)
+- **Metrics Extracted:** metrics.json (via scrapbook)
+
+### Parameters Injected
+
+The following parameters were injected via papermill:
+
+| Parameter | Value |
+|-----------|-------|
+| random_seed | {{random_seed}} |
+| data_path | {{data_path}} |
+| {{parameter_name}} | {{parameter_value}} |
+
+### Execution Details
+
+- **Kernel:** {{kernel_name}} (auto-detected)
+- **Cell Timeout:** {{cell_timeout}} seconds
+- **Execution Time:** {{execution_time_seconds}} seconds
+- **Retry Attempted:** {{retry_attempted}} (true/false)
+
 ## Reproduce
+
+### For Script Experiments
 
 ```bash
 cd experiments/{{run_name}}
 python code/train.py --config config.yaml
+```
+
+### For Notebook Experiments
+
+```bash
+cd experiments/{{run_name}}
+# Re-execute notebook with papermill
+papermill code/input.ipynb output.ipynb -f config.yaml
+# Or view executed notebook
+jupyter notebook output.ipynb
 ```
 
 ## Configuration
@@ -22,6 +61,30 @@ See: `config.yaml`
 
 Key parameters:
 {{key_hyperparameters_list}}
+
+## Files
+
+### For Notebook Experiments
+
+- `code/input.ipynb` - Original notebook (source copy)
+- `output.ipynb` - Executed notebook with outputs
+- `metrics.json` - Extracted metrics (via scrapbook)
+- `config.yaml` - Experiment configuration
+- `data/` - Data references (symlinks + hashes)
+- `logs/` - Execution logs
+- `outputs/` - Model artifacts
+- `metrics/SCORECARD.json` - Evaluation results (if generated)
+- `CRITIC_LOG.md` - Critic verdict
+
+### For Script Experiments
+
+- `code/train.py` - Training script
+- `config.yaml` - Experiment configuration
+- `data/` - Data references (symlinks + hashes)
+- `logs/` - Execution logs
+- `outputs/` - Model artifacts
+- `metrics/SCORECARD.json` - Evaluation results
+- `CRITIC_LOG.md` - Critic verdict
 
 ## Data
 
