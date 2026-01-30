@@ -629,6 +629,253 @@ fi
 echo "✓ Final run moved to archive"
 ```
 
+**Step 4: Generate ARCHIVE_REASON.md**
+
+Extract data for ARCHIVE_REASON.md template:
+
+```bash
+# Extract hypothesis statement from OBJECTIVE.md
+HYPOTHESIS_STATEMENT=$(grep -A 20 "^## Hypothesis" .planning/OBJECTIVE.md | grep -A 15 "^### What" | tail -n +2 | sed '/^###/,$d' | tr '\n' ' ' | sed 's/  */ /g')
+
+# Extract final iteration and verdict
+ITERATION_COUNT=$TOTAL_ITERATIONS
+ITERATION_LIMIT=${ITERATION_LIMIT:-5}  # Default 5 if not set
+FINAL_VERDICT=$(grep "^\*\*Verdict:\*\*" "$ARCHIVE_DIR/run_final/CRITIC_LOG.md" | head -1 | sed 's/\*\*Verdict:\*\* //')
+
+# Extract best metrics across all runs
+BEST_METRICS_TABLE=""
+# Get metric names from OBJECTIVE.md
+METRIC_NAMES=$(grep -A 50 "^## Success Metrics" .planning/OBJECTIVE.md | grep "^- \*\*" | sed 's/^- \*\*\(.*\)\*\*:.*/\1/')
+
+# For each metric, find best value across all iterations
+for metric in $METRIC_NAMES; do
+  # Find best value from all SCORECARD.json files
+  BEST_VALUE=$(jq -r --arg m "$metric" '.metrics[$m].value // empty' experiments/archive/*/run_final/metrics/SCORECARD.json "$ARCHIVE_DIR"/run_final/metrics/SCORECARD.json 2>/dev/null | sort -rn | head -1)
+  TARGET=$(jq -r --arg m "$metric" '.metrics[$m].threshold // empty' "$ARCHIVE_DIR/run_final/metrics/SCORECARD.json" 2>/dev/null | head -1)
+  COMPARISON=$(jq -r --arg m "$metric" '.metrics[$m].comparison // empty' "$ARCHIVE_DIR/run_final/metrics/SCORECARD.json" 2>/dev/null | head -1)
+
+  if [ -n "$BEST_VALUE" ] && [ -n "$TARGET" ]; then
+    GAP=$(echo "$BEST_VALUE - $TARGET" | bc 2>/dev/null || echo "N/A")
+    BEST_METRICS_TABLE="$BEST_METRICS_TABLE
+| $metric | $BEST_VALUE | $COMPARISON$TARGET | $GAP |"
+  fi
+done
+
+# Get user rationale (already captured in Phase 3)
+# USER_RATIONALE variable should be set from Archive confirmation step
+
+# Create ARCHIVE_REASON.md from template
+cat > "$ARCHIVE_DIR/ARCHIVE_REASON.md" << EOF
+# Archive Reason: $HYPOTHESIS_NAME
+
+**Archived:** $(date -u +"%Y-%m-%dT%H:%M:%SZ")
+**Original Hypothesis:** $HYPOTHESIS_STATEMENT
+**Final Iteration:** $ITERATION_COUNT of $ITERATION_LIMIT
+**Final Verdict:** $FINAL_VERDICT
+
+## Why This Failed
+
+$ARCHIVE_RATIONALE
+
+## What We Learned
+
+*To be filled: Insights from failed attempts*
+
+- Key finding 1
+- Key finding 2
+- Key finding 3
+
+## What Would Need to Change
+
+*To be filled: Conditions under which this might work*
+
+- Required change 1
+- Required change 2
+- Required change 3
+
+## Final Metrics
+
+| Metric | Best Value | Target | Gap |
+|--------|------------|--------|-----|
+$BEST_METRICS_TABLE
+
+## Iteration Timeline
+
+See: ITERATION_SUMMARY.md for detailed history of all attempts.
+
+---
+
+*This negative result is preserved to prevent future researchers from repeating this approach without the necessary conditions.*
+
+---
+
+**Archive location:** experiments/archive/${DATE_PREFIX}_${HYPOTHESIS_NAME}/
+**Decision recorded:** human_eval/decision_log.md
+EOF
+
+echo "✓ ARCHIVE_REASON.md created"
+```
+
+**Step 5: Generate ITERATION_SUMMARY.md**
+
+Scan all run directories and compile iteration history:
+
+```bash
+# Build iteration history table from all runs
+HISTORY_TABLE=""
+ITERATION_NUM=1
+
+# Collect verdict distribution counters
+PROCEED_COUNT=0
+REVISE_METHOD_COUNT=0
+REVISE_DATA_COUNT=0
+ESCALATE_COUNT=0
+
+# Collect date range
+FIRST_DATE=""
+LAST_DATE=""
+
+for run_dir in $ALL_RUNS; do
+  run_name=$(basename "$run_dir")
+
+  # Check if run has been archived (is now in archive/*/run_final/)
+  if [ "$run_dir" = "$ARCHIVE_DIR/run_final" ] || [ ! -d "$run_dir" ]; then
+    # This is the archived final run
+    run_dir="$ARCHIVE_DIR/run_final"
+  fi
+
+  # Extract verdict and confidence from CRITIC_LOG.md
+  if [ -f "$run_dir/CRITIC_LOG.md" ]; then
+    verdict=$(grep "^\*\*Verdict:\*\*" "$run_dir/CRITIC_LOG.md" | head -1 | sed 's/\*\*Verdict:\*\* //')
+    confidence=$(grep "^\*\*Confidence:\*\*" "$run_dir/CRITIC_LOG.md" | head -1 | sed 's/\*\*Confidence:\*\* //')
+
+    # Count verdicts
+    case "$verdict" in
+      PROCEED) PROCEED_COUNT=$((PROCEED_COUNT + 1)) ;;
+      REVISE_METHOD) REVISE_METHOD_COUNT=$((REVISE_METHOD_COUNT + 1)) ;;
+      REVISE_DATA) REVISE_DATA_COUNT=$((REVISE_DATA_COUNT + 1)) ;;
+      ESCALATE) ESCALATE_COUNT=$((ESCALATE_COUNT + 1)) ;;
+    esac
+  else
+    verdict="N/A"
+    confidence="N/A"
+  fi
+
+  # Extract key metric from SCORECARD.json (primary metric = highest weight)
+  if [ -f "$run_dir/metrics/SCORECARD.json" ]; then
+    key_metric_name=$(jq -r '.metrics | to_entries | max_by(.value.weight // 0) | .key // "N/A"' "$run_dir/metrics/SCORECARD.json" 2>/dev/null)
+    key_metric_value=$(jq -r --arg m "$key_metric_name" '.metrics[$m].value // "N/A"' "$run_dir/metrics/SCORECARD.json" 2>/dev/null)
+    key_metric="$key_metric_name=$key_metric_value"
+  else
+    key_metric="N/A"
+  fi
+
+  # Get run date
+  run_date=$(stat -f "%Sm" -t "%Y-%m-%d" "$run_dir" 2>/dev/null || date +%Y-%m-%d)
+
+  # Track date range
+  if [ -z "$FIRST_DATE" ]; then
+    FIRST_DATE=$run_date
+  fi
+  LAST_DATE=$run_date
+
+  # Extract notes from README.md
+  notes=""
+  if [ -f "$run_dir/README.md" ]; then
+    notes=$(head -1 "$run_dir/README.md" | sed 's/^# //' | cut -c 1-30)
+  fi
+
+  # Append to history table
+  HISTORY_TABLE="$HISTORY_TABLE
+| $ITERATION_NUM | $run_name | $run_date | $verdict | $confidence | $key_metric | $notes |"
+
+  ITERATION_NUM=$((ITERATION_NUM + 1))
+done
+
+# Calculate metric trend
+# Extract primary metric values across all iterations
+METRIC_VALUES=$(for run in $ALL_RUNS; do
+  if [ -f "$run/metrics/SCORECARD.json" ]; then
+    jq -r '.metrics | to_entries | max_by(.value.weight // 0) | .value.value // empty' "$run/metrics/SCORECARD.json" 2>/dev/null
+  fi
+done)
+
+# Determine best metric
+BEST_METRIC=$(echo "$METRIC_VALUES" | sort -rn | head -1)
+
+# Get target from OBJECTIVE.md or final SCORECARD
+TARGET_THRESHOLD=$(jq -r '.metrics | to_entries | max_by(.value.weight // 0) | .value.threshold // "N/A"' "$ARCHIVE_DIR/run_final/metrics/SCORECARD.json" 2>/dev/null)
+
+# Calculate gap
+if [ -n "$BEST_METRIC" ] && [ -n "$TARGET_THRESHOLD" ] && [ "$TARGET_THRESHOLD" != "N/A" ]; then
+  GAP=$(echo "$BEST_METRIC - $TARGET_THRESHOLD" | bc 2>/dev/null || echo "N/A")
+else
+  GAP="N/A"
+fi
+
+# Determine trend (simple heuristic: compare first and last values)
+FIRST_VALUE=$(echo "$METRIC_VALUES" | head -1)
+LAST_VALUE=$(echo "$METRIC_VALUES" | tail -1)
+
+if [ -n "$FIRST_VALUE" ] && [ -n "$LAST_VALUE" ]; then
+  TREND_DIFF=$(echo "$LAST_VALUE - $FIRST_VALUE" | bc 2>/dev/null || echo 0)
+  if (( $(echo "$TREND_DIFF > 0.05" | bc -l 2>/dev/null) )); then
+    TREND="improving"
+  elif (( $(echo "$TREND_DIFF < -0.05" | bc -l 2>/dev/null) )); then
+    TREND="degrading"
+  else
+    TREND="stagnant"
+  fi
+else
+  TREND="N/A"
+fi
+
+# Write ITERATION_SUMMARY.md
+cat > "$ARCHIVE_DIR/ITERATION_SUMMARY.md" << EOF
+# Iteration Summary: $HYPOTHESIS_NAME
+
+**Total Iterations:** $TOTAL_ITERATIONS
+**Date Range:** $FIRST_DATE to $LAST_DATE
+**Outcome:** Archived (hypothesis abandoned)
+
+## Iteration History
+
+| # | Run | Date | Verdict | Confidence | Key Metric | Notes |
+|---|-----|------|---------|------------|------------|-------|
+$HISTORY_TABLE
+
+## Metric Trend
+
+**Best achieved:** $BEST_METRIC
+**Target:** $TARGET_THRESHOLD
+**Gap:** $GAP
+**Trend:** $TREND
+
+## Verdict Distribution
+
+- PROCEED: $PROCEED_COUNT
+- REVISE_METHOD: $REVISE_METHOD_COUNT
+- REVISE_DATA: $REVISE_DATA_COUNT
+- ESCALATE: $ESCALATE_COUNT
+
+## Key Observations
+
+*Summary of what was tried and why it didn't work*
+
+## Preserved Artifacts
+
+- Final run: run_final/
+- All CRITIC_LOG.md files preserved in final run
+- Final SCORECARD.json preserved in final run
+
+---
+
+*Summary generated on archive. See ARCHIVE_REASON.md for human rationale.*
+EOF
+
+echo "✓ ITERATION_SUMMARY.md created"
+```
+
 **Display archive confirmation:**
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
