@@ -105,7 +105,32 @@ cat experiments/run_NNN/README.md 2>/dev/null || echo "No README"
 - Random seed settings
 - Validation strategy used
 
-### 1.3 Read Metrics Output
+### 1.3 For Notebook Experiments
+
+If run_dir contains output.ipynb:
+
+1. **Identify as notebook run:**
+   ```bash
+   test -f experiments/run_{NNN}_{desc}/output.ipynb && echo "Notebook experiment"
+   ```
+
+2. **Load executed notebook:**
+   Review output.ipynb for:
+   - Cell execution order (should be sequential in fresh kernel)
+   - Random seed setting (look for np.random.seed, torch.manual_seed, etc.)
+   - Data path handling (parameterized vs hardcoded)
+
+3. **Load extracted metrics:**
+   ```bash
+   cat experiments/run_{NNN}_{desc}/metrics.json
+   ```
+   Metrics were extracted via scrapbook from notebook outputs.
+
+4. **Cell execution order is NOT a Critic concern:**
+   Per CONTEXT.md, execution order is handled by fresh kernel per run (papermill).
+   Do NOT flag sequential cell issues - they're resolved by execution engine.
+
+### 1.4 Read Metrics Output
 
 **Read experiment output file:**
 ```bash
@@ -127,7 +152,7 @@ experiment_metrics = {
 }
 ```
 
-### 1.4 Read Previous CRITIC_LOGs
+### 1.5 Read Previous CRITIC_LOGs
 
 **Find all previous logs:**
 ```bash
@@ -155,7 +180,7 @@ for log_path in previous_logs:
 - Metrics trend (improving/degrading/stagnant)
 - Repeated issues (suggest deeper problem)
 
-### 1.5 Parse Iteration Count
+### 1.6 Parse Iteration Count
 
 **Determine current iteration:**
 ```python
@@ -378,6 +403,33 @@ cat .planning/DATA_REPORT.md
 - Data references/hashes recorded
 - Deterministic operations used (or non-determinism acknowledged)
 
+### 3.7 Notebook-Specific Checks
+
+For notebook experiments (when output.ipynb exists):
+
+1. **Random Seed Validation (HARD REQUIREMENT):**
+   Check output.ipynb cells for seed setting:
+   - `random.seed(`
+   - `np.random.seed(`
+   - `torch.manual_seed(`
+   - `random_seed =` or `SEED =`
+
+   If NO seed found: This is a HARD BLOCK for graduation.
+   Recommend: "Set random seed explicitly in parameter cell for reproducibility."
+
+2. **Parameters Cell Check:**
+   Look for cell with 'parameters' tag in metadata.
+   If missing: Advisory warning (papermill still injected parameters as new cell).
+
+3. **Scrapbook Metrics Check:**
+   Verify key metrics were captured via sb.glue():
+   - metrics.json should have entries
+   - Entries should map to OBJECTIVE.md success criteria
+
+   If metrics missing: Warn - "Expected metrics not captured. Use scrapbook.glue() in notebook."
+
+**Note:** Same standards as scripts. Notebooks don't get special treatment.
+
 **Output from Step 3:**
 - Suspicious success flag (yes/no with reasoning)
 - Train-test gap assessment
@@ -385,6 +437,7 @@ cat .planning/DATA_REPORT.md
 - Code quality notes
 - Data integrity concerns
 - Reproducibility assessment
+- Notebook-specific: seed validation, parameters cell, scrapbook metrics
 
 ---
 
@@ -464,6 +517,26 @@ Methodology errors:
 - Random seed not set (non-reproducible)
 - Data leakage in preprocessing
 ```
+
+**Notebook-Specific REVISE_METHOD Guidance:**
+
+For notebook experiments, REVISE_METHOD differs from scripts:
+
+**Key rule:** Create new notebook version, don't edit in place.
+
+Recommend:
+```
+For notebook iteration:
+1. Copy notebooks/exploration/{notebook}.ipynb to notebooks/exploration/{notebook}_v2.ipynb
+2. Make changes in the new version
+3. Run /grd:research with the new notebook
+4. Keep original for audit trail
+
+Do NOT edit the original notebook in place - versioning preserves history.
+```
+
+This differs from script REVISE_METHOD where we modify train.py directly.
+Notebooks preserve exploration history through explicit versioning.
 
 #### REVISE_DATA
 
@@ -697,6 +770,32 @@ with open(log_path, 'w') as f:
     f.write(populated_log)
 
 print(f"CRITIC_LOG written to {log_path}")
+```
+
+### 6.1 Notebook-Specific Fields in CRITIC_LOG.md
+
+For notebook experiments, include additional fields:
+
+- **Experiment Type:** notebook
+- **Seed Validation:** [PASS/FAIL - random seed explicitly set]
+- **Parameters Cell:** [PASS/WARN - tagged parameters cell exists]
+- **Metrics Captured:** [PASS/WARN - scrapbook metrics present]
+
+If REVISE_METHOD verdict on notebook:
+- **Versioning Guidance:** Create new notebook version (e.g., experiment_v2.ipynb)
+
+Example notebook-specific section in CRITIC_LOG.md:
+```markdown
+## Notebook Validation
+
+| Check | Status | Notes |
+|-------|--------|-------|
+| Random Seed | PASS | np.random.seed(42) in cell 2 |
+| Parameters Cell | WARN | No 'parameters' tag, papermill injected |
+| Scrapbook Metrics | PASS | 3 metrics captured via sb.glue() |
+
+**Experiment Type:** notebook
+**Source:** notebooks/exploration/churn_experiment.ipynb
 ```
 
 ---
