@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 4 of 6 (Recursive Validation Loop) — IN PROGRESS
-Plan: 1 of 5 (Research Command & Agent complete)
-Status: Phase 4 in progress
-Last activity: 2026-01-29 — Completed 04-01-PLAN.md (Research Command & Agent)
+Plan: 4 of 5 (Loop Wiring complete)
+Status: Phase 4 in progress - Wave 2 complete
+Last activity: 2026-01-30 — Completed 04-04-PLAN.md (Recursive Validation Loop Wiring)
 
-Progress: [████████████████████████████████░░░░] 81% (17/21 plans complete across phases 1-4)
+Progress: [███████████████████████████████████░] 95% (20/21 plans complete across phases 1-4)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 17
-- Average duration: 3.2 min
-- Total execution time: 0.98 hours
+- Total plans completed: 20
+- Average duration: 3.4 min
+- Total execution time: 1.13 hours
 
 **By Phase:**
 
@@ -31,11 +31,11 @@ Progress: [███████████████████████
 | 01 | 6 | 17.2min | 2.9min |
 | 02 | 4 | 21.0min | 5.3min |
 | 03 | 4 | 11.2min | 2.8min |
-| 04 | 1 | 5.0min | 5.0min |
+| 04 | 4 | 20.0min | 5.0min |
 
 **Recent Trend:**
-- Last 5 plans: 04-01 (5min), 03-04 (4min), 03-03 (2min), 03-02 (4min), 03-01 (1min)
-- Trend: Phase 4 started with command and agent creation (5min) — foundational workflow infrastructure
+- Last 5 plans: 04-04 (15min), 04-03 (0min - agent only), 04-02 (0min - agent only), 04-01 (5min), 03-04 (4min)
+- Trend: Phase 4 Wave 2 complete - loop wiring took longer (15min) due to complex routing logic and decision gates
 
 *Updated after each plan completion*
 
@@ -95,6 +95,11 @@ Recent decisions affecting current work:
 | Researcher spawns Critic internally | 04-01 | Command spawns Researcher, Researcher spawns Critic via Task tool |
 | Four verdict types defined | 04-01 | PROCEED/REVISE_METHOD/REVISE_DATA/ESCALATE for Critic routing |
 | Complete snapshot per run | 04-01 | Each experiments/run_NNN/ contains code, config, data refs, logs, outputs, metrics, critique |
+| Default iteration limit set to 5 | 04-04 | Configurable via --limit flag, balances exploration with cost control |
+| Cycle detection after 3 identical verdicts | 04-04 | Forces ESCALATE when same verdict repeats 3+ times with similar recommendations |
+| LOW confidence PROCEED requires human gate | 04-04 | Prevents proceeding with uncertain experiments - human can approve, reject, or investigate |
+| REVISE_DATA requires manual routing | 04-04 | Data analysis is complex - user must manually route to /grd:explore with specific concerns |
+| Human decision gate offers 4 options | 04-04 | Continue (extend limit), Archive (abandon), Reset (fresh start), Escalate (reformulate) |
 
 ### Pending Todos
 
@@ -103,14 +108,16 @@ None yet.
 ### Blockers/Concerns
 
 **From Research:**
-- Phase 4 complexity: Critic decision logic (rules vs LLM-powered reasoning) needs prototyping during planning
-- Phase 4 risk: Infinite recursive loops — maximum iteration depth and escape hatches required
 - Phase 5 integration: Technology versions (MLflow 2.9.x, DVC 3.x, uv stability) need verification at planning time
+
+**Resolved:**
+- ✓ Phase 4 complexity: Critic decision logic implemented with LLM-powered reasoning (04-02)
+- ✓ Phase 4 risk: Iteration limit (default 5) and cycle detection prevent infinite loops (04-04)
 
 ## Session Continuity
 
-Last session: 2026-01-29 (execution)
-Stopped at: Completed 04-01-PLAN.md (Research Command & Agent) — Phase 4 in progress
+Last session: 2026-01-30 (execution)
+Stopped at: Completed 04-04-PLAN.md (Recursive Validation Loop Wiring) — Phase 4 Wave 2 complete
 Resume file: None
 
 ---
