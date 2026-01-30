@@ -600,6 +600,37 @@ cat ~/.claude/get-research-done/templates/experiment-readme.md
 - `{{metrics_summary_or_pending}}`: "Pending" initially
 - `{{verdict_if_available_or_pending}}`: "Pending" initially
 
+**Include hardware context and duration estimate:**
+
+Add to README.md template:
+```markdown
+## Hardware Context
+
+{{hardware_summary}}
+
+## Duration Estimate
+
+- **Estimated:** {{estimated_minutes}} minutes
+- **Long-running:** {{is_long_running}}
+- **Confidence:** {{estimate_confidence}}
+- **Timeout:** {{timeout_status}}
+```
+
+Populate with:
+```python
+hardware_summary = f"""
+- CPU: {hardware_profile['cpu']['brand']} ({hardware_profile['cpu']['cores_physical']} cores)
+- Memory: {hardware_profile['memory']['total_gb']:.1f} GB
+- GPU: {hardware_profile['gpu']['name'] if hardware_profile['gpu'] else 'None'}
+""" if hardware_profile else "Hardware profile not available"
+
+update_readme_field("hardware_summary", hardware_summary)
+update_readme_field("estimated_minutes", f"{duration_estimate['estimated_minutes']:.1f}")
+update_readme_field("is_long_running", str(duration_estimate['is_long_running']))
+update_readme_field("estimate_confidence", duration_estimate['confidence'])
+update_readme_field("timeout_status", "Disabled (approved)" if experiment_timeout is None else f"{experiment_timeout}s")
+```
+
 **Write populated README.md:**
 
 ```python
@@ -1924,6 +1955,47 @@ Edit(
 )
 ```
 
+## Step 7.7.5: Provide Checkpoint Hints (Long-Running Only)
+
+**When:** Only for long-running experiments or when interrupted
+
+**Responsibilities:**
+- Check for saved checkpoints
+- Provide resumability guidance
+- Include hints in completion message
+
+### Checkpoint Hints
+
+```python
+from src.grd.experiment import CheckpointHandler
+
+if duration_estimate.get('is_long_running', False):
+    # Initialize checkpoint handler for this run
+    checkpoint_handler = CheckpointHandler(
+        checkpoint_dir=Path(run_dir) / 'checkpoints'
+    )
+
+    hints = checkpoint_handler.get_resumability_hints()
+
+    if hints['has_checkpoint']:
+        print(f"\n{'='*60}")
+        print("CHECKPOINT INFORMATION")
+        print(f"{'='*60}")
+        print(f"Latest checkpoint: Epoch {hints['latest_epoch']}")
+        print(f"Checkpoint path: {hints['checkpoint_path']}")
+        print(f"\nTo resume training:")
+        print(f"  1. Load checkpoint in your training script")
+        print(f"  2. Run: /grd:research --continue")
+        print(f"{'='*60}\n")
+
+    # Include in completion message
+    checkpoint_info = {
+        'has_checkpoint': hints['has_checkpoint'],
+        'latest_epoch': hints.get('latest_epoch'),
+        'checkpoint_path': str(hints.get('checkpoint_path'))
+    }
+```
+
 ### 7.8 Return Completion Message
 
 **Return structured message to spawning command:**
@@ -1934,6 +2006,16 @@ Edit(
 **Run:** experiments/run_{NNN}_{description}/
 **Iteration:** {iteration}
 **Verdict:** {verdict} (Confidence: {confidence})
+
+**Duration:**
+- Estimated: {estimated_minutes} minutes
+- Actual: {actual_minutes} minutes
+- Timeout: {timeout_status}
+
+**Checkpoint Status:** (for long-running only)
+- Has checkpoint: {has_checkpoint}
+- Latest epoch: {latest_epoch}
+- Resume hint: {resume_hint}
 
 **Artifacts:**
 - Code: experiments/run_{NNN}_{description}/code/train.py
