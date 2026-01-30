@@ -883,86 +883,54 @@ Write(
 )
 ```
 
-## Step 7.5: Handle Critic Verdict Routing
+### 7.5 Cycle Detection Check
 
-### Routing Logic
+**Before routing, check for cycles:**
 
-Based on Critic verdict, route to appropriate next step:
+```python
+# Check verdict history for repeated verdicts
+if len(verdict_history) >= 3:
+    last_three = verdict_history[-3:]
 
-**If PROCEED:**
-1. Check Critic confidence level
-2. If confidence == HIGH or MEDIUM:
-   - Spawn grd-evaluator agent via Task
-   - Pass: run directory, OBJECTIVE.md path, CRITIC_LOG path
-   - Return success with SCORECARD.json path
-3. If confidence == LOW:
-   - Gate to human for confirmation
-   - Present: metrics summary, Critic reasoning, recommendation
-   - Human can: approve (continue to Evaluator), reject (REVISE_METHOD), escalate
+    # If same verdict 3 times in a row
+    if len(set(last_three)) == 1:
+        # Check if Critic feedback is similar (not addressing issues)
+        if similar_recommendations_detected(last_three_critiques):
+            # Force ESCALATE even if under iteration limit
+            verdict = "ESCALATE"
+            reasoning = f"Cycle detected: {last_three[0]} verdict repeated 3 times with similar issues. Recommendations not being addressed. Human intervention required."
 
-**If REVISE_METHOD:**
-1. Log CRITIC_LOG.md to run directory
-2. Check iteration count against limit (default: 5)
-3. If under limit:
-   - Archive current run (move to experiments/archive/)
-   - Increment iteration count
-   - Return to Step 2 (Create Run Directory) with new run number
-   - Include Critic recommendations in context
-4. If at limit:
-   - Trigger human decision gate (Step 8)
+            # Log cycle detection warning
+            cycle_warning = f"""
+## CYCLE DETECTED
 
-**If REVISE_DATA:**
-1. Log CRITIC_LOG.md with specific data concerns
-2. Extract data issues from Critic recommendations
-3. Route to /grd:explore with specific concerns:
-   - Pass: concern list, original DATA_REPORT.md path
-   - Explorer will append findings to DATA_REPORT.md
-4. After Explorer completes:
-   - User must re-run /grd:research to continue loop
-   - Or user can /grd:architect to reformulate hypothesis
+**Pattern:** {last_three[0]} repeated 3 times
+**Iterations:** {iteration - 2} through {iteration}
+**Issue:** Recommendations not being addressed, suggesting deeper problem
 
-**If ESCALATE:**
-1. Prepare evidence package:
-   - All CRITIC_LOGs from this hypothesis
-   - Metrics trend across iterations
-   - Current run artifacts
-2. Surface to human for strategic decision
-3. Human options: Continue, Archive, Reset, Escalate
+Forcing ESCALATE to human decision gate.
+"""
 
-## Step 8: Human Decision Gate
+            # Append to CRITIC_LOG.md
+            append_to_file("CRITIC_LOG.md", cycle_warning)
+```
 
-### Human Gate (at iteration limit or ESCALATE)
+**Track verdict in history:**
+```python
+verdict_history.append({
+    'iteration': iteration,
+    'verdict': verdict,
+    'confidence': confidence,
+    'composite_score': composite_score,
+    'recommendations': recommendations
+})
+```
 
-When iteration limit reached or Critic ESCALATE:
-
-1. Prepare evidence package:
-   - Iterations completed: N
-   - Verdict history: [REVISE_METHOD, REVISE_METHOD, REVISE_DATA, ...]
-   - Metric trend: improving / stagnant / degrading
-   - Latest critique summary
-   - Cost estimate (if available)
-
-2. Present options using AskUserQuestion:
-   - **Continue**: Allow more iterations (resets limit)
-   - **Archive**: Move all runs to archive/, mark hypothesis as abandoned
-   - **Reset**: Archive runs, start fresh approach (new run_001)
-   - **Escalate**: Return to /grd:architect to reformulate hypothesis
-
-3. Log human decision:
-   - Write HUMAN_DECISION.md to latest run directory
-   - Include timestamp, decision, rationale (if provided)
-
-4. Execute decision:
-   - Continue: increment limit, return to Step 2
-   - Archive: move runs, return completion with "archived" status
-   - Reset: archive, return with instruction to re-run /grd:research
-   - Escalate: return with instruction to run /grd:architect
-
-### 8.1 Route Based on Verdict
+### 7.6 Route Based on Verdict
 
 **Switch on verdict:**
 
-**If PROCEED:**
+#### Route: PROCEED
 
 1. **Check Critic confidence level**
    - If confidence == HIGH or MEDIUM: proceed to Evaluator spawn
@@ -970,12 +938,15 @@ When iteration limit reached or Critic ESCALATE:
      - Present: metrics summary, Critic reasoning, recommendation
      - Human can: approve (continue to Evaluator), reject (REVISE_METHOD), escalate
 
-2. **Update run status:**
-   - README.md: status = "complete"
-   - README.md: verdict = "PROCEED"
-   - README.md: metrics = {actual values}
+2. **Update run status (HIGH/MEDIUM only):**
+   ```python
+   # Update README.md
+   update_readme_field("status", "complete")
+   update_readme_field("verdict", "PROCEED")
+   update_readme_field("metrics", metrics_summary)
+   ```
 
-3. **Spawn Evaluator (HIGH/MEDIUM confidence only):**
+3. **Spawn Evaluator:**
    ```python
    evaluator_result = Task(prompt=f"""
    <run_artifacts>
@@ -1008,11 +979,17 @@ When iteration limit reached or Critic ESCALATE:
    **Next Phase:** Evaluator will run quantitative benchmarks (Phase 5)
    ```
 
-**If REVISE_METHOD:**
+#### Route: REVISE_METHOD
 
 1. **Check iteration count against limit:**
-   - If under limit: prepare for loop continuation
-   - If at limit: trigger human decision gate (Step 8)
+   ```python
+   if iteration_count >= iteration_limit:
+       # Trigger human decision gate (Step 8)
+       trigger_human_gate(reason="iteration_limit")
+   else:
+       # Continue with revision
+       proceed_with_revision()
+   ```
 
 2. **Archive current run:**
    ```bash
@@ -1021,12 +998,12 @@ When iteration limit reached or Critic ESCALATE:
    ```
 
 3. **Update run status:**
-   - README.md: status = "revision_needed"
-   - README.md: verdict = "REVISE_METHOD"
+   ```python
+   update_readme_field("status", "revision_needed")
+   update_readme_field("verdict", "REVISE_METHOD")
+   ```
 
-4. **Save CRITIC_LOG.md** (already done in 7.4)
-
-5. **Increment iteration count and return for retry:**
+4. **Increment iteration count and return for retry:**
    ```markdown
    ## REVISION NEEDED (Method)
 
@@ -1046,18 +1023,24 @@ When iteration limit reached or Critic ESCALATE:
    - Run: /grd:research --continue
    ```
 
-6. **If under limit:** Return to Step 2 (Create Run Directory) with new run number
+5. **If under limit:** Return to Step 2 (Create Run Directory) with new run number and Critic recommendations in context
 
-**If REVISE_DATA:**
+#### Route: REVISE_DATA
 
 1. **Update run status:**
-   - README.md: status = "data_issues"
-   - README.md: verdict = "REVISE_DATA"
+   ```python
+   update_readme_field("status", "data_issues")
+   update_readme_field("verdict", "REVISE_DATA")
+   ```
 
 2. **Extract data concerns from Critic recommendations:**
-   - Parse weaknesses section for data-related issues
-   - Identify specific columns, features, or patterns mentioned
-   - Prepare targeted analysis request
+   ```python
+   # Parse weaknesses section for data-related issues
+   data_concerns = extract_data_concerns(weaknesses, recommendations)
+
+   # Identify specific columns, features, or patterns mentioned
+   targeted_concerns = identify_specific_concerns(data_concerns)
+   ```
 
 3. **Prepare targeted re-analysis request:**
    ```markdown
@@ -1096,16 +1079,27 @@ When iteration limit reached or Critic ESCALATE:
 
 5. **Exit with routing code** (user must manually route to /grd:explore)
 
-**If ESCALATE:**
+#### Route: ESCALATE
 
 1. **Update run status:**
-   - README.md: status = "human_review"
-   - README.md: verdict = "ESCALATE"
+   ```python
+   update_readme_field("status", "human_review")
+   update_readme_field("verdict", "ESCALATE")
+   ```
 
 2. **Prepare evidence package:**
-   - Gather all CRITIC_LOGs from current hypothesis
-   - Calculate metrics trend across iterations
-   - Collect current run artifacts
+   ```python
+   # Gather all CRITIC_LOGs from current hypothesis
+   all_critiques = gather_critique_history()
+
+   # Calculate metrics trend across iterations
+   metrics_trend = calculate_metrics_trend(verdict_history)
+
+   # Collect current run artifacts
+   artifacts = collect_run_artifacts(run_dir)
+   ```
+
+3. **Format evidence package:**
    ```markdown
    ## Human Decision Required
 
@@ -1130,26 +1124,9 @@ When iteration limit reached or Critic ESCALATE:
    4. Escalate - Return to /grd:architect to reformulate hypothesis
    ```
 
-3. **Surface to human via AskUserQuestion or return for manual decision:**
-   ```markdown
-   ## HUMAN DECISION REQUIRED
-
-   **Run:** experiments/run_{NNN}_{description}/
-   **Verdict:** ESCALATE (Confidence: {confidence})
-
-   **Ambiguous Failure:**
-   {reasoning}
-
-   Manual investigation needed.
-
-   **Next Steps:**
-   - Review CRITIC_LOG.md and experiment artifacts
-   - Determine: Continue, Archive, Reset, or Escalate to Architect
-   ```
-
 4. **Trigger human decision gate (Step 8)** for user choice
 
-### 8.2 Update README.md with Final Status
+### 7.7 Update README.md with Final Status
 
 **Regardless of verdict, update README:**
 
@@ -1186,7 +1163,7 @@ Edit(
 )
 ```
 
-### 8.3 Return Completion Message
+### 7.8 Return Completion Message
 
 **Return structured message to spawning command:**
 
@@ -1207,6 +1184,248 @@ Edit(
 ```
 
 **Exit with appropriate status.**
+
+## Step 8: Human Decision Gate
+
+### When Triggered
+
+Human decision gate is triggered when:
+- **Iteration limit reached** (default: 5, configurable via --limit)
+- **Critic verdict is ESCALATE** (ambiguous failure, cannot determine root cause)
+- **Cycle detected** (same verdict 3+ times with similar recommendations)
+- **PROCEED with LOW confidence** (metrics pass but concerns exist)
+
+### 8.1 Prepare Evidence Package
+
+**Gather complete context:**
+
+```python
+evidence_package = {
+    'iterations_completed': iteration_count,
+    'iteration_limit': iteration_limit,
+    'verdict_history': [
+        {'iteration': i, 'verdict': v, 'confidence': c, 'score': s}
+        for i, v, c, s in verdict_history
+    ],
+    'metrics_trend': calculate_trend(metrics_history),
+    'latest_critique': {
+        'verdict': verdict,
+        'confidence': confidence,
+        'weaknesses': weaknesses,
+        'recommendations': recommendations,
+        'reasoning': reasoning
+    },
+    'all_critiques': [
+        read_file(f"experiments/run_{i}/CRITIC_LOG.md")
+        for i in range(1, iteration_count + 1)
+    ],
+    'hypothesis': extract_from_objective("hypothesis"),
+    'cost_estimate': estimate_cost_if_continue()
+}
+```
+
+**Calculate metrics trend:**
+```python
+def calculate_metrics_trend(history):
+    if len(history) < 2:
+        return "insufficient_data"
+
+    scores = [h['composite_score'] for h in history]
+
+    # Check trend direction
+    if scores[-1] > scores[0] + 0.05:
+        return "improving"
+    elif scores[-1] < scores[0] - 0.05:
+        return "degrading"
+    else:
+        return "stagnant"
+```
+
+### 8.2 Present Options to Human
+
+**Use AskUserQuestion for decision:**
+
+```python
+decision = AskUserQuestion(
+    header=f"Human Decision Required (Iteration {iteration_count}/{iteration_limit})",
+    question=f"""
+Iteration limit reached or manual decision needed.
+
+**Hypothesis:** {hypothesis_brief}
+**Iterations:** {iteration_count} completed
+**Verdict history:** {verdict_summary}
+**Metrics trend:** {trend}
+**Latest verdict:** {verdict} (Confidence: {confidence})
+
+**Latest critique summary:**
+{brief_critique_summary}
+
+How would you like to proceed?
+""",
+    options=[
+        "Continue - Allow more iterations (extend limit by 5)",
+        "Archive - Move all runs to archive/, abandon hypothesis",
+        "Reset - Archive current runs, start fresh with new approach",
+        "Escalate - Return to /grd:architect to reformulate hypothesis"
+    ]
+)
+```
+
+### 8.3 Log Human Decision
+
+**Write HUMAN_DECISION.md to latest run directory:**
+
+```markdown
+# Human Decision Log
+
+**Timestamp:** {current_timestamp}
+**Iteration:** {iteration_count} of {iteration_limit}
+**Trigger:** {iteration_limit_reached | escalate_verdict | cycle_detected | low_confidence}
+
+## Context
+
+**Verdict history:**
+{verdict_list}
+
+**Metrics trend:** {improving | stagnant | degrading}
+
+**Latest composite score:** {score}
+
+## Decision
+
+**Choice:** {Continue | Archive | Reset | Escalate}
+
+**Rationale:**
+{user_provided_rationale_if_any}
+
+---
+
+*Human decision recorded by grd-researcher*
+*Date: {date}*
+```
+
+**Write to file:**
+```python
+Write(
+  file_path=f"experiments/run_{run_num}_{description}/HUMAN_DECISION.md",
+  content=decision_log
+)
+```
+
+### 8.4 Execute Decision
+
+**Switch on human choice:**
+
+#### Decision: Continue
+
+```python
+# Extend iteration limit
+iteration_limit += 5
+
+# Log extension
+log_to_state_md(f"Human extended iteration limit to {iteration_limit}")
+
+# Return to Step 2 (Create Run Directory) with new run number
+# Include all previous critique history in context
+return_to_step_2(
+    iteration=iteration_count + 1,
+    limit=iteration_limit,
+    critique_history=all_critiques
+)
+```
+
+#### Decision: Archive
+
+```python
+# Move all runs to archive with timestamp
+archive_dir = f"experiments/archive/{hypothesis_id}_{timestamp}"
+os.makedirs(archive_dir, exist_ok=True)
+
+# Move all run directories
+for run_dir in glob("experiments/run_*"):
+    shutil.move(run_dir, archive_dir)
+
+# Write archive summary
+archive_summary = f"""
+# Archived Hypothesis
+
+**Hypothesis:** {hypothesis_brief}
+**Archived:** {timestamp}
+**Reason:** Human decision - hypothesis abandoned
+**Iterations completed:** {iteration_count}
+**Final verdict:** {verdict}
+
+See run directories for complete experiment history.
+"""
+
+Write(
+  file_path=f"{archive_dir}/ARCHIVE_SUMMARY.md",
+  content=archive_summary
+)
+
+# Update STATE.md
+update_state_md(status="hypothesis_archived")
+
+# Return completion
+return {
+    'status': 'archived',
+    'archive_location': archive_dir,
+    'message': 'Hypothesis archived. Review ARCHIVE_SUMMARY.md for details.'
+}
+```
+
+#### Decision: Reset
+
+```python
+# Archive current runs (same as Archive)
+archive_current_runs()
+
+# Clear iteration count
+iteration_count = 0
+
+# Prepare for fresh start
+return {
+    'status': 'reset',
+    'message': 'Previous runs archived. Ready for fresh approach.',
+    'next_step': 'Run /grd:research to start new iteration with different approach'
+}
+```
+
+#### Decision: Escalate
+
+```python
+# Archive current runs
+archive_current_runs()
+
+# Update STATE.md
+update_state_md(status="hypothesis_reformulation_needed")
+
+# Return escalation
+return {
+    'status': 'escalated',
+    'message': 'Hypothesis reformulation needed.',
+    'next_step': 'Run /grd:architect to reformulate hypothesis based on learnings',
+    'learnings': extract_learnings_from_critiques(all_critiques)
+}
+```
+
+### 8.5 Return Status
+
+**Return structured message based on decision outcome:**
+
+```markdown
+## HUMAN DECISION EXECUTED
+
+**Decision:** {Continue | Archive | Reset | Escalate}
+**Timestamp:** {timestamp}
+
+{decision_specific_details}
+
+**Next steps:**
+{decision_specific_next_steps}
+
+**Decision log:** experiments/run_{NNN}_{description}/HUMAN_DECISION.md
+```
 
 </execution_flow>
 
