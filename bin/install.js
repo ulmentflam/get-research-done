@@ -98,7 +98,7 @@ ${cyan}   ██████╗ ██████╗ ██████╗
 
   Get Research Done ${dim}v${pkg.version}${reset}
   A recursive, agentic framework for ML research
-  with hypothesis-driven experimentation for Claude Code by TÂCHES.
+  with hypothesis-driven experimentation for Claude Code by Ulmentflam.
 `;
 
 // Parse --config-dir argument

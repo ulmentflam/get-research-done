@@ -59,7 +59,7 @@ So I built GRD. It's the framework that makes ML research systematic:
 
 The complexity is in the system, not in your workflow. You run five commands: `/grd:explore`, `/grd:architect`, `/grd:research`, `/grd:evaluate`, `/grd:graduate`. The agents handle the rest.
 
-— **TÂCHES**
+— **Ulmentflam**
 
 ---
 
