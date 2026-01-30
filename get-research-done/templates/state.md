@@ -118,6 +118,11 @@ None yet.
 - **Current:** {{blocker_or_none}}
 - **Requires:** {{human_action|data_fix|method_change}}
 
+### Research Blockers
+
+- **Current:** {{blocker_or_none}}
+- **Requires:** {{human_action|data_fix|method_change}}
+
 ## Session Continuity
 
 Last session: [YYYY-MM-DD HH:MM]
