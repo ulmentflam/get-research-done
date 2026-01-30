@@ -18,6 +18,8 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 4: Recursive Validation Loop** - Researcher/Critic/Evaluator agents with state routing
 - [x] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
 - [x] **Phase 6: Notebook Support** - Jupyter integration and graduation path
+- [ ] **Phase 7: REVISE_DATA Auto-Routing** - Complete recursive loop automation (gap closure)
+- [ ] **Phase 8: Baseline Orchestration** - Ensure baseline experiments run before comparisons (gap closure)
 
 ## Phase Details
 
@@ -157,10 +159,48 @@ Plans:
 - [x] 06-04-PLAN.md — Create /grd:graduate command and grd-graduator agent
 - [x] 06-05-PLAN.md — Update Critic for notebook evaluation and verify phase end-to-end
 
+### Phase 7: REVISE_DATA Auto-Routing
+**Goal**: Complete recursive loop automation by auto-spawning Explorer on REVISE_DATA verdict
+
+**Depends on**: Phase 4, Phase 6
+
+**Gap Closure**: Closes integration gap (Critic → Explorer) and flow gap (REVISE_DATA → Explorer)
+
+**Tech Debt Addressed**:
+- REVISE_DATA Auto-Routing (HIGH) — Researcher auto-spawns Explorer with targeted concerns
+- STATE.md Update Enforcement (MEDIUM) — Verify loop state tracking consistency
+
+**Success Criteria** (what must be TRUE):
+  1. When Critic returns REVISE_DATA, Researcher auto-spawns Explorer agent with specific concerns
+  2. Explorer receives targeted re-analysis scope from Critic's findings
+  3. After Explorer completes, research loop auto-continues without user intervention
+  4. STATE.md accurately tracks loop iterations, verdicts, and data revision events
+  5. Full REVISE_DATA → Explorer → Researcher cycle completes autonomously
+
+**Plans**: TBD (created during /gsd:plan-phase)
+
+### Phase 8: Baseline Orchestration
+**Goal**: Ensure baseline experiments are run before comparison experiments
+
+**Depends on**: Phase 3, Phase 4
+
+**Gap Closure**: Closes tech debt from Phase 3 hypothesis synthesis
+
+**Tech Debt Addressed**:
+- Baseline Experiment Orchestration (LOW) — Mechanism to ensure baseline runs first
+
+**Success Criteria** (what must be TRUE):
+  1. When OBJECTIVE.md defines baselines, system validates baseline results exist before main experiment
+  2. If baseline results missing, Researcher is prompted to run baseline experiment first
+  3. Evaluator baseline comparison only runs when baseline results are available
+  4. Clear error message when attempting evaluation without required baseline
+
+**Plans**: TBD (created during /gsd:plan-phase)
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -170,8 +210,10 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
+| 7. REVISE_DATA Auto-Routing | 0/? | Planned | - |
+| 8. Baseline Orchestration | 0/? | Planned | - |
 
 ---
 *Roadmap created: 2026-01-27*
-*Depth: standard (6 phases)*
-*Coverage: 25/25 requirements mapped*
+*Depth: standard (8 phases, 2 gap closure)*
+*Coverage: 25/25 requirements mapped + 3 tech debt items*
