@@ -224,7 +224,13 @@ Plans:
   7. Hardware context included in experiment metadata for reproducibility
   8. Graceful handling of experiments that run hours/days (checkpoint awareness, resumability hints)
 
-**Plans**: TBD (created during /gsd:plan-phase)
+**Plans**: 4 plans
+
+Plans:
+- [ ] 09-01-PLAN.md — Create hardware profiler and duration estimator modules
+- [ ] 09-02-PLAN.md — Create timeout manager and checkpoint handler modules
+- [ ] 09-03-PLAN.md — Update Explorer agent with hardware profiling step
+- [ ] 09-04-PLAN.md — Update Researcher agent with duration estimation and timeout handling
 
 ## Progress
 
@@ -241,7 +247,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
 | 7. REVISE_DATA Auto-Routing | 2/2 | Complete | 2026-01-30 |
 | 8. Baseline Orchestration | 3/3 | Complete | 2026-01-30 |
-| 9. Hardware Profiling & Long-Running Experiments | 0/? | Planned | - |
+| 9. Hardware Profiling & Long-Running Experiments | 0/4 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-27*
