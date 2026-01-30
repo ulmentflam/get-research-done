@@ -200,7 +200,12 @@ Plans:
   3. Evaluator baseline comparison only runs when baseline results are available
   4. Clear error message when attempting evaluation without required baseline
 
-**Plans**: TBD (created during /gsd:plan-phase)
+**Plans**: 3 plans
+
+Plans:
+- [ ] 08-01-PLAN.md — Add baseline validation gate to grd-researcher agent (Step 1.0.5)
+- [ ] 08-02-PLAN.md — Add baseline safety check to grd-evaluator and multi-baseline SCORECARD
+- [ ] 08-03-PLAN.md — Update templates with baseline ordering conventions and verification
 
 ### Phase 9: Hardware Profiling & Long-Running Experiments
 **Goal**: Capture hardware context for reproducibility and handle experiments that exceed standard task timeouts
@@ -235,7 +240,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
 | 7. REVISE_DATA Auto-Routing | 2/2 | Complete | 2026-01-30 |
-| 8. Baseline Orchestration | 0/? | Planned | - |
+| 8. Baseline Orchestration | 0/3 | Planned | - |
 | 9. Hardware Profiling & Long-Running Experiments | 0/? | Planned | - |
 
 ---
