@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 8 of 9 (Baseline Orchestration) - PLANNED
-Plan: 0 of ? (not yet planned)
+Phase: 8 of 9 (Baseline Orchestration) - IN PROGRESS
+Plan: 1 of 3 complete
 Status: Gap closure in progress
-Last activity: 2026-01-30 — Phase 7 complete (REVISE_DATA auto-routing)
+Last activity: 2026-01-30 — Completed 08-01-PLAN.md (Baseline Validation Gate)
 
-Progress: [████████████████████████████████████████████████████] 100% core (32/32 plans) + 2 enhancement phases pending
+Progress: [████████████████████████████████████████████████████] 100% core (32/32 plans) + 1/3 Phase 8 complete
 
 ## Performance Metrics
 
@@ -150,6 +150,10 @@ Recent decisions affecting current work:
 | Phase 6 verified and human-approved | 06-05 | All notebook support requirements (NOTE-01/02/03) satisfied and verified end-to-end |
 | Validation tiered for graduation | 06-04 | Errors block graduation (seeds, parameters), warnings advisory (paths, magics) |
 | Refactoring guidance embedded in script | 06-04 | Script header includes TODO checklist for manual cleanup |
+| First-in-list baseline designation | 08-01 | First baseline in OBJECTIVE.md table is PRIMARY (required), subsequent are SECONDARY (optional) |
+| Primary baseline blocks, secondary warns | 08-01 | Fail-fast gate at Researcher start - missing primary = actionable error, missing secondary = warning |
+| Actionable error messages with commands | 08-01 | Baseline validation errors include exact command to fix (e.g., /grd:research --baseline {name}) |
+| --skip-baseline flag with logging | 08-01 | Override bypasses validation but logs to STATE.md and run metadata for audit trail |
 
 ### Pending Todos
 
@@ -167,9 +171,9 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30 (Phase 7 execution)
-Stopped at: Phase 7 complete (REVISE_DATA auto-routing)
-Resume file: Ready for Phase 8 (Baseline Orchestration) or Phase 9 (Hardware Profiling)
+Last session: 2026-01-30 (Phase 8 execution)
+Stopped at: Completed 08-01-PLAN.md (Baseline Validation Gate)
+Resume file: Continue with 08-02-PLAN.md (SCORECARD Baseline Comparison)
 
 ---
 *State initialized: 2026-01-27*
