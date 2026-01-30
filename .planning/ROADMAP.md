@@ -144,14 +144,18 @@ Plans:
 
 **Success Criteria** (what must be TRUE):
   1. System can execute Jupyter notebooks as experiments via papermill or similar engine
-  2. Clear separation exists between `experiments/exploration/` (notebooks) and `experiments/validated/` (scripts)
+  2. Clear separation exists between `notebooks/exploration/` (notebooks) and `src/experiments/` (scripts)
   3. Graduation checklist validates notebooks are refactored (no hardcoded paths, deterministic seeds, parameterized)
   4. Critic enforces graduation requirements before marking notebooks as "validated"
 
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 06-01: TBD during planning
+- [ ] 06-01-PLAN.md — Create notebook executor and graduation validator Python modules
+- [ ] 06-02-PLAN.md — Create graduated script template and directory scaffolds
+- [ ] 06-03-PLAN.md — Update grd-researcher agent for notebook execution support
+- [ ] 06-04-PLAN.md — Create /grd:graduate command and grd-graduator agent
+- [ ] 06-05-PLAN.md — Update Critic for notebook evaluation and verify phase end-to-end
 
 ## Progress
 
@@ -165,7 +169,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Hypothesis Synthesis | 4/4 | Complete | 2026-01-28 |
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
-| 6. Notebook Support | 0/TBD | Not started | - |
+| 6. Notebook Support | 0/5 | Planned | - |
 
 ---
 *Roadmap created: 2026-01-27*
