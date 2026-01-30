@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 7 of 8 (REVISE_DATA Auto-Routing) - PLANNED
+Phase: 7 of 9 (REVISE_DATA Auto-Routing) - PLANNED
 Plan: 0 of ? (not yet planned)
 Status: Gap closure in progress
-Last activity: 2026-01-30 — Added gap closure phases 7-8 from audit
+Last activity: 2026-01-30 — Added phases 7-9 (gap closure + hardware/long-running)
 
-Progress: [██████████████████████████████████████████████████] 100% core (30/30 plans) + 2 gap closure phases pending
+Progress: [██████████████████████████████████████████████████] 100% core (30/30 plans) + 3 enhancement phases pending
 
 ## Performance Metrics
 
@@ -50,6 +50,7 @@ Recent decisions affecting current work:
 
 | Decision | Made In | Impact |
 |----------|---------|--------|
+| Hardware profiling phase added | User | Phase 9 captures hardware context (GPU, CUDA, etc.) during EDA and handles long-running experiments (bypass 10min timeout) |
 | Gap closure phases created | Audit | Phases 7-8 address tech debt: REVISE_DATA auto-routing (HIGH), STATE.md enforcement (MEDIUM), baseline orchestration (LOW) |
 | Phase 5 verified and approved | 05-05 | All Human Evaluation Gate requirements (HUMAN-01/02/03) satisfied and human-approved |
 | Use git mv for all renames to preserve file history | 01-01 | All directory and file renames tracked in git history |

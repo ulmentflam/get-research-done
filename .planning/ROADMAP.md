@@ -20,6 +20,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 6: Notebook Support** - Jupyter integration and graduation path
 - [ ] **Phase 7: REVISE_DATA Auto-Routing** - Complete recursive loop automation (gap closure)
 - [ ] **Phase 8: Baseline Orchestration** - Ensure baseline experiments run before comparisons (gap closure)
+- [ ] **Phase 9: Hardware Profiling & Long-Running Experiments** - Capture hardware context and handle extended training runs
 
 ## Phase Details
 
@@ -197,10 +198,28 @@ Plans:
 
 **Plans**: TBD (created during /gsd:plan-phase)
 
+### Phase 9: Hardware Profiling & Long-Running Experiments
+**Goal**: Capture hardware context for reproducibility and handle experiments that exceed standard task timeouts
+
+**Depends on**: Phase 2 (Explorer), Phase 4 (Researcher)
+
+**Rationale**: ML experiments require hardware context for reproducibility (GPU model, CUDA version, memory). Training runs often exceed the 10-minute task timeout, breaking automation.
+
+**Success Criteria** (what must be TRUE):
+  1. Explorer agent captures hardware profile (GPU, CUDA, CPU cores, RAM, disk) during EDA
+  2. Hardware profile stored in DATA_REPORT.md or dedicated HARDWARE_PROFILE.md
+  3. Researcher agent estimates experiment duration based on hardware specs and data size
+  4. Long-running experiments (training, sweeps) bypass standard timeout with user confirmation
+  5. User sees estimated completion time, progress updates, and can monitor status
+  6. Hardware context included in experiment metadata for reproducibility
+  7. Graceful handling of experiments that run hours/days (checkpoint awareness, resumability hints)
+
+**Plans**: TBD (created during /gsd:plan-phase)
+
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
+Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
@@ -212,8 +231,9 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
 | 7. REVISE_DATA Auto-Routing | 0/? | Planned | - |
 | 8. Baseline Orchestration | 0/? | Planned | - |
+| 9. Hardware Profiling & Long-Running Experiments | 0/? | Planned | - |
 
 ---
 *Roadmap created: 2026-01-27*
-*Depth: standard (8 phases, 2 gap closure)*
-*Coverage: 25/25 requirements mapped + 3 tech debt items*
+*Depth: standard (9 phases, 3 gap closure/enhancement)*
+*Coverage: 25/25 requirements mapped + 3 tech debt items + 1 enhancement*
