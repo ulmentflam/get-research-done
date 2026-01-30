@@ -1167,57 +1167,159 @@ verdict_history.append({
 
 #### Route: REVISE_DATA
 
-1. **Update run status:**
+1. **Check data revision limit:**
    ```python
-   update_readme_field("status", "data_issues")
-   update_readme_field("verdict", "REVISE_DATA")
+   if data_revision_count >= data_revision_limit:
+       # Too many data revisions - escalate to human
+       return escalate_to_human(
+           reason="data_revision_limit",
+           message=f"Data quality concerns persist after {data_revision_count} revisions. Hypothesis may not be viable with current data.",
+           evidence={
+               'data_revision_count': data_revision_count,
+               'concerns_addressed': data_revision_history
+           }
+       )
    ```
 
-2. **Extract data concerns from Critic recommendations:**
+2. **Extract data concerns from Critic feedback:**
    ```python
-   # Parse weaknesses section for data-related issues
+   def extract_data_concerns(weaknesses: list, recommendations: list) -> list:
+       """Extract data-specific concerns from Critic feedback."""
+       data_keywords = [
+           'leakage', 'leak', 'data quality', 'distribution', 'drift',
+           'feature', 'correlation', 'train-test', 'overlap', 'imbalance',
+           'missing', 'outlier', 'anomaly', 'temporal', 'target'
+       ]
+
+       concerns = []
+
+       # Check weaknesses for data-related issues
+       for weakness in weaknesses:
+           if any(keyword in weakness.lower() for keyword in data_keywords):
+               concerns.append(weakness)
+
+       # Check recommendations for data investigation requests
+       for rec in recommendations:
+           if any(keyword in rec.lower() for keyword in data_keywords):
+               concerns.append(rec)
+
+       return list(set(concerns))  # Deduplicate
+
    data_concerns = extract_data_concerns(weaknesses, recommendations)
-
-   # Identify specific columns, features, or patterns mentioned
-   targeted_concerns = identify_specific_concerns(data_concerns)
    ```
 
-3. **Prepare targeted re-analysis request:**
-   ```markdown
-   ## Data Re-Analysis Needed
+3. **Format investigation scope for Explorer:**
+   ```python
+   def format_investigation_scope(concerns: list) -> str:
+       """Format concerns into Explorer investigation scope."""
+       scope_items = []
+       for concern in concerns:
+           if 'leakage' in concern.lower():
+               scope_items.append(f"- Re-run leakage detection for mentioned features")
+           elif 'distribution' in concern.lower():
+               scope_items.append(f"- Analyze distribution shift in flagged columns")
+           elif 'train-test' in concern.lower() or 'overlap' in concern.lower():
+               scope_items.append(f"- Verify train-test split integrity")
+           elif 'missing' in concern.lower():
+               scope_items.append(f"- Re-analyze missing data patterns")
+           else:
+               scope_items.append(f"- Investigate: {concern}")
+       return "\n".join(scope_items)
 
-   **Specific concerns:**
-   {weaknesses_related_to_data}
-
-   **Recommended analysis:**
-   - Re-check leakage detection for: {features}
-   - Investigate distribution shift in: {columns}
-   - Verify train-test split integrity
+   investigation_scope = format_investigation_scope(data_concerns)
+   concerns_list = "\n".join([f"- {c}" for c in data_concerns])
    ```
 
-4. **Return routing instruction:**
-   ```markdown
-   ## REVISION NEEDED (Data)
+4. **Auto-spawn Explorer via Task tool:**
+   ```python
+   explorer_result = Task(prompt=f"""
+<context>
+@.planning/DATA_REPORT.md
+@experiments/run_{run_num}_{description}/CRITIC_LOG.md
 
-   **Run:** experiments/run_{NNN}_{description}/
-   **Verdict:** REVISE_DATA (Confidence: {confidence})
+Critic identified potential data quality issues during experiment validation.
+This is a targeted re-analysis, not initial EDA.
+Iteration: {iteration}
+</context>
 
-   **Data Concerns:**
-   {data_issues}
+<concerns>
+{concerns_list}
+</concerns>
 
-   **Recommendations:**
-   {specific_data_analysis_needed}
+<instructions>
+Re-analyze the dataset with focus on these specific concerns from the Critic.
 
-   **Next Steps:**
-   - Review CRITIC_LOG.md for specific concerns
-   - Run: /grd:explore [path] --concerns "{concern_list}"
-   - Explorer will append findings to DATA_REPORT.md
-   - After Explorer completes:
-     - Re-run /grd:research to continue loop
-     - Or run /grd:architect to reformulate hypothesis
+Investigation scope:
+{investigation_scope}
+
+**Important:**
+- This is a REVISION, not initial exploration
+- Append findings to DATA_REPORT.md under "## Revision: Iteration {iteration}" section
+- DO NOT overwrite original DATA_REPORT.md sections
+- Focus only on the flagged concerns, not full re-profiling
+
+After investigation, return:
+- Updated findings for each concern
+- Confidence level (HIGH/MEDIUM/LOW)
+- Recommendation: "proceed" (continue loop) OR "critical_issue" (escalate to human)
+</instructions>
+
+<output>
+Append revision section to DATA_REPORT.md and return structured result:
+
+**Revision Summary:**
+- Concerns addressed: [list]
+- Findings: [brief per concern]
+- Confidence: [HIGH/MEDIUM/LOW]
+- Recommendation: [proceed/critical_issue]
+</output>
+""", subagent_type="grd-explorer", model="sonnet", description=f"Re-analyze data with targeted concerns (iteration {iteration})")
    ```
 
-5. **Exit with routing code** (user must manually route to /grd:explore)
+5. **Parse Explorer result and determine continuation:**
+   ```python
+   # Parse Explorer result for recommendation
+   if "critical_issue" in explorer_result.lower():
+       # Explorer found fundamental problem - escalate to human
+       return escalate_to_human(
+           reason="explorer_critical_issue",
+           message="Explorer found critical data issue during re-analysis",
+           evidence={
+               'explorer_result': explorer_result,
+               'concerns_investigated': data_concerns
+           }
+       )
+   else:
+       # Explorer recommends proceeding - auto-continue loop
+       # Increment data revision count
+       data_revision_count += 1
+       data_revision_history.append({
+           'iteration': iteration,
+           'concerns': data_concerns,
+           'result': 'addressed'
+       })
+
+       # Log to STATE.md (handled in Step 7.7)
+       log_data_revision_to_state(iteration, data_concerns, explorer_result)
+
+       # Auto-continue: Return to Step 2 (Create Run Directory) with new iteration
+       # Include Explorer findings as additional context
+       return continue_research_loop(
+           iteration=iteration + 1,
+           context={
+               'data_revised': True,
+               'revision_summary': explorer_result,
+               'previous_critique': critique
+           }
+       )
+   ```
+
+6. **Update run README with REVISE_DATA status:**
+   ```python
+   update_readme_field("status", "data_revision_in_progress")
+   update_readme_field("verdict", "REVISE_DATA")
+   update_readme_field("data_concerns", data_concerns)
+   ```
 
 #### Route: ESCALATE
 
