@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 6 of 6 (Notebook Support)
-Plan: 3 of 5 complete (Researcher agent notebook support)
+Plan: 4 of 5 complete (Graduation command & agent)
 Status: In progress
-Last activity: 2026-01-30 — Completed 06-03-PLAN.md
+Last activity: 2026-01-30 — Completed 06-04-PLAN.md
 
-Progress: [████████████████████████████████████████████████░░] 93% (28/30 plans complete)
+Progress: [█████████████████████████████████████████████████░] 97% (29/30 plans complete)
 
 ## Performance Metrics
 
@@ -33,10 +33,10 @@ Progress: [███████████████████████
 | 03 | 4 | 11.2min | 2.8min |
 | 04 | 5 | 22.0min | 4.4min |
 | 05 | 5 | 16.0min | 3.2min |
-| 06 | 3 | 7.0min | 2.3min |
+| 06 | 4 | 11.0min | 2.8min |
 
 **Recent Trend:**
-- Last 5 plans: 06-03 (3min), 06-02 (2min), 06-01 (2min), 05-05 (3min), 05-04 (3min)
+- Last 5 plans: 06-04 (4min), 06-03 (3min), 06-02 (2min), 06-01 (2min), 05-05 (3min)
 - Trend: Phase 6 continuing with consistent velocity
 
 *Updated after each plan completion*
@@ -132,6 +132,10 @@ Recent decisions affecting current work:
 | Directory .gitkeep files as documentation | 06-02 | Dual-purpose files serve as git markers and directory documentation |
 | Step 1.5 detects experiment type before run directory | 06-03 | Researcher agent determines notebook vs script experiment type early in workflow |
 | README template uses conditional sections | 06-03 | Single template with notebook-specific sections rather than separate notebook/script templates |
+| PROCEED verdict required for graduation | 06-04 | Any confidence level acceptable (HIGH/MEDIUM/LOW) |
+| Original notebook stays unchanged | 06-04 | Graduation copies/converts, doesn't move or delete source |
+| Validation tiered for graduation | 06-04 | Errors block graduation (seeds, parameters), warnings advisory (paths, magics) |
+| Refactoring guidance embedded in script | 06-04 | Script header includes TODO checklist for manual cleanup |
 
 ### Pending Todos
 
@@ -150,7 +154,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30 (execution)
-Stopped at: Completed 06-03-PLAN.md (Researcher agent notebook support)
+Stopped at: Completed 06-04-PLAN.md (Graduation command & agent)
 Resume file: None
 
 ---
