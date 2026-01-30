@@ -39,6 +39,23 @@ Track across iterations:
 - data_revision_limit: Maximum allowed data revisions (default: 2, separate from iteration_limit)
 - data_revision_history: List of data concerns addressed
 
+### Baseline Validation State
+
+Track baseline validation results (computed once at Step 1.0.5, reused throughout):
+- baseline_validated: boolean (false until Step 1.0.5 completes successfully)
+- primary_baseline: string (name of required baseline from OBJECTIVE.md, null if none defined)
+- primary_run_path: string (path to primary baseline run directory, e.g., experiments/run_001_baseline/)
+- primary_metrics: dict (loaded metrics.json from primary baseline for comparison)
+- secondary_baselines: list of validated secondary baseline run paths
+- missing_secondary: list of missing secondary baseline names (for warnings)
+- validation_skipped: boolean (true if --skip-baseline flag used)
+- baseline_warnings: list of warning messages to include in SCORECARD
+
+Baseline state is computed once at Step 1.0.5 and reused:
+- Step 7.1: Passed to Critic for baseline-aware critique
+- Step 7.6: Passed to Evaluator for SCORECARD baseline comparison table
+- README.md: Documented in run metadata section
+
 ### Cycle Detection
 
 If same verdict 3 times in a row with similar Critic feedback:
@@ -159,6 +176,221 @@ Determine if implementing as notebook or script based on:
 experiment_type = 'notebook' | 'script'
 source_path = 'notebooks/exploration/001_experiment.ipynb' | None
 ```
+
+## Step 1.0.5: Validate Baseline Availability
+
+**Purpose:** Enforce scientific rigor by checking baseline experiment results exist before main experiments proceed. This is a fail-fast gate that prevents wasted compute time by catching missing baselines at Researcher start.
+
+### 1.0.5.1 Check if Baselines Defined in OBJECTIVE.md
+
+Parse the `## Baselines` table from OBJECTIVE.md to extract baseline definitions:
+
+```bash
+# Check if Baselines section exists
+if grep -q "^## Baselines" .planning/OBJECTIVE.md; then
+  # Extract baseline table rows (skip header and separator)
+  BASELINES=$(grep -A 20 "^## Baselines" .planning/OBJECTIVE.md | \
+    grep -E "^\|" | tail -n +3)
+
+  if [ -z "$BASELINES" ]; then
+    echo "WARNING: Baselines section exists but table is empty"
+    echo "Comparison will be limited. Proceeding..."
+    # Set baseline_state and continue
+  fi
+else
+  echo "WARNING: No ## Baselines section found in OBJECTIVE.md"
+  echo "Experiment will have no baseline comparison. Proceeding..."
+  # Set baseline_state and continue
+fi
+```
+
+**Baseline table format in OBJECTIVE.md:**
+```markdown
+## Baselines
+
+| Name | Type | Expected | Citation | Status |
+|------|------|----------|----------|--------|
+| random_classifier | own_implementation | 0.50 | - | pending |
+| prior_best | literature | 0.82 | [Smith 2024] | pending |
+```
+
+**Baseline designation:** First baseline in list is PRIMARY (required), subsequent baselines are SECONDARY (optional).
+
+**Extract and classify baselines:**
+```bash
+# Parse baseline names, types, and status
+parse_baselines() {
+  grep -A 20 "^## Baselines" .planning/OBJECTIVE.md | \
+    grep -E "^\|" | tail -n +3 | \
+    while IFS='|' read -r _ name type expected citation status _; do
+      name=$(echo "$name" | xargs)
+      type=$(echo "$type" | xargs)
+      status=$(echo "$status" | xargs)
+      echo "${name}|${type}|${status}"
+    done
+}
+
+BASELINES_PARSED=$(parse_baselines)
+PRIMARY_BASELINE=$(echo "$BASELINES_PARSED" | head -n 1 | cut -d'|' -f1)
+SECONDARY_BASELINES=$(echo "$BASELINES_PARSED" | tail -n +2 | cut -d'|' -f1)
+```
+
+### 1.0.5.2 Validate Primary Baseline Exists
+
+**Primary baseline is REQUIRED.** If missing, BLOCK with actionable error.
+
+```bash
+if [ -n "$PRIMARY_BASELINE" ]; then
+  # Find baseline run directory
+  BASELINE_RUN=$(find experiments/ -maxdepth 1 -type d -name "*_${PRIMARY_BASELINE}" 2>/dev/null | head -n 1)
+
+  if [ -z "$BASELINE_RUN" ]; then
+    # No run directory found - BLOCK
+    cat << EOF
+ERROR: Primary baseline required but not found
+
+OBJECTIVE.md defines primary baseline: ${PRIMARY_BASELINE}
+Expected: experiments/run_*_${PRIMARY_BASELINE}/metrics.json
+
+**Action required:**
+Run baseline first: /grd:research --baseline ${PRIMARY_BASELINE}
+
+Or to proceed without baseline comparison (not recommended):
+/grd:research --skip-baseline
+EOF
+    exit 1
+  fi
+
+  # Check if metrics.json exists in baseline run
+  if [ ! -f "${BASELINE_RUN}/metrics.json" ]; then
+    cat << EOF
+ERROR: Primary baseline run found but missing metrics.json
+
+Baseline run: ${BASELINE_RUN}
+Expected: ${BASELINE_RUN}/metrics.json
+
+This baseline may not have completed successfully.
+
+**Action required:**
+Re-run baseline: /grd:research --baseline ${PRIMARY_BASELINE}
+
+Or to proceed without baseline comparison (not recommended):
+/grd:research --skip-baseline
+EOF
+    exit 1
+  fi
+
+  # Verify metrics.json is parseable
+  if ! jq empty "${BASELINE_RUN}/metrics.json" 2>/dev/null; then
+    cat << EOF
+ERROR: Primary baseline metrics.json is malformed
+
+Baseline run: ${BASELINE_RUN}
+File: ${BASELINE_RUN}/metrics.json
+
+Cannot parse as valid JSON.
+
+**Action required:**
+Re-run baseline: /grd:research --baseline ${PRIMARY_BASELINE}
+
+Or to proceed without baseline comparison (not recommended):
+/grd:research --skip-baseline
+EOF
+    exit 1
+  fi
+
+  echo "Baseline validation PASSED: ${PRIMARY_BASELINE} (${BASELINE_RUN})"
+fi
+```
+
+### 1.0.5.3 Validate Secondary Baselines (Warn Only)
+
+**Secondary baselines are OPTIONAL.** If missing, WARN but PROCEED.
+
+```bash
+MISSING_SECONDARY=""
+VALIDATED_SECONDARY=""
+
+for baseline in $SECONDARY_BASELINES; do
+  BASELINE_RUN=$(find experiments/ -maxdepth 1 -type d -name "*_${baseline}" 2>/dev/null | head -n 1)
+
+  if [ -z "$BASELINE_RUN" ] || [ ! -f "${BASELINE_RUN}/metrics.json" ]; then
+    MISSING_SECONDARY="${MISSING_SECONDARY}  - ${baseline}\n"
+  else
+    VALIDATED_SECONDARY="${VALIDATED_SECONDARY}${BASELINE_RUN}|"
+  fi
+done
+
+if [ -n "$MISSING_SECONDARY" ]; then
+  cat << EOF
+WARNING: Secondary baselines missing
+
+Missing:
+${MISSING_SECONDARY}
+SCORECARD comparison will be limited to primary baseline.
+
+To add secondary baselines, run:
+$(for b in $MISSING_SECONDARY; do echo "/grd:research --baseline $b"; done)
+EOF
+  # Continue execution - secondary baselines are optional
+fi
+```
+
+### 1.0.5.4 Handle --skip-baseline Flag
+
+**If `--skip-baseline` flag present in task prompt context, bypass validation.**
+
+Check task prompt for flag:
+```bash
+# Check if --skip-baseline was passed to /grd:research
+if echo "$TASK_PROMPT" | grep -q -- '--skip-baseline'; then
+  echo "WARNING: Baseline validation SKIPPED by user (--skip-baseline flag)"
+
+  # Log to STATE.md
+  echo "| $(date +%Y-%m-%d) | Baseline validation skipped | --skip-baseline flag used | User override |" >> .planning/STATE.md
+
+  # Mark in baseline_state
+  BASELINE_VALIDATION_SKIPPED=true
+
+  # Include in run README.md metadata (handled in Step 2.2)
+  # baseline_validation_skipped: true
+
+  # Skip all validation checks and proceed
+fi
+```
+
+**Logging requirements when skipped:**
+1. Log warning to STATE.md: "Baseline validation skipped by user (--skip-baseline)"
+2. Include in run README.md metadata: `baseline_validation_skipped: true`
+3. Include in SCORECARD.json: `"baseline_validation_skipped": true`
+4. Warn in /grd:evaluate output: "No baseline comparison available (validation skipped)"
+
+### 1.0.5.5 Store Validation Results for Later Steps
+
+After validation completes, store results in baseline_state for use by Step 7 (Spawn Critic) and Evaluator:
+
+```python
+# Baseline validation state (computed once, reused throughout)
+baseline_state = {
+    'validated': True,                           # True if validation ran (not skipped)
+    'primary_baseline': 'random_classifier',     # Name of required baseline
+    'primary_run_path': 'experiments/run_001_random_classifier/',  # Path to primary baseline
+    'primary_metrics': {...},                    # Loaded metrics.json from primary
+    'secondary_baselines': [                     # List of validated secondary baseline paths
+        'experiments/run_002_prior_best/'
+    ],
+    'missing_secondary': ['literature_benchmark'],  # Names of missing secondary baselines
+    'validation_skipped': False,                 # True if --skip-baseline used
+    'validation_warnings': [                     # List of warning messages for SCORECARD
+        'Secondary baseline literature_benchmark not found'
+    ]
+}
+```
+
+**Pass baseline_state to:**
+- Step 7.1: Include in Critic context for critique (baseline comparison context)
+- Step 7.6: Include baseline metrics in Evaluator spawn (for SCORECARD generation)
+- README.md: Document baseline validation status in run metadata
 
 ## Step 2: Create Run Directory Structure
 
