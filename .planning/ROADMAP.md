@@ -178,7 +178,11 @@ Plans:
   4. STATE.md accurately tracks loop iterations, verdicts, and data revision events
   5. Full REVISE_DATA → Explorer → Researcher cycle completes autonomously
 
-**Plans**: TBD (created during /gsd:plan-phase)
+**Plans**: 2 plans
+
+Plans:
+- [ ] 07-01-PLAN.md — Update grd-researcher Step 7.6 to auto-spawn Explorer on REVISE_DATA
+- [ ] 07-02-PLAN.md — Extend Explorer for targeted re-analysis and update STATE.md template
 
 ### Phase 8: Baseline Orchestration
 **Goal**: Ensure baseline experiments are run before comparison experiments
@@ -230,7 +234,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 →
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
 | 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
-| 7. REVISE_DATA Auto-Routing | 0/? | Planned | - |
+| 7. REVISE_DATA Auto-Routing | 0/2 | Planned | - |
 | 8. Baseline Orchestration | 0/? | Planned | - |
 | 9. Hardware Profiling & Long-Running Experiments | 0/? | Planned | - |
 
