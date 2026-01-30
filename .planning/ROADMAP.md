@@ -17,7 +17,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 - [x] **Phase 3: Hypothesis Synthesis** - Architect agent transforms insights into testable objectives
 - [x] **Phase 4: Recursive Validation Loop** - Researcher/Critic/Evaluator agents with state routing
 - [x] **Phase 5: Human Evaluation Gate** - Evidence packages and decision logging
-- [ ] **Phase 6: Notebook Support** - Jupyter integration and graduation path
+- [x] **Phase 6: Notebook Support** - Jupyter integration and graduation path
 
 ## Phase Details
 
@@ -151,11 +151,11 @@ Plans:
 **Plans**: 5 plans
 
 Plans:
-- [ ] 06-01-PLAN.md — Create notebook executor and graduation validator Python modules
-- [ ] 06-02-PLAN.md — Create graduated script template and directory scaffolds
-- [ ] 06-03-PLAN.md — Update grd-researcher agent for notebook execution support
-- [ ] 06-04-PLAN.md — Create /grd:graduate command and grd-graduator agent
-- [ ] 06-05-PLAN.md — Update Critic for notebook evaluation and verify phase end-to-end
+- [x] 06-01-PLAN.md — Create notebook executor and graduation validator Python modules
+- [x] 06-02-PLAN.md — Create graduated script template and directory scaffolds
+- [x] 06-03-PLAN.md — Update grd-researcher agent for notebook execution support
+- [x] 06-04-PLAN.md — Create /grd:graduate command and grd-graduator agent
+- [x] 06-05-PLAN.md — Update Critic for notebook evaluation and verify phase end-to-end
 
 ## Progress
 
@@ -169,7 +169,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 3. Hypothesis Synthesis | 4/4 | Complete | 2026-01-28 |
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
 | 5. Human Evaluation Gate | 5/5 | Complete | 2026-01-30 |
-| 6. Notebook Support | 0/5 | Planned | - |
+| 6. Notebook Support | 5/5 | Complete | 2026-01-30 |
 
 ---
 *Roadmap created: 2026-01-27*

@@ -46,9 +46,9 @@ Requirements for initial release. Each maps to roadmap phases.
 
 ### Notebook Support
 
-- [ ] **NOTE-01**: System can execute Jupyter notebooks as experiments
-- [ ] **NOTE-02**: Explicit graduation path from exploratory notebooks to validated scripts
-- [ ] **NOTE-03**: Clear separation between exploration/ and validated/ code
+- [x] **NOTE-01**: System can execute Jupyter notebooks as experiments
+- [x] **NOTE-02**: Explicit graduation path from exploratory notebooks to validated scripts
+- [x] **NOTE-03**: Clear separation between exploration/ and validated/ code
 
 ### State & Configuration
 
@@ -120,9 +120,9 @@ Which phases cover which requirements. Updated during roadmap creation.
 | HUMAN-01 | Phase 5 | Complete |
 | HUMAN-02 | Phase 5 | Complete |
 | HUMAN-03 | Phase 5 | Complete |
-| NOTE-01 | Phase 6 | Pending |
-| NOTE-02 | Phase 6 | Pending |
-| NOTE-03 | Phase 6 | Pending |
+| NOTE-01 | Phase 6 | Complete |
+| NOTE-02 | Phase 6 | Complete |
+| NOTE-03 | Phase 6 | Complete |
 
 **Coverage:**
 - v1 requirements: 25 total
@@ -131,4 +131,4 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 ---
 *Requirements defined: 2026-01-27*
-*Last updated: 2026-01-30 after Phase 5 completion*
+*Last updated: 2026-01-30 after Phase 6 completion — all v1 requirements complete*
