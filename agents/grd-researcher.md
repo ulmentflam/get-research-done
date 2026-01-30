@@ -1368,6 +1368,77 @@ Append revision section to DATA_REPORT.md and return structured result:
 
 4. **Trigger human decision gate (Step 8)** for user choice
 
+### 7.6.1 Log Data Revision to STATE.md
+
+**When REVISE_DATA triggers Explorer spawn, update STATE.md:**
+
+```python
+def log_data_revision_to_state(iteration: int, concerns: list, explorer_result: str):
+    """Append data revision entry to STATE.md Data Revisions table."""
+    state_md_path = '.planning/STATE.md'
+
+    # Read current STATE.md
+    with open(state_md_path, 'r') as f:
+        state_content = f.read()
+
+    # Format concerns for table (truncate if too long)
+    concerns_summary = ', '.join(concerns[:2])
+    if len(concerns) > 2:
+        concerns_summary += f'... (+{len(concerns)-2} more)'
+
+    # Extract result summary
+    if 'critical_issue' in explorer_result.lower():
+        result_summary = 'Critical issue found - escalated'
+    elif 'proceed' in explorer_result.lower():
+        result_summary = 'Addressed - loop continues'
+    else:
+        result_summary = 'Completed'
+
+    # Format as markdown table row
+    revision_entry = f"| {iteration} | {concerns_summary} | {result_summary} |"
+
+    # Find Data Revisions table and append
+    if '### Data Revisions' in state_content:
+        # Find the table and append row
+        lines = state_content.split('\n')
+        insert_index = None
+        for i, line in enumerate(lines):
+            if '### Data Revisions' in line:
+                # Find the end of the table (next section or empty lines)
+                for j in range(i+1, len(lines)):
+                    if lines[j].startswith('##') or (lines[j].strip() == '' and j > i+4):
+                        insert_index = j
+                        break
+                break
+
+        if insert_index:
+            lines.insert(insert_index, revision_entry)
+            state_content = '\n'.join(lines)
+    else:
+        # Add Data Revisions section if missing
+        data_revisions_section = f"""
+### Data Revisions
+
+| Iteration | Concerns | Explorer Result |
+|-----------|----------|-----------------|
+{revision_entry}
+"""
+        # Insert after Loop History section
+        if '### Loop History' in state_content:
+            state_content = state_content.replace(
+                '### Loop History',
+                f'### Loop History\n\n{data_revisions_section}\n'
+            )
+        else:
+            state_content += f'\n{data_revisions_section}'
+
+    # Write updated STATE.md
+    with open(state_md_path, 'w') as f:
+        f.write(state_content)
+```
+
+**This ensures data revision events are tracked in STATE.md for audit trail and loop analysis.**
+
 ### 7.7 Update README.md with Final Status
 
 **Regardless of verdict, update README:**
