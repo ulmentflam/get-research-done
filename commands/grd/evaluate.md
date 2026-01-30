@@ -876,20 +876,102 @@ EOF
 echo "✓ ITERATION_SUMMARY.md created"
 ```
 
-**Display archive confirmation:**
+**Step 6: Create metadata.json**
+
+Create archival metadata for programmatic access:
+
+```bash
+# Extract first line of rationale for summary
+RATIONALE_FIRST_LINE=$(echo "$ARCHIVE_RATIONALE" | head -1 | cut -c 1-100)
+
+# Create archival metadata JSON
+cat > "$ARCHIVE_DIR/metadata.json" << EOF
+{
+  "archived_at": "$(date -u +"%Y-%m-%dT%H:%M:%SZ")",
+  "hypothesis": "$HYPOTHESIS_STATEMENT",
+  "total_iterations": $TOTAL_ITERATIONS,
+  "final_verdict": "$FINAL_VERDICT",
+  "best_metric": "$BEST_METRIC",
+  "target_threshold": "$TARGET_THRESHOLD",
+  "archive_reason": "$RATIONALE_FIRST_LINE",
+  "intermediate_runs_removed": $INTERMEDIATE_COUNT,
+  "final_run_preserved": "run_final"
+}
+EOF
+
+echo "✓ metadata.json created"
+```
+
+**Step 7: Clean up intermediate runs**
+
+Display progress:
+```
+Cleaning up intermediate runs...
+```
+
+```bash
+# Remove intermediate run directories (final run already moved to archive)
+REMOVED_COUNT=0
+for run_dir in $INTERMEDIATE_RUNS; do
+  if [ -d "$run_dir" ] && [ -n "$run_dir" ]; then
+    echo "  Removed: $run_dir"
+    rm -rf "$run_dir"
+    REMOVED_COUNT=$((REMOVED_COUNT + 1))
+  fi
+done
+
+if [ $REMOVED_COUNT -eq 0 ]; then
+  echo "  No intermediate runs to remove"
+else
+  echo "  Removed $REMOVED_COUNT intermediate run(s)"
+fi
+
+echo "  Kept: Final run preserved in archive"
+```
+
+**Step 8: Update decision_log.md reference**
+
+Update the decision log entry to point to archive location:
+
+```bash
+# The decision log entry was created in Phase 4 pointing to experiments/run_NNN/
+# Update it to point to archive location instead
+RUN_NAME=$(basename "$FINAL_RUN")
+
+# Update last entry in decision_log.md
+# Change: experiments/run_NNN/ -> experiments/archive/YYYY-MM-DD_hypothesis/
+if [ -f "human_eval/decision_log.md" ]; then
+  # Use sed to replace the run path in the last occurrence
+  sed -i.bak "s|experiments/$RUN_NAME/|$ARCHIVE_DIR/|g" human_eval/decision_log.md
+  rm -f human_eval/decision_log.md.bak
+
+  echo "✓ decision_log.md updated to reference archive location"
+fi
+```
+
+**Step 9: Display archive completion**
+
 ```
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
  GRD ► HYPOTHESIS ARCHIVED
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-**Archived to:** experiments/archive/{archive_name}/
+**Archive Location:** $ARCHIVE_DIR
 
 **Contents:**
-- final_run/ — Final experiment with DECISION.md
-- ARCHIVE_REASON.md — Why this failed and what was learned
-- ITERATION_SUMMARY.md — Collapsed history of all attempts
+- ARCHIVE_REASON.md — Your rationale preserved
+- ITERATION_SUMMARY.md — All $TOTAL_ITERATIONS attempts summarized
+- run_final/ — Final run with all artifacts
+- metadata.json — Archival metadata
 
-**Reason:** {user_rationale}
+**Cleanup:**
+- $INTERMEDIATE_COUNT intermediate run(s) removed
+- Final run preserved with full artifacts
+
+**Next steps:**
+- Review ARCHIVE_REASON.md to add learnings
+- Optionally fill "What We Learned" and "What Would Need to Change" sections
+- Start new hypothesis with /grd:architect if ready
 
 This negative result is preserved for future reference.
 ```
