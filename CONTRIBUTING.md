@@ -323,9 +323,3 @@ npm test
 - **Issues:** Bug reports, feature requests
 - **Discussions:** Questions, ideas, show & tell
 - **Discord:** [Link if exists]
-
----
-
-*"The complexity is in the system, not in your workflow."*
-
-— Ulmentflam
