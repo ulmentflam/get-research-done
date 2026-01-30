@@ -30,6 +30,82 @@ You are the GRD Explorer agent. Your job is data reconnaissance—profiling raw 
 
 <execution_flow>
 
+## Step 0: Detect Analysis Mode
+
+**Responsibilities:**
+- Determine if this is initial EDA or targeted re-analysis (revision mode)
+- Parse concerns from spawn prompt if revision mode
+- Set analysis scope based on mode
+
+### Mode Detection
+
+**Check for revision indicators in task prompt:**
+
+```python
+def detect_analysis_mode(task_prompt: str) -> dict:
+    """Determine if Explorer is in initial or revision mode."""
+    mode = {
+        'type': 'initial',  # or 'revision'
+        'concerns': [],
+        'iteration': None
+    }
+
+    # Check for revision indicators
+    revision_indicators = [
+        'targeted re-analysis',
+        'Revision:',
+        'Critic identified',
+        'data quality issues during experiment',
+        're-analyze the dataset'
+    ]
+
+    if any(indicator.lower() in task_prompt.lower() for indicator in revision_indicators):
+        mode['type'] = 'revision'
+
+        # Extract concerns from <concerns> section
+        import re
+        concerns_match = re.search(r'<concerns>(.*?)</concerns>', task_prompt, re.DOTALL)
+        if concerns_match:
+            concerns_text = concerns_match.group(1)
+            # Parse bulleted list
+            mode['concerns'] = [
+                line.strip().lstrip('- ')
+                for line in concerns_text.strip().split('\n')
+                if line.strip().startswith('-')
+            ]
+
+        # Extract iteration number
+        iter_match = re.search(r'Iteration:\s*(\d+)', task_prompt)
+        if iter_match:
+            mode['iteration'] = int(iter_match.group(1))
+
+    return mode
+
+analysis_mode = detect_analysis_mode(task_prompt)
+```
+
+**Mode-specific behavior:**
+
+| Mode | Scope | Output Location | Full Profiling |
+|------|-------|-----------------|----------------|
+| initial | Full dataset | .planning/DATA_REPORT.md (new file) | Yes |
+| revision | Flagged concerns only | .planning/DATA_REPORT.md (append) | No |
+
+**If revision mode:**
+- Skip Steps 2-6 unless relevant to concerns
+- Focus only on investigation scope
+- Append to existing DATA_REPORT.md
+- Return structured recommendation
+
+```python
+# At start of Step 1
+if analysis_mode['type'] == 'revision':
+    # Skip to focused re-analysis (Step 7.5 variant)
+    goto_revision_analysis(analysis_mode['concerns'], analysis_mode['iteration'])
+```
+
+---
+
 ## Step 1: Load Data
 
 **Responsibilities:**
@@ -1213,6 +1289,178 @@ Each leakage warning includes a confidence score:
 - Train-Test Overlap table (overlapping rows, percentages, severity, confidence, notes) [if applicable]
 - Temporal Leakage Indicators table (issue, column, confidence, details, severity)
 - Derived Features table (feature, correlation_with_target, confidence, notes)
+
+---
+
+## Step 7.5: Focused Revision Analysis (Revision Mode Only)
+
+**When:** Called in revision mode instead of full Steps 2-7
+
+**Responsibilities:**
+- Investigate only the specific concerns from Critic
+- Append findings to DATA_REPORT.md (preserve original)
+- Return structured recommendation for Researcher
+
+### 7.5.1 Load Existing DATA_REPORT.md
+
+```python
+# Read existing report to understand baseline
+existing_report_path = '.planning/DATA_REPORT.md'
+with open(existing_report_path, 'r') as f:
+    existing_report = f.read()
+
+# Extract original findings for comparison
+original_findings = parse_original_findings(existing_report)
+```
+
+### 7.5.2 Investigate Each Concern
+
+**For each concern from Critic:**
+
+```python
+revision_findings = []
+
+for concern in analysis_mode['concerns']:
+    finding = {
+        'concern': concern,
+        'investigation': None,
+        'result': None,
+        'confidence': 'MEDIUM'
+    }
+
+    # Determine investigation type based on concern keywords
+    if 'leakage' in concern.lower():
+        # Re-run leakage detection on specific features
+        feature_names = extract_feature_names(concern)
+        finding['investigation'] = 'Leakage re-check'
+        finding['result'] = investigate_leakage(df, feature_names, target_col)
+
+    elif 'distribution' in concern.lower() or 'drift' in concern.lower():
+        # Check distribution changes
+        column_names = extract_column_names(concern)
+        finding['investigation'] = 'Distribution analysis'
+        finding['result'] = analyze_distribution_drift(df, column_names)
+
+    elif 'train-test' in concern.lower() or 'overlap' in concern.lower():
+        # Verify split integrity
+        finding['investigation'] = 'Split integrity check'
+        finding['result'] = verify_split_integrity(df, split_files)
+
+    elif 'missing' in concern.lower():
+        # Re-analyze missing patterns
+        finding['investigation'] = 'Missing data re-analysis'
+        finding['result'] = analyze_missing_patterns(df)
+
+    elif 'outlier' in concern.lower() or 'anomaly' in concern.lower():
+        # Re-run outlier detection
+        finding['investigation'] = 'Outlier re-detection'
+        finding['result'] = detect_outliers_focused(df)
+
+    else:
+        # Generic investigation
+        finding['investigation'] = 'General investigation'
+        finding['result'] = f"Investigated concern: {concern}. See details below."
+
+    # Assess confidence based on evidence strength
+    if finding['result'] and 'confirmed' in str(finding['result']).lower():
+        finding['confidence'] = 'HIGH'
+    elif finding['result'] and 'not found' in str(finding['result']).lower():
+        finding['confidence'] = 'HIGH'
+    else:
+        finding['confidence'] = 'MEDIUM'
+
+    revision_findings.append(finding)
+```
+
+### 7.5.3 Determine Recommendation
+
+```python
+def determine_recommendation(findings: list) -> str:
+    """Determine proceed/critical_issue based on findings."""
+    critical_indicators = [
+        'confirmed leakage',
+        'significant overlap',
+        'critical data issue',
+        'fundamental problem',
+        'unusable data'
+    ]
+
+    for finding in findings:
+        result_text = str(finding.get('result', '')).lower()
+        if any(indicator in result_text for indicator in critical_indicators):
+            return 'critical_issue'
+
+    return 'proceed'
+
+recommendation = determine_recommendation(revision_findings)
+overall_confidence = 'HIGH' if all(f['confidence'] == 'HIGH' for f in revision_findings) else 'MEDIUM'
+```
+
+### 7.5.4 Append Revision to DATA_REPORT.md
+
+**Generate revision section (append-only):**
+
+```python
+revision_section = f"""
+
+---
+
+## Revision: Iteration {analysis_mode['iteration']}
+
+**Triggered by:** Critic REVISE_DATA verdict
+**Timestamp:** {datetime.utcnow().isoformat()}Z
+**Concerns investigated:** {len(analysis_mode['concerns'])}
+
+### Concerns Addressed
+
+"""
+
+for finding in revision_findings:
+    revision_section += f"""
+#### {finding['concern']}
+
+**Investigation:** {finding['investigation']}
+**Confidence:** {finding['confidence']}
+
+**Findings:**
+{finding['result']}
+
+"""
+
+revision_section += f"""
+### Revision Summary
+
+**Recommendation:** {recommendation.upper()}
+**Overall Confidence:** {overall_confidence}
+
+| Concern | Investigation | Result | Confidence |
+|---------|---------------|--------|------------|
+"""
+
+for finding in revision_findings:
+    result_brief = str(finding['result'])[:50] + '...' if len(str(finding['result'])) > 50 else finding['result']
+    revision_section += f"| {finding['concern'][:30]}... | {finding['investigation']} | {result_brief} | {finding['confidence']} |\n"
+
+# Append to existing report
+with open(existing_report_path, 'a') as f:
+    f.write(revision_section)
+```
+
+### 7.5.5 Return Structured Result
+
+```python
+# Return to Researcher with structured result
+return f"""
+**Revision Summary:**
+- Concerns addressed: {len(revision_findings)}
+- Findings: {', '.join([f['investigation'] for f in revision_findings])}
+- Confidence: {overall_confidence}
+- Recommendation: {recommendation}
+
+**Details:**
+See DATA_REPORT.md "## Revision: Iteration {analysis_mode['iteration']}" section.
+"""
+```
 
 ---
 
