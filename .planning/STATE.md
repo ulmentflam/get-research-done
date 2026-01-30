@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 9 of 9 (Hardware Profiling & Long-Running Experiments)
-Plan: 1 of 3 complete (09-02 done)
+Plan: 1 of 4 complete (09-01 done)
 Status: Phase 9 in progress
-Last activity: 2026-01-30 — Completed 09-02-PLAN.md (Timeout & Checkpoint Management)
+Last activity: 2026-01-30 — Completed 09-01-PLAN.md (Hardware Profiling & Duration Estimation)
 
-Progress: [████████████████████████████████████████████████████████████░] 97% (36/37 plans complete)
+Progress: [████████████████████████████████████████████████████████████░] 95% (36/38 plans complete)
 
 ## Performance Metrics
 
@@ -36,11 +36,11 @@ Progress: [███████████████████████
 | 06 | 5 | 16.0min | 3.2min |
 | 07 | 2 | 9.0min | 4.5min |
 | 08 | 3 | 6.1min | 2.0min |
-| 09 | 1 | 2.6min | 2.6min |
+| 09 | 1 | 2.5min | 2.5min |
 
 **Recent Trend:**
-- Last 5 plans: 09-02 (2.6min), 08-03 (1.8min), 08-02 (2.3min), 08-01 (2min), 07-02 (3.7min)
-- Trend: Phase 9 started - timeout and checkpoint management for long-running experiments
+- Last 5 plans: 09-01 (2.5min), 09-02 (2.6min), 08-03 (1.8min), 08-02 (2.3min), 08-01 (2min)
+- Trend: Phase 9 in progress - hardware profiling and long-running experiment management
 
 *Updated after each plan completion*
 
@@ -153,6 +153,10 @@ Recent decisions affecting current work:
 | Validation tiered for graduation | 06-04 | Errors block graduation (seeds, parameters), warnings advisory (paths, magics) |
 | Refactoring guidance embedded in script | 06-04 | Script header includes TODO checklist for manual cleanup |
 | First-in-list baseline designation | 08-01 | First baseline in OBJECTIVE.md table is PRIMARY (required), subsequent are SECONDARY (optional) |
+| PyTorch cuda preferred for GPU detection | 09-01 | More reliable for ML workloads, provides compute capability and CUDA version |
+| Conservative 5.0 TFLOPs default for unknown GPUs | 09-01 | Better to overestimate duration than underestimate, prevents unexpected timeouts |
+| Long-running threshold at 600 seconds | 09-01 | Aligns with standard task timeout, clear boundary for user confirmation |
+| Lazy imports in grd package | 09-01 | Hardware module can be imported independently, no unnecessary dependencies loaded |
 | Session-level timeout approval | 09-02 | Once approved, all experiments in session bypass timeout without repeated prompts |
 | Dual checkpoint format | 09-02 | checkpoint_epoch_N.pt (versioned) and checkpoint_latest.pt (easy resume) |
 | Signal handlers set interrupted flag | 09-02 | SIGINT/SIGTERM set flag rather than forcing save, training loop handles cleanup |
@@ -181,7 +185,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 09-02-PLAN.md (Timeout & Checkpoint Management)
+Stopped at: Completed 09-01-PLAN.md (Hardware Profiling & Duration Estimation)
 Resume file: None (plan execution complete, no continuation needed)
 
 ---
