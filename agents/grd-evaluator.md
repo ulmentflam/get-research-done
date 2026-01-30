@@ -73,6 +73,172 @@ Extract:
 - timestamp: Current execution time
 - description: From run directory name or README.md
 
+## Step 1.5: Validate Baseline Availability
+
+**Purpose:** Secondary safety check — verify baselines still exist before generating SCORECARD.
+
+Note: Researcher should have validated baselines at experiment start (fail-fast principle). This step is a safety check because:
+- Baseline could have been deleted between experiment run and evaluation
+- Re-validation catches filesystem changes during long experiment runs
+- Provides clear warning messages if baseline comparison will be limited
+
+**Parse baselines from OBJECTIVE.md:**
+
+```python
+# Extract baseline definitions from OBJECTIVE.md
+# Same parsing logic as Researcher uses at experiment start
+
+baselines_section = parse_objective_baselines(".planning/OBJECTIVE.md")
+# Returns list of: [{name, type, expected, status}, ...]
+
+# First baseline in list is primary (required)
+# Subsequent baselines are secondary (optional)
+primary_baseline = baselines_section[0] if baselines_section else None
+secondary_baselines = baselines_section[1:] if len(baselines_section) > 1 else []
+```
+
+**Check run metadata for skip-baseline flag:**
+
+```bash
+# Check if --skip-baseline was used when experiment ran
+grep -q "baseline_validation_skipped: true" experiments/run_NNN/metadata.yaml && \
+  echo "Baseline validation was skipped at experiment start"
+```
+
+**Scenario A: Primary baseline exists**
+
+```python
+if primary_baseline:
+    baseline_name = primary_baseline['name']
+    baseline_run = find_baseline_run(baseline_name)  # experiments/run_*_{name}/
+
+    if baseline_run and os.path.exists(f"{baseline_run}/metrics.json"):
+        # Load baseline metrics
+        with open(f"{baseline_run}/metrics.json") as f:
+            baseline_metrics = json.load(f)
+
+        print(f"Primary baseline validated: {baseline_name} ({baseline_run})")
+
+        primary_data = {
+            'name': baseline_name,
+            'run_path': baseline_run,
+            'metrics': baseline_metrics,
+            'available': True
+        }
+```
+
+**Scenario B: Primary baseline missing (was present at experiment start)**
+
+```python
+    else:
+        # Baseline was valid when experiment ran, but now missing
+        print(f"WARNING: Primary baseline no longer available - comparison limited")
+        print(f"  Expected: experiments/run_*_{baseline_name}/metrics.json")
+        print(f"  Baseline was valid when experiment started but may have been deleted")
+
+        primary_data = {
+            'name': baseline_name,
+            'run_path': None,
+            'metrics': None,
+            'available': False
+        }
+
+        # Add warning to be included in SCORECARD
+        warnings.append(f"Primary baseline '{baseline_name}' no longer available at evaluation time")
+```
+
+**Scenario C: No baselines defined**
+
+```python
+else:
+    print("No baselines defined in OBJECTIVE.md")
+    print("SCORECARD will not include baseline comparison")
+
+    primary_data = None
+```
+
+**Scenario D: --skip-baseline was used**
+
+```python
+# Check run metadata for skip-baseline flag
+skip_baseline = check_run_metadata("baseline_validation_skipped")
+
+if skip_baseline:
+    print("Baseline validation was skipped - no comparison available")
+    print("SCORECARD will note: baseline_validation_skipped: true")
+
+    # Set flag for SCORECARD metadata
+    validation_skipped = True
+```
+
+**Load secondary baseline metrics:**
+
+```python
+secondary_data = []
+
+for baseline in secondary_baselines:
+    baseline_name = baseline['name']
+    baseline_run = find_baseline_run(baseline_name)
+
+    if baseline_run and os.path.exists(f"{baseline_run}/metrics.json"):
+        with open(f"{baseline_run}/metrics.json") as f:
+            metrics = json.load(f)
+
+        print(f"Secondary baseline validated: {baseline_name} ({baseline_run})")
+
+        secondary_data.append({
+            'name': baseline_name,
+            'run_path': baseline_run,
+            'metrics': metrics,
+            'available': True,
+            'source': baseline.get('type', 'own_implementation')
+        })
+    else:
+        print(f"WARNING: Secondary baseline '{baseline_name}' not available")
+        warnings.append(f"Secondary baseline '{baseline_name}' not available for comparison")
+
+        secondary_data.append({
+            'name': baseline_name,
+            'available': False
+        })
+```
+
+**Store baseline data for Step 4:**
+
+```python
+baseline_data = {
+    'primary': primary_data,
+    'secondary': secondary_data,
+    'warnings': warnings,
+    'validation_skipped': validation_skipped if 'validation_skipped' in locals() else False
+}
+
+# Pass baseline_data to Step 4 for comparison computation
+```
+
+**Helper function - find baseline run:**
+
+```python
+def find_baseline_run(baseline_name: str) -> str | None:
+    """Locate baseline run directory by name pattern."""
+    import glob
+
+    # Look for run directory ending with baseline name
+    pattern = f"experiments/run_*_{baseline_name}/"
+    matches = glob.glob(pattern)
+
+    if matches:
+        # Return most recent if multiple matches
+        return sorted(matches)[-1].rstrip('/')
+
+    # Also check for exact match without suffix
+    pattern = f"experiments/{baseline_name}/"
+    if os.path.isdir(pattern.rstrip('/')):
+        return pattern.rstrip('/')
+
+    return None
+```
+
 ## Step 2: Verify Critic Approval
 
 **Check CRITIC_LOG.md exists:**
