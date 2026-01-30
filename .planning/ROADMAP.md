@@ -124,12 +124,16 @@ Plans:
   1. System bundles evidence package: OBJECTIVE.md + DATA_REPORT.md + CRITIC_LOGS.md + SCORECARD.json
   2. User receives interactive decision gate prompting for Seal/Iterate/Archive choice
   3. Human decisions are logged in `human_eval/decision_log.md` with rationale
-  4. Failed hypotheses (Archive path) are preserved with explanation in `experiments/negative_results/`
+  4. Failed hypotheses (Archive path) are preserved with explanation in `experiments/archive/`
 
-**Plans**: TBD
+**Plans**: 5 plans
 
 Plans:
-- [ ] 05-01: TBD during planning
+- [ ] 05-01-PLAN.md — Create /grd:evaluate command and decision/archive templates
+- [ ] 05-02-PLAN.md — Implement evidence presentation and decision gate
+- [ ] 05-03-PLAN.md — Implement decision logging (per-run and central)
+- [ ] 05-04-PLAN.md — Implement archive flow for negative results
+- [ ] 05-05-PLAN.md — Verification and human approval checkpoint
 
 ### Phase 6: Notebook Support
 **Goal**: Users can execute Jupyter notebooks as experiments with explicit graduation to validated scripts
@@ -160,7 +164,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4 → 5 → 6
 | 2. Data Reconnaissance | 4/4 | Complete | 2026-01-28 |
 | 3. Hypothesis Synthesis | 4/4 | Complete | 2026-01-28 |
 | 4. Recursive Validation Loop | 5/5 | Complete | 2026-01-30 |
-| 5. Human Evaluation Gate | 0/TBD | Not started | - |
+| 5. Human Evaluation Gate | 0/5 | Planned | - |
 | 6. Notebook Support | 0/TBD | Not started | - |
 
 ---
