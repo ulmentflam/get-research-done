@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 9 of 9 (Hardware Profiling & Long-Running Experiments)
-Plan: 3 of 4 complete (09-01, 09-02, 09-03 done)
-Status: Phase 9 in progress
-Last activity: 2026-01-30 — Completed 09-03-PLAN.md (Explorer Hardware Integration)
+Phase: 9 of 9 (Hardware Profiling & Long-Running Experiments) - COMPLETE
+Plan: 4 of 4 complete (all plans done)
+Status: Phase 9 complete - ALL PHASES COMPLETE
+Last activity: 2026-01-30 — Completed 09-04-PLAN.md (Researcher Agent Integration)
 
-Progress: [████████████████████████████████████████████████████████████░] 97% (37/38 plans complete)
+Progress: [████████████████████████████████████████████████████████████████] 100% (38/38 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 36
+- Total plans completed: 38
 - Average duration: 3.0 min
-- Total execution time: 1.7 hours
+- Total execution time: 1.8 hours
 
 **By Phase:**
 
@@ -36,11 +36,11 @@ Progress: [███████████████████████
 | 06 | 5 | 16.0min | 3.2min |
 | 07 | 2 | 9.0min | 4.5min |
 | 08 | 3 | 6.1min | 2.0min |
-| 09 | 3 | 7.1min | 2.4min |
+| 09 | 4 | 10.1min | 2.5min |
 
 **Recent Trend:**
-- Last 5 plans: 09-03 (2min), 09-02 (2.6min), 09-01 (2.5min), 08-03 (1.8min), 08-02 (2.3min)
-- Trend: Phase 9 in progress - hardware profiling and long-running experiment management
+- Last 5 plans: 09-04 (3min), 09-03 (2min), 09-02 (2.6min), 09-01 (2.5min), 08-03 (1.8min)
+- Trend: ALL PHASES COMPLETE - hardware profiling and long-running experiment management integrated
 
 *Updated after each plan completion*
 
@@ -161,6 +161,9 @@ Recent decisions affecting current work:
 | Dual checkpoint format | 09-02 | checkpoint_epoch_N.pt (versioned) and checkpoint_latest.pt (easy resume) |
 | Signal handlers set interrupted flag | 09-02 | SIGINT/SIGTERM set flag rather than forcing save, training loop handles cleanup |
 | Hardware profile captured at Step 0.5 | 09-03 | Explorer captures hardware at EDA start (before data loading) for reproducibility and duration estimation |
+| Parse hardware profile from markdown | 09-04 | Researcher parses DATA_REPORT.md directly, no structured JSON required - handles missing sections gracefully |
+| Session-level approval in Researcher | 09-04 | Approval requested once at Step 5.0, not per iteration - prevents repeated prompts during loops |
+| Duration and checkpoint in completion message | 09-04 | Researcher completion includes Duration section (estimated/actual/timeout) and Checkpoint Status for long-running |
 | Primary baseline blocks, secondary warns | 08-01 | Fail-fast gate at Researcher start - missing primary = actionable error, missing secondary = warning |
 | Actionable error messages with commands | 08-01 | Baseline validation errors include exact command to fix (e.g., /grd:research --baseline {name}) |
 | --skip-baseline flag with logging | 08-01 | Override bypasses validation but logs to STATE.md and run metadata for audit trail |
@@ -186,8 +189,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30
-Stopped at: Completed 09-03-PLAN.md (Explorer Hardware Integration)
-Resume file: None (plan execution complete, no continuation needed)
+Stopped at: Completed 09-04-PLAN.md (Researcher Agent Integration) - PHASE 9 COMPLETE
+Resume file: None (all 38 plans complete)
 
 ---
 *State initialized: 2026-01-27*
