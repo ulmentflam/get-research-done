@@ -11,18 +11,18 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 6 (Human Evaluation Gate) — IN PROGRESS
-Plan: 3 of 5 complete (Evidence presentation and decision gate)
-Status: Phase 5 wave 2 execution in progress
-Last activity: 2026-01-30 — Completed 05-02-PLAN.md (Evidence Presentation and Decision Gate)
+Plan: 4 of 5 complete (Archive flow implementation)
+Status: Phase 5 wave 3 execution in progress
+Last activity: 2026-01-30 — Completed 05-04-PLAN.md (Archive Flow Implementation)
 
-Progress: [█████████████████████████████████████░░] 96% (23/24 plans complete across phases 1-5)
+Progress: [█████████████████████████████████████░░] 96% (24/25 plans complete across phases 1-5)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 23
-- Average duration: 3.2 min
-- Total execution time: 1.23 hours
+- Total plans completed: 24
+- Average duration: 3.1 min
+- Total execution time: 1.28 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [███████████████████████
 | 02 | 4 | 21.0min | 5.3min |
 | 03 | 4 | 11.2min | 2.8min |
 | 04 | 5 | 22.0min | 4.4min |
-| 05 | 3 | 10.0min | 3.3min |
+| 05 | 4 | 13.0min | 3.3min |
 
 **Recent Trend:**
-- Last 5 plans: 05-02 (3min), 05-01 (4min), 04-05 (2min), 04-04 (15min), 04-03 (0min - agent only)
-- Trend: Phase 5 execution consistent - evidence/decision gate (05-02) at 3min, maintaining velocity
+- Last 5 plans: 05-04 (3min), 05-03 (3min), 05-02 (3min), 05-01 (4min), 04-05 (2min)
+- Trend: Phase 5 maintaining consistent velocity at 3min per plan across wave 2 and wave 3
 
 *Updated after each plan completion*
 
@@ -115,6 +115,12 @@ Recent decisions affecting current work:
 | ITERATION_SUMMARY.md collapses runs | 05-02 | Archive template with iteration history table, metric trends, verdict distribution, key observations from all attempts |
 | Central log references run only | 05-03 | decision_log.md points to run directory, no bidirectional links (simplifies structure) |
 | STATE.md decision tracking | 05-03 | Human Decisions table + Research Loop State status updates maintain consistency across evaluations |
+| Archive to experiments/archive/YYYY-MM-DD_hypothesis/ | 05-04 | Date-prefixed directories with sanitized hypothesis names for negative results preservation |
+| Final run preserved as run_final/ | 05-04 | Move final run to archive with full structure, remove intermediate runs |
+| ARCHIVE_REASON.md mandatory rationale | 05-04 | Template-based documentation with user rationale, best metrics, learnings, and conditions for future success |
+| ITERATION_SUMMARY.md generation | 05-04 | Collapsed history table with metric trends, verdict distribution, and key observations from all attempts |
+| metadata.json for archives | 05-04 | Programmatic access to archival context (timestamps, metrics, iteration counts) |
+| decision_log.md updated to archive location | 05-04 | References point to experiments/archive/ not original experiments/run_NNN/ path |
 
 ### Pending Todos
 
@@ -133,7 +139,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30 (execution)
-Stopped at: Completed 05-02-PLAN.md (Evidence Presentation and Decision Gate) — Phase 5 plan 2 of 5
+Stopped at: Completed 05-04-PLAN.md (Archive Flow Implementation) — Phase 5 plan 4 of 5
 Resume file: None
 
 ---
