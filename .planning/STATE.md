@@ -11,9 +11,9 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 5 of 6 (Human Evaluation Gate) — IN PROGRESS
-Plan: 3 of 5 complete (Decision logging)
+Plan: 3 of 5 complete (Evidence presentation and decision gate)
 Status: Phase 5 wave 2 execution in progress
-Last activity: 2026-01-30 — Completed 05-03-PLAN.md (Dual Decision Logging)
+Last activity: 2026-01-30 — Completed 05-02-PLAN.md (Evidence Presentation and Decision Gate)
 
 Progress: [█████████████████████████████████████░░] 96% (23/24 plans complete across phases 1-5)
 
@@ -21,8 +21,8 @@ Progress: [███████████████████████
 
 **Velocity:**
 - Total plans completed: 23
-- Average duration: 3.3 min
-- Total execution time: 1.27 hours
+- Average duration: 3.2 min
+- Total execution time: 1.23 hours
 
 **By Phase:**
 
@@ -32,11 +32,11 @@ Progress: [███████████████████████
 | 02 | 4 | 21.0min | 5.3min |
 | 03 | 4 | 11.2min | 2.8min |
 | 04 | 5 | 22.0min | 4.4min |
-| 05 | 3 | 7.0min | 2.3min |
+| 05 | 3 | 10.0min | 3.3min |
 
 **Recent Trend:**
-- Last 5 plans: 05-03 (3min), 05-01 (4min), 04-05 (2min), 04-04 (15min), 04-03 (0min - agent only)
-- Trend: Phase 5 execution quick - decision logging (05-03) at 3min, maintaining velocity
+- Last 5 plans: 05-02 (3min), 05-01 (4min), 04-05 (2min), 04-04 (15min), 04-03 (0min - agent only)
+- Trend: Phase 5 execution consistent - evidence/decision gate (05-02) at 3min, maintaining velocity
 
 *Updated after each plan completion*
 
@@ -107,6 +107,12 @@ Recent decisions affecting current work:
 | Archive requires confirmation and rationale | 05-01 | Prevents accidental archival - user must confirm and explain why hypothesis failed |
 | Dual decision logging system | 05-01 | Per-run DECISION.md (detailed) + central decision_log.md (chronological table) for audit trail |
 | Negative results preserved with learnings | 05-01 | Archive structure captures why failed, what was learned, and what would need to change for future researchers |
+| Executive summary leads with outcome | 05-02 | Hypothesis, verdict (VALIDATED/FAILED/INCONCLUSIVE), key result, composite score presented first |
+| Verdict categorization logic | 05-02 | VALIDATED = Critic PROCEED + composite >= threshold + overall PASS; FAILED = score < threshold OR overall FAIL; INCONCLUSIVE = LOW confidence or mixed results |
+| Seal and Iterate no confirmation | 05-02 | Affirmative actions proceed directly to logging; only Archive (destructive) requires confirmation |
+| Archive two-step confirmation | 05-02 | Confirm action → capture mandatory rationale (validates not empty, loops until provided) |
+| Iterate auto-suggests direction | 05-02 | Extract Critic recommendation, parse for method vs data keywords, display suggested path in decision prompt |
+| ITERATION_SUMMARY.md collapses runs | 05-02 | Archive template with iteration history table, metric trends, verdict distribution, key observations from all attempts |
 | Central log references run only | 05-03 | decision_log.md points to run directory, no bidirectional links (simplifies structure) |
 | STATE.md decision tracking | 05-03 | Human Decisions table + Research Loop State status updates maintain consistency across evaluations |
 
@@ -127,7 +133,7 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30 (execution)
-Stopped at: Completed 05-03-PLAN.md (Dual Decision Logging) — Phase 5 plan 3 of 5
+Stopped at: Completed 05-02-PLAN.md (Evidence Presentation and Decision Gate) — Phase 5 plan 2 of 5
 Resume file: None
 
 ---
