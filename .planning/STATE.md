@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 ## Current Position
 
 Phase: 8 of 9 (Baseline Orchestration) - IN PROGRESS
-Plan: 1 of 3 complete
+Plan: 2 of 3 complete
 Status: Gap closure in progress
-Last activity: 2026-01-30 — Completed 08-01-PLAN.md (Baseline Validation Gate)
+Last activity: 2026-01-30 — Completed 08-02-PLAN.md (Evaluator SCORECARD Baseline Comparison)
 
-Progress: [████████████████████████████████████████████████████] 100% core (32/32 plans) + 1/3 Phase 8 complete
+Progress: [████████████████████████████████████████████████████] 100% core (32/32 plans) + 2/3 Phase 8 complete
 
 ## Performance Metrics
 
@@ -154,6 +154,10 @@ Recent decisions affecting current work:
 | Primary baseline blocks, secondary warns | 08-01 | Fail-fast gate at Researcher start - missing primary = actionable error, missing secondary = warning |
 | Actionable error messages with commands | 08-01 | Baseline validation errors include exact command to fix (e.g., /grd:research --baseline {name}) |
 | --skip-baseline flag with logging | 08-01 | Override bypasses validation but logs to STATE.md and run metadata for audit trail |
+| Step 1.5 secondary baseline validation | 08-02 | Evaluator re-validates baselines at evaluation time as safety check (baseline could be deleted during long experiment) |
+| Multi-baseline comparison table | 08-02 | SCORECARD.json includes baselines array with primary/secondary type, score, improvement, and significance testing |
+| baseline_validation metadata | 08-02 | SCORECARD tracks researcher_validated, evaluator_validated, validation_skipped for complete audit trail |
+| Missing primary at evaluation = WARN | 08-02 | Unlike Researcher which blocks, Evaluator warns because baseline was valid when experiment ran |
 
 ### Pending Todos
 
@@ -172,8 +176,8 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-01-30 (Phase 8 execution)
-Stopped at: Completed 08-01-PLAN.md (Baseline Validation Gate)
-Resume file: Continue with 08-02-PLAN.md (SCORECARD Baseline Comparison)
+Stopped at: Completed 08-02-PLAN.md (Evaluator SCORECARD Baseline Comparison)
+Resume file: Continue with 08-03-PLAN.md (Documentation and integration)
 
 ---
 *State initialized: 2026-01-27*
