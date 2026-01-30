@@ -44,23 +44,22 @@ npx get-research-done
 
 ## Why I Built This
 
-I'm a solo developer. I don't write code — Claude Code does.
-
-Other spec-driven development tools exist; BMAD, Speckit... But they all seem to make things way more complicated than they need to be (sprint ceremonies, story points, stakeholder syncs, retrospectives, Jira workflows) or lack real big picture understanding of what you're building. I'm not a 50-person software company. I don't want to play enterprise theater. I'm just a creative person trying to build great things that work.
-
-So I built GRD. The complexity is in the system, not in your workflow. Behind the scenes: context engineering, XML prompt formatting, subagent orchestration, state management, recursive validation loops. What you see: a few commands that just work.
-
-The system gives Claude everything it needs to do ML research with scientific rigor — hypothesis generation, experimentation, validation, and skeptical review at every step.
-
-That's what this is. No enterprise roleplay bullshit. Just an incredibly effective system for hypothesis-driven ML research using Claude Code.
-
-— **TÂCHES**
-
----
-
 ML research has a reproducibility crisis. Experiments are ad-hoc, hypotheses are vague, validation is subjective, and insights get lost.
 
-GRD fixes that. It's the framework that makes ML research systematic. State your hypothesis, let the system design experiments, execute with rigor, and validate with skepticism.
+I've watched researchers spend weeks on experiments with fundamental flaws: data leakage baked into features, "95% accuracy" on shifted distributions, negative results deleted rather than preserved. The problem isn't capability — it's structure.
+
+So I built GRD. It's the framework that makes ML research systematic:
+
+- **Data-first philosophy** — Explore your data before forming hypotheses
+- **Testable hypotheses** — Falsification criteria, success metrics, baseline requirements
+- **Automated skepticism** — Critic agent catches leakage, overfitting, and logical errors
+- **Recursive validation** — Results contradict the data? System routes back to exploration
+- **Human-in-the-loop gates** — You make final calls on validation and archival
+- **Negative result preservation** — Failed hypotheses are valuable knowledge
+
+The complexity is in the system, not in your workflow. You run five commands: `/grd:explore`, `/grd:architect`, `/grd:research`, `/grd:evaluate`, `/grd:graduate`. The agents handle the rest.
+
+— **TÂCHES**
 
 ---
 
@@ -173,260 +172,245 @@ If you prefer not to use that flag, add this to your project's `.claude/settings
 
 ## How It Works
 
-> **Already have ML code?** Run `/grd:map-codebase` first. It spawns parallel agents to analyze your models, datasets, metrics, and experiment patterns. Then `/grd:new-project` knows your research context — questions focus on your hypothesis, and planning automatically loads your experimental setup.
+GRD follows a recursive validation loop: **Explore → Architect → Research → Evaluate → Graduate**. The Critic agent enforces skepticism at every step, routing experiments back to earlier phases when issues are detected.
 
-### 1. Initialize Project
+> **Already have ML code?** Run `/grd:map-codebase` first. It spawns parallel agents to analyze your models, datasets, metrics, and experiment patterns. Then `/grd:new-project` knows your research context.
+
+### 1. Data Reconnaissance
 
 ```
-/grd:new-project
+/grd:explore ./data/train.csv
 ```
 
-One command, one flow. The system:
+**Understand your data before forming hypotheses.**
 
-1. **Questions** — Asks until it understands your research goal (hypothesis, metrics, baselines, constraints)
-2. **Research** — Spawns parallel agents to investigate the domain (optional but recommended)
-3. **Requirements** — Extracts what's essential for validation, what's future work
-4. **Roadmap** — Creates phases mapped to the research loop (explore → synthesize → implement → validate)
+The Explorer agent profiles your dataset:
 
-You approve the roadmap. Now you're ready to experiment.
+- **Distributions** — Feature statistics, class balance, outliers
+- **Missing data patterns** — MCAR/MAR/MNAR analysis
+- **Leakage detection** — High-confidence warnings for temporal/feature leakage
+- **Data quality** — Anomalies that could invalidate experiments
 
-**Creates:** `PROJECT.md`, `REQUIREMENTS.md`, `ROADMAP.md`, `STATE.md`, `.planning/research/`
+The output grounds all downstream work in data reality.
+
+**Creates:** `.planning/DATA_REPORT.md`
 
 ---
 
-### 2. Discuss Phase
+### 2. Hypothesis Synthesis
 
 ```
-/grd:discuss-phase 1
+/grd:architect
 ```
 
-**This is where you shape the experiment design.**
+**Transform data insights into testable hypotheses.**
 
-Your roadmap has a sentence or two per phase. That's not enough context to design experiments the way *you* imagine them. This step captures your preferences before anything gets researched or planned.
+The Architect agent reads your DATA_REPORT.md and proposes hypotheses with:
 
-The system analyzes the phase and identifies gray areas based on what's being researched:
+- **Testable claims** — What you're trying to prove
+- **Success metrics** — Weighted metrics with thresholds
+- **Falsification criteria** — What would disprove the hypothesis
+- **Baseline requirements** — What you're comparing against
 
-- **Data exploration** → Feature selection, preprocessing, validation splits
-- **Model architecture** → Layer design, activation functions, regularization
-- **Training loops** → Optimization strategy, learning rate schedules, early stopping
-- **Evaluation metrics** → Which metrics matter, baseline comparisons, statistical significance
+The Architect collaborates iteratively — propose, explain reasoning, refine based on your feedback.
 
-For each area you select, it asks until you're satisfied. The output — `CONTEXT.md` — feeds directly into the next two steps:
-
-1. **Researcher reads it** — Knows what patterns to investigate ("user wants transformer architecture" → research attention mechanisms)
-2. **Planner reads it** — Knows what decisions are locked ("Adam optimizer decided" → plan includes optimizer configuration)
-
-The deeper you go here, the more the system experiments the way you actually want. Skip it and you get reasonable defaults. Use it and you get *your* experimental design.
-
-**Creates:** `{phase}-CONTEXT.md`
+**Creates:** `.planning/OBJECTIVE.md`
 
 ---
 
-### 3. Plan Phase
+### 3. Recursive Validation Loop
 
 ```
-/grd:plan-phase 1
+/grd:research baseline
 ```
 
-The system:
+**Implement experiments with automated skeptical review.**
 
-1. **Researches** — Investigates how to design experiments for this phase, guided by your CONTEXT.md decisions
-2. **Plans** — Creates 2-3 atomic experiment plans with XML structure
-3. **Verifies** — Checks plans against research goals, loops until they pass
+The Researcher agent:
 
-Each plan is small enough to execute in a fresh context window. No degradation, no context rot.
+1. **Creates isolated run** — `experiments/run_001_baseline/` with complete snapshot
+2. **Implements experiment** — Code, config, data references
+3. **Spawns Critic** — Automated skeptic reviews for logical errors, leakage, overfitting
 
-**Creates:** `{phase}-RESEARCH.md`, `{phase}-{N}-PLAN.md`
+The Critic returns one of four verdicts:
+
+| Verdict | Meaning | Routing |
+|---------|---------|---------|
+| `PROCEED` | Logic sound, results align with data | → Evaluator |
+| `REVISE_METHOD` | Logical error, bad hyperparams | → Back to Researcher |
+| `REVISE_DATA` | Anomalous results, potential leakage | → Back to Explorer |
+| `ESCALATE` | Ambiguous failure | → Human decision |
+
+If `REVISE_METHOD`, continue with:
+```
+/grd:research --continue
+```
+
+The loop iterates until PROCEED (default limit: 5 iterations).
+
+**Creates:** `experiments/run_NNN/` with code, config, logs, `CRITIC_LOG.md`, `SCORECARD.json`
 
 ---
 
-### 4. Execute Phase
+### 4. Human Evaluation Gate
 
 ```
-/grd:execute-phase 1
+/grd:evaluate
 ```
 
-The system:
+**Review evidence and make the final call.**
 
-1. **Runs experiments in waves** — Parallel where possible, sequential when dependent
-2. **Fresh context per plan** — 200k tokens purely for experimentation, zero accumulated garbage
-3. **Commits per task** — Every experiment gets its own atomic commit
-4. **Verifies against hypotheses** — Checks the results validate what the phase proposed
+After Critic approves and Evaluator benchmarks, you see the evidence package:
 
-Walk away, come back to completed experiments with clean git history and tracked results.
+- **SCORECARD.json** — Quantitative metrics vs thresholds
+- **CRITIC_LOG.md** — What passed validation and why
+- **OBJECTIVE.md** — Original hypothesis for comparison
+- **DATA_REPORT.md** — Data characteristics for context
 
-**Creates:** `{phase}-{N}-SUMMARY.md`, `{phase}-VERIFICATION.md`
+Three decisions:
+
+| Decision | Meaning | Next Step |
+|----------|---------|-----------|
+| **Seal** | Hypothesis validated | Ready for production/publication |
+| **Iterate** | Continue experimenting | `/grd:research --continue` |
+| **Archive** | Abandon hypothesis | Preserved as negative result |
+
+Archived hypotheses are kept in `experiments/archive/` — negative results are valuable too.
+
+**Creates:** `DECISION.md`, `human_eval/decision_log.md`
 
 ---
 
-### 5. Verify Work
+### 5. Notebook Graduation
 
 ```
-/grd:verify-work 1
+/grd:graduate notebooks/exploration/baseline.ipynb
 ```
 
-**This is where you confirm the results are valid.**
+**Convert validated notebooks to production scripts.**
 
-Automated verification checks that experiments ran and metrics were logged. But are the results *meaningful*? This is your chance to evaluate them.
+After a notebook passes Critic validation:
 
-The system:
+1. **Validates requirements** — Random seeds set, parameters cell tagged
+2. **Converts to Python** — Via nbconvert with metadata header
+3. **Places in `src/experiments/`** — Ready for production use
+4. **Generates refactoring checklist** — Manual cleanup guide
 
-1. **Extracts testable hypotheses** — What should be validated now
-2. **Walks you through one at a time** — "Did accuracy improve over baseline?" Yes/no, or describe what's wrong
-3. **Diagnoses failures automatically** — Spawns debug agents to find root causes
-4. **Creates verified fix plans** — Ready for immediate re-execution
-
-If everything validates, you move on. If something's invalid, you don't manually debug — you just run `/grd:execute-phase` again with the fix plans it created.
-
-**Creates:** `{phase}-UAT.md`, fix plans if issues found
+**Creates:** `src/experiments/{script_name}.py`
 
 ---
 
-### 6. Repeat → Complete → Next Milestone
+### The Recursive Loop in Action
 
 ```
-/grd:discuss-phase 2
-/grd:plan-phase 2
-/grd:execute-phase 2
-/grd:verify-work 2
-...
-/grd:complete-milestone
-/grd:new-milestone
+/grd:explore ./data/           # Profile data
+/grd:architect                  # Form hypothesis
+/grd:research baseline          # Implement + Critic review
+  → REVISE_METHOD              # Critic finds issue
+/grd:research --continue        # Fix and retry
+  → PROCEED                    # Critic approves
+/grd:evaluate                   # Human reviews evidence
+  → Seal                       # Hypothesis validated
+/grd:graduate notebook.ipynb    # Graduate to script
 ```
 
-Loop **discuss → plan → execute → verify** until milestone complete.
-
-Each phase gets your input (discuss), proper research (plan), clean execution (execute), and human verification (verify). Context stays fresh. Quality stays high.
-
-When all phases are done, `/grd:complete-milestone` archives the milestone and tags the release.
-
-Then `/grd:new-milestone` starts the next version — same flow as `new-project` but for your existing codebase. You describe what you want to build next, the system researches the domain, you scope requirements, and it creates a fresh roadmap. Each milestone is a clean cycle: define → build → ship.
-
----
-
-### Quick Mode
-
-```
-/grd:quick
-```
-
-**For ad-hoc experiments that don't need full planning.**
-
-Quick mode gives you GRD guarantees (atomic commits, state tracking, metric logging) with a faster path:
-
-- **Same agents** — Planner + executor, same quality
-- **Skips optional steps** — No research, no plan checker, no Critic review
-- **Separate tracking** — Lives in `.planning/quick/`, not phases
-
-Use for: hyperparameter sweeps, ablation studies, metric checks, one-off experiments.
-
-```
-/grd:quick
-> What do you want to do? "Run learning rate sweep from 1e-5 to 1e-2"
-```
-
-**Creates:** `.planning/quick/001-learning-rate-sweep/PLAN.md`, `SUMMARY.md`
+The power is in the routing. If results contradict the data profile, `REVISE_DATA` sends you back to `/grd:explore`. The system is self-correcting.
 
 ---
 
 ## Why It Works
 
+### Data-First Philosophy
+
+ML research fails when hypotheses aren't grounded in data reality. GRD enforces **data reconnaissance before hypothesis formation**:
+
+1. **Explorer** profiles your data — distributions, outliers, class balance, leakage risks
+2. **Architect** reads DATA_REPORT.md before proposing hypotheses
+3. **Critic** validates experiments against data characteristics
+
+No more "95% accuracy" on shifted distributions. No more spending weeks on experiments with data leakage baked in.
+
+### Recursive Validation Loop
+
+Research is non-linear. Results often invalidate assumptions. GRD's Critic agent has **three exit paths**:
+
+| Exit Code | Meaning | Routing |
+|-----------|---------|---------|
+| `PROCEED` | Logic sound, aligns with data | → Evaluator → Human gate |
+| `REVISE_METHOD` | Logical error, bad approach | → Back to Researcher |
+| `REVISE_DATA` | Data quality concern | → Back to Explorer |
+
+When results contradict the data profile, the system forces a return to the data layer. This is the core innovation over linear workflow tools.
+
 ### Context Engineering
 
-Claude Code is incredibly powerful *if* you give it the context it needs. Most ML researchers don't have time to structure it properly.
+GRD structures context so Claude can reason effectively:
 
-GRD handles it for you:
+| Artifact | Purpose |
+|----------|---------|
+| `DATA_REPORT.md` | Living data profile — distributions, leakage warnings, anomalies |
+| `OBJECTIVE.md` | Testable hypothesis — what, why, metrics, falsification criteria |
+| `CRITIC_LOG.md` | Validation history — verdicts, confidence, recommendations |
+| `SCORECARD.json` | Quantitative results — metrics vs thresholds, composite score |
+| `experiments/run_NNN/` | Isolated snapshots — code, config, logs, outputs per iteration |
 
-| File | What it does |
-|------|--------------|
-| `PROJECT.md` | Research vision, hypothesis, baseline expectations |
-| `research/` | Domain knowledge (datasets, models, metrics, pitfalls) |
-| `REQUIREMENTS.md` | Scoped validation requirements with phase traceability |
-| `ROADMAP.md` | Research loop stages, what's validated |
-| `STATE.md` | Decisions, blockers, loop history — memory across sessions |
-| `PLAN.md` | Atomic experiment with XML structure, verification steps |
-| `SUMMARY.md` | Results, insights, what changed, committed to history |
-| `todos/` | Captured hypotheses and experiments for later work |
+Each run is a complete, reproducible snapshot. No context rot. No lost experiments.
 
-Size limits based on where Claude's quality degrades. Stay under, get consistent excellence.
+### Agent Roles
 
-### XML Prompt Formatting
+| Agent | Responsibility | Output |
+|-------|----------------|--------|
+| **Explorer** | Data reconnaissance, leakage detection | `DATA_REPORT.md` |
+| **Architect** | Hypothesis synthesis, success criteria | `OBJECTIVE.md` |
+| **Researcher** | Implementation, experiment execution | `experiments/run_NNN/` |
+| **Critic** | Skeptical validation, routing decisions | `CRITIC_LOG.md` |
+| **Evaluator** | Quantitative benchmarking | `SCORECARD.json` |
+| **Graduator** | Notebook-to-script conversion | `src/experiments/` |
 
-Every plan is structured XML optimized for Claude:
+The Researcher spawns Critic automatically. You don't orchestrate — you just run `/grd:research` and the loop handles itself.
 
-```xml
-<task type="auto">
-  <name>Train baseline CNN model</name>
-  <files>experiments/baseline_cnn.py</files>
-  <action>
-    Use PyTorch for model definition.
-    3 conv layers with ReLU, max pooling, dropout.
-    Train for 50 epochs with early stopping.
-    Log metrics to MLflow.
-  </action>
-  <verify>MLflow shows run with test accuracy logged</verify>
-  <done>Baseline model trained, metrics logged, checkpoint saved</done>
-</task>
-```
+### Human-in-the-Loop Gates
 
-Precise instructions. No guessing. Verification built in.
+Automated skepticism catches obvious errors. But **humans make final calls**:
 
-### Multi-Agent Orchestration
+- **Low confidence PROCEED** — Critic shows concerns, you decide whether to continue
+- **Iteration limit reached** — After 5 attempts, you review and choose direction
+- **Evaluate gate** — You see full evidence package before Seal/Iterate/Archive
 
-Every stage uses the same pattern: a thin orchestrator spawns specialized agents, collects results, and routes to the next step.
+The system makes it **harder to deceive yourself**, not easier to ship models.
 
-| Stage | Orchestrator does | Agents do |
-|-------|------------------|-----------|
-| Research | Coordinates, presents findings | 5 parallel agents: Explorer (data), Architect (models), Researcher (domain), Critic (validity), Evaluator (metrics) |
-| Planning | Validates, manages iteration | Planner creates experiments, checker verifies, Critic reviews, loop until pass |
-| Execution | Groups into waves, tracks progress | Executors run experiments in parallel, each with fresh 200k context |
-| Verification | Presents results, routes next | Verifier checks results against hypotheses, Critic challenges conclusions, debuggers diagnose failures |
+### Negative Result Preservation
 
-The orchestrator never does heavy lifting. It spawns agents, waits, integrates results.
+Failed hypotheses are valuable. When you Archive:
 
-**The result:** You can run an entire research loop — deep domain investigation, multiple experiments designed and validated, models trained across parallel executors, automated verification against hypotheses — and your main context window stays at 30-40%. The work happens in fresh subagent contexts. Your session stays fast and responsive.
+- Final run preserved in `experiments/archive/`
+- `ARCHIVE_REASON.md` captures why it failed
+- `ITERATION_SUMMARY.md` shows what was tried
+- Future researchers won't repeat the same mistakes
 
-### Atomic Git Commits
-
-Each task gets its own commit immediately after completion:
-
-```bash
-abc123f docs(02-01): complete baseline experiment plan
-def456g feat(02-01): train CNN baseline model
-hij789k feat(02-01): log metrics to MLflow
-lmn012o feat(02-01): save model checkpoint
-```
-
-> [!NOTE]
-> **Benefits:** Git bisect finds exact failing task. Each task independently revertable. Clear history for Claude in future sessions. Better observability in AI-automated workflow.
-
-Every commit is surgical, traceable, and meaningful.
-
-### Modular by Design
-
-- Add phases to current milestone
-- Insert urgent work between phases
-- Complete milestones and start fresh
-- Adjust plans without rebuilding everything
-
-You're never locked in. The system adapts.
+Insufficient skepticism causes most ML research failures. GRD makes skepticism structural.
 
 ---
 
 ## Commands
 
-### Core Workflow
+### Research Loop (Core Workflow)
 
 | Command | What it does |
 |---------|--------------|
-| `/grd:new-project` | Full initialization: questions → research → requirements → roadmap |
-| `/grd:discuss-phase [N]` | Capture implementation decisions before planning |
-| `/grd:plan-phase [N]` | Research + plan + verify for a phase |
-| `/grd:execute-phase <N>` | Execute all plans in parallel waves, verify when complete |
-| `/grd:verify-work [N]` | Manual user acceptance testing ¹ |
-| `/grd:audit-milestone` | Verify milestone achieved its definition of done |
-| `/grd:complete-milestone` | Archive milestone, tag release |
-| `/grd:new-milestone [name]` | Start next version: questions → research → requirements → roadmap |
+| `/grd:explore [path]` | Data reconnaissance — profile distributions, detect leakage, identify anomalies |
+| `/grd:architect [direction]` | Hypothesis synthesis — create testable OBJECTIVE.md with falsification criteria |
+| `/grd:research [description]` | Recursive validation — implement experiment, Critic review, routing |
+| `/grd:research --continue` | Continue after REVISE_METHOD verdict |
+| `/grd:evaluate [run_name]` | Human decision gate — Seal / Iterate / Archive |
+| `/grd:graduate <notebook>` | Graduate validated notebook to production script |
+
+### Project Setup
+
+| Command | What it does |
+|---------|--------------|
+| `/grd:new-project` | Initialize project with questioning → research → requirements |
+| `/grd:map-codebase` | Analyze existing codebase before new-project |
 
 ### Navigation
 
@@ -437,27 +421,11 @@ You're never locked in. The system adapts.
 | `/grd:update` | Update GRD with changelog preview |
 | `/grd:join-discord` | Join the GRD Discord community |
 
-### Brownfield
-
-| Command | What it does |
-|---------|--------------|
-| `/grd:map-codebase` | Analyze existing codebase before new-project |
-
-### Phase Management
-
-| Command | What it does |
-|---------|--------------|
-| `/grd:add-phase` | Append phase to roadmap |
-| `/grd:insert-phase [N]` | Insert urgent work between phases |
-| `/grd:remove-phase [N]` | Remove future phase, renumber |
-| `/grd:list-phase-assumptions [N]` | See Claude's intended approach before planning |
-| `/grd:plan-milestone-gaps` | Create phases to close gaps from audit |
-
 ### Session
 
 | Command | What it does |
 |---------|--------------|
-| `/grd:pause-work` | Create handoff when stopping mid-phase |
+| `/grd:pause-work` | Create handoff when stopping mid-experiment |
 | `/grd:resume-work` | Restore from last session |
 
 ### Utilities
@@ -469,9 +437,7 @@ You're never locked in. The system adapts.
 | `/grd:add-todo [desc]` | Capture idea for later |
 | `/grd:check-todos` | List pending todos |
 | `/grd:debug [desc]` | Systematic debugging with persistent state |
-| `/grd:quick` | Execute ad-hoc task with GRD guarantees |
-
-<sup>¹ Contributed by reddit user OracleGreyBeard</sup>
+| `/grd:quick` | Execute ad-hoc experiment with GRD guarantees |
 
 ---
 
@@ -484,17 +450,17 @@ GRD stores project settings in `.planning/config.json`. Configure during `/grd:n
 | Setting | Options | Default | What it controls |
 |---------|---------|---------|------------------|
 | `mode` | `yolo`, `interactive` | `interactive` | Auto-approve vs confirm at each step |
-| `depth` | `quick`, `standard`, `comprehensive` | `standard` | Planning thoroughness (phases × plans) |
+| `iteration_limit` | 1-10 | `5` | Max Researcher → Critic loops before human gate |
 
 ### Model Profiles
 
 Control which Claude model each agent uses. Balance quality vs token spend.
 
-| Profile | Planning | Execution | Verification |
-|---------|----------|-----------|--------------|
+| Profile | Explorer/Architect | Researcher | Critic/Evaluator |
+|---------|-------------------|------------|------------------|
 | `quality` | Opus | Opus | Sonnet |
-| `balanced` (default) | Opus | Sonnet | Sonnet |
-| `budget` | Sonnet | Sonnet | Haiku |
+| `balanced` (default) | Sonnet | Sonnet | Sonnet |
+| `budget` | Sonnet | Haiku | Haiku |
 
 Switch profiles:
 ```
@@ -505,24 +471,17 @@ Or configure via `/grd:settings`.
 
 ### Workflow Agents
 
-These spawn additional agents during planning/execution. They improve quality but add tokens and time.
-
 | Setting | Default | What it does |
 |---------|---------|--------------|
-| `workflow.research` | `true` | Researches domain before planning each phase |
-| `workflow.plan_check` | `true` | Verifies plans achieve phase goals before execution |
-| `workflow.verifier` | `true` | Confirms must-haves were delivered after execution |
-
-Use `/grd:settings` to toggle these, or override per-invocation:
-- `/grd:plan-phase --skip-research`
-- `/grd:plan-phase --skip-verify`
+| `workflow.research` | `true` | Domain research before project setup |
+| `workflow.plan_check` | `true` | Verifies experiment design before execution |
+| `workflow.verifier` | `true` | Confirms hypothesis criteria after Critic approval |
 
 ### Execution
 
 | Setting | Default | What it controls |
 |---------|---------|------------------|
-| `parallelization.enabled` | `true` | Run independent plans simultaneously |
-| `planning.commit_docs` | `true` | Track `.planning/` in git |
+| `commit_docs` | `true` | Track `.planning/` in git |
 
 ---
 
