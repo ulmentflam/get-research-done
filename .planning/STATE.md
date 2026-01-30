@@ -10,19 +10,19 @@ See: .planning/PROJECT.md (updated 2026-01-27)
 
 ## Current Position
 
-Phase: 8 of 9 (Baseline Orchestration) - COMPLETE
-Plan: 3 of 3 complete
-Status: Phase 8 complete, Phase 9 ready
-Last activity: 2026-01-30 — Completed 08-03-PLAN.md (Documentation and Template Updates)
+Phase: 9 of 9 (Hardware Profiling & Long-Running Experiments)
+Plan: 1 of 3 complete (09-02 done)
+Status: Phase 9 in progress
+Last activity: 2026-01-30 — Completed 09-02-PLAN.md (Timeout & Checkpoint Management)
 
-Progress: [████████████████████████████████████████████████████████████] 100% (35/35 plans complete, Phase 9 pending)
+Progress: [████████████████████████████████████████████████████████████░] 97% (36/37 plans complete)
 
 ## Performance Metrics
 
 **Velocity:**
-- Total plans completed: 35
+- Total plans completed: 36
 - Average duration: 3.0 min
-- Total execution time: 1.6 hours
+- Total execution time: 1.7 hours
 
 **By Phase:**
 
@@ -36,10 +36,11 @@ Progress: [███████████████████████
 | 06 | 5 | 16.0min | 3.2min |
 | 07 | 2 | 9.0min | 4.5min |
 | 08 | 3 | 6.1min | 2.0min |
+| 09 | 1 | 2.6min | 2.6min |
 
 **Recent Trend:**
-- Last 5 plans: 08-03 (1.8min), 08-02 (2.3min), 08-01 (2min), 07-02 (3.7min), 07-01 (5.3min)
-- Trend: Phase 8 complete - baseline orchestration ensures experiments have comparison baselines
+- Last 5 plans: 09-02 (2.6min), 08-03 (1.8min), 08-02 (2.3min), 08-01 (2min), 07-02 (3.7min)
+- Trend: Phase 9 started - timeout and checkpoint management for long-running experiments
 
 *Updated after each plan completion*
 
@@ -152,6 +153,9 @@ Recent decisions affecting current work:
 | Validation tiered for graduation | 06-04 | Errors block graduation (seeds, parameters), warnings advisory (paths, magics) |
 | Refactoring guidance embedded in script | 06-04 | Script header includes TODO checklist for manual cleanup |
 | First-in-list baseline designation | 08-01 | First baseline in OBJECTIVE.md table is PRIMARY (required), subsequent are SECONDARY (optional) |
+| Session-level timeout approval | 09-02 | Once approved, all experiments in session bypass timeout without repeated prompts |
+| Dual checkpoint format | 09-02 | checkpoint_epoch_N.pt (versioned) and checkpoint_latest.pt (easy resume) |
+| Signal handlers set interrupted flag | 09-02 | SIGINT/SIGTERM set flag rather than forcing save, training loop handles cleanup |
 | Primary baseline blocks, secondary warns | 08-01 | Fail-fast gate at Researcher start - missing primary = actionable error, missing secondary = warning |
 | Actionable error messages with commands | 08-01 | Baseline validation errors include exact command to fix (e.g., /grd:research --baseline {name}) |
 | --skip-baseline flag with logging | 08-01 | Override bypasses validation but logs to STATE.md and run metadata for audit trail |
@@ -176,9 +180,9 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-01-30 (Phase 8 completion)
-Stopped at: Completed 08-03-PLAN.md (Documentation and Template Updates)
-Resume file: Phase 9 planning (Hardware Profiling & Long-Running Experiments)
+Last session: 2026-01-30
+Stopped at: Completed 09-02-PLAN.md (Timeout & Checkpoint Management)
+Resume file: None (plan execution complete, no continuation needed)
 
 ---
 *State initialized: 2026-01-27*
