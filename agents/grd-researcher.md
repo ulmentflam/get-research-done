@@ -38,6 +38,9 @@ Track across iterations:
 - data_revision_count: Number of REVISE_DATA cycles in current hypothesis (starts at 0)
 - data_revision_limit: Maximum allowed data revisions (default: 2, separate from iteration_limit)
 - data_revision_history: List of data concerns addressed
+- duration_estimate: DurationEstimate dict from Step 1.6
+- long_running_approved: bool (session-level approval status)
+- timeout_manager: ExperimentTimeoutManager instance (initialized once per session)
 
 ### Baseline Validation State
 
@@ -176,6 +179,160 @@ Determine if implementing as notebook or script based on:
 experiment_type = 'notebook' | 'script'
 source_path = 'notebooks/exploration/001_experiment.ipynb' | None
 ```
+
+## Step 1.6: Estimate Experiment Duration
+
+**Responsibilities:**
+- Load hardware profile from DATA_REPORT.md
+- Estimate training duration based on model size and data
+- Determine if experiment is long-running (>10 minutes)
+- Request session-level approval if needed
+
+### Duration Estimation
+
+**Load hardware context from DATA_REPORT.md:**
+
+```python
+from src.grd.hardware import estimate_training_duration
+from src.grd.experiment import ExperimentTimeoutManager
+from pathlib import Path
+import re
+
+def parse_hardware_section(report_path: Path) -> dict | None:
+    """Extract hardware profile from DATA_REPORT.md if available.
+
+    Parses the Hardware Profile section and returns a dict matching
+    the HardwareProfile structure expected by estimate_training_duration().
+
+    Returns None if:
+    - File doesn't exist
+    - Hardware Profile section not found
+    - Section contains placeholder text
+    """
+    if not report_path.exists():
+        return None
+
+    content = report_path.read_text()
+
+    # Find Hardware Profile section
+    hw_match = re.search(r'## Hardware Profile\s*\n(.*?)(?=\n## |\Z)', content, re.DOTALL)
+    if not hw_match:
+        return None
+
+    hw_section = hw_match.group(1)
+
+    # Check for placeholder
+    if 'Hardware profile not captured' in hw_section:
+        return None
+
+    # Parse CPU info
+    cpu = {}
+    cpu_brand = re.search(r'\*\*Model:\*\*\s*(.+)', hw_section)
+    cpu['brand'] = cpu_brand.group(1).strip() if cpu_brand else 'Unknown'
+
+    cpu_arch = re.search(r'\*\*Architecture:\*\*\s*(.+)', hw_section)
+    cpu['architecture'] = cpu_arch.group(1).strip() if cpu_arch else 'Unknown'
+
+    cores_match = re.search(r'\*\*Cores:\*\*\s*(\d+)\s*physical,\s*(\d+)\s*logical', hw_section)
+    if cores_match:
+        cpu['cores_physical'] = int(cores_match.group(1))
+        cpu['cores_logical'] = int(cores_match.group(2))
+    else:
+        cpu['cores_physical'] = 1
+        cpu['cores_logical'] = 1
+
+    freq_match = re.search(r'\*\*Frequency:\*\*\s*([\d.]+)', hw_section)
+    cpu['frequency_mhz'] = float(freq_match.group(1)) if freq_match else 0
+
+    # Parse Memory info
+    memory = {}
+    total_mem = re.search(r'### Memory.*?\*\*Total:\*\*\s*([\d.]+)\s*GB', hw_section, re.DOTALL)
+    memory['total_gb'] = float(total_mem.group(1)) if total_mem else 0
+
+    avail_mem = re.search(r'\*\*Available:\*\*\s*([\d.]+)\s*GB', hw_section)
+    memory['available_gb'] = float(avail_mem.group(1)) if avail_mem else 0
+
+    # Parse Disk info
+    disk = {}
+    total_disk = re.search(r'### Disk.*?\*\*Total:\*\*\s*([\d.]+)\s*GB', hw_section, re.DOTALL)
+    disk['total_gb'] = float(total_disk.group(1)) if total_disk else 0
+
+    free_disk = re.search(r'\*\*Free:\*\*\s*([\d.]+)\s*GB', hw_section)
+    disk['free_gb'] = float(free_disk.group(1)) if free_disk else 0
+
+    # Parse GPU info
+    gpu = None
+    gpu_section = re.search(r'### GPU\s*\n(.*?)(?=\n### |\Z)', hw_section, re.DOTALL)
+    if gpu_section:
+        gpu_text = gpu_section.group(1)
+        if 'No GPU detected' not in gpu_text:
+            gpu = {}
+            gpu_model = re.search(r'\*\*Model:\*\*\s*(.+)', gpu_text)
+            gpu['name'] = gpu_model.group(1).strip() if gpu_model else 'Unknown'
+
+            gpu_mem = re.search(r'\*\*Memory:\*\*\s*([\d.]+)\s*GB', gpu_text)
+            gpu['total_memory_gb'] = float(gpu_mem.group(1)) if gpu_mem else 0
+
+            cuda_ver = re.search(r'\*\*CUDA Version:\*\*\s*(.+)', gpu_text)
+            gpu['cuda_version'] = cuda_ver.group(1).strip() if cuda_ver else None
+
+            compute = re.search(r'\*\*Compute Capability:\*\*\s*(.+)', gpu_text)
+            gpu['compute_capability'] = compute.group(1).strip() if compute else None
+
+            dev_count = re.search(r'\*\*Device Count:\*\*\s*(\d+)', gpu_text)
+            gpu['device_count'] = int(dev_count.group(1)) if dev_count else 1
+
+    return {
+        'cpu': cpu,
+        'memory': memory,
+        'disk': disk,
+        'gpu': gpu,
+        'timestamp': None  # Not preserved in markdown
+    }
+
+def estimate_experiment_duration(config: dict, hardware_profile: dict) -> dict:
+    """Estimate duration based on experiment config and hardware."""
+    # Extract parameters from config.yaml
+    num_samples = config.get('data', {}).get('num_samples', 10000)
+    num_epochs = config.get('model', {}).get('epochs', 10)
+    model_params = config.get('model', {}).get('estimated_params', 1000000)
+    batch_size = config.get('model', {}).get('batch_size', 32)
+
+    estimate = estimate_training_duration(
+        num_samples=num_samples,
+        num_epochs=num_epochs,
+        model_params=model_params,
+        hardware_profile=hardware_profile,
+        batch_size=batch_size
+    )
+
+    return estimate
+
+# Load hardware context
+hardware_profile = parse_hardware_section(Path('.planning/DATA_REPORT.md'))
+
+if hardware_profile:
+    duration_estimate = estimate_experiment_duration(config, hardware_profile)
+
+    print(f"\nDuration Estimate:")
+    print(f"  Estimated time: {duration_estimate['estimated_minutes']:.1f} minutes")
+    print(f"  Long-running: {duration_estimate['is_long_running']}")
+    print(f"  Confidence: {duration_estimate['confidence']}")
+else:
+    # Fallback: assume potentially long-running without hardware context
+    duration_estimate = {
+        'is_long_running': True,
+        'estimated_minutes': 60,
+        'estimated_seconds': 3600,
+        'confidence': 'LOW',
+        'requires_user_confirmation': True
+    }
+    print("\nWARNING: No hardware profile in DATA_REPORT.md")
+    print("  Duration estimate: Unknown (assuming potentially long-running)")
+    print("  Recommendation: Run /grd:explore first for accurate estimates")
+```
+
+**Store duration_estimate in Internal State for Step 5 and README.md.**
 
 ## Step 1.0.5: Validate Baseline Availability
 
