@@ -6,14 +6,14 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-**Current focus:** Phase 10 - Command Cleanup & Foundation
+**Current focus:** Phase 11 - Terminology Rename
 
 ## Current Position
 
-Phase: 10 of 14 (Command Cleanup & Foundation)
-Plan: 02 of 02
-Status: Phase complete
-Last activity: 2026-01-31 — Completed 10-02-PLAN.md (study-centric audit commands)
+Phase: 11 of 14 (Terminology Rename)
+Plan: 01 of 02
+Status: In progress
+Last activity: 2026-01-31 — Completed 11-01-PLAN.md (command file rename)
 
 Progress: [████░░░░░░] 20% (v1.1: 1/5 phases complete)
 
@@ -34,8 +34,8 @@ Progress: [████░░░░░░] 20% (v1.1: 1/5 phases complete)
 
 **v1.1 Progress:**
 - Phases: 1/5 complete
-- Plans: 2/2 complete
-- Average duration: 2.5 min
+- Plans: 3 complete (10-01, 10-02, 11-01)
+- Average duration: 2.3 min
 
 ## Accumulated Context
 
@@ -51,6 +51,8 @@ Recent v1.1 context:
 - .claude/ directory is gitignored: Command files are local-only (not version-controlled)
 - 32 command baseline established: audit-study and plan-study-gaps restored with study-centric naming
 - Audit/gap workflow preserved: Commands incorrectly deleted in 10-01, restored in 10-02 with proper terminology
+- Lifecycle commands renamed (11-01): 6 commands now use study-centric names (new-study, complete-study, scope-study, plan-study, run-study, validate-study)
+- Local-only command files: No git commits for .claude/ renames (expected, gitignored)
 
 ### Terminology Mapping (Study-Centric)
 
@@ -67,15 +69,15 @@ Recent v1.1 context:
 
 ### Blockers/Concerns
 
-None. Phase 10 complete, ready for Phase 11 (terminology rename).
+None. Phase 11 Plan 01 complete. Ready for Plan 02 (reference updates).
 
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed Phase 10 (Command Cleanup & Foundation) - all plans done
+Stopped at: Completed 11-01-PLAN.md (command file rename)
 Resume file: None
 
-Next step: Run `/grd:plan-phase 11` to create execution plan for Terminology Rename
+Next step: Execute `/grd:execute-phase 11` to complete Plan 02 (reference updates)
 
 ---
 *State initialized: 2026-01-27*
