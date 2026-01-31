@@ -76,10 +76,12 @@ Plans:
 4. Help documentation reflects new command names
 5. STATE.md and ROADMAP.md templates use new terminology
 
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 11-01: TBD during planning
+- [ ] 11-01-PLAN.md — Rename 6 command files with git mv, update frontmatter
+- [ ] 11-02-PLAN.md — Update all internal references to new command names
+- [ ] 11-03-PLAN.md — Update broader terminology (Phase->Study, Milestone->Version)
 
 #### Phase 12: Quick Explore
 
@@ -156,7 +158,7 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10. Command Cleanup | v1.1 | 2/2 | Complete | 2026-01-31 |
-| 11. Terminology Rename | v1.1 | 0/? | Not started | - |
+| 11. Terminology Rename | v1.1 | 0/3 | Not started | - |
 | 12. Quick Explore | v1.1 | 0/? | Not started | - |
 | 13. Accessible Insights | v1.1 | 0/? | Not started | - |
 | 14. Integration Testing | v1.1 | 0/? | Not started | - |
