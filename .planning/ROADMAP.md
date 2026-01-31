@@ -45,10 +45,11 @@
 3. Command count reduced from 64 files to 30 unique files (verified via ls count)
 4. Help documentation reflects only research-relevant commands
 
-**Plans:** 1 plan
+**Plans:** 2 plans
 
 Plans:
-- [ ] 10-01-PLAN.md — Delete duplicates, remove deprecated commands, update help.md
+- [x] 10-01-PLAN.md — Delete duplicates, remove deprecated commands, update help.md
+- [ ] 10-02-PLAN.md — Remove workflow references to deleted commands (gap closure)
 
 #### Phase 11: Terminology Rename
 
@@ -154,7 +155,7 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
-| 10. Command Cleanup | v1.1 | 0/1 | Not started | - |
+| 10. Command Cleanup | v1.1 | 1/2 | In Progress | - |
 | 11. Terminology Rename | v1.1 | 0/? | Not started | - |
 | 12. Quick Explore | v1.1 | 0/? | Not started | - |
 | 13. Accessible Insights | v1.1 | 0/? | Not started | - |
