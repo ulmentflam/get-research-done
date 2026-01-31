@@ -1,299 +1,273 @@
 # Project Research Summary
 
-**Project:** GRD (Get Research Done)
-**Domain:** ML Research Workflow Automation
-**Researched:** 2026-01-27
-**Confidence:** MEDIUM
+**Project:** GRD v1.1 - Research UX Refinement
+**Domain:** ML research workflow tooling with accessible EDA
+**Researched:** 2026-01-30
+**Confidence:** HIGH
 
 ## Executive Summary
 
-GRD is a Claude Code workflow tool that transforms ML research from ad-hoc experimentation into hypothesis-driven validation with automated skepticism. Unlike existing tools (MLflow, Weights & Biases, DVC) that track *what happened*, GRD enforces *why it happened* and *whether it's valid* through a recursive validation loop with a Critic agent. The system operates through five specialized agents (Explorer, Architect, Researcher, Critic, Evaluator) coordinated by an orchestrator that routes workflow based on validation exit codes (PROCEED, REVISE_METHOD, REVISE_DATA).
+GRD v1.1 refines the research experience by cleaning up legacy GSD commands and adding accessible EDA capabilities for business stakeholders. The research reveals a clear architectural path: keep the existing Explorer agent and add mode variants (quick-explore for speed, insights for plain English) rather than creating new agents or dependencies. The technical foundation is solid—leverage existing Claude MCP integration with structured prompt templates for insight translation—avoiding heavy automated EDA libraries that add friction without value.
 
-The recommended approach extends GSD's proven Node.js + Markdown architecture with Python-based ML tooling integrations. Node.js handles orchestration (Claude Code compatibility), while Python ecosystem tools (MLflow for experiment tracking, DVC for data versioning, JupyterLab + Jupytext for notebook management) handle domain-specific operations via subprocess calls. The data-first philosophy mandates exploratory data analysis before hypothesis formation, preventing the #1 ML research pitfall: spending weeks on experiments with fundamental flaws.
+The critical insight is that accessible EDA is fundamentally a **presentation layer problem**, not an analysis problem. GRD already performs rigorous EDA via the Explorer agent; v1.1 translates those findings into business-friendly language. This approach maintains GRD's lightweight philosophy (zero new required dependencies) while expanding the audience from ML researchers to business analysts and product managers.
 
-Key risk: recursive loops can become infinite or hypothesis drift can occur. Mitigation requires maximum loop depth limits, hypothesis locking, and explicit human decision gates (Seal/Iterate/Archive) with structured evidence packages. The tool must make it harder to deceive yourself, not easier to ship models—insufficient skepticism is the root cause of most ML research failures (data leakage, metric fixation, ignoring negative results).
+The primary risk is statistical misinterpretation—research documents that 60%+ of professionals misunderstand p-values and correlation vs. causation. Prevention requires explicit language guardrails: never use causal language for correlations, always report effect sizes alongside significance, and implement multiple comparison correction to filter spurious patterns. A second risk is integration breaking existing research workflows; the solution is mode-based isolation where quick/insights commands serve different personas without disrupting the core research loop.
 
 ## Key Findings
 
 ### Recommended Stack
 
-GRD's stack balances orchestration simplicity (GSD's Node.js foundation) with ML ecosystem power (Python tooling). The hybrid approach keeps workflow logic in JavaScript while delegating domain operations to Python, maintaining Claude Code compatibility while accessing best-in-class ML libraries.
+**Zero new required dependencies.** The v1.1 feature set uses existing Claude Code MCP integration with custom prompt templates for insight generation. This aligns with GRD's lightweight philosophy and avoids the pitfalls of automated EDA libraries (heavy dependencies, HTML output, slow performance, workflow mismatch).
 
 **Core technologies:**
-- **Node.js (>= 18.0.0)**: Orchestration runtime, inherits GSD's proven agent spawning patterns
-- **MLflow (>= 2.9.0)**: Self-hosted experiment tracking with Python API, local `.mlruns` storage for MVP
-- **DVC (>= 3.0.0)**: Git-like data versioning, separates metadata (Git) from artifacts (configurable storage)
-- **JupyterLab + Jupytext (4.0+ / 1.15+)**: Interactive notebooks with `.py:percent` sync for Git versioning
-- **uv + pyproject.toml**: Fast Python package management (10-100x pip), modern dependency locking
-- **Great Expectations (>= 0.18.0)**: Declarative data validation to catch quality issues before training
-- **Ruff + mypy**: Fast Python linting/formatting (Rust-based) and type checking for code quality
+- **Claude API (via MCP)**: Transform statistical analysis into plain English insights using structured prompts (role-based, step-by-step reasoning, business context injection)
+- **Structured prompt templates**: Convert DATA_REPORT.md sections to accessible summaries with three audiences (executive, business analyst, risk communication)
+- **Existing Explorer agent**: Reuse proven analysis pipeline (pandas, scipy, numpy) with mode parameter support for quick/insights variants
 
-**Storage strategy:**
-- Local-first for MVP: `.mlruns/` (MLflow), `.grd/artifacts/` (large files), `data/raw|processed|features/` (DVC-tracked)
-- Scalability path: S3/GCS for remote artifacts, SQLite for experiment metadata search
+**Optional utilities (not critical path):**
+- **skimpy** (0.0.20, Jan 2026): Console-based data summaries for quick-explore terminal output
+- **great-tables** (0.20.0, Oct 2025): Publication-quality tables if formal reports needed
 
-**Version confidence note:** Stack recommendations based on 2024 knowledge cutoff. MLflow 2.9.x, DVC 3.x, uv 0.1+ were current—verify latest stable versions before implementation.
+**Explicitly excluded:**
+- Automated EDA libraries (ydata-profiling, Sweetviz, D-Tale, DataPrep): Installation friction, HTML output doesn't fit terminal workflows, redundant with existing Explorer
+- Duplicate LLM integrations (PandasAI, LIDA): Wrong abstraction (query/visualization vs. narrative insights), API key complexity
+- Visualization code generation: GRD focuses on insights, not charts; business analysts want findings, not code to debug
 
 ### Expected Features
 
-**Must have (table stakes):**
-- **Experiment versioning**: Every run tracked with code, hyperparameters, environment—minimum viable feature for adoption
-- **Metric logging**: Loss curves, custom metrics, immediate comparison—researchers abandon tools without this
-- **Data versioning**: DVC-based tracking to prevent "can't reproduce because data changed" scenarios
-- **Reproducibility**: Environment capture (Python version, packages, CUDA) for exact re-runs
-- **Local-first operation**: Must work offline/air-gapped for academic/corporate researchers on compute clusters
-- **Notebook integration**: Auto-logging from Jupyter cells, standard ML research interface
-- **CLI interface**: `grd run experiment.py` style commands for script-based workflows
-- **Git integration**: Track commit hash per experiment, atomic commits per validation loop iteration
+**Must have (table stakes for business analysts):**
+- Plain English summaries (no jargon: "average" not "mean", "typical spread" not "standard deviation")
+- Automatic data quality checks (missing values, duplicates, outliers flagged proactively)
+- Key insights highlighted (top 3-5 findings prioritized, prevent data paralysis)
+- Fast results (quick-explore <60 seconds, insights 5-15 minutes same as full EDA)
+- No code required (natural language or command-based, not SQL/Python barriers)
+- Clean output format (Markdown for copy-paste to slides/emails)
 
-**Should have (competitive differentiators):**
-- **Critic Agent (automated skepticism)**: Catches data leakage, overfitting, logical errors before wasted compute—core GRD innovation
-- **Recursive validation loop**: REVISE_DATA exit code forces return to data layer when results contradict expectations
-- **Hypothesis-driven structure**: OBJECTIVE.md replaces "let's try X" with testable claims and falsification criteria
-- **Data-first philosophy**: Mandatory EDA (Explorer agent → DATA_REPORT.md) before hypothesis formation
-- **Human-in-the-loop gates**: Explicit decision points (Seal/Iterate/Archive) with evidence packages prevent false positives
-- **Baseline enforcement**: Must define baseline before claiming improvement prevents "5% better than random" claims
-- **Exit code taxonomy**: PROCEED/REVISE_METHOD/REVISE_DATA provides structured feedback, not binary pass/fail
-- **Experiment narratives**: Structured logs of *why* decisions were made, not just metrics
+**Should have (differentiators vs. generic BI tools):**
+- Technical foundation underneath (insights grounded in rigorous Explorer EDA, not surface-level BI)
+- Graduated detail levels (quick summary + option to drill into full technical analysis)
+- Data leakage warnings (prevent "99% accuracy using customer_canceled feature" mistakes)
+- Narrative structure (insights flow as story: data quality → patterns → recommendations)
+- Confidence indicators (signal uncertainty: "high confidence: revenue trend" vs. "low confidence: seasonality")
+- CLI integration (fits ML researcher workflow; business analysts can ask, researchers get technical depth)
 
-**Defer to v2+:**
-- **Multi-user support**: Complex; single-researcher workflow must work first
-- **Web UI**: CLI-first for researchers; dashboard nice-to-have
-- **Model registry**: Advanced feature; file system sufficient for MVP
-- **W&B integration**: Optional cloud sync; start with self-hosted MLflow
-- **Red-teaming mode**: Enhanced Critic adversarial validation; basic skepticism first
-- **Auto-tuning hyperparameters**: Removes researcher agency; suggest ranges instead
-- **Built-in compute**: Can't compete with existing clusters; integrate, don't replace
-
-**Anti-features (explicitly avoid):**
-- GUI-first design, cloud-only storage, proprietary artifact formats, auto-deployment, leaderboards, "AI co-pilot" marketing, one-click reproducibility promises—these create lock-in, remove control, or overstate capabilities.
+**Defer (v2+):**
+- Natural language queries (v1.1 focuses on output accessibility, not input; NLQ has accuracy/complexity issues)
+- Business impact estimation (requires domain context like revenue data, user counts)
+- Comparison baselines (needs historical data tracking infrastructure)
+- Interactive visualizations (text-first portability; defer charts to Matplotlib integration)
 
 ### Architecture Approach
 
-GRD follows a layered architecture with recursive validation loops and specialized agent roles. The orchestration layer spawns agents with isolated contexts, routes workflow based on Critic exit codes, and manages file-based state persistence. Five agents (Explorer, Architect, Researcher, Critic, Evaluator) each have narrow responsibilities: data reconnaissance, hypothesis synthesis, implementation, skeptical validation, and quantitative benchmarking. Each recursive loop iteration creates a new `experiments/run_NNN/` directory with complete context (code, logs, outputs) for reproducibility. Human decision gates receive evidence packages (OBJECTIVE.md + DATA_REPORT.md + critique logs + scorecard) before marking hypotheses as validated/disproven/needs-iteration.
+The v1.1 architecture adds accessible EDA as **mode variants of the existing Explorer agent**, not new agent types. This preserves proven patterns while layering accessibility. Commands (`/grd:quick-explore`, `/grd:insights`) are thin orchestration that spawn `grd-explorer` with mode flags (`--mode=quick|insights`, `--depth=summary|full`, `--output-style=technical|business`). The Explorer detects mode and adjusts behavior: quick mode skips outlier/leakage detection for speed, insights mode runs full analysis but transforms output with business language templates.
 
 **Major components:**
-1. **Orchestration Layer** — Workflow commands (slash commands), agent spawner (subagent API), state router (Critic exit code branching), decision gate (human checkpoints)
-2. **Agent Execution Layer** — Explorer (EDA, leakage detection), Architect (hypothesis synthesis), Researcher (implementation), Critic (validation with exit codes), Evaluator (metrics, scorecard generation)
-3. **Artifact Layer** — DATA_REPORT.md (living EDA document), experiments/run_NNN/* (versioned snapshots), reports & logs (audit trail)
-4. **Persistence Layer** — File-based state (OBJECTIVE.md, STATE.md), Git tracking (atomic commits per iteration), config store (.planning/config.json)
+1. **Command cleanup layer** — Remove 2 GSD-specific commands (audit-milestone, plan-milestone-gaps) that don't fit research workflows; delete 32 duplicate " 2.md" files
+2. **Command orchestration** — Add quick-explore.md and insights.md as thin spawners that validate input and pass mode context to Explorer
+3. **Explorer mode detection** — Modify grd-explorer.md Step 0 to parse mode flags and conditionally execute analysis steps
+4. **Insight generation module** — LLM-powered translation using structured prompt templates (executive summary, accessible insights, risk communication)
+5. **Output formatting layer** — Transform technical DATA_REPORT.md sections into plain English with "What This Means" explanations
 
-**Key patterns:**
-- **Recursive validation loop**: Critic routes backward (REVISE_DATA → Explorer, REVISE_METHOD → Researcher) when anomalies detected
-- **Data-first gating**: No hypothesis without DATA_REPORT.md—enforced by orchestrator
-- **Versioned isolation**: Each iteration gets new run_NNN/ directory with full context
-- **Evidence packages**: Bundle all context for human decisions
-- **Role separation**: Agents receive only relevant context (Explorer gets raw data, Critic gets experimental results)
+**Critical architecture decisions:**
+- **Single artifact type**: All three explore variants write to `.planning/DATA_REPORT.md` with mode headers; no QUICK_REPORT.md or INSIGHTS_REPORT.md to fragment state
+- **Immutable modes**: Quick is fast (no leakage checks), insights is business-friendly (full analysis, plain language); no mode drift via user overrides
+- **Gating preserved**: Architect soft gate checks DATA_REPORT.md presence and warns if only quick mode completed; full/insights both count as complete EDA
+- **Critic routing unchanged**: REVISE_DATA always routes to full explore (revision mode), never quick-explore or insights
 
 ### Critical Pitfalls
 
-**1. Data Leakage Through Tool Convenience**
-- **Risk**: Auto-generated train/test splits hide temporal dependencies, future information in features, test set contamination during normalization
-- **Prevention**: Explorer must document temporal dependencies; Critic validates splits, checks feature/target overlap, enforces data freeze on test sets; explicit data provenance tracking required before any split
-- **Phase mapping**: Phase 1 (Explorer documents leakage risks), Phase 3 (Critic validates splits before training)
+1. **Correlation-Causation Trap** — Automated insights present correlations as actionable without causal verification; 60%+ professionals misinterpret. Prevention: Explicit language gates ("X and Y moved together" never "X causes Y"), three-element causation check (temporal, mechanism, confounding), confidence levels with warnings, require human approval for causal claims.
 
-**2. Experiment Versioning Without Hypothesis Versioning**
-- **Risk**: 200 experiment folders with no narrative, can't reproduce thought process, redundant experiments, paper writing requires "archaeology"
-- **Prevention**: Every run_NNN/ must contain HYPOTHESIS.md stating belief, rationale, falsification criteria; DECISION_LOG.md tracks "based on experiment N, we decided X because Y"; Critic rejects experiments without stated hypothesis
-- **Phase mapping**: Phase 2 (Architect creates testable hypothesis), Phase 3 (each iteration references hypothesis), Phase 4 (evidence package shows hypothesis→experiment→result chain)
+2. **Statistical Significance Theater** — P-values misunderstood even by professionals (70%+ error rate); "p<0.05" treated as "important" when reality is only measures null hypothesis likelihood. Prevention: Always report effect size + confidence intervals, plain English tiers (tiny/small/medium/large change), context-dependent thresholds ("Change detected (5%) vs. Your threshold (10%): BELOW"), flag contradictory signals.
 
-**3. Metric Fixation Without Distribution Validation**
-- **Risk**: Optimize single scalars (accuracy, F1) without checking data distribution—95% accuracy on shifted/cherry-picked distribution
-- **Prevention**: Explorer documents class balance, outliers, subgroups, drift before any modeling; Evaluator reports stratified metrics (by quantile, subgroup, confidence bins), not aggregates; automatic warnings for high subgroup variance
-- **Phase mapping**: Phase 1 (Explorer profiles distributions), Phase 2 (Architect defines metrics appropriate to distribution), Phase 3 (Evaluator reports stratified results)
+3. **Integration Breaking Existing Workflows** — Adding business-analyst features conflicts with ML researcher workflows; command confusion, state corruption, Critic doesn't validate plain English. Prevention: Explicit persona modes (research vs. analyst), namespace isolation, state segregation (.grd/research/ vs. .grd/insights/), modular architecture with feature flags, clear command deprecation strategy.
 
-**4. Notebook-to-Production Graduation Without Refactor**
-- **Risk**: Production code is wrapped notebook cells with hardcoded paths, global state, non-deterministic execution order
-- **Prevention**: Explicit graduation gate distinguishes exploration notebooks (`experiments/exploration/`) from validated scripts (`experiments/validated/`); refactor checklist (no hardcoded paths, deterministic with seed control, configurable via parameters, unit tests); Critic won't mark notebooks as "complete"
-- **Phase mapping**: Phase 3 (Researcher produces notebooks for exploration, but Evaluator requires scripts for benchmarking)
+4. **Jargon Creep in Plain English** — "Accessible" outputs gradually accumulate statistical terms as developers (data scientists) don't recognize jargon. Prevention: Mandatory jargon audit checklist (mean→average, outlier→unusual value), non-technical user testing (3+ business analysts review templates), LLM prompts enforce 8th grade reading level, automated jargon detection in CI.
 
-**5. Ignoring Negative Results**
-- **Risk**: Failed experiments deleted/forgotten, repeated mistakes, publication bias, loss of scientific knowledge
-- **Prevention**: "Hypothesis disproven" is valid outcome; when Critic returns REVISE_METHOD/REVISE_DATA, reason logged; failed experiments archived to `experiments/negative_results/` with explanation; decision log tracks failures; evaluation includes "what we tried that didn't work"
-- **Phase mapping**: Phase 3 (Critic exit codes capture failure modes), Phase 4 (evidence package includes negative results with lessons learned)
-
-**GRD-specific risks:**
-- **Infinite recursive loops**: Maximum 3 loops, force new information requirement, human escalation
-- **Adversarial Critic theater**: Exit codes need actionable feedback, false positive tracking
-- **Hypothesis drift**: Lock original in OBJECTIVE.md, track modifications, human gate checks "did we answer original question?"
-- **EDA busywork**: Focus Explorer on *anomalies* and *risks*, not comprehensive statistics; maximum report length
+5. **False Patterns at Scale** — Large datasets mathematically guarantee random correlations; automated systems surface spurious findings. Prevention: Multiple comparison correction (Bonferroni/FDR), domain knowledge filtering (blacklist known spurious pairs), bootstrapping/permutation tests for robustness, insight budget (limit to top 5-10 findings ranked by robustness).
 
 ## Implications for Roadmap
 
-Based on research, suggested phase structure follows component dependency chains and isolates complexity:
+Based on research, suggested 4-phase structure prioritizing cleanup before features, simple before complex, integration testing throughout.
 
-### Phase 1: Core Orchestration & State Management
-**Rationale:** Foundation layer must exist before specialized agents can function. GSD's orchestration patterns are proven—adapt for GRD lifecycle (recursive loops vs linear tasks).
-**Delivers:**
-- Agent spawner with isolated contexts
-- STATE.md extensions (loop_history, Critic verdicts, current_phase)
-- File-based state persistence
-- Basic slash command structure (`/grd:explore`, `/grd:validate`)
-**Addresses:** Table stakes features (CLI interface, Git integration)
-**Avoids:** Configuration sprawl (pitfall #10)—establish config schema early
-**Research flag:** Minimal—GSD patterns are well-documented, direct adaptation
+### Phase 1: Command Cleanup & Foundation (1-2 hours)
 
-### Phase 2: Data-First Workflow (Explorer → Architect)
-**Rationale:** Data-first philosophy is core differentiator; must work before adding complexity of recursive loops. Linear flow (Explorer → Architect) validates agent communication patterns.
-**Delivers:**
-- Explorer agent (DATA_REPORT.md generation, EDA scripts, leakage detection)
-- Architect agent (OBJECTIVE.md synthesis from data + goals)
-- Data-first gating (no hypothesis without DATA_REPORT.md)
-**Addresses:** Differentiators (data-first philosophy, hypothesis-driven structure)
-**Avoids:** Pitfall #1 (data leakage)—Explorer documents temporal dependencies, distribution characteristics
-**Uses:** Python subprocess calls for EDA (pandas, matplotlib, seaborn)
-**Research flag:** Medium complexity—needs research on effective leakage detection patterns, statistical profiling depth
+**Rationale:** Clear technical debt before adding features; prevents confusion and establishes clean baseline for v1.1 additions.
 
-### Phase 3: Recursive Validation Loop (Researcher ↔ Critic)
-**Rationale:** Core innovation requiring foundation + basic agents. Most complex component—state machine logic, exit code routing, versioned experiment isolation.
 **Delivers:**
-- Researcher agent (implementation, Python scripts/notebooks)
-- Critic agent (skeptical validation with exit codes)
-- State router (PROCEED → Evaluator, REVISE_METHOD → Researcher, REVISE_DATA → Explorer)
-- Experiment versioning (run_NNN/ directories with code, logs, outputs snapshots)
-- Loop depth limits and convergence checks
-**Addresses:** Differentiators (Critic agent, recursive loops, exit code taxonomy)
-**Avoids:** Pitfall #2 (hypothesis versioning)—each run_NNN/ contains HYPOTHESIS.md snapshot
-**Implements:** Recursive validation loop pattern (Architecture)
-**Research flag:** High complexity—needs research on Critic validation depth (rule-based vs LLM-powered), exit code decision trees, infinite loop detection strategies
+- Remove 32 duplicate " 2.md" files from `.claude/commands/grd/`
+- Delete 2 GSD-specific commands (audit-milestone, plan-milestone-gaps)
+- Update help.md to remove references and add placeholders for new commands
+- Verification: 30 unique command files remain (32 - 2 removed, before adding 2 new)
 
-### Phase 4: Quantitative Evaluation & Human Gate
-**Rationale:** Depends on experiments producing artifacts. Evaluation without human oversight leads to false positives (pitfall #4—metrics-only validation).
-**Delivers:**
-- Evaluator agent (scorecard.json generation, benchmark execution)
-- Evidence package generator (bundles OBJECTIVE + DATA_REPORT + critique logs + scorecard)
-- Human decision gate (interactive prompt: Seal/Iterate/Archive)
-- decision_log.md tracking with rationale capture
-**Addresses:** Differentiators (evidence packages, human-in-the-loop gates)
-**Avoids:** Pitfall #3 (metric fixation)—Evaluator reports stratified metrics; Pitfall #6 (ignoring negatives)—Archive path preserves failed hypotheses
-**Research flag:** Low complexity—patterns clear from research, mainly integration work
+**Addresses:** Reduces command count from 64 files (32 + duplicates) to 30 clean files, removing software-centric "requirements coverage" commands that don't fit hypothesis-driven research workflows.
 
-### Phase 5: ML Tooling Integration
-**Rationale:** Enhances workflow with ecosystem tools. Can start simple (local file tracking) and add sophistication incrementally.
-**Delivers:**
-- MLflow integration (experiment logging via Python subprocess)
-- DVC setup (data versioning initialization)
-- JupyterLab + Jupytext config (notebook versioning)
-- Great Expectations integration (data validation checkpoints)
-**Addresses:** Table stakes (experiment versioning, data versioning, notebook integration, reproducibility)
-**Avoids:** Pitfall #7 (random seed management)—comprehensive seed control; Pitfall #13 (data versioning)—DVC tracks data pipeline
-**Uses:** Stack technologies (MLflow, DVC, Jupytext, Great Expectations)
-**Research flag:** Medium complexity—needs research on MLflow Python API subprocess patterns, DVC remote storage config, Jupytext automation
+**Avoids:** Pitfall 3 (Integration breaking workflows) by establishing clear command landscape before new additions; prevents confusion between legacy and new features.
 
-### Phase 6: Notebook Graduation Path
-**Rationale:** Addresses transition from exploratory notebooks to validated scripts. Enhancement to Researcher workflow—optional for MVP, improves usability.
+**Research flags:** No additional research needed; file deletion is straightforward.
+
+### Phase 2: Quick Explore (3-4 hours)
+
+**Rationale:** Simpler of two new commands (no output transformation); provides fast feedback loop for data familiarization decisions.
+
 **Delivers:**
-- Notebook execution engine (papermill integration)
-- Graduation checklist (refactor validation)
-- experiments/exploration/ vs experiments/validated/ separation
-- Notebook → .py conversion with seed control and parameterization
-**Addresses:** Differentiators (notebook → production path)
-**Avoids:** Pitfall #4 (notebook-to-production without refactor)
-**Research flag:** Low complexity—papermill is well-documented, mainly workflow design
+- Modify `agents/grd-explorer.md` to add mode detection (Step 0) and conditional skipping (Steps 4, 6, 8 for distributions, outliers, leakage)
+- Create `.claude/commands/grd/quick-explore.md` as thin orchestration layer
+- Quick mode completes in <60 seconds vs. 5-15 minutes for full explore
+- DATA_REPORT.md with "Quick Explore" header and note about running full explore
+
+**Uses:** Existing Explorer agent (pandas, scipy) with constrained execution; skimpy (optional) for terminal-friendly summaries.
+
+**Addresses:** Feature table stake "Fast results" and differentiator "Graduated detail levels" (quick overview before deciding on full analysis).
+
+**Avoids:** Pitfall 2 (Statistical significance theater) by skipping complex tests in quick mode; prevents premature conclusions from insufficient analysis. Pitfall 3 (Integration breaking) via clear mode headers that gate downstream commands.
+
+**Research flags:** Standard patterns; no additional research needed. Integration point with Architect soft gate requires testing.
+
+### Phase 3: Accessible Insights (4-6 hours)
+
+**Rationale:** More complex than quick-explore (output transformation required); enables stakeholder communication without separate manual translation.
+
+**Delivers:**
+- Modify `agents/grd-explorer.md` to add insights mode with business language transformation templates
+- Executive summary generation (3-4 actionable bullets via LLM call)
+- "What This Means" sections for each finding
+- Create `.claude/commands/grd/insights.md` as thin orchestration layer
+- Plain English output (no "skewness", "MCAR", "heteroscedasticity")
+
+**Uses:** Claude MCP with structured prompts (role-based: data analyst → stakeholder, step-by-step reasoning, context injection from PROJECT.md).
+
+**Addresses:** Feature table stakes "Plain English summaries", "Key insights highlighted", "Actionable recommendations". Differentiator "Narrative structure" (story flow vs. bullet points).
+
+**Avoids:** Pitfall 1 (Correlation-causation) via explicit language guardrails in prompt templates. Pitfall 4 (Jargon creep) via non-technical user testing requirement. Pitfall 6 (Oversimplification) via layered disclosure (summary + expandable technical details).
+
+**Research flags:** Prompt template effectiveness requires empirical testing with sample datasets; may need refinement based on business analyst feedback in Phase 4.
+
+### Phase 4: Integration Testing & Validation (2-3 hours)
+
+**Rationale:** Validate workflow paths, gating behavior, and prevent regressions before release.
+
+**Delivers:**
+- Progressive path testing: quick-explore → explore → architect
+- Insights path testing: insights → architect (should proceed without warning)
+- Quick-only path testing: quick-explore → architect (should warn about insufficient depth)
+- Critic routing validation: research → REVISE_DATA → explore (not quick-explore)
+- Overwrite behavior: quick-explore → explore (should replace, not append)
+- Regression tests: existing explore works unchanged, Critic revision routes correctly, help shows all 32 commands
+
+**Implements:** Confidence assessment verification—does the system correctly identify when quick mode is insufficient? Do warnings appear at correct gates?
+
+**Avoids:** Pitfall 3 (Integration breaking) by testing both personas (ML researcher vs. business analyst) and ensuring isolation. Pitfall 5 (Data literacy resistance) by validating that business analysts can interpret outputs without training.
+
+**Research flags:** User acceptance testing with 3+ business analysts needed to validate jargon-free language and actionable recommendations. May reveal prompt template refinements needed.
 
 ### Phase Ordering Rationale
 
-- **Foundation first (Phase 1):** Orchestration must exist before agents can run
-- **Linear before recursive (Phase 2 → 3):** Validate basic agent patterns before adding loop complexity
-- **Validation before evaluation (Phase 3 → 4):** Critic must route to Evaluator; experiments must exist to evaluate
-- **Core workflow before tooling (Phases 1-4 → 5):** Workflow can function with manual tracking; MLflow/DVC enhance but aren't blocking
-- **Graduation last (Phase 6):** Depends on Researcher working; notebook support is UX polish
-
-**Grouping logic:**
-- Phase 1 isolates infrastructure complexity
-- Phases 2-3-4 are the core research loop (must work end-to-end for MVP)
-- Phases 5-6 enhance with ecosystem integrations and UX improvements
-
-**Pitfall avoidance:**
-- Phases 1-2 address data leakage and hypothesis versioning early (foundational issues)
-- Phase 3 enforces recursive validation to catch metric fixation
-- Phase 4 human gate prevents false positives
-- Phases 5-6 add reproducibility safeguards (environment capture, seed control)
+- **Cleanup first (Phase 1):** Technical debt removal establishes clean baseline; prevents confusion between legacy and new commands; low-risk prerequisite for feature work.
+- **Quick before Insights (Phases 2-3):** Quick-explore is simpler (conditional execution, no output transformation); validates mode architecture before adding complex language templates; provides fast-feedback feature for immediate user value.
+- **Integration last (Phase 4):** Cannot test workflow paths until both new commands exist; regression testing validates nothing broke; user testing with business analysts validates accessibility claims.
+- **Avoids pitfall accumulation:** Language guardrails (Pitfall 1, 4) built into Phase 3 prompts before user testing; mode isolation (Pitfall 3) verified in Phase 4 before release; prevents compounding issues.
 
 ### Research Flags
 
-Phases likely needing `/grd:research-phase` during planning:
+**Needs phase-specific research:**
+- **Phase 3:** Prompt engineering effectiveness—test templates on sample datasets (Titanic, Boston Housing) to validate plain English translations; may need iteration based on readability scores and business analyst comprehension.
+- **Phase 4:** User acceptance testing protocol—design test scenarios for business analysts (3+ participants); measure task completion rate, jargon comprehension, confidence in acting on insights.
 
-- **Phase 2 (Explorer agent):** Complex—needs research on statistical profiling depth, leakage detection patterns (temporal/spatial/feature overlap), when to flag distribution anomalies vs report them
-- **Phase 3 (Critic logic):** Complex—needs research on validation decision trees (what triggers REVISE_DATA vs REVISE_METHOD?), rule-based checks vs LLM reasoning depth, false positive minimization strategies
-- **Phase 5 (MLflow/DVC integration):** Medium—needs research on subprocess orchestration patterns (Node.js → Python → MLflow API), DVC remote storage setup for team scaling, Great Expectations checkpoint configuration
+**Standard patterns (skip research-phase):**
+- **Phase 1:** File deletion and command cleanup—straightforward housekeeping
+- **Phase 2:** Mode parameter addition to existing agent—architectural pattern established in research
 
-Phases with standard patterns (can skip research-phase):
-
-- **Phase 1 (Orchestration):** GSD architecture is proven, direct adaptation
-- **Phase 4 (Evaluator):** Metrics computation is well-documented, mainly implementation
-- **Phase 6 (Notebook graduation):** papermill and Jupytext patterns are established
+**Open questions requiring validation:**
+- Should quick-explore check for data leakage at all? (Research recommends skip for speed; document trade-off clearly)
+- Should insights mode generate visualizations? (Research recommends defer to v1.2; use markdown tables with ASCII art for now)
+- What depth control for insights? (Research suggests opinionated defaults over user-configured verbosity)
+- Domain-aware templates? (Generic insights vs. specialized for e-commerce/finance/healthcare; defer specialization to v2.0)
 
 ## Confidence Assessment
 
 | Area | Confidence | Notes |
 |------|------------|-------|
-| Stack | MEDIUM | Core technologies (Node.js, Python, MLflow, DVC) are standard, but specific versions may have updated in 2025; uv is new (2024 release) so stability needs verification |
-| Features | HIGH | Table stakes features validated against established tools (W&B, MLflow, DVC); differentiators grounded in GRD's documented design philosophy |
-| Architecture | MEDIUM | GSD orchestration patterns are proven (HIGH), but recursive validation loop is novel (MEDIUM)—no direct precedents in training knowledge |
-| Pitfalls | HIGH | Data leakage, metric fixation, notebook-to-production issues are well-documented ML engineering failures; GRD-specific risks are logical extrapolations |
+| Stack | **HIGH** | Verified via 2026 prompt engineering research and GRD's existing MCP integration; zero new required dependencies aligns with lightweight philosophy |
+| Features | **MEDIUM-HIGH** | Business analyst expectations well-documented via 2026 BI tool research; GRD-specific differentiators (CLI integration, technical foundation) are novel but logical |
+| Architecture | **HIGH** | Existing codebase analysis confirms Explorer agent reuse is clean; mode parameter pattern is standard; single artifact avoids state fragmentation |
+| Pitfalls | **HIGH** | Statistical misinterpretation documented with 60-70% error rates; integration risks backed by software modularity research; jargon creep confirmed via UX studies |
 
-**Overall confidence:** MEDIUM
+**Overall confidence: HIGH**
+
+The technical approach (mode variants + prompt templates) is sound and validated by existing GRD architecture. The primary uncertainties are **execution details**:
+- Exact prompt wording for jargon-free insights (requires empirical testing in Phase 3)
+- Business analyst comprehension rates (validated in Phase 4 user testing)
+- Integration edge cases with Critic/Architect gates (tested in Phase 4)
+
+These are normal implementation risks, not fundamental approach risks.
 
 ### Gaps to Address
 
-**Technology versions (MEDIUM urgency):**
-- MLflow current version: Research based on 2.9.x (late 2024)—check for 3.x releases or API changes
-- DVC current version: Research based on 3.x—verify latest stable
-- uv stability: Released mid-2024, rapid adoption—verify API stability for production use, check if breaking changes in 0.2+
-- Great Expectations: Research based on 0.18.x—may have 1.0 release, check for API changes
+**Gap 1: Statistical rigor vs. accessibility tradeoff**
+- **Issue:** Research identifies tension between simplification (enables access) and precision (prevents misinterpretation)
+- **Mitigation:** Phase 3 implements layered disclosure (simple summary + expandable technical details); Phase 4 user testing validates minimum statistical detail required
+- **Validation:** A/B test with business analysts—does simplified version lead to incorrect decisions?
 
-**Implementation details (HIGH urgency):**
-- Critic decision logic: Rules vs LLM-powered reasoning? Training knowledge insufficient for optimal depth—needs prototyping during Phase 3 planning
-- Infinite loop detection: Maximum 3 iterations is heuristic—needs empirical validation, may require escape hatch strategies
-- MLflow subprocess patterns: Node.js orchestrating Python MLflow calls—verify error handling, async execution, environment isolation
+**Gap 2: Critic agent validation of plain English insights**
+- **Issue:** Critic is designed to validate code/experiments, not narrative reports; unclear how it evaluates insights mode outputs
+- **Mitigation:** Insights mode is presentation-only (same analysis as full explore, different format); Critic validates underlying technical DATA_REPORT.md, not plain English translation
+- **Decision:** Critic never routes to insights mode (always full explore for revision); insights is stakeholder communication, not validation target
 
-**Integration scope (MEDIUM urgency):**
-- Should GRD integrate with W&B/Neptune.ai or compete? Research flagged as "defer to v2+", but roadmap should clarify integration hooks vs native implementation
-- Framework coverage: PyTorch-first or framework-agnostic from day 1? Research assumed both supported—needs decision on MVP scope
-- Storage backend: SQLite for metadata catalog at what scale threshold? Research suggested "small team, <100 experiments"—validate assumptions
+**Gap 3: Persona mode enforcement**
+- **Issue:** Research recommends explicit persona modes (research vs. analyst) but implementation path unclear
+- **Mitigation:** v1.1 uses command namespacing (explore/architect/research vs. quick-explore/insights) without formal mode system; defer persona modes to v1.2 if cross-contamination issues arise
+- **Validation:** Phase 4 tests both personas independently; monitor for command confusion in first 30 days post-launch
 
-**Validation during implementation:**
-- Critic false positive rate: Unknown until real usage—needs user feedback loop, potentially Phase 3 requires pilot testing
-- Evidence package presentation: Interactive prompts vs web UI? Research assumed CLI, but human gate UX needs validation
-- Hypothesis drift detection: Locked OBJECTIVE.md prevents drift, but how to handle legitimate hypothesis refinement? Needs decision criteria
+**Gap 4: Prompt template effectiveness**
+- **Issue:** Structured prompts are well-researched but context-specific; no guarantee GRD's templates produce jargon-free, actionable insights
+- **Mitigation:** Phase 3 includes iterative refinement with sample datasets; Phase 4 requires 3+ business analyst review
+- **Success criteria:** Pass rate >80% on "can you explain this finding in your own words without help" test
 
-**How to handle:**
-- **Technology versions:** Flag for verification at Phase 5 planning (ML tooling integration)—can prototype with documented versions initially
-- **Critic logic:** Flag for Phase 3 research-phase—prototype rule-based first, evaluate if LLM enhancement needed
-- **Integration scope:** Clarify in roadmap introduction—MVP is standalone, v2+ adds integrations
-- **Validation needs:** Build telemetry into MVP (Phase 4)—track Critic exit code frequency, loop iteration counts, human gate decision patterns
+**Gap 5: Long-term jargon creep prevention**
+- **Issue:** Research confirms jargon accumulates over time as developers add features; how to prevent drift?
+- **Mitigation:** Establish jargon audit checklist in Phase 2; automated detection in CI (grep for banned terms: "p-value", "standard deviation", "heteroscedasticity"); quarterly business analyst review panel
+- **Monitoring:** Track support tickets asking for term definitions as leading indicator
 
 ## Sources
 
 ### Primary (HIGH confidence)
-- GSD existing codebase: /Users/evanowen/Library/Mobile Documents/com~apple~CloudDocs/Workspace/playground/get-research-done/.planning/codebase/ARCHITECTURE.md
-- GRD PROJECT.md: /Users/evanowen/Library/Mobile Documents/com~apple~CloudDocs/Workspace/playground/get-research-done/.planning/PROJECT.md
-- Established ML engineering principles: Data leakage patterns, train/test contamination, reproducibility requirements (training knowledge through Jan 2025)
+
+**Stack research:**
+- [Prompt Engineering Techniques: Top 6 for 2026](https://www.k2view.com/blog/prompt-engineering-techniques/) — Role-based prompting, structured output, step-by-step reasoning
+- [ydata-profiling v4.18.1 PyPI](https://pypi.org/project/ydata-profiling/) — Version verification, Python compatibility
+- [skimpy v0.0.20 PyPI](https://pypi.org/project/skimpy/) — Recent Jan 2026 release, terminal-native output
+- [The Lazy Data Scientist's Guide to EDA](https://www.kdnuggets.com/the-lazy-data-scientists-guide-to-exploratory-data-analysis) — "Automated reports not a silver bullet"
+
+**Features research:**
+- [Top 11 AI Data Analysis Tools - 2026 Update](https://powerdrill.ai/blog/top-ai-data-analysis-tools-update) — Business analyst tool expectations
+- [Self-Service Analytics Evaluation Guide](https://promethium.ai/guides/self-service-analytics-tools-platforms/) — Table stakes features
+- [Data Democratization: Empowering Non-Technical Users](https://www.getorchestra.io/guides/data-democratization-empowering-non-technical-users) — Accessibility principles
+
+**Architecture research:**
+- Existing GRD codebase analysis — 32 unique commands, 32 duplicates, Explorer agent structure verified
+
+**Pitfalls research:**
+- [PMC: 70%+ P-value Misinterpretation Rate](https://pmc.ncbi.nlm.nih.gov/articles/PMC9383044/) — Statistical significance misunderstanding
+- [Management Consulted: Correlation vs Causation](https://managementconsulted.com/correlation-vs-causation/) — "Identical mistake made thousands of times daily"
+- [Airbyte: Spurious Correlations](https://airbyte.com/data-engineering-resources/spurious-correlations) — Large datasets guarantee random correlations
+- [Informatica CDO Report 2026](https://www.informatica.com/about-us/news/news-releases/2026/01/20260127-new-global-cdo-report-reveals-data-governance-and-ai-literacy-as-key-accelerators-in-ai-adoption.html) — 75% employees need data literacy upskilling
 
 ### Secondary (MEDIUM confidence)
-- MLflow architecture patterns: Experiment tracking, artifact storage, model registry (training knowledge, versions may have updated)
-- Weights & Biases patterns: Run versioning, collaborative features (training knowledge)
-- DVC patterns: Git-like data versioning, pipeline DAGs (training knowledge)
-- JupyterLab + Jupytext: Notebook versioning approaches (training knowledge, stable patterns)
 
-### Tertiary (LOW confidence—needs verification)
-- uv package manager: Released 2024, rapid adoption—version stability and API changes need verification
-- Great Expectations 0.18.x: May have 1.0 release in 2025—API changes possible
-- MLflow 2.9.x: Current version unknown—may have 3.x releases with breaking changes
-- PyTorch/TensorFlow versions: Rapidly evolving—training knowledge reflects 2.x/2.15+ but specific versions need verification
+- [Comparing Five Popular EDA Tools](https://towardsdatascience.com/comparing-five-most-popular-eda-tools-dccdef05aa4c/) — Automated EDA library evaluation
+- [Towards Data Science: Simplicity in Data Storytelling](https://towardsdatascience.com/the-real-challenge-in-data-storytelling-getting-buy-in-for-simplicity/) — Accuracy vs. accessibility tradeoff
+- [Cleanlab: Spurious Correlations Detection](https://cleanlab.ai/blog/spurious-correlations/) — Automated detection tools
+- [Number Analytics: Unmasking Spurious Correlations](https://www.numberanalytics.com/blog/unmasking-spurious-correlations-statistical-illusions) — Bootstrapping/permutation tests
 
-**Verification status:**
-- WebSearch and Context7 unavailable during research session
-- All findings based on training knowledge (cutoff January 2025)
-- No external source verification for 2026 current state
+### Tertiary (requires validation)
 
-**Recommended verification before implementation:**
-- MLflow: https://mlflow.org/releases
-- DVC: https://dvc.org/doc/install
-- uv: https://github.com/astral-sh/uv/releases
-- Great Expectations: https://docs.greatexpectations.io/
+- Prompt template effectiveness for GRD's specific use case — needs empirical testing in Phase 3
+- Business analyst comprehension rates for simplified outputs — validated in Phase 4 user testing
+- Long-term jargon creep rates — monitor post-launch with support ticket analysis
 
 ---
-*Research completed: 2026-01-27*
-*Ready for roadmap: yes*
+
+**Research completed:** 2026-01-30
+**Ready for roadmap:** Yes
+**Next step:** Create detailed ROADMAP.md using these phase suggestions and research flags
