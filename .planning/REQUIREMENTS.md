@@ -16,10 +16,13 @@ Requirements for Research UX Refinement milestone. Each maps to roadmap phases.
 
 ### Terminology Rename
 
-- [ ] **TERM-01**: Rename `new-milestone` to research-appropriate term (e.g., `new-objective` or `new-hypothesis`)
-- [ ] **TERM-02**: Rename `plan-phase` to research-appropriate term (e.g., `hypothesize` or `plan-experiment`)
-- [ ] **TERM-03**: Rename other lifecycle commands to match GRD research terminology (discuss-phase, execute-phase, verify-work, etc.)
-- [ ] **TERM-04**: Update all internal references in skill files, agent prompts, and documentation
+- [ ] **TERM-01**: Rename `new-milestone` → `new-study`
+- [ ] **TERM-02**: Rename `complete-milestone` → `complete-study`
+- [ ] **TERM-03**: Rename `discuss-phase` → `scope-study`
+- [ ] **TERM-04**: Rename `plan-phase` → `plan-study`
+- [ ] **TERM-05**: Rename `execute-phase` → `run-study`
+- [ ] **TERM-06**: Rename `verify-work` → `validate-study`
+- [ ] **TERM-07**: Update all internal references in skill files, agent prompts, and documentation
 
 ### Quick Explore
 
@@ -79,30 +82,33 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLEAN-01 | TBD | Pending |
-| CLEAN-02 | TBD | Pending |
-| CLEAN-03 | TBD | Pending |
-| CLEAN-04 | TBD | Pending |
-| TERM-01 | TBD | Pending |
-| TERM-02 | TBD | Pending |
-| TERM-03 | TBD | Pending |
-| TERM-04 | TBD | Pending |
-| QUICK-01 | TBD | Pending |
-| QUICK-02 | TBD | Pending |
-| QUICK-03 | TBD | Pending |
-| QUICK-04 | TBD | Pending |
-| QUICK-05 | TBD | Pending |
-| INSIGHT-01 | TBD | Pending |
-| INSIGHT-02 | TBD | Pending |
-| INSIGHT-03 | TBD | Pending |
-| INSIGHT-04 | TBD | Pending |
-| INSIGHT-05 | TBD | Pending |
+| CLEAN-01 | Phase 10 | Pending |
+| CLEAN-02 | Phase 10 | Pending |
+| CLEAN-03 | Phase 10 | Pending |
+| CLEAN-04 | Phase 10 | Pending |
+| TERM-01 | Phase 11 | Pending |
+| TERM-02 | Phase 11 | Pending |
+| TERM-03 | Phase 11 | Pending |
+| TERM-04 | Phase 11 | Pending |
+| TERM-05 | Phase 11 | Pending |
+| TERM-06 | Phase 11 | Pending |
+| TERM-07 | Phase 11 | Pending |
+| QUICK-01 | Phase 12 | Pending |
+| QUICK-02 | Phase 12 | Pending |
+| QUICK-03 | Phase 12 | Pending |
+| QUICK-04 | Phase 12 | Pending |
+| QUICK-05 | Phase 12 | Pending |
+| INSIGHT-01 | Phase 13 | Pending |
+| INSIGHT-02 | Phase 13 | Pending |
+| INSIGHT-03 | Phase 13 | Pending |
+| INSIGHT-04 | Phase 13 | Pending |
+| INSIGHT-05 | Phase 13 | Pending |
 
 **Coverage:**
-- v1.1 requirements: 18 total
-- Mapped to phases: 0
-- Unmapped: 18
+- v1.1 requirements: 21 total
+- Mapped to phases: 21
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-01-30*
-*Last updated: 2026-01-30 after initial definition*
+*Last updated: 2026-01-30 after roadmap creation*

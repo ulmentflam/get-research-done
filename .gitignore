@@ -7,6 +7,10 @@ commands.html
 
 # Local test installs
 .claude/
+.opencode/
+
+# Python
+__pycache__/
 
 # Build artifacts (committed to npm, not git)
 hooks/dist/
