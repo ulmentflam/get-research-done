@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 11 of 14 (Terminology Rename)
-Plan: 01 of 02
-Status: In progress
-Last activity: 2026-01-31 — Completed 11-01-PLAN.md (command file rename)
+Plan: 02 of 02
+Status: Phase complete
+Last activity: 2026-01-31 — Completed 11-02-PLAN.md (reference updates)
 
-Progress: [████░░░░░░] 20% (v1.1: 1/5 phases complete)
+Progress: [████░░░░░░] 40% (v1.1: 2/5 phases complete)
 
 ## Milestone History
 
@@ -33,9 +33,9 @@ Progress: [████░░░░░░] 20% (v1.1: 1/5 phases complete)
 - Timeline: 47 days (project start to ship)
 
 **v1.1 Progress:**
-- Phases: 1/5 complete
-- Plans: 3 complete (10-01, 10-02, 11-01)
-- Average duration: 2.3 min
+- Phases: 2/5 complete
+- Plans: 4 complete (10-01, 10-02, 11-01, 11-02)
+- Average duration: 2.5 min
 
 ## Accumulated Context
 
@@ -53,6 +53,8 @@ Recent v1.1 context:
 - Audit/gap workflow preserved: Commands incorrectly deleted in 10-01, restored in 10-02 with proper terminology
 - Lifecycle commands renamed (11-01): 6 commands now use study-centric names (new-study, complete-study, scope-study, plan-study, run-study, validate-study)
 - Local-only command files: No git commits for .claude/ renames (expected, gitignored)
+- Internal references updated (11-02): All ~60 files in .claude/ updated with new command names, zero old references remain
+- Two-pass replacement strategy: Slash-prefixed first, then non-slash references for clean results
 
 ### Terminology Mapping (Study-Centric)
 
@@ -69,15 +71,15 @@ Recent v1.1 context:
 
 ### Blockers/Concerns
 
-None. Phase 11 Plan 01 complete. Ready for Plan 02 (reference updates).
+None. Phase 11 complete. Ready for Phase 12 (Insights Before Quick).
 
 ## Session Continuity
 
 Last session: 2026-01-31
-Stopped at: Completed 11-01-PLAN.md (command file rename)
+Stopped at: Completed Phase 11 (Terminology Rename)
 Resume file: None
 
-Next step: Execute `/grd:execute-phase 11` to complete Plan 02 (reference updates)
+Next step: Execute `/grd:plan-study 12` to plan Phase 12 (Insights Before Quick)
 
 ---
 *State initialized: 2026-01-27*
