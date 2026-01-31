@@ -49,7 +49,7 @@
 
 Plans:
 - [x] 10-01-PLAN.md — Delete duplicates, remove deprecated commands, update help.md
-- [ ] 10-02-PLAN.md — Remove workflow references to deleted commands (gap closure)
+- [x] 10-02-PLAN.md — Restore audit/gap commands with study-centric naming (gap closure)
 
 #### Phase 11: Terminology Rename
 
@@ -155,7 +155,7 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
-| 10. Command Cleanup | v1.1 | 1/2 | In Progress | - |
+| 10. Command Cleanup | v1.1 | 2/2 | Complete | 2026-01-31 |
 | 11. Terminology Rename | v1.1 | 0/? | Not started | - |
 | 12. Quick Explore | v1.1 | 0/? | Not started | - |
 | 13. Accessible Insights | v1.1 | 0/? | Not started | - |
