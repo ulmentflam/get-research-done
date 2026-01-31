@@ -11,9 +11,9 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 ## Current Position
 
 Phase: 11 of 14 (Terminology Rename)
-Plan: 02 of 02
+Plan: 03 of 03
 Status: Phase complete
-Last activity: 2026-01-31 — Completed 11-02-PLAN.md (reference updates)
+Last activity: 2026-01-31 — Completed 11-03-PLAN.md (template terminology update)
 
 Progress: [████░░░░░░] 40% (v1.1: 2/5 phases complete)
 
@@ -34,8 +34,8 @@ Progress: [████░░░░░░] 40% (v1.1: 2/5 phases complete)
 
 **v1.1 Progress:**
 - Phases: 2/5 complete
-- Plans: 4 complete (10-01, 10-02, 11-01, 11-02)
-- Average duration: 2.5 min
+- Plans: 5 complete (10-01, 10-02, 11-01, 11-02, 11-03)
+- Average duration: 3.2 min
 
 ## Accumulated Context
 
@@ -55,6 +55,8 @@ Recent v1.1 context:
 - Local-only command files: No git commits for .claude/ renames (expected, gitignored)
 - Internal references updated (11-02): All ~60 files in .claude/ updated with new command names, zero old references remain
 - Two-pass replacement strategy: Slash-prefixed first, then non-slash references for clean results
+- Templates updated (11-03): All templates, references, workflows, and agents now use Study/Version terminology (phase→study, milestone→version)
+- Directory paths preserved: .planning/phases/ structure unchanged for compatibility
 
 ### Terminology Mapping (Study-Centric)
 
