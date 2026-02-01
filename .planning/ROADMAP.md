@@ -141,10 +141,11 @@ Plans:
 4. Critic routing validated: research → REVISE_DATA → spawns full explore (not quick-explore)
 5. Help documentation reflects all renamed commands and new commands
 
-**Plans**: TBD
+**Plans:** 2 plans
 
 Plans:
-- [ ] 14-01: TBD during planning
+- [ ] 14-01-PLAN.md — Create validation checklist and verification scripts
+- [ ] 14-02-PLAN.md — Verify REVISE_DATA routing, execute automated validation
 
 ### 📋 v2.0 Advanced Features (Planned)
 
@@ -164,4 +165,4 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 | 11. Terminology Rename | v1.1 | 3/3 | Complete | 2026-01-31 |
 | 12. Quick Explore | v1.1 | 3/3 | Complete | 2026-02-01 |
 | 13. Accessible Insights | v1.1 | 2/2 | Complete | 2026-02-01 |
-| 14. Integration Testing | v1.1 | 0/? | Not started | - |
+| 14. Integration Testing | v1.1 | 0/2 | Not started | - |
