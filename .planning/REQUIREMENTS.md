@@ -9,20 +9,20 @@ Requirements for Research UX Refinement milestone. Each maps to roadmap phases.
 
 ### Command Cleanup
 
-- [ ] **CLEAN-01**: Delete 32 duplicate " 2.md" skill files from skills directory
-- [ ] **CLEAN-02**: Remove `audit-milestone` command (GSD-specific, not research-relevant)
-- [ ] **CLEAN-03**: Remove `plan-milestone-gaps` command (GSD-specific, not research-relevant)
-- [ ] **CLEAN-04**: Update help.md documentation to reflect all command changes
+- [x] **CLEAN-01**: Delete 32 duplicate " 2.md" skill files from skills directory
+- [x] **CLEAN-02**: Remove `audit-milestone` command (GSD-specific, not research-relevant)
+- [x] **CLEAN-03**: Remove `plan-milestone-gaps` command (GSD-specific, not research-relevant)
+- [x] **CLEAN-04**: Update help.md documentation to reflect all command changes
 
 ### Terminology Rename
 
-- [ ] **TERM-01**: Rename `new-milestone` → `new-study`
-- [ ] **TERM-02**: Rename `complete-milestone` → `complete-study`
-- [ ] **TERM-03**: Rename `discuss-phase` → `scope-study`
-- [ ] **TERM-04**: Rename `plan-phase` → `plan-study`
-- [ ] **TERM-05**: Rename `execute-phase` → `run-study`
-- [ ] **TERM-06**: Rename `verify-work` → `validate-study`
-- [ ] **TERM-07**: Update all internal references in skill files, agent prompts, and documentation
+- [x] **TERM-01**: Rename `new-milestone` → `new-study`
+- [x] **TERM-02**: Rename `complete-milestone` → `complete-study`
+- [x] **TERM-03**: Rename `discuss-phase` → `scope-study`
+- [x] **TERM-04**: Rename `plan-phase` → `plan-study`
+- [x] **TERM-05**: Rename `execute-phase` → `run-study`
+- [x] **TERM-06**: Rename `verify-work` → `validate-study`
+- [x] **TERM-07**: Update all internal references in skill files, agent prompts, and documentation
 
 ### Quick Explore
 
@@ -82,17 +82,17 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| CLEAN-01 | Phase 10 | Pending |
-| CLEAN-02 | Phase 10 | Pending |
-| CLEAN-03 | Phase 10 | Pending |
-| CLEAN-04 | Phase 10 | Pending |
-| TERM-01 | Phase 11 | Pending |
-| TERM-02 | Phase 11 | Pending |
-| TERM-03 | Phase 11 | Pending |
-| TERM-04 | Phase 11 | Pending |
-| TERM-05 | Phase 11 | Pending |
-| TERM-06 | Phase 11 | Pending |
-| TERM-07 | Phase 11 | Pending |
+| CLEAN-01 | Phase 10 | Complete |
+| CLEAN-02 | Phase 10 | Complete |
+| CLEAN-03 | Phase 10 | Complete |
+| CLEAN-04 | Phase 10 | Complete |
+| TERM-01 | Phase 11 | Complete |
+| TERM-02 | Phase 11 | Complete |
+| TERM-03 | Phase 11 | Complete |
+| TERM-04 | Phase 11 | Complete |
+| TERM-05 | Phase 11 | Complete |
+| TERM-06 | Phase 11 | Complete |
+| TERM-07 | Phase 11 | Complete |
 | QUICK-01 | Phase 12 | Pending |
 | QUICK-02 | Phase 12 | Pending |
 | QUICK-03 | Phase 12 | Pending |
