@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-01-30)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-**Current focus:** Phase 12 - Quick Explore
+**Current focus:** Phase 13 - Accessible Insights
 
 ## Current Position
 
-Phase: 12 of 14 (Quick Explore)
-Plan: 03 of 03
-Status: Phase complete
-Last activity: 2026-02-01 — Completed 12-03-PLAN.md (agent integration)
+Phase: 13 of 14 (Accessible Insights)
+Plan: 01 of 02
+Status: In progress
+Last activity: 2026-02-01 — Completed 13-01-PLAN.md (core insights module)
 
-Progress: [██████░░░░] 60% (v1.1: 3/5 phases complete)
+Progress: [██████░░░░] 64% (v1.1: 3.5/5 phases complete)
 
 ## Milestone History
 
@@ -33,9 +33,9 @@ Progress: [██████░░░░] 60% (v1.1: 3/5 phases complete)
 - Timeline: 47 days (project start to ship)
 
 **v1.1 Progress:**
-- Phases: 3/5 complete
-- Plans: 8 complete (10-01, 10-02, 11-01, 11-02, 11-03, 12-01, 12-02, 12-03)
-- Average duration: 3.3 min
+- Phases: 3.5/5 complete
+- Plans: 9 complete (10-01, 10-02, 11-01, 11-02, 11-03, 12-01, 12-02, 12-03, 13-01)
+- Average duration: 3.2 min
 
 ## Accumulated Context
 
@@ -63,6 +63,9 @@ Recent v1.1 context:
 - data-report.md updated (12-02): Added mode_banner and analysis_notes placeholders for Quick Explore mode
 - Agent integration complete (12-03): Explorer detects quick mode, Architect warns on quick-explore-only data
 - Help documentation updated (12-03): quick-explore command documented with workflow examples
+- insights.py module created (13-01): 759-line module with generate_insights(), Jinja2 templates for plain English output
+- Template-based narrative generation (13-01): Jinja2 chosen over LLM for consistency/speed
+- Dual output strategy (13-01): DATA_REPORT.md (technical) + INSIGHTS_SUMMARY.md (plain English)
 
 ### Terminology Mapping (Study-Centric)
 
@@ -79,15 +82,15 @@ Recent v1.1 context:
 
 ### Blockers/Concerns
 
-None. Phase 12 (Quick Explore) complete. Ready for Phase 13 (Insights) or Phase 14 (Integration Testing).
+None. Plan 13-01 complete. Ready for 13-02 (command integration) or Phase 14 (Integration Testing).
 
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 12-03-PLAN.md (Phase 12 complete)
+Stopped at: Completed 13-01-PLAN.md (core insights module)
 Resume file: None
 
-Next step: Plan Phase 13 (Insights) or Phase 14 (Integration Testing)
+Next step: Execute 13-02-PLAN.md (insights command integration)
 
 ---
 *State initialized: 2026-01-27*
