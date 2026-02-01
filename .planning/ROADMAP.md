@@ -98,10 +98,12 @@ Plans:
 4. Output is markdown-formatted and copy-paste ready for team communication
 5. DATA_REPORT.md contains "Quick Explore" mode header and note about running full explore for rigor
 
-**Plans**: TBD
+**Plans:** 3 plans
 
 Plans:
-- [ ] 12-01: TBD during planning
+- [ ] 12-01-PLAN.md — Create quick-explore command and formatters module
+- [ ] 12-02-PLAN.md — Create quick.py analysis module and update data-report template
+- [ ] 12-03-PLAN.md — Integrate quick mode into Explorer/Architect agents and help.md
 
 #### Phase 13: Accessible Insights
 
@@ -159,6 +161,6 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10. Command Cleanup | v1.1 | 2/2 | Complete | 2026-01-31 |
 | 11. Terminology Rename | v1.1 | 3/3 | Complete | 2026-01-31 |
-| 12. Quick Explore | v1.1 | 0/? | Not started | - |
+| 12. Quick Explore | v1.1 | 0/3 | Not started | - |
 | 13. Accessible Insights | v1.1 | 0/? | Not started | - |
 | 14. Integration Testing | v1.1 | 0/? | Not started | - |
