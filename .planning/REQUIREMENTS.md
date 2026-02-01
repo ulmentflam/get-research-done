@@ -34,11 +34,11 @@ Requirements for Research UX Refinement milestone. Each maps to roadmap phases.
 
 ### Accessible EDA (Insights)
 
-- [x] **INSIGHT-01**: Create `/grd:insights` command for business analyst audience
-- [x] **INSIGHT-02**: Generate full technical DATA_REPORT.md (saved to file, not displayed in chat)
-- [x] **INSIGHT-03**: Generate plain English summary where every statistic is explained in context
-- [x] **INSIGHT-04**: Provide actionable recommendations based on data characteristics
-- [x] **INSIGHT-05**: Generate LLM prompts for further exploration (copy-paste ready for non-technical users)
+- [ ] **INSIGHT-01**: Create `/grd:insights` command for business analyst audience
+- [ ] **INSIGHT-02**: Generate full technical DATA_REPORT.md (saved to file, not displayed in chat)
+- [ ] **INSIGHT-03**: Generate plain English summary where every statistic is explained in context
+- [ ] **INSIGHT-04**: Provide actionable recommendations based on data characteristics
+- [ ] **INSIGHT-05**: Generate LLM prompts for further exploration (copy-paste ready for non-technical users)
 
 ## Future Requirements
 
@@ -98,17 +98,20 @@ Which phases cover which requirements. Updated during roadmap creation.
 | QUICK-03 | Phase 12 | Complete |
 | QUICK-04 | Phase 12 | Complete |
 | QUICK-05 | Phase 12 | Complete |
-| INSIGHT-01 | Phase 13 | Complete |
-| INSIGHT-02 | Phase 13 | Complete |
-| INSIGHT-03 | Phase 13 | Complete |
-| INSIGHT-04 | Phase 13 | Complete |
-| INSIGHT-05 | Phase 13 | Complete |
+| INSIGHT-01 | Phase 13 | Pending |
+| INSIGHT-02 | Phase 13 | Pending |
+| INSIGHT-03 | Phase 13 | Pending |
+| INSIGHT-04 | Phase 13 | Pending |
+| INSIGHT-05 | Phase 13 | Pending |
 
 **Coverage:**
 - v1.1 requirements: 21 total
 - Mapped to phases: 21
-- Unmapped: 0 ✓
+- Complete: 16 (CLEAN-01-04, TERM-01-07, QUICK-01-05)
+- Pending: 5 (INSIGHT-01-05)
+
+**Note (2026-02-01):** Phase 12 complete. Quick explore verified with 5/5 success criteria passed.
 
 ---
 *Requirements defined: 2026-01-30*
-*Last updated: 2026-01-30 after roadmap creation*
+*Last updated: 2026-02-01 after phase reset*
