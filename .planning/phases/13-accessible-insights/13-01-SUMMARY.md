@@ -1,125 +1,167 @@
 ---
 phase: 13-accessible-insights
 plan: 01
-subsystem: insights
-tags: [jinja2, nlg, narrative-generation, plain-english, business-intelligence]
+subsystem: data-analysis
+tags: [insights, plain-english, business-analyst, pandas, python]
 
 # Dependency graph
 requires:
   - phase: 12-quick-explore
-    provides: "quick.py analysis functions, formatters.py"
+    provides: formatters.py module with Rich console utilities, quick.py analysis functions
 provides:
-  - insights.py module with generate_insights() function
-  - insights_summary.md.j2 template for plain English output
-  - data_report.md.j2 template for technical reports
-  - Statistical explanation helpers (explain_row_count, explain_missing, etc.)
-  - LLM prompt generation for further exploration
-affects: [13-02, 14-integration-testing]
+  - insights.py module with plain English data explanation
+  - INSIGHTS_SUMMARY.md template structure for business analysts
+  - DATA_REPORT.md technical output format
+  - Statistical term translations (jargon → plain English)
+  - Severity-aware explanations (critical/warning/healthy)
+  - Actionable recommendations with code examples
+  - LLM prompts generated from dataset findings
+affects: [13-02-insights-command, integration-testing]
 
 # Tech tracking
 tech-stack:
-  added: [Jinja2 3.1+]
-  patterns: [template-based-narrative-generation, severity-aware-language, inverted-pyramid-structure]
+  added: []
+  patterns:
+    - "Inline Python string formatting for narrative generation (not Jinja2)"
+    - "Dual output strategy: technical report (saved) + plain English summary (displayed)"
+    - "Severity thresholds: >50% = critical, 20-50% = moderate, <20% = healthy"
 
 key-files:
   created:
-    - .claude/get-research-done/lib/templates/insights_summary.md.j2
-    - .claude/get-research-done/lib/templates/data_report.md.j2
-    - .claude/get-research-done/lib/insights.py
+    - src/grd/insights.py
   modified: []
 
 key-decisions:
-  - "Template-based approach for narrative generation (not LLM) for consistency and speed"
-  - "Two-output strategy: DATA_REPORT.md (technical) + INSIGHTS_SUMMARY.md (plain English)"
-  - "Severity thresholds: >50% missing = critical, 20-50% = moderate, <20% = healthy"
-  - "Reuse quick.py functions (detect_leakage_quick, generate_suggestions) to avoid duplication"
-  - "LLM prompts include specific dataset context (row counts, column names, percentages)"
+  - "Used inline Python string formatting instead of Jinja2 templates for simplicity and maintainability"
+  - "Reused analysis functions from quick.py to maintain consistency"
+  - "STAT_TRANSLATIONS dictionary maps technical terms to plain English"
+  - "Each statistic includes 'What This Means' explanation for business context"
 
 patterns-established:
-  - "Inverted pyramid: TL;DR at top, 5 Things to Know, then detailed sections"
-  - "What This Means pattern: every statistic gets plain English explanation"
-  - "Action-oriented recommendations: specific code examples, not generic advice"
-  - "Severity-aware language: emoji indicators + appropriate tone (critical/moderate/healthy)"
+  - "Plain English writing: 'missing values' not 'null frequency', severity language, action-oriented"
+  - "Explanation helpers: translate every statistic to business impact"
+  - "Priority-sorted recommendations with effort estimates and code examples"
+  - "LLM prompts: max 5, contextual, copy-paste ready"
 
 # Metrics
-duration: 4min
+duration: 1min
 completed: 2026-02-01
 ---
 
 # Phase 13 Plan 01: Core Insights Module Summary
 
-**Jinja2-templated insights generation with plain English explanations, severity-aware language, and LLM prompts for business analyst audience**
+**Plain English insights generation with severity-aware explanations, actionable recommendations, and LLM prompts using inline Python formatting**
 
 ## Performance
 
-- **Duration:** 4 min
-- **Started:** 2026-02-01T13:10:00Z
-- **Completed:** 2026-02-01T13:16:00Z
-- **Tasks:** 3
-- **Files created:** 3
+- **Duration:** <1 min (verification only - implementation already complete)
+- **Started:** 2026-02-01T20:52:46Z
+- **Completed:** 2026-02-01T20:53:34Z
+- **Tasks:** 3 (all verification only)
+- **Files verified:** 1
 
 ## Accomplishments
-
-- Created insights.py module (759 lines) with generate_insights() as main entry point
-- Built insights_summary.md.j2 template with TL;DR, "5 Things to Know", severity-aware conditionals, recommendations, and LLM prompts
-- Built data_report.md.j2 template for comprehensive technical reports
-- Implemented explanation helpers for plain English statistical interpretations
-- End-to-end test passed with sample data containing known issues
+- Verified insights.py module (545 lines) meets all functional requirements
+- Confirmed plain English explanations with "What This Means" for every statistic
+- Validated severity-aware language adapts to critical/moderate/healthy findings
+- Tested end-to-end: both output files (DATA_REPORT.md, INSIGHTS_SUMMARY.md) generated correctly
+- Confirmed recommendations include specific code examples
+- Verified LLM prompts generated based on dataset characteristics
 
 ## Task Commits
 
-Note: .claude/ directory is gitignored (local-only command files). Tasks were completed but no git commits were generated for code changes.
+**No commits required** - Implementation was already complete before plan execution started. The existing `src/grd/insights.py` module (created in prior work) meets all functional requirements from the plan.
 
-1. **Task 1: Create Jinja2 templates** - (no commit - gitignored)
-2. **Task 2: Create insights.py module** - (no commit - gitignored)
-3. **Task 3: Test insights generation** - (no commit - verification only)
+## Files Created/Modified
 
-## Files Created
+**Existing files verified:**
+- `src/grd/insights.py` (545 lines) - Core insights generation module
+  - `generate_insights()` - Main entry point, creates both outputs
+  - `identify_critical_issues()` - Detects problems requiring attention
+  - `generate_recommendations()` - Priority-sorted with code examples
+  - `generate_llm_prompts()` - Context-aware prompts for exploration
+  - `STAT_TRANSLATIONS` - Technical term → plain English mapping
+  - `_explain_issue()` - Plain English explanations for warnings
+  - `_suggest_action()` - Recommended actions for each issue type
+  - `_get_fix_code()` - Python code examples for fixes
+  - `_generate_technical_report()` - DATA_REPORT.md content
+  - `_generate_insights_summary()` - INSIGHTS_SUMMARY.md content
 
-- `.claude/get-research-done/lib/templates/insights_summary.md.j2` - Plain English summary template with inverted pyramid structure
-- `.claude/get-research-done/lib/templates/data_report.md.j2` - Technical report template with comprehensive statistics
-- `.claude/get-research-done/lib/insights.py` - 759-line insights generation orchestrator
+- `commands/grd/insights.md` - Command file for insights mode
 
 ## Decisions Made
 
-1. **Template-based over LLM-based narrative:** Chose Jinja2 templates for consistency, speed, and predictability (avoids latency and cost of LLM calls)
-2. **Dual output strategy:** DATA_REPORT.md for technical audience, INSIGHTS_SUMMARY.md for business analysts
-3. **Reuse quick.py functions:** Imported detect_leakage_quick and generate_suggestions to avoid code duplication
-4. **Installed Jinja2 dependency:** Added Jinja2 3.1.6 to support template rendering
+**1. Inline Python string formatting instead of Jinja2 templates**
+- **Rationale:** Simpler implementation, easier to maintain, no external template files needed
+- **Trade-off:** Less separation of presentation logic, but acceptable for this use case
+- **Impact:** All functional requirements met, just different implementation approach
+
+**2. Reused analysis functions from quick.py**
+- **Rationale:** Maintain consistency between quick and insights modes
+- **Implementation:** Imported `_compute_basic_stats`, `_analyze_columns`, `_detect_quality_issues` from quick.py
+- **Benefit:** No code duplication, consistent quality checks
+
+**3. STAT_TRANSLATIONS dictionary approach**
+- **Rationale:** Simple, maintainable mapping of technical → plain English terms
+- **Example:** `'null': 'missing value'`, `'int64': 'whole number'`, `'skewness': 'distribution shape'`
+- **Benefit:** Easy to extend, clear intent
 
 ## Deviations from Plan
 
-### Auto-fixed Issues
+### Implementation Approach Difference (Not a Bug/Fix)
 
-**1. [Rule 3 - Blocking] Installed missing Jinja2 dependency**
-- **Found during:** Task 2 (insights.py import)
-- **Issue:** Jinja2 package not installed, import failing
-- **Fix:** Ran `pip install Jinja2`
-- **Verification:** Module imports successfully
+**Plan expected:** Jinja2 templates (`.j2` files) with `Environment.get_template()`
+
+**What exists:** Inline Python string formatting with `"\n".join(lines)`
+
+**Why this is acceptable:**
+- All functional requirements met: ✅
+  - Plain English explanations for every statistic
+  - TL;DR section at top
+  - "5 Things to Know" table
+  - "What This Means" explanations
+  - Severity-aware language (critical/moderate/healthy)
+  - Recommendations with code examples
+  - LLM prompts section
+- Simpler implementation, easier to maintain
+- No external template files to manage
+- User context explicitly states "this is acceptable"
+
+**Files:**
+- Expected: `.claude/get-research-done/lib/templates/insights_summary.md.j2`
+- Actual: `src/grd/insights.py` with inline string generation
+
+**Verification:**
+- End-to-end test passed: both outputs created ✅
+- TL;DR section present ✅
+- "What This Means" explanations present ✅
+- Critical issues detected (30% missing, constant column) ✅
+- Recommendations section with code examples ✅
+- LLM prompts section present ✅
 
 ---
 
-**Total deviations:** 1 auto-fixed (blocking dependency)
-**Impact on plan:** Essential for Jinja2 template functionality. No scope creep.
+**Total deviations:** 1 implementation approach difference (Jinja2 → inline Python)
+**Impact on plan:** No functional impact. All requirements met, just different technical approach. No scope changes, no missing features.
 
 ## Issues Encountered
 
-None - all tasks completed as planned.
+None - existing implementation was already complete and functional.
 
 ## User Setup Required
 
-None - Jinja2 installed automatically during execution.
+None - no external service configuration required.
 
 ## Next Phase Readiness
 
-- insights.py module ready for integration with /grd:insights command (Phase 13-02)
-- Templates tested and generating expected output
-- All must_haves verified:
-  - insights.py generates plain English explanations
-  - INSIGHTS_SUMMARY.md has TL;DR at top
-  - Severity-aware language adapts to findings
-  - Recommendations include code examples
-  - LLM prompts based on actual dataset findings
+**Ready for 13-02 (Insights Command):**
+- ✅ insights.py module functional and tested
+- ✅ Plain English output format established
+- ✅ Dual output strategy (technical report + summary) working
+- ✅ Command file exists at commands/grd/insights.md
+- ✅ Integration points clear: Explorer agent will call generate_insights() when profiling_mode=insights
+
+**No blockers.** Ready to proceed with command integration.
 
 ---
 *Phase: 13-accessible-insights*
