@@ -26,11 +26,11 @@ Requirements for Research UX Refinement milestone. Each maps to roadmap phases.
 
 ### Quick Explore
 
-- [ ] **QUICK-01**: Create `/grd:quick-explore` command as mode variant of Explorer agent
-- [ ] **QUICK-02**: Execute full analysis in <60 seconds (skip thorough leakage detection)
-- [ ] **QUICK-03**: Output summary statistics (row count, column types, missing values percentage)
-- [ ] **QUICK-04**: Highlight distribution patterns (skewness indicators, outlier flags)
-- [ ] **QUICK-05**: Output formatted summary to console (markdown-compatible)
+- [x] **QUICK-01**: Create `/grd:quick-explore` command as mode variant of Explorer agent
+- [x] **QUICK-02**: Execute full analysis in <60 seconds (skip thorough leakage detection)
+- [x] **QUICK-03**: Output summary statistics (row count, column types, missing values percentage)
+- [x] **QUICK-04**: Highlight distribution patterns (skewness indicators, outlier flags)
+- [x] **QUICK-05**: Output formatted summary to console (markdown-compatible)
 
 ### Accessible EDA (Insights)
 
@@ -93,11 +93,11 @@ Which phases cover which requirements. Updated during roadmap creation.
 | TERM-05 | Phase 11 | Complete |
 | TERM-06 | Phase 11 | Complete |
 | TERM-07 | Phase 11 | Complete |
-| QUICK-01 | Phase 12 | Pending |
-| QUICK-02 | Phase 12 | Pending |
-| QUICK-03 | Phase 12 | Pending |
-| QUICK-04 | Phase 12 | Pending |
-| QUICK-05 | Phase 12 | Pending |
+| QUICK-01 | Phase 12 | Complete |
+| QUICK-02 | Phase 12 | Complete |
+| QUICK-03 | Phase 12 | Complete |
+| QUICK-04 | Phase 12 | Complete |
+| QUICK-05 | Phase 12 | Complete |
 | INSIGHT-01 | Phase 13 | Pending |
 | INSIGHT-02 | Phase 13 | Pending |
 | INSIGHT-03 | Phase 13 | Pending |
