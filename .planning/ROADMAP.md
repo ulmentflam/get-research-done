@@ -123,8 +123,8 @@ Plans:
 **Plans:** 2 plans
 
 Plans:
-- [ ] 13-01-PLAN.md — Create Jinja2 templates and insights.py module with narrative generation
-- [ ] 13-02-PLAN.md — Create /grd:insights command and integrate with Explorer agent
+- [x] 13-01-PLAN.md — Create Jinja2 templates and insights.py module with narrative generation
+- [x] 13-02-PLAN.md — Create /grd:insights command and integrate with Explorer agent
 
 #### Phase 14: Integration Testing & Validation
 
@@ -164,7 +164,7 @@ Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
 | 10. Command Cleanup | v1.1 | 2/2 | Complete | 2026-01-31 |
 | 11. Terminology Rename | v1.1 | 3/3 | Complete | 2026-01-31 |
 | 12. Quick Explore | v1.1 | 3/3 | Complete | 2026-02-01 |
-| 13. Accessible Insights | v1.1 | 0/2 | Pending | — |
+| 13. Accessible Insights | v1.1 | 2/2 | Complete | 2026-02-01 |
 | 14. Integration Testing | v1.1 | 0/2 | Pending | — |
 
-**Note (2026-02-01):** Phase 12 complete. Fast EDA with console output, formatters module, agent integration. Implementation in project directory (commands/grd/, src/grd/).
+**Note (2026-02-01):** Phase 13 complete. Accessible Insights with plain English explanations, recommendations with code examples, LLM prompts. Implementation: src/grd/insights.py (545 lines), commands/grd/insights.md, Explorer agent insights mode.
