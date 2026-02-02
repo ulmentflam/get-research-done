@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 16 - Command Chaining Fixes
-Plan: 2 of 2 complete
-Status: Phase complete
-Last activity: 2026-02-02 - Completed 16-02-PLAN.md
+Phase: 17 - Artifact Updates
+Plan: 3 of 4 complete
+Status: In progress
+Last activity: 2026-02-02 - Completed 17-03-PLAN.md
 
-Progress: [████------] 40% (2/5 phases)
+Progress: [█████-----] 50% (2.5/5 phases)
 
 ## Milestone History
 
@@ -70,6 +70,7 @@ v1.2 key decisions:
 - Route to study-level commands: audit-study, complete-study, new-study instead of milestone equivalents
 - Use --gaps as primary flag: Standardized across commands with --gaps-only as backward compat
 - Explicit next-step routing: Suggest specific commands after completion (e.g., /grd:graduate after Seal)
+- Experiment terminology in routing but not process steps: User-facing navigation uses 'Experiment', internal process documentation retains 'Phase' for technical clarity
 
 ### v1.2 Command Rename Mapping
 
@@ -98,10 +99,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 16-02-PLAN.md (Command Chaining Improvements)
+Stopped at: Completed 17-03-PLAN.md (Next Up Section Updates)
 Resume file: None
 
-Phase 16 complete. Next step: Continue to Phase 17 (Artifact Updates)
+Phase 17 in progress (3/4 plans complete). Next: 17-04-PLAN.md (Version Bump)
 
 ---
 *State initialized: 2026-01-27*
