@@ -10,9 +10,9 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 
 ## Current State
 
-**Version:** v1.2 (shipped 2026-02-02)
-**Codebase:** ~68,000 LOC (Markdown, TypeScript, Python)
-**Tech stack:** Claude Code hooks, MCP integration, papermill notebook execution, Rich console formatting
+**Version:** v1.3 (shipped 2026-02-02)
+**Codebase:** ~74,000 LOC (Markdown, TypeScript, Python, JavaScript)
+**Tech stack:** Claude Code hooks, MCP integration, papermill notebook execution, Rich console formatting, multi-runtime installer
 
 **Shipped capabilities:**
 - `/grd:explore` — Data reconnaissance with hardware profiling and leakage detection
@@ -25,6 +25,9 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - Experiment-based lifecycle commands: new-study, design-experiment, run-experiment, validate-results, complete-study (v1.2)
 - Research-native command terminology: 9 commands renamed to experiment/study vocabulary (v1.2)
 - Integration test suite: 23 automated tests validate command chains (v1.2)
+- Multi-runtime installer: --claude, --opencode, --gemini, --all flags (v1.3)
+- Gemini CLI support: TOML conversion, agent loading, runtime detection (v1.3)
+- Visual branding: GRD logo with research teal colors, dark/light mode (v1.3)
 
 ## Philosophy
 
@@ -56,22 +59,23 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - ✓ Template updates — STATE.md and ROADMAP.md use experiment/study terminology — v1.2
 - ✓ Version history reset — CHANGELOG.md presents GRD as fresh product with GSD acknowledgment — v1.2
 - ✓ Integration tests — 23 automated tests validate command renames and chains — v1.2
+- ✓ Multi-runtime installer — --claude, --opencode, --gemini, --all flags for unified installation — v1.3
+- ✓ Gemini CLI support — Cherry-picked from upstream GSD with TOML conversion and runtime detection — v1.3
+- ✓ Visual branding refresh — GRD logo with research teal colors (#4FB3D4), dark/light mode support — v1.3
+- ✓ Universal improvements — Context bar scaling, ASCII box-drawing fix, squash merge strategy, unified branching — v1.3
+- ✓ Complete documentation — What's New section, Gemini CLI setup guide, CHANGELOG with full version history — v1.3
 
 ### Active
 
-**v1.3 Branding & Gemini Integration**
-
-- [ ] Update SVG assets with GRD branding (logo, terminal preview)
-- [ ] Regenerate PNG from updated SVG
-- [ ] Cherry-pick Gemini CLI from upstream GSD
-- [ ] Adapt Gemini CLI for GRD terminology and workflows
-
-### Future
+**v2.0 Advanced Features** (not yet planned)
 
 - [ ] MLflow integration for experiment tracking
 - [ ] DVC integration for data versioning
 - [ ] Multi-user support with shared experiment registry
 - [ ] Web UI for experiment visualization
+
+### Future
+
 - [ ] Red-teaming mode for Critic (adversarial validation)
 - [ ] Automatic data profiling with statistical tests
 - [ ] Visual previews (ASCII charts, embedded images)
@@ -91,10 +95,11 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 
 ## Context
 
-**Existing codebase:** This is now a mature project with three shipped milestones. The v1.2 codebase has:
+**Existing codebase:** This is now a mature project with four shipped milestones. The v1.3 codebase has:
 - Claude Code hooks for workflow automation
 - Agent spawning system for specialized tasks (Explorer, Architect, Researcher, Critic, Evaluator, Graduator)
-- Workflow orchestration via skill files (32 commands with study-centric terminology)
+- Workflow orchestration via skill files (32+ commands with study-centric terminology)
+- Multi-runtime installer supporting Claude Code, OpenCode, and Gemini CLI
 - State tracking and context restoration
 - Template system for artifacts (DATA_REPORT.md, OBJECTIVE.md, SCORECARD.json, etc.)
 - Notebook execution via papermill with graduation validation
@@ -199,6 +204,10 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | Experiment-based command names (v1.2) | Eliminates software-dev vocabulary, research-native CLI | ✓ Good |
 | External-only version reset (v1.2) | Clean product positioning while preserving internal context | ✓ Good |
 | Intentional stale refs in agents (v1.2) | Deferred agent prompt updates to minimize scope | — Pending |
+| Cherry-pick with -X ours strategy (v1.3) | Minimize conflict resolution for branding changes | ✓ Good |
+| sed-based branding after merge (v1.3) | Systematic transformation ensures consistency | ✓ Good |
+| Research teal color palette (v1.3) | Aligns with 2026 Transformative Teal trend, scientific aesthetic | ✓ Good |
+| CSS media queries for themes (v1.3) | Modern web standard, automatic dark/light switching | ✓ Good |
 
 ---
-*Last updated: 2026-02-02 after v1.3 milestone started*
+*Last updated: 2026-02-02 after v1.3 milestone shipped*

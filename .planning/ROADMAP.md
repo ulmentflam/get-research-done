@@ -5,7 +5,7 @@
 - v1.0 MVP - Phases 1-9 (shipped 2026-01-30)
 - v1.1 Research UX Refinement - Phases 10-14 (shipped 2026-02-01)
 - v1.2 Command Unification - Phases 15-19 (shipped 2026-02-02)
-- v1.3 Branding & Gemini Integration - Phases 20-23 (in progress)
+- ✅ v1.3 Branding & Gemini Integration - Phases 20-23 (shipped 2026-02-02)
 
 ## Phases
 
@@ -77,69 +77,29 @@
 
 </details>
 
-### v1.3 Branding & Gemini Integration (In Progress)
+<details>
+<summary>✅ v1.3 Branding & Gemini Integration (Phases 20-23) - SHIPPED 2026-02-02</summary>
 
 **Milestone Goal:** Update visual branding to GRD identity, sync with upstream GSD for Gemini CLI and other features, and finalize documentation.
 
-- [x] Phase 20: GSD Sync Setup & Exploration (SYNC-01, SYNC-02, SYNC-03) - completed 2026-02-02
-- [x] Phase 21: Gemini CLI Integration (SYNC-04, SYNC-05) - completed 2026-02-02
-- [x] Phase 22: Branding Updates (BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05, BRAND-06) - completed 2026-02-02
-- [x] Phase 23: Documentation & Finalization (DOCS-01, DOCS-02, DOCS-03) - completed 2026-02-02
+**Phases completed:** 20-23 (4 plans total)
 
-## Phase Details
+- [x] Phase 20: GSD Sync Setup & Exploration (1/1 plans) — completed 2026-02-02
+- [x] Phase 21: Gemini CLI Integration (1/1 plans) — completed 2026-02-02
+- [x] Phase 22: Branding Updates (1/1 plans) — completed 2026-02-02
+- [x] Phase 23: Documentation & Finalization (1/1 plans) — completed 2026-02-02
 
-### Phase 20: GSD Sync Setup & Exploration
-**Goal**: Establish GSD upstream remote and identify features to cherry-pick
-**Depends on**: Nothing (first phase of milestone)
-**Requirements**: SYNC-01, SYNC-02, SYNC-03
-**Success Criteria** (what must be TRUE):
-  1. GSD upstream remote is configured and fetchable (`git fetch gsd-upstream` works)
-  2. List of new GSD features since fork is documented with commit hashes
-  3. Cherry-pick decisions are documented (what to take, what to skip, why)
-  4. Gemini CLI location identified in GSD codebase
-**Plans**: 1 plan
-Plans:
-- [x] 20-01-PLAN.md - Add upstream remote, document features, create cherry-pick decisions - completed 2026-02-02
+**Key accomplishments:**
+- Cherry-picked 10 upstream GSD commits with Gemini CLI support and universal improvements
+- Visual branding transformation with GRD logo and research teal colors
+- Multi-runtime installer (--claude, --opencode, --gemini, --all flags)
+- Complete documentation with What's New section and CHANGELOG history
 
-### Phase 21: Gemini CLI Integration
-**Goal**: Cherry-pick Gemini CLI and selected features from GSD, adapt to GRD branding
-**Depends on**: Phase 20 (need cherry-pick list and commit hashes)
-**Requirements**: SYNC-04, SYNC-05
-**Success Criteria** (what must be TRUE):
-  1. Gemini CLI command is available (`/grd:gemini` or equivalent)
-  2. Gemini CLI uses GRD terminology and conventions
-  3. Any additional cherry-picked features function correctly
-  4. No GSD-specific references remain in cherry-picked code
-**Plans**: 1 plan
-Plans:
-- [x] 21-01-PLAN.md - Cherry-pick universal improvements and Gemini support, adapt branding - completed 2026-02-02
+**Stats:** 49 files created/modified, +5,874 lines of code, 1 day to ship
 
-### Phase 22: Branding Updates
-**Goal**: Update SVG/PNG assets to reflect GRD identity
-**Depends on**: Nothing (can run parallel with Phase 21)
-**Requirements**: BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05, BRAND-06
-**Success Criteria** (what must be TRUE):
-  1. SVG logo displays "GRD" ASCII art (not "GSD")
-  2. Terminal preview shows `npx get-research-done` command
-  3. Terminal preview shows "Get Research Done v1.3.0" title
-  4. Terminal preview shows GRD-specific install output and `/grd:help`
-  5. PNG logo is regenerated from updated SVG at 2000px
-  6. Logo files renamed to `grd-logo-2000.*`
-**Plans**: 1 plan
-Plans:
-- [x] 22-01-PLAN.md — Update logo SVG/PNG and terminal preview with GRD branding - completed 2026-02-02
+**Full archive:** .planning/milestones/v1.3-ROADMAP.md
 
-### Phase 23: Documentation & Finalization
-**Goal**: Update all documentation to reflect v1.3 changes and any new features
-**Depends on**: Phase 21, Phase 22 (need to document what was added)
-**Requirements**: DOCS-01, DOCS-02, DOCS-03
-**Success Criteria** (what must be TRUE):
-  1. README.md reflects current GRD branding and v1.3 features
-  2. help.md includes any new commands from cherry-picks
-  3. All cherry-picked features have usage documentation
-**Plans**: 1 plan
-Plans:
-- [x] 23-01-PLAN.md — Update README.md, help.md, and CHANGELOG.md with v1.3 documentation - completed 2026-02-02
+</details>
 
 ## Progress
 
@@ -148,7 +108,4 @@ Plans:
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15-19. v1.2 Command Unification | v1.2 | 12/12 | Complete | 2026-02-02 |
-| 20. GSD Sync Setup & Exploration | v1.3 | 1/1 | Complete | 2026-02-02 |
-| 21. Gemini CLI Integration | v1.3 | 1/1 | Complete | 2026-02-02 |
-| 22. Branding Updates | v1.3 | 1/1 | Complete | 2026-02-02 |
-| 23. Documentation & Finalization | v1.3 | 1/1 | Complete | 2026-02-02 |
+| 20-23. v1.3 Branding & Gemini | v1.3 | 4/4 | Complete | 2026-02-02 |

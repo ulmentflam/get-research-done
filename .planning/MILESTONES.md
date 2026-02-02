@@ -1,5 +1,30 @@
 # Project Milestones: Get Research Done (GRD)
 
+## v1.3 Branding & Gemini Integration (Shipped: 2026-02-02)
+
+**Delivered:** Gemini CLI support with multi-runtime installer, visual branding transformation to GRD identity with research teal colors, and complete documentation refresh
+
+**Phases completed:** 20-23 (4 plans total)
+
+**Key accomplishments:**
+- Cherry-picked 10 upstream GSD commits including full Gemini CLI support (--gemini flag, TOML conversion, agent loading)
+- Transformed visual identity with GRD logo ASCII art and research teal color palette (#4FB3D4)
+- Multi-runtime installer supporting Claude Code, OpenCode, and Gemini CLI
+- Universal improvements: context bar scaling, ASCII box-drawing fix, squash merge strategy, unified branching
+- Complete documentation: What's New section, Gemini CLI setup guide, CHANGELOG.md full version history
+
+**Stats:**
+- 49 files created/modified
+- +5,874 net lines of code (Markdown, JavaScript, SVG)
+- 4 phases, 4 plans, ~12 tasks
+- 1 day from v1.2 to v1.3
+
+**Git range:** `docs(20): capture phase context` → `docs(23): complete Documentation & Finalization phase`
+
+**What's next:** v2.0 Advanced Features (MLflow integration, DVC integration, multi-user support, web UI)
+
+---
+
 ## v1.2 Command Unification (Shipped: 2026-02-02)
 
 **Delivered:** Research-native CLI with experiment-based terminology, correct command chaining, and clean product positioning
