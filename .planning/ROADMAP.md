@@ -129,11 +129,16 @@ Plans:
 
 #### Phase 18: Version History Reset
 
-**Goal:** GRD presents as a clean v1.0 product, not a continuation of GSD history
+**Goal:** External documentation presents GRD as a clean product (CHANGELOG, README, package.json)
 
 **Dependencies:** Phase 17 (artifacts must be updated before resetting version references)
 
 **Requirements:** VERSION-01, VERSION-02, VERSION-03, VERSION-04, VERSION-05
+
+**Plans:** 1 plan
+
+Plans:
+- [ ] 18-01-PLAN.md — Reset CHANGELOG, add README footer acknowledgment, update package.json metadata
 
 **Success Criteria:**
 1. PROJECT.md presents GRD as a fresh v1.0 product with no v1.0/v1.1 GSD references
@@ -171,5 +176,5 @@ Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 | 15. Command Renames | v1.2 | 4/4 | Complete | 2026-02-02 |
 | 16. Command Chaining | v1.2 | 2/2 | Complete | 2026-02-02 |
 | 17. Artifact Updates | v1.2 | 3/3 | Complete | 2026-02-02 |
-| 18. Version History Reset | v1.2 | 0/? | Not started | - |
+| 18. Version History Reset | v1.2 | 0/1 | Not started | - |
 | 19. Documentation & Testing | v1.2 | 0/? | Not started | - |
