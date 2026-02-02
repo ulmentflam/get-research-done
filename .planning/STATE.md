@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 **Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-**Current focus:** Planning next milestone (v2.0 Advanced Features)
+**Current focus:** v1.2 Command Unification — Research-Native Workflow
 
 ## Current Position
 
-Phase: 14 of 14 (v1.1 complete)
-Plan: Complete
-Status: Milestone v1.1 shipped
-Last activity: 2026-02-01 — v1.1 milestone complete
+Experiment: Not started (defining requirements)
+Plan: —
+Status: Defining requirements for v1.2
+Last activity: 2026-02-01 — v1.2 milestone started
 
-Progress: [██████████] 100% (v1.1 shipped)
+Progress: [░░░░░░░░░░] 0% (requirements phase)
 
 ## Milestone History
 
@@ -82,12 +82,13 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed v1.1 milestone
+Stopped at: Started v1.2 milestone, defining requirements
 Resume file: None
 
-Next step: Start next milestone with /grd:new-study
+Next step: Research and define requirements for command unification
 
 ---
 *State initialized: 2026-01-27*
 *v1.0 shipped: 2026-01-30*
 *v1.1 shipped: 2026-02-01*
+*v1.2 started: 2026-02-01*

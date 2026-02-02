@@ -8,6 +8,20 @@ A recursive, agentic framework for machine learning research that brings structu
 
 Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
+## Current Milestone: v1.2 Command Unification
+
+**Goal:** Transform all lifecycle commands from software-dev terminology (phases, milestones, roadmaps) to research-native terminology (experiments, studies, protocols) with correct command chaining.
+
+**Target changes:**
+- `plan-phase` → `design-experiment` — Design experiment from STUDY_PROTOCOL.md
+- `execute-phase` → `run-experiment` — Execute designed experiment
+- `discuss-phase` → `scope-experiment` — Clarify experiment approach
+- `verify-work` → `validate-results` — Validate experiment results
+- `research-phase` → `literature-review` — Research before experiment design
+- Command flow fix: `new-study` → `design-experiment` → `run-experiment` (not `plan-phase`)
+
+**Expected impact:** Consistent research workflow where commands match mental model and chain correctly.
+
 ## Current State
 
 **Version:** v1.1 (shipped 2026-02-01)
@@ -52,7 +66,14 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 
 ### Active
 
-(None — next milestone not yet defined)
+**v1.2 Command Unification — Research-Native Workflow**
+
+- [ ] Rename phase/milestone commands to experiment terminology (plan-phase → design-experiment, execute-phase → run-experiment, etc.)
+- [ ] Fix command flow — commands call each other correctly in the Data → Hypothesis → Validation loop
+- [ ] Remove GSD legacy terminology — eliminate mixed GSD/GRD concepts
+- [ ] Update command chaining — new-study should route to design-experiment, not plan-phase
+- [ ] Consolidate artifact naming — STUDY_PROTOCOL.md should work with experiment-based commands, not ROADMAP.md
+- [ ] Update help.md to reflect research-native command structure
 
 ### Future
 
@@ -186,4 +207,4 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | Inline Python for insights (v1.1) | Simpler than Jinja2 templates, easier to maintain | ✓ Good |
 
 ---
-*Last updated: 2026-02-01 after v1.1 milestone*
+*Last updated: 2026-02-01 after starting v1.2 milestone*
