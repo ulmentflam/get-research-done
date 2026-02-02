@@ -151,16 +151,23 @@ Plans:
 
 #### Phase 19: Documentation & Testing
 
-**Goal:** All documentation reflects final state and command flows work end-to-end
+**Goal:** Validate code and agent prompts reflect renamed commands and test command chains end-to-end
 
 **Dependencies:** Phases 15-18 (all changes must be complete before final validation)
 
 **Requirements:** DOC-01, DOC-02, DOC-03
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 19-01-PLAN.md — Detect and fix stale command references in agent prompts and workflows
+- [ ] 19-02-PLAN.md — Create integration test suite for command chain validation
+
 **Success Criteria:**
-1. PROJECT.md is a clean, accurate GRD project document with no legacy terminology
-2. All agent system prompts reference correct command names (no stale `plan-phase` references)
+1. All agent system prompts reference correct command names (no stale `plan-phase` references)
+2. All workflow files use correct command terminology
 3. The complete workflow (`new-study` -> `design-experiment` -> `run-experiment` -> `validate-results` -> `complete-study`) can be executed end-to-end without broken command suggestions
+4. Integration test suite validates all command files exist
 
 ---
 
@@ -177,4 +184,4 @@ Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 | 16. Command Chaining | v1.2 | 2/2 | Complete | 2026-02-02 |
 | 17. Artifact Updates | v1.2 | 3/3 | Complete | 2026-02-02 |
 | 18. Version History Reset | v1.2 | 1/1 | Complete | 2026-02-02 |
-| 19. Documentation & Testing | v1.2 | 0/? | Not started | - |
+| 19. Documentation & Testing | v1.2 | 0/2 | Planned | - |
