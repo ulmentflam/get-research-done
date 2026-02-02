@@ -11,24 +11,24 @@ Template for `.planning/ROADMAP.md`.
 
 [One paragraph describing the journey from start to finish]
 
-## Phases
+## Experiments
 
-**Phase Numbering:**
-- Integer phases (1, 2, 3): Planned milestone work
-- Decimal phases (2.1, 2.2): Urgent insertions (marked with INSERTED)
+**Experiment Numbering:**
+- Integer experiments (1, 2, 3): Planned study work
+- Decimal experiments (2.1, 2.2): Urgent insertions (marked with INSERTED)
 
-Decimal phases appear between their surrounding integers in numeric order.
+Decimal experiments appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: [Name]** - [One-line description]
-- [ ] **Phase 2: [Name]** - [One-line description]
-- [ ] **Phase 3: [Name]** - [One-line description]
-- [ ] **Phase 4: [Name]** - [One-line description]
+- [ ] **Experiment 1: [Name]** - [One-line description]
+- [ ] **Experiment 2: [Name]** - [One-line description]
+- [ ] **Experiment 3: [Name]** - [One-line description]
+- [ ] **Experiment 4: [Name]** - [One-line description]
 
-## Phase Details
+## Experiment Details
 
-### Phase 1: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Nothing (first phase)
+### Experiment 1: [Name]
+**Goal**: [What this experiment delivers]
+**Depends on**: Nothing (first experiment)
 **Requirements**: [REQ-01, REQ-02, REQ-03]
 **Success Criteria** (what must be TRUE):
   1. [Observable behavior from user perspective]
@@ -41,9 +41,9 @@ Plans:
 - [ ] 01-02: [Brief description of second plan]
 - [ ] 01-03: [Brief description of third plan]
 
-### Phase 2: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 1
+### Experiment 2: [Name]
+**Goal**: [What this experiment delivers]
+**Depends on**: Experiment 1
 **Requirements**: [REQ-04, REQ-05]
 **Success Criteria** (what must be TRUE):
   1. [Observable behavior from user perspective]
@@ -54,9 +54,9 @@ Plans:
 - [ ] 02-01: [Brief description]
 - [ ] 02-02: [Brief description]
 
-### Phase 2.1: Critical Fix (INSERTED)
-**Goal**: [Urgent work inserted between phases]
-**Depends on**: Phase 2
+### Experiment 2.1: Critical Fix (INSERTED)
+**Goal**: [Urgent work inserted between experiments]
+**Depends on**: Experiment 2
 **Success Criteria** (what must be TRUE):
   1. [What the fix achieves]
 **Plans**: 1 plan
@@ -64,9 +64,9 @@ Plans:
 Plans:
 - [ ] 02.1-01: [Description]
 
-### Phase 3: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 2
+### Experiment 3: [Name]
+**Goal**: [What this experiment delivers]
+**Depends on**: Experiment 2
 **Requirements**: [REQ-06, REQ-07, REQ-08]
 **Success Criteria** (what must be TRUE):
   1. [Observable behavior from user perspective]
@@ -78,9 +78,9 @@ Plans:
 - [ ] 03-01: [Brief description]
 - [ ] 03-02: [Brief description]
 
-### Phase 4: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 3
+### Experiment 4: [Name]
+**Goal**: [What this experiment delivers]
+**Depends on**: Experiment 3
 **Requirements**: [REQ-09, REQ-10]
 **Success Criteria** (what must be TRUE):
   1. [Observable behavior from user perspective]
@@ -93,9 +93,9 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
+Experiments execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 
-| Phase | Plans Complete | Status | Completed |
+| Experiment | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. [Name] | 0/3 | Not started | - |
 | 2. [Name] | 0/2 | Not started | - |
@@ -105,25 +105,25 @@ Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 
 <guidelines>
 **Initial planning (v1.0):**
-- Phase count depends on depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
-- Each phase delivers something coherent
-- Phases can have 1+ plans (split if >3 tasks or multiple subsystems)
+- Experiment count depends on depth setting (quick: 3-5, standard: 5-8, comprehensive: 8-12)
+- Each experiment delivers something coherent
+- Experiments can have 1+ plans (split if >3 tasks or multiple subsystems)
 - Plans use naming: {phase}-{plan}-PLAN.md (e.g., 01-02-PLAN.md)
 - No time estimates (this isn't enterprise PM)
 - Progress table updated by execute workflow
 - Plan count can be "TBD" initially, refined during planning
 
 **Success criteria:**
-- 2-5 observable behaviors per phase (from user's perspective)
+- 2-5 observable behaviors per experiment (from user's perspective)
 - Cross-checked against requirements during roadmap creation
 - Flow downstream to `must_haves` in design-experiment
-- Verified by verify-phase after execution
+- Verified by validate-results after execution
 - Format: "User can [action]" or "[Thing] works/exists"
 
-**After milestones ship:**
-- Collapse completed milestones in `<details>` tags
-- Add new milestone sections for upcoming work
-- Keep continuous phase numbering (never restart at 01)
+**After studies ship:**
+- Collapse completed studies in `<details>` tags
+- Add new study sections for upcoming work
+- Keep continuous experiment numbering (never restart at 01)
 </guidelines>
 
 <status_values>
@@ -133,26 +133,26 @@ Phases execute in numeric order: 2 → 2.1 → 2.2 → 3 → 3.1 → 4
 - `Deferred` - Pushed to later (with reason)
 </status_values>
 
-## Milestone-Grouped Roadmap (After v1.0 Ships)
+## Study-Grouped Roadmap (After v1.0 Ships)
 
-After completing first milestone, reorganize with milestone groupings:
+After completing first study, reorganize with study groupings:
 
 ```markdown
 # Roadmap: [Project Name]
 
-## Milestones
+## Studies
 
-- ✅ **v1.0 MVP** - Phases 1-4 (shipped YYYY-MM-DD)
-- 🚧 **v1.1 [Name]** - Phases 5-6 (in progress)
-- 📋 **v2.0 [Name]** - Phases 7-10 (planned)
+- ✅ **v1.0 MVP** - Experiments 1-4 (shipped YYYY-MM-DD)
+- 🚧 **v1.1 [Name]** - Experiments 5-6 (in progress)
+- 📋 **v2.0 [Name]** - Experiments 7-10 (planned)
 
-## Phases
+## Experiments
 
 <details>
-<summary>✅ v1.0 MVP (Phases 1-4) - SHIPPED YYYY-MM-DD</summary>
+<summary>✅ v1.0 MVP (Experiments 1-4) - SHIPPED YYYY-MM-DD</summary>
 
-### Phase 1: [Name]
-**Goal**: [What this phase delivers]
+### Experiment 1: [Name]
+**Goal**: [What this experiment delivers]
 **Plans**: 3 plans
 
 Plans:
@@ -160,34 +160,34 @@ Plans:
 - [x] 01-02: [Brief description]
 - [x] 01-03: [Brief description]
 
-[... remaining v1.0 phases ...]
+[... remaining v1.0 experiments ...]
 
 </details>
 
 ### 🚧 v1.1 [Name] (In Progress)
 
-**Milestone Goal:** [What v1.1 delivers]
+**Study Goal:** [What v1.1 delivers]
 
-#### Phase 5: [Name]
-**Goal**: [What this phase delivers]
-**Depends on**: Phase 4
+#### Experiment 5: [Name]
+**Goal**: [What this experiment delivers]
+**Depends on**: Experiment 4
 **Plans**: 2 plans
 
 Plans:
 - [ ] 05-01: [Brief description]
 - [ ] 05-02: [Brief description]
 
-[... remaining v1.1 phases ...]
+[... remaining v1.1 experiments ...]
 
 ### 📋 v2.0 [Name] (Planned)
 
-**Milestone Goal:** [What v2.0 delivers]
+**Study Goal:** [What v2.0 delivers]
 
-[... v2.0 phases ...]
+[... v2.0 experiments ...]
 
 ## Progress
 
-| Phase | Milestone | Plans Complete | Status | Completed |
+| Experiment | Study | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1. Foundation | v1.0 | 3/3 | Complete | YYYY-MM-DD |
 | 2. Features | v1.0 | 2/2 | Complete | YYYY-MM-DD |
@@ -195,8 +195,8 @@ Plans:
 ```
 
 **Notes:**
-- Milestone emoji: ✅ shipped, 🚧 in progress, 📋 planned
-- Completed milestones collapsed in `<details>` for readability
-- Current/future milestones expanded
-- Continuous phase numbering (01-99)
-- Progress table includes milestone column
+- Study emoji: ✅ shipped, 🚧 in progress, 📋 planned
+- Completed studies collapsed in `<details>` for readability
+- Current/future studies expanded
+- Continuous experiment numbering (01-99)
+- Progress table includes study column
