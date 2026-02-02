@@ -24,7 +24,7 @@ Extract implementation decisions that downstream agents need — researcher and 
 </objective>
 
 <execution_context>
-@~/.claude/get-research-done/workflows/discuss-phase.md
+@~/.claude/get-research-done/workflows/scope-experiment.md
 @~/.claude/get-research-done/templates/context.md
 </execution_context>
 

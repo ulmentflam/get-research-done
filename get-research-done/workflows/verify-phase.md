@@ -1,7 +1,7 @@
 <purpose>
 Verify phase goal achievement through goal-backward analysis. Check that the codebase actually delivers what the phase promised, not just that tasks were completed.
 
-This workflow is executed by a verification subagent spawned from execute-phase.md.
+This workflow is executed by a verification subagent spawned from run-experiment.md.
 </purpose>
 
 <core_principle>
@@ -568,7 +568,7 @@ See ~/.claude/get-research-done/templates/verification-report.md for complete te
 </step>
 
 <step name="return_to_orchestrator">
-**Return results to execute-phase orchestrator.**
+**Return results to run-experiment orchestrator.**
 
 **Return format:**
 

@@ -138,7 +138,7 @@ Before declaring complete, verify:
 - [ ] Negative claims verified with official docs
 - [ ] Multiple sources for critical claims
 - [ ] Confidence levels assigned honestly
-- [ ] Section names match what plan-phase expects
+- [ ] Section names match what design-experiment expects
 </quality_gate>
 
 <output>

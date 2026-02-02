@@ -24,14 +24,14 @@ Context budget: ~15% orchestrator, 100% fresh per subagent.
 
 <execution_context>
 @~/.claude/get-research-done/references/ui-brand.md
-@~/.claude/get-research-done/workflows/execute-phase.md
+@~/.claude/get-research-done/workflows/run-experiment.md
 </execution_context>
 
 <context>
 Phase: $ARGUMENTS
 
 **Flags:**
-- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after verify-work creates fix plans.
+- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after validate-results creates fix plans.
 
 @.planning/ROADMAP.md
 @.planning/STATE.md
@@ -162,7 +162,7 @@ Goal verified ✓
 
 **Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
 
-/grd:discuss-phase {Z+1} — gather context and clarify approach
+/grd:scope-experiment {Z+1} — gather context and clarify approach
 
 <sub>/clear first → fresh context window</sub>
 
@@ -277,12 +277,12 @@ All three run in parallel. Task tool blocks until all complete.
 </wave_execution>
 
 <checkpoint_handling>
-Plans with `autonomous: false` have checkpoints. The execute-phase.md workflow handles the full checkpoint flow:
+Plans with `autonomous: false` have checkpoints. The run-experiment.md workflow handles the full checkpoint flow:
 - Subagent pauses at checkpoint, returns structured state
 - Orchestrator presents to user, collects response
 - Spawns fresh continuation agent (not resume)
 
-See `@~/.claude/get-research-done/workflows/execute-phase.md` step `checkpoint_handling` for complete details.
+See `@~/.claude/get-research-done/workflows/run-experiment.md` step `checkpoint_handling` for complete details.
 </checkpoint_handling>
 
 <deviation_rules>

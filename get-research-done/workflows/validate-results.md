@@ -250,7 +250,7 @@ reported: "{verbatim user response}"
 severity: {inferred}
 ```
 
-Append to Gaps section (structured YAML for plan-phase --gaps):
+Append to Gaps section (structured YAML for design-experiment --gaps):
 ```yaml
 - truth: "{expected behavior from test}"
   status: failed

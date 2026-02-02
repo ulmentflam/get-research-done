@@ -605,7 +605,7 @@ Time-based splits analysis:
 ```
 
 **Routing implementation:**
-This routing is wired in Phase 4. The execute-phase orchestrator detects Critic exit codes and spawns appropriate agents. Explorer agent recognizes `--targeted` flag and adjusts its workflow accordingly.
+This routing is wired in Phase 4. The run-experiment orchestrator detects Critic exit codes and spawns appropriate agents. Explorer agent recognizes `--targeted` flag and adjusts its workflow accordingly.
 
 **Maximum iterations:**
 To prevent infinite loops, validation cycles are limited to 5 iterations (configurable). After max iterations, Critic must either PROCEED or escalate to human review.

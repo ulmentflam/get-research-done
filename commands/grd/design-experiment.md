@@ -292,7 +292,7 @@ Fill prompt with inlined content and spawn:
 </planning_context>
 
 <downstream_consumer>
-Output consumed by /grd:execute-phase
+Output consumed by /grd:run-experiment
 Plans must be executable prompts with:
 
 - Frontmatter (wave, depends_on, files_modified, autonomous)
@@ -496,7 +496,7 @@ Verification: {Passed | Passed with override | Skipped}
 
 **Execute Phase {X}** — run all {N} plans
 
-/grd:execute-phase {X}
+/grd:run-experiment {X}
 
 <sub>/clear first → fresh context window</sub>
 

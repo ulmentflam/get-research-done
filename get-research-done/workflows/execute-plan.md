@@ -1130,7 +1130,7 @@ See ~/.claude/get-research-done/references/checkpoints.md for complete checkpoin
 </step>
 
 <step name="checkpoint_return_for_orchestrator">
-**When spawned by an orchestrator (execute-phase or execute-plan command):**
+**When spawned by an orchestrator (run-experiment or execute-plan command):**
 
 If you were spawned via Task tool and hit a checkpoint, you cannot directly interact with the user. Instead, RETURN to the orchestrator with structured checkpoint state so it can present to the user and spawn a fresh continuation agent.
 
@@ -1511,7 +1511,7 @@ ROADMAP_FILE=".planning/ROADMAP.md"
 Commit execution metadata (SUMMARY + STATE + ROADMAP):
 
 **Note:** All task code has already been committed during execution (one commit per task).
-PLAN.md was already committed during plan-phase. This final commit captures execution results only.
+PLAN.md was already committed during design-experiment. This final commit captures execution results only.
 
 **Check planning config:**
 
@@ -1821,7 +1821,7 @@ All {Y} plans finished.
 
 **Also available:**
 - `/grd:validate-results` — manual acceptance testing before completing milestone
-- `/grd:add-phase <description>` — add another phase before completing
+- `/grd:add-experiment <description>` — add another phase before completing
 - Review accomplishments before archiving
 
 ---

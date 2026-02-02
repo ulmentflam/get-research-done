@@ -681,7 +681,7 @@ Present completion with next steps:
 
 **Experiment [N]: [Experiment Name]** — [Method from STUDY_PROTOCOL.md]
 
-`/grd:discuss-phase [N]` — gather context and clarify approach
+`/grd:scope-experiment [N]` — gather context and clarify approach
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -708,7 +708,7 @@ Present completion with next steps:
 - [ ] User feedback incorporated (if any)
 - [ ] STUDY_PROTOCOL.md created with experiments continuing from previous study
 - [ ] All commits made (if planning docs committed)
-- [ ] User knows next step is `/grd:discuss-phase [N]`
+- [ ] User knows next step is `/grd:scope-experiment [N]`
 
 **Atomic commits:** Each phase commits its artifacts immediately. If context is lost, artifacts persist.
 </success_criteria>

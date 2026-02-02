@@ -30,9 +30,9 @@ cat .planning/config.json
 ```
 
 Parse current values (default to `true` if not present):
-- `workflow.research` — spawn researcher during plan-phase
-- `workflow.plan_check` — spawn plan checker during plan-phase
-- `workflow.verifier` — spawn verifier during execute-phase
+- `workflow.research` — spawn researcher during design-experiment
+- `workflow.plan_check` — spawn plan checker during design-experiment
+- `workflow.verifier` — spawn verifier during run-experiment
 - `model_profile` — which model each agent uses (default: `balanced`)
 
 ## 3. Present Settings
@@ -117,7 +117,7 @@ Display:
 | Plan Checker         | {On/Off} |
 | Execution Verifier   | {On/Off} |
 
-These settings apply to future /grd:design-experiment and /grd:execute-phase runs.
+These settings apply to future /grd:design-experiment and /grd:run-experiment runs.
 
 Quick commands:
 - /grd:set-profile <profile> — switch model profile

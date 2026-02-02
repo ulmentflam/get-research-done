@@ -148,7 +148,7 @@ get-research-done/
 **commands/grd/**
 - Purpose: Slash command definitions for Claude Code
 - Contains: *.md files (one per command)
-- Key files: new-project.md, plan-phase.md, execute-plan.md
+- Key files: new-project.md, design-experiment.md, execute-plan.md
 - Subdirectories: None (flat structure)
 
 **get-research-done/references/**

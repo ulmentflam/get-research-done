@@ -14,7 +14,7 @@ allowed-tools:
 <objective>
 Verify study achieved its definition of done. Check hypothesis coverage, experiment validity, and statistical rigor.
 
-**This command IS the orchestrator.** Reads existing VERIFICATION.md files (experiments already verified during execute-phase), aggregates findings and limitations, then spawns integration checker for cross-experiment consistency.
+**This command IS the orchestrator.** Reads existing VERIFICATION.md files (experiments already verified during run-experiment), aggregates findings and limitations, then spawns integration checker for cross-experiment consistency.
 </objective>
 
 <execution_context>
