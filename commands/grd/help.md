@@ -21,9 +21,12 @@ Output ONLY the reference content below. Do NOT add:
 
 ## Quick Start
 
-1. `/grd:new-project` - Initialize project (includes research, requirements, roadmap)
-2. `/grd:design-experiment 1` - Create detailed plan for first experiment
-3. `/grd:run-experiment 1` - Execute the experiment
+1. `/grd:new-project` - Initialize (questioning → research → requirements → roadmap)
+2. `/grd:design-experiment 1` - Plan first experiment
+3. `/grd:run-experiment 1` - Execute experiment
+4. `/grd:validate-results 1` - Verify results
+5. Repeat steps 2-4 for remaining experiments
+6. `/grd:complete-study` - Archive study and prepare for next
 
 ## Staying Updated
 
@@ -36,7 +39,11 @@ npx get-research-done@latest
 ## Core Workflow
 
 ```
-/grd:new-project → /grd:design-experiment → /grd:run-experiment → repeat
+new-project → design-experiment → run-experiment → validate-results → repeat
+                   |                                        |
+                   v                                        v
+            scope-experiment                         complete-study
+            literature-review                           (when done)
 ```
 
 ## Commands by Category
