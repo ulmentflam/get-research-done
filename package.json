@@ -1,6 +1,6 @@
 {
   "name": "get-research-done",
-  "version": "2.0.0",
+  "version": "1.1.0",
   "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation for Claude Code by Ulmentflam.",
   "bin": {
     "get-research-done": "bin/install.js"
@@ -37,9 +37,8 @@
   "engines": {
     "node": ">=16.7.0"
   },
-  "dependencies": {},
   "devDependencies": {
-    "esbuild": "^0.24.0"
+    "esbuild": "^0.27.2"
   },
   "scripts": {
     "build:hooks": "node scripts/build-hooks.js",
