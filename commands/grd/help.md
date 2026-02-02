@@ -23,7 +23,7 @@ Output ONLY the reference content below. Do NOT add:
 
 1. `/grd:new-project` - Initialize project (includes research, requirements, roadmap)
 2. `/grd:design-experiment 1` - Create detailed plan for first phase
-3. `/grd:execute-phase 1` - Execute the phase
+3. `/grd:run-experiment 1` - Execute the phase
 
 ## Staying Updated
 
@@ -36,7 +36,7 @@ npx get-research-done@latest
 ## Core Workflow
 
 ```
-/grd:new-project → /grd:design-experiment → /grd:execute-phase → repeat
+/grd:new-project → /grd:design-experiment → /grd:run-experiment → repeat
 ```
 
 ### Project Initialization
@@ -72,14 +72,14 @@ Usage: `/grd:map-codebase`
 
 ### Phase Planning
 
-**`/grd:discuss-phase <number>`**
+**`/grd:scope-experiment <number>`**
 Help articulate your vision for a phase before planning.
 
 - Captures how you imagine this phase working
 - Creates CONTEXT.md with your vision, essentials, and boundaries
 - Use when you have ideas about how something should look/feel
 
-Usage: `/grd:discuss-phase 2`
+Usage: `/grd:scope-experiment 2`
 
 **`/grd:research-phase <number>`**
 Comprehensive ecosystem research for niche/complex domains.
@@ -113,7 +113,7 @@ Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Execution
 
-**`/grd:execute-phase <phase-number>`**
+**`/grd:run-experiment <phase-number>`**
 Execute all plans in a phase.
 
 - Groups plans by wave (from frontmatter), executes waves sequentially
@@ -121,7 +121,7 @@ Execute all plans in a phase.
 - Verifies phase goal after all plans complete
 - Updates REQUIREMENTS.md, ROADMAP.md, STATE.md
 
-Usage: `/grd:execute-phase 5`
+Usage: `/grd:run-experiment 5`
 
 ### Quick Mode
 
@@ -140,14 +140,14 @@ Result: Creates `.planning/quick/NNN-slug/PLAN.md`, `.planning/quick/NNN-slug/SU
 
 ### Roadmap Management
 
-**`/grd:add-phase <description>`**
-Add new phase to end of current study.
+**`/grd:add-experiment <description>`**
+Add new experiment to end of current study.
 
 - Appends to ROADMAP.md
 - Uses next sequential number
 - Updates phase directory structure
 
-Usage: `/grd:add-phase "Add feature ablation experiment"`
+Usage: `/grd:add-experiment "Add feature ablation experiment"`
 
 **`/grd:insert-phase <after> <description>`**
 Insert urgent work as decimal phase between existing phases.
@@ -288,7 +288,7 @@ Usage: `/grd:check-todos models`
 
 ### User Acceptance Testing
 
-**`/grd:verify-work [phase]`**
+**`/grd:validate-results [phase]`**
 Validate built features through conversational UAT.
 
 - Extracts testable deliverables from SUMMARY.md files
@@ -440,7 +440,7 @@ Example config:
 /clear
 /grd:design-experiment 1       # Create plans for first phase
 /clear
-/grd:execute-phase 1    # Execute all plans in phase
+/grd:run-experiment 1    # Execute all plans in phase
 ```
 
 **Resuming work after a break:**
@@ -454,7 +454,7 @@ Example config:
 ```
 /grd:insert-phase 5 "Critical data preprocessing fix"
 /grd:design-experiment 5.1
-/grd:execute-phase 5.1
+/grd:run-experiment 5.1
 ```
 
 **Completing a study:**

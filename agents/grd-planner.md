@@ -1097,7 +1097,7 @@ Understand:
 PADDED_PHASE=$(printf "%02d" ${PHASE} 2>/dev/null || echo "${PHASE}")
 PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE}-* 2>/dev/null | head -1)
 
-# Read CONTEXT.md if exists (from /grd:discuss-phase)
+# Read CONTEXT.md if exists (from /grd:scope-experiment)
 cat "${PHASE_DIR}"/*-CONTEXT.md 2>/dev/null
 
 # Read RESEARCH.md if exists (from /grd:research-phase)

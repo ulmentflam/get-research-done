@@ -141,7 +141,7 @@ new-study --> design-experiment --> run-experiment --> validate-results --> comp
 |---------|-----------------|---------------|
 | `new-study` complete | `/grd:design-experiment {N}` | `/grd:design-experiment 1` |
 | `design-experiment` complete | (new) | `/grd:run-experiment {N}` |
-| `run-experiment` complete | `/grd:discuss-phase {Z+1}` | `/grd:validate-results {N}` OR `scope-experiment {N+1}` |
+| `run-experiment` complete | `/grd:scope-experiment {Z+1}` | `/grd:validate-results {N}` OR `scope-experiment {N+1}` |
 | `validate-results` passed | `/grd:complete-milestone` | `/grd:complete-study` OR `design-experiment {N+1}` |
 | `evaluate` with Seal | (none) | `/grd:graduate` (add explicit route) |
 

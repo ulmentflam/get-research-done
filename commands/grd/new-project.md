@@ -953,7 +953,7 @@ Present completion with next steps:
 
 **Phase 1: [Phase Name]** — [Goal from ROADMAP.md]
 
-/grd:discuss-phase 1 — gather context and clarify approach
+/grd:scope-experiment 1 — gather context and clarify approach
 
 <sub>/clear first → fresh context window</sub>
 
@@ -1001,7 +1001,7 @@ Present completion with next steps:
 - [ ] ROADMAP.md created with phases, requirement mappings, success criteria
 - [ ] STATE.md initialized
 - [ ] REQUIREMENTS.md traceability updated
-- [ ] User knows next step is `/grd:discuss-phase 1`
+- [ ] User knows next step is `/grd:scope-experiment 1`
 
 **Atomic commits:** Each phase commits its artifacts immediately. If context is lost, artifacts persist.
 

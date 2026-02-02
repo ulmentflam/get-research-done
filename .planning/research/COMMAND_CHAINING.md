@@ -181,7 +181,7 @@ From `execute-phase.md`:
 
 **Phase {Z+1}: {Name}** -- {Goal from ROADMAP.md}
 
-/grd:discuss-phase {Z+1} -- gather context and clarify approach
+/grd:scope-experiment {Z+1} -- gather context and clarify approach
 
 <sub>/clear first --> fresh context window</sub>
 

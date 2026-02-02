@@ -455,7 +455,7 @@ Exit skill and invoke SlashCommand("/grd:design-experiment [X+1]")
 ---
 
 **Also available:**
-- `/grd:discuss-phase [X+1]` — gather context first
+- `/grd:scope-experiment [X+1]` — gather context first
 - `/grd:research-phase [X+1]` — investigate unknowns
 - Review roadmap
 

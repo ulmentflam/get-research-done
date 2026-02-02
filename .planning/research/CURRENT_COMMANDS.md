@@ -16,13 +16,13 @@
 | 7 | `debug` | Systematic debugging with persistent state | `.planning/debug/*.md` | None | Fix now, plan fix, manual fix |
 | 8 | `discuss-phase` | Gather phase context through questioning | `{phase}-CONTEXT.md` | STATE.md, ROADMAP.md | `/grd:research-phase` or `/grd:design-experiment` |
 | 9 | `evaluate` | Human evaluation gate (ML Phase 5) | `DECISION.md`, `decision_log.md` | `SCORECARD.json` | Seal, Iterate, Archive |
-| 10 | `execute-phase` | Execute all plans in a phase | `*-SUMMARY.md`, `*-VERIFICATION.md` | PLAN.md files, ROADMAP.md | `/grd:discuss-phase {Z+1}` or `/grd:audit-milestone` |
+| 10 | `execute-phase` | Execute all plans in a phase | `*-SUMMARY.md`, `*-VERIFICATION.md` | PLAN.md files, ROADMAP.md | `/grd:scope-experiment {Z+1}` or `/grd:audit-milestone` |
 | 11 | `explore` | Analyze data for ML projects | `.planning/DATA_REPORT.md` | PROJECT.md | `/grd:architect` |
 | 12 | `graduate` | Graduate notebook to production script | `src/experiments/*.py` | Notebook with PROCEED verdict | Review script, add tests |
 | 13 | `help` | Show command reference | None | None | None |
 | 14 | `insert-phase` | Insert decimal phase (e.g., 7.1) | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:design-experiment {N.M}` |
 | 15 | `insights` | Generate plain English data insights | `DATA_REPORT.md`, `INSIGHTS_SUMMARY.md` | PROJECT.md | `/grd:architect` |
-| 16 | `list-phase-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:discuss-phase`, `/grd:design-experiment` |
+| 16 | `list-phase-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:scope-experiment`, `/grd:design-experiment` |
 | 17 | `map-codebase` | Analyze existing codebase | `.planning/codebase/*.md` (7 files) | Existing code files | `/grd:new-project` |
 | 18 | `new-project` | Initialize new project | PROJECT.md, config.json, research/, REQUIREMENTS.md, ROADMAP.md, STATE.md | None | `/grd:design-experiment 1` |
 | 19 | `new-study` | Start new research study | HYPOTHESES.md, STUDY_PROTOCOL.md | PROJECT.md, STATE.md | `/grd:design-experiment {N}` |
@@ -57,7 +57,7 @@ v             v
 /grd:map-codebase   (brownfield)
        |
        v
-/grd:discuss-phase 1  (optional)
+/grd:scope-experiment 1  (optional)
        |
        v
 /grd:design-experiment 1
@@ -71,7 +71,7 @@ v             v
        |     /grd:run-experiment 1 --gaps-only
        |
        v
-/grd:discuss-phase 2  OR  /grd:design-experiment 2
+/grd:scope-experiment 2  OR  /grd:design-experiment 2
        |
        v
    ... repeat ...

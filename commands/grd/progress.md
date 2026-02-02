@@ -162,7 +162,7 @@ Read its `<objective>` section.
 
 **{phase}-{plan}: [Plan Name]** — [objective summary from PLAN.md]
 
-`/grd:execute-phase {phase}`
+`/grd:run-experiment {phase}`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -201,7 +201,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 
 **Phase {N}: {Name}** — {Goal from ROADMAP.md}
 
-`/grd:discuss-phase {phase}` — gather context and clarify approach
+`/grd:scope-experiment {phase}` — gather context and clarify approach
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -234,8 +234,8 @@ UAT.md exists with gaps (diagnosed issues). User needs to plan fixes.
 ---
 
 **Also available:**
-- `/grd:execute-phase {phase}` — execute phase plans
-- `/grd:verify-work {phase}` — run more UAT testing
+- `/grd:run-experiment {phase}` — execute phase plans
+- `/grd:validate-results {phase}` — run more UAT testing
 
 ---
 ```
@@ -274,7 +274,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 
 **Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
 
-`/grd:discuss-phase {Z+1}` — gather context and clarify approach
+`/grd:scope-experiment {Z+1}` — gather context and clarify approach
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -282,7 +282,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 
 **Also available:**
 - `/grd:design-experiment {Z+1}` — skip discussion, plan directly
-- `/grd:verify-work {Z}` — user acceptance test before continuing
+- `/grd:validate-results {Z}` — user acceptance test before continuing
 
 ---
 ```
@@ -309,7 +309,7 @@ All {N} phases finished!
 ---
 
 **Also available:**
-- `/grd:verify-work` — user acceptance test before completing milestone
+- `/grd:validate-results` — user acceptance test before completing milestone
 
 ---
 ```
@@ -358,7 +358,7 @@ Ready to plan the next milestone.
 - [ ] Rich context provided (recent work, decisions, issues)
 - [ ] Current position clear with visual progress
 - [ ] What's next clearly explained
-- [ ] Smart routing: /grd:execute-phase if plans exist, /grd:design-experiment if not
+- [ ] Smart routing: /grd:run-experiment if plans exist, /grd:design-experiment if not
 - [ ] User confirms before any action
 - [ ] Seamless handoff to appropriate gsd command
       </success_criteria>

@@ -183,7 +183,7 @@ What would you like to do?
    OR
 1. Execute phase (/grd:run-experiment {phase})
    OR
-1. Discuss Phase 3 context (/grd:discuss-phase 3) [if CONTEXT.md missing]
+1. Discuss Phase 3 context (/grd:scope-experiment 3) [if CONTEXT.md missing]
    OR
 1. Plan Phase 3 (/grd:design-experiment 3) [if CONTEXT.md exists or discuss option declined]
 
@@ -237,7 +237,7 @@ Based on user selection, route to appropriate workflow:
   ---
 
   **Also available:**
-  - `/grd:discuss-phase [N]` — gather context first
+  - `/grd:scope-experiment [N]` — gather context first
   - `/grd:research-phase [N]` — investigate unknowns
 
   ---

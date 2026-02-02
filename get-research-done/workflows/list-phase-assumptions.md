@@ -153,7 +153,7 @@ Present next steps:
 
 ```
 What's next?
-1. Discuss context (/grd:discuss-phase ${PHASE}) - Let me ask you questions to build comprehensive context
+1. Discuss context (/grd:scope-experiment ${PHASE}) - Let me ask you questions to build comprehensive context
 2. Plan this phase (/grd:design-experiment ${PHASE}) - Create detailed execution plans
 3. Re-examine assumptions - I'll analyze again with your corrections
 4. Done for now

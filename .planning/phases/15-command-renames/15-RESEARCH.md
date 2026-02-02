@@ -244,7 +244,7 @@ Pre-research analysis found 205 occurrences across 37 files:
 |---------|------------------|
 | /grd:design-experiment | ~28 |
 | /grd:run-experiment | ~25 |
-| /grd:discuss-phase | ~15 |
+| /grd:scope-experiment | ~15 |
 | /grd:verify-work | ~20 |
 | /grd:research-phase | ~12 |
 | /grd:list-phase-assumptions | ~8 |

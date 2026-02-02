@@ -24,7 +24,7 @@ Your job: Answer "What do I need to know to PLAN this phase well?" Produce a sin
 </role>
 
 <upstream_input>
-**CONTEXT.md** (if exists) — User decisions from `/grd:discuss-phase`
+**CONTEXT.md** (if exists) — User decisions from `/grd:scope-experiment`
 
 | Section | How You Use It |
 |---------|----------------|
@@ -448,7 +448,7 @@ Orchestrator provides:
 PADDED_PHASE=$(printf "%02d" ${PHASE} 2>/dev/null || echo "${PHASE}")
 PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE}-* 2>/dev/null | head -1)
 
-# Read CONTEXT.md if exists (from /grd:discuss-phase)
+# Read CONTEXT.md if exists (from /grd:scope-experiment)
 cat "${PHASE_DIR}"/*-CONTEXT.md 2>/dev/null
 
 # Check if planning docs should be committed (default: true)

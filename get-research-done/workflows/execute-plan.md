@@ -1783,7 +1783,7 @@ All {Y} plans finished.
 
 **Also available:**
 - `/grd:validate-results {Z}` — manual acceptance testing before continuing
-- `/grd:discuss-phase {Z+1}` — gather context first
+- `/grd:scope-experiment {Z+1}` — gather context first
 - Review phase accomplishments before continuing
 
 ---

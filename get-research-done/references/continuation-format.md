@@ -98,7 +98,7 @@ Add note that this is the last plan and what comes after:
 ---
 
 **Also available:**
-- `/grd:discuss-phase 2` — gather context first
+- `/grd:scope-experiment 2` — gather context first
 - `/grd:research-phase 2` — investigate unknowns
 - Review roadmap
 
@@ -127,7 +127,7 @@ Show completion status before next action:
 ---
 
 **Also available:**
-- `/grd:discuss-phase 3` — gather context first
+- `/grd:scope-experiment 3` — gather context first
 - `/grd:research-phase 3` — investigate unknowns
 - Review what Phase 2 built
 
@@ -147,7 +147,7 @@ When there's no clear primary action:
 
 **To plan directly:** `/grd:design-experiment 3`
 
-**To discuss context first:** `/grd:discuss-phase 3`
+**To discuss context first:** `/grd:scope-experiment 3`
 
 **To research unknowns:** `/grd:research-phase 3`
 
