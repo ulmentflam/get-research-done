@@ -8,6 +8,7 @@ commands.html
 # Local test installs
 .claude/
 .opencode/
+.gemini/
 
 # Python
 __pycache__/
