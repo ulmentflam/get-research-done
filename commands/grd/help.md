@@ -22,8 +22,8 @@ Output ONLY the reference content below. Do NOT add:
 ## Quick Start
 
 1. `/grd:new-project` - Initialize project (includes research, requirements, roadmap)
-2. `/grd:design-experiment 1` - Create detailed plan for first phase
-3. `/grd:run-experiment 1` - Execute the phase
+2. `/grd:design-experiment 1` - Create detailed plan for first experiment
+3. `/grd:run-experiment 1` - Execute the experiment
 
 ## Staying Updated
 
@@ -70,12 +70,12 @@ Map an existing codebase for brownfield projects.
 
 Usage: `/grd:map-codebase`
 
-### Phase Planning
+### Experiment Planning
 
 **`/grd:scope-experiment <number>`**
-Help articulate your vision for a phase before planning.
+Capture your vision for an experiment before planning.
 
-- Captures how you imagine this phase working
+- Captures how you imagine this experiment working
 - Creates CONTEXT.md with your vision, essentials, and boundaries
 - Use when you have ideas about how something should look/feel
 
@@ -92,33 +92,33 @@ Comprehensive ecosystem research for niche/complex domains.
 Usage: `/grd:literature-review 3`
 
 **`/grd:list-experiment-assumptions <number>`**
-See what Claude is planning to do before it starts.
+See what Claude is planning to do for an experiment.
 
-- Shows Claude's intended approach for a phase
+- Shows Claude's intended approach for an experiment
 - Lets you course-correct if Claude misunderstood your vision
 - No files created - conversational output only
 
 Usage: `/grd:list-experiment-assumptions 3`
 
 **`/grd:design-experiment <number>`**
-Create detailed execution plan for a specific phase.
+Create detailed execution plan for an experiment.
 
 - Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
-- Breaks phase into concrete, actionable tasks
+- Breaks experiment into concrete, actionable tasks
 - Includes verification criteria and success measures
-- Multiple plans per phase supported (XX-01, XX-02, etc.)
+- Multiple plans per experiment supported (XX-01, XX-02, etc.)
 
 Usage: `/grd:design-experiment 1`
 Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Execution
 
-**`/grd:run-experiment <phase-number>`**
-Execute all plans in a phase.
+**`/grd:run-experiment <experiment-number>`**
+Execute all plans in an experiment.
 
 - Groups plans by wave (from frontmatter), executes waves sequentially
 - Plans within each wave run in parallel via Task tool
-- Verifies phase goal after all plans complete
+- Verifies experiment goal after all plans complete
 - Updates REQUIREMENTS.md, ROADMAP.md, STATE.md
 
 Usage: `/grd:run-experiment 5`
@@ -138,19 +138,19 @@ Use when you know exactly what to do and the task is small enough to not need re
 Usage: `/grd:quick`
 Result: Creates `.planning/quick/NNN-slug/PLAN.md`, `.planning/quick/NNN-slug/SUMMARY.md`
 
-### Roadmap Management
+### Study Management
 
 **`/grd:add-experiment <description>`**
 Add new experiment to end of current study.
 
 - Appends to ROADMAP.md
 - Uses next sequential number
-- Updates phase directory structure
+- Updates experiment directory structure
 
 Usage: `/grd:add-experiment "Add feature ablation experiment"`
 
 **`/grd:insert-experiment <after> <description>`**
-Insert urgent work as decimal experiment between existing experiments.
+Insert urgent experiment between existing experiments.
 
 - Creates intermediate experiment (e.g., 7.1 between 7 and 8)
 - Useful for discovered work that must happen mid-study
@@ -169,8 +169,6 @@ Remove a future experiment and renumber subsequent experiments.
 
 Usage: `/grd:remove-experiment 17`
 Result: Experiment 17 deleted, experiments 18-20 become 17-19
-
-### Study Management
 
 **`/grd:new-study <name>`**
 Start a new research study through unified flow.
@@ -288,37 +286,15 @@ Usage: `/grd:check-todos models`
 
 ### User Acceptance Testing
 
-**`/grd:validate-results [phase]`**
-Validate built features through conversational UAT.
+**`/grd:validate-results [experiment]`**
+Validate experiment results through conversational UAT.
 
 - Extracts testable deliverables from SUMMARY.md files
 - Presents tests one at a time (yes/no responses)
 - Automatically diagnoses failures and creates fix plans
 - Ready for re-execution if issues found
 
-Usage: `/grd:verify-work 3`
-
-### Study Auditing
-
-**`/grd:audit-study [version]`**
-Audit study completion against original intent.
-
-- Reads all phase VERIFICATION.md files
-- Checks requirements coverage
-- Spawns integration checker for cross-phase wiring
-- Creates STUDY-AUDIT.md with gaps and tech debt
-
-Usage: `/grd:audit-study`
-
-**`/grd:plan-study-gaps`**
-Create phases to close gaps identified by audit.
-
-- Reads STUDY-AUDIT.md and groups gaps into phases
-- Prioritizes by requirement priority (must/should/nice)
-- Adds gap closure phases to ROADMAP.md
-- Ready for `/grd:design-experiment` on new phases
-
-Usage: `/grd:plan-study-gaps`
+Usage: `/grd:validate-results 3`
 
 ### Configuration
 
@@ -438,9 +414,9 @@ Example config:
 ```
 /grd:new-project        # Unified flow: questioning → research → requirements → roadmap
 /clear
-/grd:design-experiment 1       # Create plans for first phase
+/grd:design-experiment 1       # Create plans for first experiment
 /clear
-/grd:run-experiment 1    # Execute all plans in phase
+/grd:run-experiment 1    # Execute all plans in experiment
 ```
 
 **Resuming work after a break:**
