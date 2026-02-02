@@ -188,7 +188,7 @@ From `execute-phase.md`:
 ---
 
 **Also available:**
-- /grd:plan-phase {Z+1} -- skip discussion, plan directly
+- /grd:design-experiment {Z+1} -- skip discussion, plan directly
 - /grd:verify-work {Z} -- manual acceptance testing before continuing
 ```
 

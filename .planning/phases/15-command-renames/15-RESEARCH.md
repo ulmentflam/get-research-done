@@ -60,12 +60,12 @@ mv .claude/commands/grd/plan-phase.md .claude/commands/grd/design-experiment.md
 mv commands/grd/plan-phase.md commands/grd/design-experiment.md
 
 # 2. Update frontmatter (in both locations)
-sed -i '' 's/name: grd:plan-phase/name: grd:design-experiment/' .claude/commands/grd/design-experiment.md
-sed -i '' 's/name: grd:plan-phase/name: grd:design-experiment/' commands/grd/design-experiment.md
+sed -i '' 's/name: grd:design-experiment/name: grd:design-experiment/' .claude/commands/grd/design-experiment.md
+sed -i '' 's/name: grd:design-experiment/name: grd:design-experiment/' commands/grd/design-experiment.md
 
 # 3. Update all cross-references
-find .claude/ -name "*.md" -exec sed -i '' 's|/grd:plan-phase|/grd:design-experiment|g' {} +
-find commands/ -name "*.md" -exec sed -i '' 's|/grd:plan-phase|/grd:design-experiment|g' {} +
+find .claude/ -name "*.md" -exec sed -i '' 's|/grd:design-experiment|/grd:design-experiment|g' {} +
+find commands/ -name "*.md" -exec sed -i '' 's|/grd:design-experiment|/grd:design-experiment|g' {} +
 
 # 4. Verify no orphans
 grep -r "plan-phase" .claude/ commands/
@@ -81,10 +81,10 @@ The codebase uses several patterns for command references:
 
 | Pattern | Example | Files Found In |
 |---------|---------|----------------|
-| `/grd:command` | `/grd:plan-phase 1` | help.md, all command files |
-| `grd:command` (in frontmatter) | `name: grd:plan-phase` | command file frontmatter |
-| Spawned by references | `Spawned by /grd:plan-phase` | agent files |
-| Suggestion text | `Run /grd:plan-phase` | workflow files |
+| `/grd:command` | `/grd:design-experiment 1` | help.md, all command files |
+| `grd:command` (in frontmatter) | `name: grd:design-experiment` | command file frontmatter |
+| Spawned by references | `Spawned by /grd:design-experiment` | agent files |
+| Suggestion text | `Run /grd:design-experiment` | workflow files |
 
 ### Anti-Patterns to Avoid
 
@@ -242,7 +242,7 @@ Pre-research analysis found 205 occurrences across 37 files:
 
 | Command | Approx References |
 |---------|------------------|
-| /grd:plan-phase | ~28 |
+| /grd:design-experiment | ~28 |
 | /grd:execute-phase | ~25 |
 | /grd:discuss-phase | ~15 |
 | /grd:verify-work | ~20 |

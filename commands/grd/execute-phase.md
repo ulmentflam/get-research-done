@@ -108,7 +108,7 @@ Phase: $ARGUMENTS
    - Route by status:
      - `passed` → continue to step 8
      - `human_needed` → present items, get approval or feedback
-     - `gaps_found` → present gaps, offer `/grd:plan-phase {X} --gaps`
+     - `gaps_found` → present gaps, offer `/grd:design-experiment {X} --gaps`
 
 8. **Update roadmap and state**
    - Update ROADMAP.md, STATE.md
@@ -169,7 +169,7 @@ Goal verified ✓
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- /grd:plan-phase {Z+1} — skip discussion, plan directly
+- /grd:design-experiment {Z+1} — skip discussion, plan directly
 - /grd:verify-work {Z} — manual acceptance testing before continuing
 
 ───────────────────────────────────────────────────────────────
@@ -228,7 +228,7 @@ Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
 
 **Plan gap closure** — create additional plans to complete the phase
 
-/grd:plan-phase {Z} --gaps
+/grd:design-experiment {Z} --gaps
 
 <sub>/clear first → fresh context window</sub>
 
@@ -242,7 +242,7 @@ Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
 
 ---
 
-After user runs /grd:plan-phase {Z} --gaps:
+After user runs /grd:design-experiment {Z} --gaps:
 1. Planner reads VERIFICATION.md gaps
 2. Creates plans 04, 05, etc. to close gaps
 3. User runs /grd:execute-phase {Z} again

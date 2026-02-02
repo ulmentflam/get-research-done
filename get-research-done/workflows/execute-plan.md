@@ -1775,7 +1775,7 @@ All {Y} plans finished.
 
 **Phase {Z+1}: {Next Phase Name}** — {Goal from ROADMAP.md}
 
-`/grd:plan-phase {Z+1}`
+`/grd:design-experiment {Z+1}`
 
 <sub>`/clear` first → fresh context window</sub>
 

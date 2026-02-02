@@ -23,7 +23,7 @@ This is the most leveraged moment in any project. Deep questioning here means be
 - `.planning/ROADMAP.md` — phase structure
 - `.planning/STATE.md` — project memory
 
-**After this command:** Run `/grd:plan-phase 1` to start execution.
+**After this command:** Run `/grd:design-experiment 1` to start execution.
 
 </objective>
 
@@ -960,7 +960,7 @@ Present completion with next steps:
 ---
 
 **Also available:**
-- /grd:plan-phase 1 — skip discussion, plan directly
+- /grd:design-experiment 1 — skip discussion, plan directly
 
 ───────────────────────────────────────────────────────────────
 ```

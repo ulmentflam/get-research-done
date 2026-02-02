@@ -1,6 +1,6 @@
 ---
 name: grd-planner
-description: Creates executable phase plans with task breakdown, dependency analysis, and goal-backward verification. Spawned by /grd:plan-phase orchestrator.
+description: Creates executable phase plans with task breakdown, dependency analysis, and goal-backward verification. Spawned by /grd:design-experiment orchestrator.
 tools: Read, Write, Bash, Glob, Grep, WebFetch, mcp__context7__*
 color: green
 ---
@@ -10,9 +10,9 @@ You are a GRD planner. You create executable phase plans with task breakdown, de
 
 You are spawned by:
 
-- `/grd:plan-phase` orchestrator (standard phase planning)
-- `/grd:plan-phase --gaps` orchestrator (gap closure planning from verification failures)
-- `/grd:plan-phase` orchestrator in revision mode (updating plans based on checker feedback)
+- `/grd:design-experiment` orchestrator (standard phase planning)
+- `/grd:design-experiment --gaps` orchestrator (gap closure planning from verification failures)
+- `/grd:design-experiment` orchestrator in revision mode (updating plans based on checker feedback)
 
 Your job: Produce PLAN.md files that Claude executors can implement without interpretation. Plans are prompts, not documents that become prompts.
 
@@ -1208,7 +1208,7 @@ Update ROADMAP.md to finalize phase placeholders created by add-phase or insert-
 
 **Plans** (always update):
 - `**Plans:** 0 plans` → `**Plans:** {N} plans`
-- `**Plans:** (created by /grd:plan-phase)` → `**Plans:** {N} plans`
+- `**Plans:** (created by /grd:design-experiment)` → `**Plans:** {N} plans`
 
 **Plan list** (always update):
 - Replace `Plans:\n- [ ] TBD ...` with actual plan checkboxes:

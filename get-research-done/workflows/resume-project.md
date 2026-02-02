@@ -185,7 +185,7 @@ What would you like to do?
    OR
 1. Discuss Phase 3 context (/grd:discuss-phase 3) [if CONTEXT.md missing]
    OR
-1. Plan Phase 3 (/grd:plan-phase 3) [if CONTEXT.md exists or discuss option declined]
+1. Plan Phase 3 (/grd:design-experiment 3) [if CONTEXT.md exists or discuss option declined]
 
 [Secondary options:]
 2. Review current phase status
@@ -230,7 +230,7 @@ Based on user selection, route to appropriate workflow:
 
   **Phase [N]: [Name]** — [Goal from ROADMAP.md]
 
-  `/grd:plan-phase [phase-number]`
+  `/grd:design-experiment [phase-number]`
 
   <sub>`/clear` first → fresh context window</sub>
 

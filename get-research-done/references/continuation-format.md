@@ -91,7 +91,7 @@ Add note that this is the last plan and what comes after:
 
 **Phase 2: Authentication** — JWT login flow with refresh tokens
 
-`/grd:plan-phase 2`
+`/grd:design-experiment 2`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -120,7 +120,7 @@ Show completion status before next action:
 
 **Phase 3: Core Features** — User dashboard, settings, and data export
 
-`/grd:plan-phase 3`
+`/grd:design-experiment 3`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -145,7 +145,7 @@ When there's no clear primary action:
 
 **Phase 3: Core Features** — User dashboard, settings, and data export
 
-**To plan directly:** `/grd:plan-phase 3`
+**To plan directly:** `/grd:design-experiment 3`
 
 **To discuss context first:** `/grd:discuss-phase 3`
 
@@ -222,7 +222,7 @@ User has no idea what 02-03 is about.
 ### Don't: Missing /clear explanation
 
 ```
-`/grd:plan-phase 3`
+`/grd:design-experiment 3`
 
 Run /clear first.
 ```
@@ -242,7 +242,7 @@ Sounds like an afterthought. Use "Also available:" instead.
 
 ```
 ```
-/grd:plan-phase 3
+/grd:design-experiment 3
 ```
 ```
 

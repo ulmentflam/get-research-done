@@ -117,13 +117,13 @@ Display:
 | Plan Checker         | {On/Off} |
 | Execution Verifier   | {On/Off} |
 
-These settings apply to future /grd:plan-phase and /grd:execute-phase runs.
+These settings apply to future /grd:design-experiment and /grd:execute-phase runs.
 
 Quick commands:
 - /grd:set-profile <profile> — switch model profile
-- /grd:plan-phase --research — force research
-- /grd:plan-phase --skip-research — skip research
-- /grd:plan-phase --skip-verify — skip plan check
+- /grd:design-experiment --research — force research
+- /grd:design-experiment --skip-research — skip research
+- /grd:design-experiment --skip-verify — skip plan check
 ```
 
 </process>

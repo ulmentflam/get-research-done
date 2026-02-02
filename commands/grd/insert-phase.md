@@ -143,7 +143,7 @@ Insert the new phase entry into the roadmap:
    **Plans:** 0 plans
 
    Plans:
-   - [ ] TBD (run /grd:plan-phase {decimal_phase} to break down)
+   - [ ] TBD (run /grd:design-experiment {decimal_phase} to break down)
 
    **Details:**
    [To be added during planning]
@@ -189,7 +189,7 @@ Project state updated: .planning/STATE.md
 
 **Phase {decimal_phase}: {description}** — urgent insertion
 
-`/grd:plan-phase {decimal_phase}`
+`/grd:design-experiment {decimal_phase}`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -211,7 +211,7 @@ Project state updated: .planning/STATE.md
 - Don't insert before Phase 1 (decimal 0.1 makes no sense)
 - Don't renumber existing phases
 - Don't modify the target phase content
-- Don't create plans yet (that's /grd:plan-phase)
+- Don't create plans yet (that's /grd:design-experiment)
 - Don't commit changes (user decides when to commit)
   </anti_patterns>
 

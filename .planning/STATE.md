@@ -91,7 +91,7 @@ Last session: 2026-02-01
 Stopped at: Roadmap created for v1.2 milestone
 Resume file: None
 
-Next step: `/grd:plan-phase 15` to plan Command Renames phase
+Next step: `/grd:design-experiment 15` to plan Command Renames phase
 
 ---
 *State initialized: 2026-01-27*

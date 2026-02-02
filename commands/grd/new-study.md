@@ -22,7 +22,7 @@ This is the brownfield equivalent of new-project. The project exists, PROJECT.md
 - `.planning/STUDY_PROTOCOL.md` — experiment structure with methods and expected outcomes
 - `.planning/STATE.md` — reset for new study
 
-**After this command:** Run `/grd:plan-phase [N]` to start experiment execution.
+**After this command:** Run `/grd:design-experiment [N]` to start experiment execution.
 </objective>
 
 <execution_context>
@@ -688,7 +688,7 @@ Present completion with next steps:
 ---
 
 **Also available:**
-- `/grd:plan-phase [N]` — skip discussion, plan directly
+- `/grd:design-experiment [N]` — skip discussion, plan directly
 
 ───────────────────────────────────────────────────────────────
 ```

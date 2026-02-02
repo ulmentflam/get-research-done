@@ -213,7 +213,7 @@ Confirm: "Committed: docs: start work on todo - [title]"
 <anti_patterns>
 - Don't delete todos — move to done/ when work begins
 - Don't start work without moving to done/ first
-- Don't create plans from this command — route to /grd:plan-phase or /grd:add-phase
+- Don't create plans from this command — route to /grd:design-experiment or /grd:add-phase
 </anti_patterns>
 
 <success_criteria>

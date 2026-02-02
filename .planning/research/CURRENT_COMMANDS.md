@@ -7,33 +7,33 @@
 
 | # | Command | Purpose | Creates | Requires | Next Up Suggestions |
 |---|---------|---------|---------|----------|---------------------|
-| 1 | `add-phase` | Add phase to end of current milestone | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:plan-phase {N}` |
+| 1 | `add-phase` | Add phase to end of current milestone | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:design-experiment {N}` |
 | 2 | `add-todo` | Capture idea/task as todo | `.planning/todos/pending/*.md` | STATE.md (optional) | Continue work, add another, `/grd:check-todos` |
 | 3 | `architect` | Synthesize testable hypotheses (ML Phase 3) | `.planning/OBJECTIVE.md` | PROJECT.md, DATA_REPORT.md (optional) | `/grd:research` |
 | 4 | `audit-study` | Audit study completion against hypotheses | `v{version}-STUDY-AUDIT.md` | STUDY_PROTOCOL.md, HYPOTHESES.md, VERIFICATION.md files | `/grd:complete-study` or `/grd:plan-study-gaps` |
 | 5 | `check-todos` | List and work on pending todos | Moves todo to `done/` | `.planning/todos/pending/` | Work on it, add to phase, brainstorm |
 | 6 | `complete-study` | Archive completed study | `studies/v{version}-*.md` | STUDY_PROTOCOL.md, HYPOTHESES.md, v{version}-STUDY-AUDIT.md | `/grd:new-study` |
 | 7 | `debug` | Systematic debugging with persistent state | `.planning/debug/*.md` | None | Fix now, plan fix, manual fix |
-| 8 | `discuss-phase` | Gather phase context through questioning | `{phase}-CONTEXT.md` | STATE.md, ROADMAP.md | `/grd:research-phase` or `/grd:plan-phase` |
+| 8 | `discuss-phase` | Gather phase context through questioning | `{phase}-CONTEXT.md` | STATE.md, ROADMAP.md | `/grd:research-phase` or `/grd:design-experiment` |
 | 9 | `evaluate` | Human evaluation gate (ML Phase 5) | `DECISION.md`, `decision_log.md` | `SCORECARD.json` | Seal, Iterate, Archive |
 | 10 | `execute-phase` | Execute all plans in a phase | `*-SUMMARY.md`, `*-VERIFICATION.md` | PLAN.md files, ROADMAP.md | `/grd:discuss-phase {Z+1}` or `/grd:audit-milestone` |
 | 11 | `explore` | Analyze data for ML projects | `.planning/DATA_REPORT.md` | PROJECT.md | `/grd:architect` |
 | 12 | `graduate` | Graduate notebook to production script | `src/experiments/*.py` | Notebook with PROCEED verdict | Review script, add tests |
 | 13 | `help` | Show command reference | None | None | None |
-| 14 | `insert-phase` | Insert decimal phase (e.g., 7.1) | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:plan-phase {N.M}` |
+| 14 | `insert-phase` | Insert decimal phase (e.g., 7.1) | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:design-experiment {N.M}` |
 | 15 | `insights` | Generate plain English data insights | `DATA_REPORT.md`, `INSIGHTS_SUMMARY.md` | PROJECT.md | `/grd:architect` |
-| 16 | `list-phase-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:discuss-phase`, `/grd:plan-phase` |
+| 16 | `list-phase-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:discuss-phase`, `/grd:design-experiment` |
 | 17 | `map-codebase` | Analyze existing codebase | `.planning/codebase/*.md` (7 files) | Existing code files | `/grd:new-project` |
-| 18 | `new-project` | Initialize new project | PROJECT.md, config.json, research/, REQUIREMENTS.md, ROADMAP.md, STATE.md | None | `/grd:plan-phase 1` |
-| 19 | `new-study` | Start new research study | HYPOTHESES.md, STUDY_PROTOCOL.md | PROJECT.md, STATE.md | `/grd:plan-phase {N}` |
+| 18 | `new-project` | Initialize new project | PROJECT.md, config.json, research/, REQUIREMENTS.md, ROADMAP.md, STATE.md | None | `/grd:design-experiment 1` |
+| 19 | `new-study` | Start new research study | HYPOTHESES.md, STUDY_PROTOCOL.md | PROJECT.md, STATE.md | `/grd:design-experiment {N}` |
 | 20 | `pause-work` | Create context handoff | `.continue-here.md` | STATE.md | `/grd:resume-work` |
 | 21 | `plan-phase` | Create detailed execution plan | `*-PLAN.md`, `*-RESEARCH.md` | ROADMAP.md, STATE.md | `/grd:execute-phase` |
-| 22 | `plan-study-gaps` | Create experiments to close audit gaps | STUDY_PROTOCOL.md update | v{version}-STUDY-AUDIT.md | `/grd:plan-phase {N}` |
+| 22 | `plan-study-gaps` | Create experiments to close audit gaps | STUDY_PROTOCOL.md update | v{version}-STUDY-AUDIT.md | `/grd:design-experiment {N}` |
 | 23 | `progress` | Check project status and route | None | STATE.md, ROADMAP.md | Context-dependent routing |
 | 24 | `quick-explore` | Fast EDA console summary | `DATA_REPORT.md` (quick mode) | PROJECT.md | `/grd:explore` or `/grd:architect` |
 | 25 | `quick` | Execute ad-hoc task with GRD guarantees | `.planning/quick/NNN-*/PLAN.md, SUMMARY.md` | ROADMAP.md | `/grd:quick` |
 | 26 | `remove-phase` | Remove future phase and renumber | ROADMAP.md update, directory deletion | ROADMAP.md, STATE.md | `/grd:progress` |
-| 27 | `research-phase` | Research how to implement a phase (standalone) | `{phase}-RESEARCH.md` | ROADMAP.md | `/grd:plan-phase` |
+| 27 | `research-phase` | Research how to implement a phase (standalone) | `{phase}-RESEARCH.md` | ROADMAP.md | `/grd:design-experiment` |
 | 28 | `research` | Implement ML experiments (Phase 4) | `experiments/run_NNN/` | OBJECTIVE.md | Review verdict, `/grd:evaluate` |
 | 29 | `resume-work` | Resume from previous session | None | STATE.md | Context-dependent routing |
 | 30 | `set-profile` | Switch model profile | config.json update | config.json | None |
@@ -60,7 +60,7 @@ v             v
 /grd:discuss-phase 1  (optional)
        |
        v
-/grd:plan-phase 1
+/grd:design-experiment 1
        |
        v
 /grd:execute-phase 1
@@ -71,7 +71,7 @@ v             v
        |     /grd:execute-phase 1 --gaps-only
        |
        v
-/grd:discuss-phase 2  OR  /grd:plan-phase 2
+/grd:discuss-phase 2  OR  /grd:design-experiment 2
        |
        v
    ... repeat ...
@@ -113,7 +113,7 @@ v             v
 /grd:new-study
        |
        v
-/grd:plan-phase N
+/grd:design-experiment N
        |
        v
 /grd:execute-phase N
@@ -128,7 +128,7 @@ v             v
        +---> gaps_found --> /grd:plan-study-gaps
                                     |
                                     v
-                           /grd:plan-phase N
+                           /grd:design-experiment N
                                     |
                                     v
                            /grd:execute-phase N

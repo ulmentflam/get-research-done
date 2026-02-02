@@ -24,7 +24,7 @@ Your job: Transform requirements into a phase structure that delivers the projec
 </role>
 
 <downstream_consumer>
-Your ROADMAP.md is consumed by `/grd:plan-phase` which uses it to:
+Your ROADMAP.md is consumed by `/grd:design-experiment` which uses it to:
 
 | Output | How Plan-Phase Uses It |
 |--------|------------------------|
@@ -515,7 +515,7 @@ After incorporating user feedback and updating files:
 
 ### Ready for Planning
 
-Next: `/grd:plan-phase 1`
+Next: `/grd:design-experiment 1`
 ```
 
 ## Roadmap Blocked

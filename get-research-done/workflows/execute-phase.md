@@ -141,7 +141,7 @@ waves = {
 }
 ```
 
-**No dependency analysis needed.** Wave numbers are pre-computed during `/grd:plan-phase`.
+**No dependency analysis needed.** Wave numbers are pre-computed during `/grd:design-experiment`.
 
 Report wave structure with context:
 ```
@@ -427,7 +427,7 @@ grep "^status:" "$PHASE_DIR"/*-VERIFICATION.md | cut -d: -f2 | tr -d ' '
 |--------|--------|
 | `passed` | Continue to update_roadmap |
 | `human_needed` | Present items to user, get approval or feedback |
-| `gaps_found` | Present gap summary, offer `/grd:plan-phase {phase} --gaps` |
+| `gaps_found` | Present gap summary, offer `/grd:design-experiment {phase} --gaps` |
 
 **If passed:**
 
@@ -474,7 +474,7 @@ Present gaps and offer next command:
 
 **Plan gap closure** — create additional plans to complete the phase
 
-`/grd:plan-phase {X} --gaps`
+`/grd:design-experiment {X} --gaps`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -482,10 +482,10 @@ Present gaps and offer next command:
 
 **Also available:**
 - `cat {phase_dir}/{phase}-VERIFICATION.md` — see full report
-- `/grd:verify-work {X}` — manual testing before planning
+- `/grd:validate-results {X}` — manual testing before planning
 ```
 
-User runs `/grd:plan-phase {X} --gaps` which:
+User runs `/grd:design-experiment {X} --gaps` which:
 1. Reads VERIFICATION.md gaps
 2. Creates additional plans (04, 05, etc.) with `gap_closure: true` to close gaps
 3. User then runs `/grd:execute-phase {X} --gaps-only`
@@ -532,7 +532,7 @@ Present next steps based on milestone status:
 
 **Phase {X+1}: {Name}** — {Goal}
 
-`/grd:plan-phase {X+1}`
+`/grd:design-experiment {X+1}`
 
 <sub>`/clear` first for fresh context</sub>
 ```

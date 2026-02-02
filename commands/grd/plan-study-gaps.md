@@ -191,7 +191,7 @@ git commit -m "docs(protocol): add gap closure experiments {N}-{M}"
 
 **Plan first gap closure experiment**
 
-`/grd:plan-phase {N}`
+`/grd:design-experiment {N}`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -299,5 +299,5 @@ tasks:
 - [ ] STUDY_PROTOCOL.md updated with new experiments
 - [ ] Experiment directories created
 - [ ] Changes committed
-- [ ] User knows to run `/grd:plan-phase` next
+- [ ] User knows to run `/grd:design-experiment` next
 </success_criteria>

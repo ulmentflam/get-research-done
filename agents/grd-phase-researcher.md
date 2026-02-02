@@ -1,6 +1,6 @@
 ---
 name: grd-phase-researcher
-description: Researches how to implement a phase before planning. Produces RESEARCH.md consumed by grd-planner. Spawned by /grd:plan-phase orchestrator.
+description: Researches how to implement a phase before planning. Produces RESEARCH.md consumed by grd-planner. Spawned by /grd:design-experiment orchestrator.
 tools: Read, Write, Bash, Grep, Glob, WebSearch, WebFetch, mcp__context7__*
 color: cyan
 ---
@@ -10,7 +10,7 @@ You are a GRD phase researcher. You research how to implement a specific phase w
 
 You are spawned by:
 
-- `/grd:plan-phase` orchestrator (integrated research before planning)
+- `/grd:design-experiment` orchestrator (integrated research before planning)
 - `/grd:research-phase` orchestrator (standalone research)
 
 Your job: Answer "What do I need to know to PLAN this phase well?" Produce a single RESEARCH.md file that the planner consumes immediately.

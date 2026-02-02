@@ -433,7 +433,7 @@ Next: Phase [X+1] — [Name]
 ⚡ Auto-continuing: Plan Phase [X+1] in detail
 ```
 
-Exit skill and invoke SlashCommand("/grd:plan-phase [X+1]")
+Exit skill and invoke SlashCommand("/grd:design-experiment [X+1]")
 
 </if>
 
@@ -448,7 +448,7 @@ Exit skill and invoke SlashCommand("/grd:plan-phase [X+1]")
 
 **Phase [X+1]: [Name]** — [Goal from ROADMAP.md]
 
-`/grd:plan-phase [X+1]`
+`/grd:design-experiment [X+1]`
 
 <sub>`/clear` first → fresh context window</sub>
 

@@ -185,7 +185,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 **Phase {N}: {Name}** — {Goal from ROADMAP.md}
 <sub>✓ Context gathered, ready to plan</sub>
 
-`/grd:plan-phase {phase-number}`
+`/grd:design-experiment {phase-number}`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -208,7 +208,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 ---
 
 **Also available:**
-- `/grd:plan-phase {phase}` — skip discussion, plan directly
+- `/grd:design-experiment {phase}` — skip discussion, plan directly
 - `/grd:list-phase-assumptions {phase}` — see Claude's assumptions
 
 ---
@@ -227,7 +227,7 @@ UAT.md exists with gaps (diagnosed issues). User needs to plan fixes.
 
 **{phase}-UAT.md** has {N} gaps requiring fixes.
 
-`/grd:plan-phase {phase} --gaps`
+`/grd:design-experiment {phase} --gaps`
 
 <sub>`/clear` first → fresh context window</sub>
 
@@ -281,7 +281,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 ---
 
 **Also available:**
-- `/grd:plan-phase {Z+1}` — skip discussion, plan directly
+- `/grd:design-experiment {Z+1}` — skip discussion, plan directly
 - `/grd:verify-work {Z}` — user acceptance test before continuing
 
 ---
@@ -345,7 +345,7 @@ Ready to plan the next milestone.
 <step name="edge_cases">
 **Handle edge cases:**
 
-- Phase complete but next phase not planned → offer `/grd:plan-phase [next]`
+- Phase complete but next phase not planned → offer `/grd:design-experiment [next]`
 - All work complete → offer milestone completion
 - Blockers present → highlight before offering to continue
 - Handoff file exists → mention it, offer `/grd:resume-work`
@@ -358,7 +358,7 @@ Ready to plan the next milestone.
 - [ ] Rich context provided (recent work, decisions, issues)
 - [ ] Current position clear with visual progress
 - [ ] What's next clearly explained
-- [ ] Smart routing: /grd:execute-phase if plans exist, /grd:plan-phase if not
+- [ ] Smart routing: /grd:execute-phase if plans exist, /grd:design-experiment if not
 - [ ] User confirms before any action
 - [ ] Seamless handoff to appropriate gsd command
       </success_criteria>

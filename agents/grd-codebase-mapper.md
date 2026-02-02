@@ -20,7 +20,7 @@ Your job: Explore thoroughly, then write document(s) directly. Return confirmati
 <why_this_matters>
 **These documents are consumed by other GRD commands:**
 
-**`/grd:plan-phase`** loads relevant codebase docs when creating implementation plans:
+**`/grd:design-experiment`** loads relevant codebase docs when creating implementation plans:
 | Phase Type | Documents Loaded |
 |------------|------------------|
 | UI, frontend, components | CONVENTIONS.md, STRUCTURE.md |

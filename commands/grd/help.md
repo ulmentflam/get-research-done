@@ -22,7 +22,7 @@ Output ONLY the reference content below. Do NOT add:
 ## Quick Start
 
 1. `/grd:new-project` - Initialize project (includes research, requirements, roadmap)
-2. `/grd:plan-phase 1` - Create detailed plan for first phase
+2. `/grd:design-experiment 1` - Create detailed plan for first phase
 3. `/grd:execute-phase 1` - Execute the phase
 
 ## Staying Updated
@@ -36,7 +36,7 @@ npx get-research-done@latest
 ## Core Workflow
 
 ```
-/grd:new-project → /grd:plan-phase → /grd:execute-phase → repeat
+/grd:new-project → /grd:design-experiment → /grd:execute-phase → repeat
 ```
 
 ### Project Initialization
@@ -100,7 +100,7 @@ See what Claude is planning to do before it starts.
 
 Usage: `/grd:list-phase-assumptions 3`
 
-**`/grd:plan-phase <number>`**
+**`/grd:design-experiment <number>`**
 Create detailed execution plan for a specific phase.
 
 - Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
@@ -108,7 +108,7 @@ Create detailed execution plan for a specific phase.
 - Includes verification criteria and success measures
 - Multiple plans per phase supported (XX-01, XX-02, etc.)
 
-Usage: `/grd:plan-phase 1`
+Usage: `/grd:design-experiment 1`
 Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
 
 ### Execution
@@ -208,7 +208,7 @@ Create experiments to close gaps from audit.
 
 - Groups gaps into logical follow-up experiments
 - Adds experiments to STUDY_PROTOCOL.md
-- Ready for `/grd:plan-phase` on new experiments
+- Ready for `/grd:design-experiment` on new experiments
 
 Usage: `/grd:plan-study-gaps`
 
@@ -316,7 +316,7 @@ Create phases to close gaps identified by audit.
 - Reads STUDY-AUDIT.md and groups gaps into phases
 - Prioritizes by requirement priority (must/should/nice)
 - Adds gap closure phases to ROADMAP.md
-- Ready for `/grd:plan-phase` on new phases
+- Ready for `/grd:design-experiment` on new phases
 
 Usage: `/grd:plan-study-gaps`
 
@@ -438,7 +438,7 @@ Example config:
 ```
 /grd:new-project        # Unified flow: questioning → research → requirements → roadmap
 /clear
-/grd:plan-phase 1       # Create plans for first phase
+/grd:design-experiment 1       # Create plans for first phase
 /clear
 /grd:execute-phase 1    # Execute all plans in phase
 ```
@@ -453,7 +453,7 @@ Example config:
 
 ```
 /grd:insert-phase 5 "Critical data preprocessing fix"
-/grd:plan-phase 5.1
+/grd:design-experiment 5.1
 /grd:execute-phase 5.1
 ```
 
