@@ -1,7 +1,7 @@
 <purpose>
 Surface Claude's assumptions about a phase before planning, enabling users to correct misconceptions early.
 
-Key difference from discuss-phase: This is ANALYSIS of what Claude thinks, not INTAKE of what user knows. No file output - purely conversational to prompt discussion.
+Key difference from scope-experiment: This is ANALYSIS of what Claude thinks, not INTAKE of what user knows. No file output - purely conversational to prompt discussion.
 </purpose>
 
 <process>
@@ -14,8 +14,8 @@ Phase number: $ARGUMENTS (required)
 ```
 Error: Phase number required.
 
-Usage: /grd:list-phase-assumptions [phase-number]
-Example: /grd:list-phase-assumptions 3
+Usage: /grd:list-experiment-assumptions [phase-number]
+Example: /grd:list-experiment-assumptions 3
 ```
 
 Exit workflow.
@@ -153,8 +153,8 @@ Present next steps:
 
 ```
 What's next?
-1. Discuss context (/grd:discuss-phase ${PHASE}) - Let me ask you questions to build comprehensive context
-2. Plan this phase (/grd:plan-phase ${PHASE}) - Create detailed execution plans
+1. Discuss context (/grd:scope-experiment ${PHASE}) - Let me ask you questions to build comprehensive context
+2. Plan this phase (/grd:design-experiment ${PHASE}) - Create detailed execution plans
 3. Re-examine assumptions - I'll analyze again with your corrections
 4. Done for now
 ```
