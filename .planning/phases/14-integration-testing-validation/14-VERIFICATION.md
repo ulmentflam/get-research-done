@@ -1,9 +1,11 @@
 ---
 phase: 14-integration-testing-validation
-verified: 2026-02-01T19:17:08Z
-status: gaps_found
-score: 2/5 must-haves verified
-gaps:
+verified: 2026-02-01T21:00:00Z
+status: passed
+score: 5/5 must-haves verified
+prior_gaps_closed: true
+gaps_closed_by: 14-03-PLAN.md
+prior_gaps:
   - truth: "Progressive path works: quick-explore → full explore → architect proceeds without error"
     status: failed
     reason: "Workflow not executed - only validation infrastructure created"
@@ -52,9 +54,9 @@ gaps:
 
 **Verified:** 2026-02-01T19:17:08Z
 
-**Status:** Gaps Found
+**Status:** PASSED
 
-**Re-verification:** No — initial verification
+**Re-verification:** Yes — gaps closed by 14-03-PLAN.md (behavioral validation executed)
 
 ## Goal Achievement
 
@@ -62,13 +64,13 @@ gaps:
 
 | # | Truth | Status | Evidence |
 |---|-------|--------|----------|
-| 1 | Progressive path works: quick-explore → full explore → architect proceeds without error | ✗ FAILED | VALIDATION_RESULTS.md shows SC-1 "[ ] Not run". Workflow infrastructure exists but not executed. |
-| 2 | Insights path works: insights → architect proceeds without insufficient-data warning | ✗ FAILED | VALIDATION_RESULTS.md shows SC-2 "[ ] Not run". Workflow infrastructure exists but not executed. |
-| 3 | Quick-only path triggers warning: quick-explore → architect warns about insufficient depth | ✗ FAILED | VALIDATION_RESULTS.md shows SC-3 "[ ] Not run". Warning logic exists in architect (verified at lines 48-135) but not proven to execute. |
+| 1 | Progressive path works: quick-explore → full explore → architect proceeds without error | ✓ VERIFIED | 14-03-SUMMARY.md: SC-1 PASS — quick → full → architect works without warning |
+| 2 | Insights path works: insights → architect proceeds without insufficient-data warning | ✓ VERIFIED | 14-03-SUMMARY.md: SC-2 PASS — insights → architect works without warning |
+| 3 | Quick-only path triggers warning: quick-explore → architect warns about insufficient depth | ✓ VERIFIED | 14-03-SUMMARY.md: SC-3 PASS — warning displayed: "⚠️ Quick Explore Mode Detected" |
 | 4 | Critic routing validated: research → REVISE_DATA → spawns full explore (not quick-explore) | ✓ VERIFIED | verify-revise-data-routing.sh passes (8/8 checks). REVISE_DATA task prompt does NOT contain quick mode indicators, spawns grd-explorer with full mode. |
 | 5 | Help documentation reflects all renamed commands and new commands | ✓ VERIFIED | audit-help-commands.sh passes (17/17 checks). All 10 v1.1 commands documented, all 7 deprecated commands removed. verify-all-commands.sh confirms 33/33 commands documented. |
 
-**Score:** 2/5 truths verified
+**Score:** 5/5 truths verified
 
 ### Required Artifacts
 
@@ -110,8 +112,8 @@ Phase 14 spans all v1.1 requirements through integration testing. From REQUIREME
 |---------------------|--------|----------------|
 | CLEAN-01 through CLEAN-04 (Command Cleanup) | ✓ SATISFIED | Audit passes - no deprecated commands in help.md |
 | TERM-01 through TERM-07 (Terminology Rename) | ✓ SATISFIED | Audit passes - all renamed commands documented |
-| QUICK-01 through QUICK-05 (Quick Explore) | ✗ BLOCKED | Quick-explore command exists but workflow not validated end-to-end |
-| INSIGHT-01 through INSIGHT-05 (Accessible Insights) | ✗ BLOCKED | Insights command exists but workflow not validated end-to-end |
+| QUICK-01 through QUICK-05 (Quick Explore) | ✓ SATISFIED | SC-1 (progressive path) validated quick-explore works end-to-end |
+| INSIGHT-01 through INSIGHT-05 (Accessible Insights) | ✓ SATISFIED | SC-2 (insights path) validated insights works end-to-end |
 
 **Note:** Integration testing is intended to validate that all previous phases work together. Structural verification passes (all commands exist, properly documented, correctly wired), but behavioral verification incomplete (workflows not executed).
 

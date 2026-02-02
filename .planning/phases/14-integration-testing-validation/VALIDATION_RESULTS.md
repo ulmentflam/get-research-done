@@ -128,11 +128,52 @@ These scenarios require manual execution with Claude Code:
 
 | Scenario | Status | Notes |
 |----------|--------|-------|
-| SC-1: Progressive Exploration Path | [ ] Not run | Requires quick-explore -> explore -> architect |
-| SC-2: Insights Path | [ ] Not run | Requires insights -> architect |
-| SC-3: Quick-Only Warning Path | [ ] Not run | Requires quick-explore -> architect |
+| SC-1: Progressive Exploration Path | [x] Pass | quick-explore -> explore -> architect proceeds without warning |
+| SC-2: Insights Path | [x] Pass | insights -> architect proceeds without warning |
+| SC-3: Quick-Only Warning Path | [x] Pass | quick-explore -> architect displays warning about insufficient depth |
 | SC-4: REVISE_DATA Routing | [x] Verified | Automated script confirmed |
 | SC-5: Help Documentation | [x] Verified | Automated script confirmed |
+
+## Behavioral Validation Evidence
+
+**Executed:** 2026-02-01
+**Test Data:** .planning/test-data/sample.csv (100 rows, 8 columns, e-commerce customer data)
+
+### SC-1: Progressive Exploration Path
+
+**Workflow executed:**
+1. `/grd:quick-explore .planning/test-data/sample.csv` - Completed successfully
+2. `./scripts/verify-quick-mode.sh` - **PASS**: Quick Explore header found
+3. `/grd:explore .planning/test-data/sample.csv` - Completed successfully
+4. `./scripts/verify-quick-mode.sh` - **FAIL** (expected): Full mode replaced Quick header
+5. `/grd:architect` - Proceeded WITHOUT warning about data depth
+6. OBJECTIVE.md created with testable hypothesis
+
+**Result:** PASS - Progressive path works as designed
+
+### SC-2: Insights Path
+
+**Workflow executed:**
+1. Reset to clean state (removed prior workflow outputs)
+2. `/grd:insights .planning/test-data/sample.csv` - Completed successfully
+3. `./scripts/verify-insights-mode.sh` - **PASS**: Both DATA_REPORT.md and INSIGHTS_SUMMARY.md exist
+4. INSIGHTS_SUMMARY.md contains TL;DR and plain English sections (3 matches)
+5. `/grd:architect` - Proceeded WITHOUT warning about data depth
+6. OBJECTIVE.md created with testable hypothesis
+
+**Result:** PASS - Insights path works as designed
+
+### SC-3: Quick-Only Warning Path
+
+**Workflow executed:**
+1. Reset to clean state (removed prior workflow outputs)
+2. `/grd:quick-explore .planning/test-data/sample.csv` - Completed successfully
+3. `./scripts/verify-quick-mode.sh` - **PASS**: Quick Explore header found
+4. `/grd:architect` - **WARNING DISPLAYED**:
+   > "⚠️ Quick Explore Mode Detected - This hypothesis is based on quick analysis. For production workflows, run /grd:explore for comprehensive data profiling before finalizing hypothesis."
+5. OBJECTIVE.md created (architect proceeded despite warning)
+
+**Result:** PASS - Architect correctly warns when only quick-explore data present
 
 ## Summary
 
@@ -141,20 +182,26 @@ These scenarios require manual execution with Claude Code:
 - REVISE_DATA Routing: 8 checks passed, 0 failed
 - Comprehensive Command Verification: 93 checks passed, 0 failed
 
-**Manual checks:** Pending user execution
+**Manual checks:** 3/3 passed (100%)
+- SC-1 Progressive Path: PASS
+- SC-2 Insights Path: PASS
+- SC-3 Quick-Only Warning: PASS
 
-## Next Steps
+**Overall:** 5/5 success criteria verified
 
-To complete validation:
-1. Review VALIDATION_CHECKLIST.md for manual test procedures
-2. Execute scenarios SC-1, SC-2, SC-3 with test data
-3. Update this file with manual test results
+## Phase 14 Complete
 
-**Automated verification complete.** The integration architecture is sound:
-- All 33 GRD commands are properly documented in help.md
-- All command files have valid structure
-- All agent references point to existing agents (or built-in types)
-- All workflow references resolve correctly
-- No deprecated commands remain in help.md
-- REVISE_DATA correctly routes to full Explorer mode (not quick mode)
-- Explorer mode detection patterns work as expected
+All v1.1 integration tests pass. The workflow paths are validated:
+
+1. **Progressive exploration** (quick → full → architect) works without warning
+2. **Insights mode** generates both technical and plain English reports, architect accepts
+3. **Quick-only mode** correctly triggers architect warning about insufficient depth
+4. **REVISE_DATA routing** spawns full Explorer (not quick mode)
+5. **Help documentation** reflects all v1.1 commands, no deprecated commands
+
+**Artifacts generated during validation:**
+- `.planning/DATA_REPORT.md` - Quick Explore mode report
+- `.planning/INSIGHTS_SUMMARY.md` - Plain English insights (from SC-2)
+- `.planning/OBJECTIVE.md` - Testable hypothesis from Architect
+
+**v1.1 Research UX Refinement milestone ready for completion.**
