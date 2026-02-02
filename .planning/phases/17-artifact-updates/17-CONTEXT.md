@@ -13,21 +13,25 @@ Update all artifact templates and references to use consistent research terminol
 <decisions>
 ## Implementation Decisions
 
-### Template terminology
-- STATE.md tracks progress as "Experiment: N of M" format
-- ROADMAP.md renamed to PROTOCOL.md
-- "Milestone" replaced with "Study" throughout
-- Plan files renamed from XX-YY-PLAN.md to EXP-XX-YY.md
-- CONTEXT.md filename kept (not renamed to SCOPE.md)
-- Experiment folders use .planning/experiments/XX-name structure (rename from phases/)
-- "Milestone History" section becomes "Research History"
+### Critical Constraint: GRD/GSD Coexistence
+- **GRD and GSD are separate tools** that must coexist on the same system
+- **No backward compatibility needed** — GRD doesn't need to support GSD commands
+- **No conflicts allowed** — each tool operates independently
+- **This project uses GSD** — the `.planning/` directory here uses GSD conventions
+- **GRD templates are for new GRD projects** — not for migrating existing GSD projects
+
+### Template terminology (GRD templates only)
+- GRD's STATE.md tracks progress as "Experiment: N of M" format
+- GRD's ROADMAP.md uses study/experiment terminology (keep filename as ROADMAP.md for familiarity)
+- GSD templates remain untouched — they're a separate tool
+- No renaming of plan files or folder structure — GRD uses same conventions as GSD
 - RESEARCH.md filename kept (matches literature-review output)
 
 ### Help documentation
 - Commands grouped by type: Lifecycle, Research, Data, Utility
 - Full reference detail: name + description + args + examples + common flags
 - Quick-start workflow section included with new-study → design-experiment → run-experiment → validate-results flow
-- No deprecated command mappings — clean break, new commands only
+- GRD commands only — GSD has its own help.md
 
 ### Next-step routing
 - Verbose format: command + tips (include /clear suggestion and alternatives)
@@ -35,25 +39,26 @@ Update all artifact templates and references to use consistent research terminol
 - Post-validation routing conditional: last experiment → complete-study, else → next experiment
 - Data-aware routing: data workflows suggest explore/architect/evaluate; code workflows suggest design/run
 
-### Archive strategy
-- Delete old phase-based templates completely (no archive)
-- MILESTONES.md deleted entirely
-- All GSD prefixed commands removed (no aliases, no deprecation warnings)
+### What NOT to change
+- GSD templates, commands, or artifacts — separate tool
+- This project's `.planning/` directory — uses GSD
+- MILESTONES.md — belongs to GSD, leave it alone
+- No migration of phases/ to experiments/ — unnecessary
 
 ### Claude's Discretion
-- Whether to migrate existing .planning/phases/ to experiments/ or keep for v1.2 completion
 - Exact categorization of commands into Lifecycle/Research/Data/Utility groups
 - Format details for quick-start examples
+- Whether ROADMAP.md should be renamed to PROTOCOL.md in GRD templates (leaning toward keeping ROADMAP.md)
 
 </decisions>
 
 <specifics>
 ## Specific Ideas
 
-- PROTOCOL.md feels more research-native than keeping ROADMAP.md
-- "Research History" has broader framing than "Study History" — preferred
-- EXP-XX-YY.md naming makes experiment files immediately identifiable
-- Clean break on GSD removal — no backward compatibility complexity
+- Keep ROADMAP.md filename in GRD — familiar to users, just update terminology inside
+- "Research History" has broader framing than "Study History" — preferred for GRD templates
+- GRD and GSD install to different locations (~/.claude/get-research-done vs ~/.claude/get-shit-done)
+- Commands are prefixed differently (/grd: vs /gsd:) so no collision
 
 </specifics>
 
