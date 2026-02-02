@@ -190,7 +190,7 @@ Project state updated: .planning/STATE.md
 
 - Don't modify phases outside current milestone
 - Don't renumber existing phases
-- Don't use decimal numbering (that's /grd:insert-phase)
+- Don't use decimal numbering (that's /grd:insert-experiment)
 - Don't create plans yet (that's /grd:design-experiment)
 - Don't commit changes (user decides when to commit)
   </anti_patterns>
