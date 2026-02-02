@@ -4,18 +4,18 @@
 
 See: .planning/PROJECT.md (updated 2026-02-01)
 
-**Core value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
+**Core value:** Structured ML experimentation with scientific rigor - from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-**Current focus:** v1.2 Command Unification — Research-Native Workflow
+**Current focus:** v1.2 Command Unification - Research-Native Workflow
 
 ## Current Position
 
-Experiment: Not started (defining requirements)
-Plan: —
-Status: Defining requirements for v1.2
-Last activity: 2026-02-01 — v1.2 milestone started
+Phase: 15 - Command Renames
+Plan: Not started
+Status: Ready to plan Phase 15
+Last activity: 2026-02-01 - Roadmap created for v1.2
 
-Progress: [░░░░░░░░░░] 0% (requirements phase)
+Progress: [----------] 0% (0/5 phases)
 
 ## Milestone History
 
@@ -39,9 +39,9 @@ Progress: [░░░░░░░░░░] 0% (requirements phase)
 - Timeline: 3 days (v1.0 to v1.1)
 
 **Cumulative:**
-- Total phases: 14
+- Total phases: 14 (completed) + 5 (v1.2 planned)
 - Total plans: 52
-- Total milestones: 2
+- Total milestones: 2 (shipped) + 1 (active)
 
 ## Accumulated Context
 
@@ -56,18 +56,24 @@ v1.1 key decisions:
 - Integration testing last: Cannot test until all commands exist
 - Inline Python for insights: Simpler than Jinja2, easier to maintain
 
-### Terminology Mapping (Study-Centric)
+v1.2 key decisions:
+- No backward compatibility aliases: Clean break chosen over deprecation period
+- Keep ROADMAP.md: Update terminology rather than replace with STUDY_PROTOCOL.md
+- Phase ordering (renames -> chains -> artifacts -> version -> docs): Each phase depends on prior
 
-| Old | New | Purpose |
-|-----|-----|---------|
-| `new-milestone` | `new-study` | Start a new research study |
-| `complete-milestone` | `complete-study` | Archive and conclude a study |
-| `discuss-phase` | `scope-study` | Scope the research approach |
-| `plan-phase` | `plan-study` | Plan the research execution |
-| `execute-phase` | `run-study` | Execute the research plan |
-| `verify-work` | `validate-study` | Validate research results |
+### v1.2 Command Rename Mapping
 
-**Core research commands unchanged:** `explore`, `architect`, `research`, `evaluate`, `graduate`
+| Current | New | Status |
+|---------|-----|--------|
+| `plan-phase` | `design-experiment` | Pending |
+| `execute-phase` | `run-experiment` | Pending |
+| `discuss-phase` | `scope-experiment` | Pending |
+| `verify-work` | `validate-results` | Pending |
+| `research-phase` | `literature-review` | Pending |
+| `list-phase-assumptions` | `list-experiment-assumptions` | Pending |
+| `add-phase` | `add-experiment` | Pending |
+| `insert-phase` | `insert-experiment` | Pending |
+| `remove-phase` | `remove-experiment` | Pending |
 
 ### Blockers/Concerns
 
@@ -82,10 +88,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Started v1.2 milestone, defining requirements
+Stopped at: Roadmap created for v1.2 milestone
 Resume file: None
 
-Next step: Research and define requirements for command unification
+Next step: `/grd:plan-phase 15` to plan Command Renames phase
 
 ---
 *State initialized: 2026-01-27*

@@ -31,17 +31,17 @@ Requirements for Command Unification milestone. Each maps to roadmap phases.
 ### Artifact Updates
 
 - [ ] **ARTIFACT-01**: Update STATE.md template to track experiments instead of phases
-- [ ] **ARTIFACT-02**: Update ROADMAP.md terminology (phase → experiment, milestone → study)
+- [ ] **ARTIFACT-02**: Update ROADMAP.md terminology (phase -> experiment, milestone -> study)
 - [ ] **ARTIFACT-03**: Update help.md with complete new command reference
 - [ ] **ARTIFACT-04**: Update all "Next Up" sections across all 33 command files
 
 ### Version History Reset
 
-- [ ] **VERSION-01**: Reset PROJECT.md — remove v1.0/v1.1 references, start fresh as GRD 1.0
-- [ ] **VERSION-02**: Reset STATE.md — clear milestone history table, reset to clean GRD state
-- [ ] **VERSION-03**: Archive or remove MILESTONES.md — GSD-era history not relevant to GRD
+- [ ] **VERSION-01**: Reset PROJECT.md - remove v1.0/v1.1 references, start fresh as GRD 1.0
+- [ ] **VERSION-02**: Reset STATE.md - clear milestone history table, reset to clean GRD state
+- [ ] **VERSION-03**: Archive or remove MILESTONES.md - GSD-era history not relevant to GRD
 - [ ] **VERSION-04**: Update package.json version to reflect GRD 1.0 (not continuation of GSD)
-- [ ] **VERSION-05**: Clean up "Validated" requirements — reframe as GRD baseline, not GSD history
+- [ ] **VERSION-05**: Clean up "Validated" requirements - reframe as GRD baseline, not GSD history
 
 ### Documentation
 
@@ -69,7 +69,7 @@ Explicitly excluded from v1.2. Documented to prevent scope creep.
 | ROADMAP.md deprecation | User chose keep and update terminology |
 | New commands | v1.2 is rename/fix only, no new functionality |
 | Agent system prompt renames | Keep grd-* prefixes, only change command names |
-| Preserving GSD version history | Clean break — GRD starts fresh at 1.0 |
+| Preserving GSD version history | Clean break - GRD starts fresh at 1.0 |
 | Git history rewrite | Keep git commits, just update planning docs |
 
 ## Traceability
@@ -78,17 +78,39 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| RENAME-01 through RENAME-09 | Phase 15 | Pending |
-| CHAIN-01 through CHAIN-06 | Phase 16 | Pending |
-| ARTIFACT-01 through ARTIFACT-04 | Phase 17 | Pending |
-| VERSION-01 through VERSION-05 | Phase 18 | Pending |
-| DOC-01 through DOC-03 | Phase 19 | Pending |
+| RENAME-01 | Phase 15 | Pending |
+| RENAME-02 | Phase 15 | Pending |
+| RENAME-03 | Phase 15 | Pending |
+| RENAME-04 | Phase 15 | Pending |
+| RENAME-05 | Phase 15 | Pending |
+| RENAME-06 | Phase 15 | Pending |
+| RENAME-07 | Phase 15 | Pending |
+| RENAME-08 | Phase 15 | Pending |
+| RENAME-09 | Phase 15 | Pending |
+| CHAIN-01 | Phase 16 | Pending |
+| CHAIN-02 | Phase 16 | Pending |
+| CHAIN-03 | Phase 16 | Pending |
+| CHAIN-04 | Phase 16 | Pending |
+| CHAIN-05 | Phase 16 | Pending |
+| CHAIN-06 | Phase 16 | Pending |
+| ARTIFACT-01 | Phase 17 | Pending |
+| ARTIFACT-02 | Phase 17 | Pending |
+| ARTIFACT-03 | Phase 17 | Pending |
+| ARTIFACT-04 | Phase 17 | Pending |
+| VERSION-01 | Phase 18 | Pending |
+| VERSION-02 | Phase 18 | Pending |
+| VERSION-03 | Phase 18 | Pending |
+| VERSION-04 | Phase 18 | Pending |
+| VERSION-05 | Phase 18 | Pending |
+| DOC-01 | Phase 19 | Pending |
+| DOC-02 | Phase 19 | Pending |
+| DOC-03 | Phase 19 | Pending |
 
 **Coverage:**
 - v1.2 requirements: 27 total
 - Mapped to phases: 27
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-01*
-*Last updated: 2026-02-01 after initial definition*
+*Last updated: 2026-02-01 after roadmap creation*
