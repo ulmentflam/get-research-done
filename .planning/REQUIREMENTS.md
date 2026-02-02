@@ -1,0 +1,79 @@
+# Requirements: Get Research Done (GRD)
+
+**Defined:** 2026-02-02
+**Core Value:** Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
+
+## v1.3 Requirements
+
+Requirements for v1.3 Branding & Gemini Integration milestone.
+
+### Branding
+
+- [ ] **BRAND-01**: SVG logo displays "GRD" ASCII art instead of "GSD"
+- [ ] **BRAND-02**: Terminal preview SVG shows `npx get-research-done` command
+- [ ] **BRAND-03**: Terminal preview shows "Get Research Done v1.3.0" title
+- [ ] **BRAND-04**: Terminal preview shows GRD install output and `/grd:help` command
+- [ ] **BRAND-05**: PNG logo regenerated from updated SVG
+- [ ] **BRAND-06**: Logo filename renamed from `gsd-logo-2000.*` to `grd-logo-2000.*`
+
+### GSD Sync
+
+- [ ] **SYNC-01**: GSD upstream added as git remote
+- [ ] **SYNC-02**: GSD changelog/commits explored to identify new features since fork
+- [ ] **SYNC-03**: Features to cherry-pick identified and documented
+- [ ] **SYNC-04**: Gemini CLI cherry-picked and adapted to GRD
+- [ ] **SYNC-05**: Additional selected features cherry-picked and adapted
+
+### Documentation
+
+- [ ] **DOCS-01**: README.md updated with current GRD branding and features
+- [ ] **DOCS-02**: help.md command reference updated with any new commands
+- [ ] **DOCS-03**: Any new cherry-picked features documented
+
+## Future Requirements
+
+Deferred to future milestones:
+
+### Advanced Features (v2.0+)
+
+- **ADV-01**: MLflow integration for experiment tracking
+- **ADV-02**: DVC integration for data versioning
+- **ADV-03**: Multi-user support with shared experiment registry
+- **ADV-04**: Web UI for experiment visualization
+- **ADV-05**: Red-teaming mode for Critic (adversarial validation)
+
+## Out of Scope
+
+| Feature | Reason |
+|---------|--------|
+| Full GSD merge | Too disruptive; cherry-pick specific features instead |
+| Backward compatibility with GSD commands | Clean GRD identity established in v1.2 |
+| Animated SVGs | Unnecessary complexity for static assets |
+
+## Traceability
+
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| BRAND-01 | TBD | Pending |
+| BRAND-02 | TBD | Pending |
+| BRAND-03 | TBD | Pending |
+| BRAND-04 | TBD | Pending |
+| BRAND-05 | TBD | Pending |
+| BRAND-06 | TBD | Pending |
+| SYNC-01 | TBD | Pending |
+| SYNC-02 | TBD | Pending |
+| SYNC-03 | TBD | Pending |
+| SYNC-04 | TBD | Pending |
+| SYNC-05 | TBD | Pending |
+| DOCS-01 | TBD | Pending |
+| DOCS-02 | TBD | Pending |
+| DOCS-03 | TBD | Pending |
+
+**Coverage:**
+- v1.3 requirements: 14 total
+- Mapped to phases: 0
+- Unmapped: 14
+
+---
+*Requirements defined: 2026-02-02*
+*Last updated: 2026-02-02 after initial definition*
