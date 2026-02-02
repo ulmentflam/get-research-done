@@ -62,6 +62,16 @@ The complexity is in the system, not in your workflow. You run five commands: `/
 
 ---
 
+## What's New in v1.3
+
+- **Gemini CLI Support** - Native support for Google's Gemini CLI with automatic TOML agent conversion
+- **Multi-Runtime Installer** - Install to Claude Code, OpenCode, and/or Gemini CLI with `--claude`, `--opencode`, `--gemini`, or `--all` flags
+- **Visual Branding Refresh** - Updated GRD identity with research teal color palette
+
+See [CHANGELOG.md](CHANGELOG.md) for full version history.
+
+---
+
 ## Who This Is For
 
 ML researchers and practitioners who want structured experimentation with hypothesis-driven workflows — without building custom research infrastructure from scratch.
@@ -75,7 +85,7 @@ npx get-research-done
 ```
 
 The installer prompts you to choose:
-1. **Runtime** — Claude Code, OpenCode, or both
+1. **Runtime** — Claude Code, OpenCode, Gemini CLI, or multiple
 2. **Location** — Global (all projects) or local (current project only)
 
 Verify with `/grd:help` inside your Claude Code or OpenCode interface.
@@ -99,12 +109,47 @@ npx get-research-done --claude --local    # Install to ./.claude/
 # OpenCode (open source, free models)
 npx get-research-done --opencode --global # Install to ~/.opencode/
 
-# Both runtimes
-npx get-research-done --both --global     # Install to both directories
+# Gemini CLI
+npx get-research-done --gemini --global   # Install to ~/.gemini/
+
+# Multiple runtimes
+npx get-research-done --both --global     # Claude Code + OpenCode
+npx get-research-done --all --global      # All runtimes (Claude Code + OpenCode + Gemini)
 ```
 
 Use `--global` (`-g`) or `--local` (`-l`) to skip the location prompt.
-Use `--claude`, `--opencode`, or `--both` to skip the runtime prompt.
+Use `--claude`, `--opencode`, `--gemini`, `--both`, or `--all` to skip the runtime prompt.
+
+</details>
+
+<details>
+<summary><strong>Gemini CLI Setup</strong></summary>
+
+GRD supports [Gemini CLI](https://github.com/google-gemini/gemini-cli) as an alternative runtime.
+
+**1. Get an API key:**
+
+Visit [Google AI Studio](https://aistudio.google.com/apikey) to create a free API key.
+
+**2. Set environment variable:**
+
+```bash
+export GEMINI_API_KEY="your-api-key"
+```
+
+Add this to your shell profile (`~/.zshrc`, `~/.bashrc`) for persistence.
+
+**3. Install GRD for Gemini:**
+
+```bash
+npx get-research-done --gemini --global
+```
+
+**When to use Gemini vs Claude:**
+- **Claude Code** — Complex reasoning, intricate code generation, nuanced analysis
+- **Gemini CLI** — Cost efficiency, multimodal tasks (images, audio), large context windows
+
+See the [Gemini CLI documentation](https://github.com/google-gemini/gemini-cli#authentication) for full setup details.
 
 </details>
 
@@ -538,7 +583,7 @@ This removes all GRD commands, agents, hooks, and settings while preserving your
 | Project | Platform | Description |
 |---------|----------|-------------|
 | [grd-opencode](https://github.com/rokicool/grd-opencode) | OpenCode | GRD adapted for OpenCode CLI |
-| [grd-gemini](https://github.com/uberfuzzy/grd-gemini) | Gemini CLI | GRD adapted for Google's Gemini CLI |
+| ~~[grd-gemini](https://github.com/uberfuzzy/grd-gemini)~~ | Gemini CLI | **Now built-in!** Use `--gemini` flag |
 
 ---
 
