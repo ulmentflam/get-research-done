@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 15 - Command Renames
-Plan: 3 of 4 complete
-Status: In progress
-Last activity: 2026-02-02 - Completed 15-03-PLAN.md
+Plan: 4 of 4 complete
+Status: Phase complete
+Last activity: 2026-02-02 - Completed 15-04-PLAN.md
 
-Progress: [███-------] 30% (3/10 plans)
+Progress: [████------] 40% (4/10 plans)
 
 ## Milestone History
 
@@ -65,6 +65,8 @@ v1.2 key decisions:
 - scope-experiment over define-experiment: Scope implies boundaries
 - literature-review as noun phrase: Preserves research convention
 - list-experiment-assumptions not shortened: Consistent with experiment prefix pattern
+- Preserve CHANGELOG.md: Historical references intentionally not updated
+- Batch sed replacements: Comprehensive coverage across 33 active files
 
 ### v1.2 Command Rename Mapping
 
@@ -93,10 +95,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 15-03-PLAN.md (Roadmap management command renames)
+Stopped at: Completed 15-04-PLAN.md (Help documentation finalization)
 Resume file: None
 
-Next step: `/grd:design-experiment 15` to plan remaining Phase 15 work
+Phase 15 complete. Next step: `/grd:run-experiment 16` or `/grd:design-experiment 16` for experiment chains
 
 ---
 *State initialized: 2026-01-27*
