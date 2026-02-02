@@ -1,5 +1,31 @@
 # Project Milestones: Get Research Done (GRD)
 
+## v1.2 Command Unification (Shipped: 2026-02-02)
+
+**Delivered:** Research-native CLI with experiment-based terminology, correct command chaining, and clean product positioning
+
+**Phases completed:** 15-19 (12 plans total)
+
+**Key accomplishments:**
+- Renamed 9 commands to research terminology — design-experiment, run-experiment, scope-experiment, validate-results, literature-review, list-experiment-assumptions, add-experiment, insert-experiment, remove-experiment
+- Fixed command chaining — new-study→design-experiment→run-experiment→validate-results→complete-study workflow
+- Updated templates (STATE.md, ROADMAP.md) to use experiment/study terminology
+- Reset external documentation — CHANGELOG.md presents GRD as fresh v1.2.0 product with GSD acknowledgment
+- Added integration tests — 23 automated tests validate all command renames and chains
+- Documented validation exceptions for intentional stale references
+
+**Stats:**
+- 83 files created/modified
+- +3,452 net lines of code (Markdown, JavaScript)
+- 5 phases, 12 plans, ~25 tasks
+- 2 days from v1.1 to v1.2
+
+**Git range:** `feat(15-01)` → `revert(19-01)`
+
+**What's next:** v2.0 Advanced Features (MLflow integration, DVC integration, multi-user support, web UI)
+
+---
+
 ## v1.1 Research UX Refinement (Shipped: 2026-02-01)
 
 **Delivered:** Streamlined research workflows with study-centric terminology, fast EDA via quick-explore, and plain English insights for business analysts

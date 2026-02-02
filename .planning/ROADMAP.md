@@ -4,7 +4,7 @@
 
 - v1.0 MVP - Phases 1-9 (shipped 2026-01-30)
 - v1.1 Research UX Refinement - Phases 10-14 (shipped 2026-02-01)
-- **v1.2 Command Unification** - Phases 15-19 (active)
+- v1.2 Command Unification - Phases 15-19 (shipped 2026-02-02)
 
 ## Phases
 
@@ -50,138 +50,36 @@
 
 </details>
 
-### v1.2 Command Unification (Phases 15-19) - ACTIVE
+<details>
+<summary>v1.2 Command Unification (Phases 15-19) - SHIPPED 2026-02-02</summary>
 
 **Milestone Goal:** Transform all lifecycle commands from software-dev terminology (phases, milestones, roadmaps) to research-native terminology (experiments, studies, protocols) with correct command chaining.
 
-**Requirements:** 27 total across 5 categories
+**Phases completed:** 15-19 (12 plans total)
 
----
+- [x] Phase 15: Command Renames (4/4 plans) - completed 2026-02-02
+- [x] Phase 16: Command Chaining Fixes (2/2 plans) - completed 2026-02-02
+- [x] Phase 17: Artifact Updates (3/3 plans) - completed 2026-02-02
+- [x] Phase 18: Version History Reset (1/1 plan) - completed 2026-02-02
+- [x] Phase 19: Documentation & Testing (2/2 plans) - completed 2026-02-02
 
-#### Phase 15: Command Renames
+**Key accomplishments:**
+- Renamed 9 commands to research terminology (design-experiment, run-experiment, etc.)
+- Fixed command chaining for complete research workflow
+- Updated templates to use experiment/study terminology
+- Reset external documentation for clean product positioning
+- Added 23 integration tests validating command chains
 
-**Goal:** All phase-related commands use experiment terminology consistently
+**Stats:** 83 files created/modified, +3,452 lines of code, 2 days to ship
 
-**Dependencies:** None (foundation phase)
+**Full archive:** .planning/milestones/v1.2-ROADMAP.md
 
-**Requirements:** RENAME-01, RENAME-02, RENAME-03, RENAME-04, RENAME-05, RENAME-06, RENAME-07, RENAME-08, RENAME-09
-
-**Plans:** 4 plans
-
-Plans:
-- [x] 15-01-PLAN.md — Rename core workflow commands (plan-phase, execute-phase, discuss-phase)
-- [x] 15-02-PLAN.md — Rename verification and research commands (verify-work, research-phase, list-phase-assumptions)
-- [x] 15-03-PLAN.md — Rename roadmap management commands (add-phase, insert-phase, remove-phase)
-- [x] 15-04-PLAN.md — Update help.md and final verification
-
-**Success Criteria:**
-1. User can run `design-experiment` instead of `plan-phase` and it functions identically
-2. User can run `run-experiment` instead of `execute-phase` and it functions identically
-3. User can run all 9 renamed commands (`design-experiment`, `run-experiment`, `scope-experiment`, `validate-results`, `literature-review`, `list-experiment-assumptions`, `add-experiment`, `insert-experiment`, `remove-experiment`) and each produces expected output
-4. The `help` command shows all new experiment-based command names with correct descriptions
-
----
-
-#### Phase 16: Command Chaining Fixes
-
-**Goal:** Commands route to each other correctly using new terminology throughout the workflow
-
-**Dependencies:** Phase 15 (renames must exist before chaining can reference them)
-
-**Requirements:** CHAIN-01, CHAIN-02, CHAIN-03, CHAIN-04, CHAIN-05, CHAIN-06
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 16-01-PLAN.md — Replace milestone terminology with study equivalents in routing (audit-study, complete-study, new-study)
-- [x] 16-02-PLAN.md — Add evaluate->graduate route for Seal decision and standardize --gaps flag
-
-**Success Criteria:**
-1. Running `new-study` suggests `design-experiment` as next step (not `plan-phase`)
-2. Running `evaluate` with Seal decision explicitly suggests `graduate` as next step
-3. All references to `audit-milestone`, `complete-milestone`, and `new-milestone` have been replaced with study equivalents
-4. The `--gaps` flag works consistently across all commands that support it (no `--gaps-only` variants)
-
----
-
-#### Phase 17: Artifact Updates
-
-**Goal:** All artifact templates and references use consistent research terminology
-
-**Dependencies:** Phase 16 (chaining determines what artifacts suggest)
-
-**Requirements:** ARTIFACT-01, ARTIFACT-02, ARTIFACT-03, ARTIFACT-04
-
-**Plans:** 3 plans
-
-Plans:
-- [x] 17-01-PLAN.md — Update STATE.md and ROADMAP.md templates with experiment terminology
-- [x] 17-02-PLAN.md — Reorganize help.md with categorized commands and quick-start workflow
-- [x] 17-03-PLAN.md — Update "Next Up" sections across 7 command files
-
-**Success Criteria:**
-1. STATE.md template tracks experiments (not phases) with appropriate fields
-2. ROADMAP.md uses study/experiment terminology consistently (no phase/milestone mixed usage)
-3. The `help.md` file contains complete and accurate command reference for all renamed commands
-4. All 33 command files have "Next Up" sections that reference the correct new command names
-
----
-
-#### Phase 18: Version History Reset
-
-**Goal:** External documentation presents GRD as a clean product (CHANGELOG, README, package.json)
-
-**Dependencies:** Phase 17 (artifacts must be updated before resetting version references)
-
-**Requirements:** VERSION-01, VERSION-02, VERSION-03, VERSION-04, VERSION-05
-
-**Plans:** 1 plan
-
-Plans:
-- [x] 18-01-PLAN.md — Reset CHANGELOG, add README footer acknowledgment, update package.json metadata
-
-**Success Criteria:**
-1. PROJECT.md presents GRD as a fresh v1.0 product with no v1.0/v1.1 GSD references
-2. STATE.md has no GSD milestone history, only GRD baseline state
-3. package.json version reflects GRD 1.0 (not a continuation version)
-4. MILESTONES.md is archived or removed (GSD history separated from GRD documentation)
-5. "Validated" requirements are reframed as GRD baseline capabilities, not GSD migration artifacts
-
----
-
-#### Phase 19: Documentation & Testing
-
-**Goal:** Validate code and agent prompts reflect renamed commands and test command chains end-to-end
-
-**Dependencies:** Phases 15-18 (all changes must be complete before final validation)
-
-**Requirements:** DOC-01, DOC-02, DOC-03
-
-**Plans:** 2 plans
-
-Plans:
-- [ ] 19-01-PLAN.md — Detect and fix stale command references in agent prompts and workflows
-- [ ] 19-02-PLAN.md — Create integration test suite for command chain validation
-
-**Success Criteria:**
-1. All agent system prompts reference correct command names (no stale `plan-phase` references)
-2. All workflow files use correct command terminology
-3. The complete workflow (`new-study` -> `design-experiment` -> `run-experiment` -> `validate-results` -> `complete-study`) can be executed end-to-end without broken command suggestions
-4. Integration test suite validates all command files exist
-
----
+</details>
 
 ## Progress
-
-**Execution Order:**
-Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
-| 15. Command Renames | v1.2 | 4/4 | Complete | 2026-02-02 |
-| 16. Command Chaining | v1.2 | 2/2 | Complete | 2026-02-02 |
-| 17. Artifact Updates | v1.2 | 3/3 | Complete | 2026-02-02 |
-| 18. Version History Reset | v1.2 | 1/1 | Complete | 2026-02-02 |
-| 19. Documentation & Testing | v1.2 | 0/2 | Planned | - |
+| 15-19. v1.2 Command Unification | v1.2 | 12/12 | Complete | 2026-02-02 |

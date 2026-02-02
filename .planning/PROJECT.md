@@ -8,24 +8,10 @@ A recursive, agentic framework for machine learning research that brings structu
 
 Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-## Current Milestone: v1.2 Command Unification
-
-**Goal:** Transform all lifecycle commands from software-dev terminology (phases, milestones, roadmaps) to research-native terminology (experiments, studies, protocols) with correct command chaining.
-
-**Target changes:**
-- `plan-phase` → `design-experiment` — Design experiment from STUDY_PROTOCOL.md
-- `execute-phase` → `run-experiment` — Execute designed experiment
-- `discuss-phase` → `scope-experiment` — Clarify experiment approach
-- `verify-work` → `validate-results` — Validate experiment results
-- `literature-review` → `literature-review` — Research before experiment design
-- Command flow fix: `new-study` → `design-experiment` → `run-experiment` (not `plan-phase`)
-
-**Expected impact:** Consistent research workflow where commands match mental model and chain correctly.
-
 ## Current State
 
-**Version:** v1.1 (shipped 2026-02-01)
-**Codebase:** ~65,000 LOC (Markdown, TypeScript, Python)
+**Version:** v1.2 (shipped 2026-02-02)
+**Codebase:** ~68,000 LOC (Markdown, TypeScript, Python)
 **Tech stack:** Claude Code hooks, MCP integration, papermill notebook execution, Rich console formatting
 
 **Shipped capabilities:**
@@ -36,7 +22,9 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - `/grd:research` — Recursive validation loop with Researcher/Critic/Evaluator agents
 - `/grd:evaluate` — Human decision gate with evidence packages
 - `/grd:graduate` — Notebook-to-script graduation path
-- Study-centric lifecycle commands: new-study, scope-study, plan-study, run-study, validate-study, complete-study (v1.1)
+- Experiment-based lifecycle commands: new-study, design-experiment, run-experiment, validate-results, complete-study (v1.2)
+- Research-native command terminology: 9 commands renamed to experiment/study vocabulary (v1.2)
+- Integration test suite: 23 automated tests validate command chains (v1.2)
 
 ## Philosophy
 
@@ -63,17 +51,15 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - ✓ Research terminology — Rename phase/milestone concepts to match research style — v1.1
 - ✓ Quick explore — Fast EDA producing summary for quick decisions — v1.1
 - ✓ Accessible EDA — Plain English insights for business analysts (no code, no jargon) — v1.1
+- ✓ Experiment terminology — Renamed 9 commands to research-native vocabulary (design-experiment, run-experiment, etc.) — v1.2
+- ✓ Command chaining — new-study→design-experiment→run-experiment→validate-results→complete-study workflow — v1.2
+- ✓ Template updates — STATE.md and ROADMAP.md use experiment/study terminology — v1.2
+- ✓ Version history reset — CHANGELOG.md presents GRD as fresh product with GSD acknowledgment — v1.2
+- ✓ Integration tests — 23 automated tests validate command renames and chains — v1.2
 
 ### Active
 
-**v1.2 Command Unification — Research-Native Workflow**
-
-- [ ] Rename phase/milestone commands to experiment terminology (plan-phase → design-experiment, execute-phase → run-experiment, etc.)
-- [ ] Fix command flow — commands call each other correctly in the Data → Hypothesis → Validation loop
-- [ ] Remove GSD legacy terminology — eliminate mixed GSD/GRD concepts
-- [ ] Update command chaining — new-study should route to design-experiment, not plan-phase
-- [ ] Consolidate artifact naming — STUDY_PROTOCOL.md should work with experiment-based commands, not ROADMAP.md
-- [ ] Update help.md to reflect research-native command structure
+(No active milestone — ready for v2.0 planning)
 
 ### Future
 
@@ -100,7 +86,7 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 
 ## Context
 
-**Existing codebase:** This is now a mature project with two shipped milestones. The v1.1 codebase has:
+**Existing codebase:** This is now a mature project with three shipped milestones. The v1.2 codebase has:
 - Claude Code hooks for workflow automation
 - Agent spawning system for specialized tasks (Explorer, Architect, Researcher, Critic, Evaluator, Graduator)
 - Workflow orchestration via skill files (32 commands with study-centric terminology)
@@ -205,6 +191,9 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | Study-centric terminology (v1.1) | Better matches research workflows than GSD naming | ✓ Good |
 | Quick explore with warning (v1.1) | Enables fast iteration while preventing shallow analysis | ✓ Good |
 | Inline Python for insights (v1.1) | Simpler than Jinja2 templates, easier to maintain | ✓ Good |
+| Experiment-based command names (v1.2) | Eliminates software-dev vocabulary, research-native CLI | ✓ Good |
+| External-only version reset (v1.2) | Clean product positioning while preserving internal context | ✓ Good |
+| Intentional stale refs in agents (v1.2) | Deferred agent prompt updates to minimize scope | — Pending |
 
 ---
-*Last updated: 2026-02-01 after starting v1.2 milestone*
+*Last updated: 2026-02-02 after v1.2 milestone completion*
