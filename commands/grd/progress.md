@@ -300,16 +300,16 @@ All {N} phases finished!
 
 ## ▶ Next Up
 
-**Complete Milestone** — archive and prepare for next
+**Complete Study** — archive and prepare for next
 
-`/grd:complete-milestone`
+`/grd:complete-study`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/grd:validate-results` — user acceptance test before completing milestone
+- `/grd:validate-results` — user acceptance test before completing study
 
 ---
 ```
@@ -331,9 +331,9 @@ Ready to plan the next milestone.
 
 ## ▶ Next Up
 
-**Start Next Milestone** — questioning → research → requirements → roadmap
+**Start Next Study** — questioning → research → requirements → roadmap
 
-`/grd:new-milestone`
+`/grd:new-study`
 
 <sub>`/clear` first → fresh context window</sub>
 
