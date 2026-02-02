@@ -2,34 +2,27 @@
 
 ## What This Is
 
-A recursive, agentic framework for machine learning research that brings structured rigor to hypothesis validation. GRD is a Claude Code workflow tool for ML researchers, evolving from the Get Shit Done (GSD) philosophy but optimized for the non-linear, data-dependent nature of AI research. The system provides a complete research loop: Data Reconnaissance → Hypothesis Synthesis → Recursive Validation → Human Evaluation, with automatic routing between phases based on Critic verdicts.
+A recursive, agentic framework for machine learning research that brings structured rigor to hypothesis validation. GRD is a Claude Code workflow tool for ML researchers, evolving from the Get Shit Done (GSD) philosophy but optimized for the non-linear, data-dependent nature of AI research. The system provides a complete research loop: Data Reconnaissance → Hypothesis Synthesis → Recursive Validation → Human Evaluation, with automatic routing between phases based on Critic verdicts. Now includes fast EDA paths (quick-explore, insights) for rapid data familiarization.
 
 ## Core Value
 
 Structured ML experimentation with scientific rigor — from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-## Current Milestone: v1.1 Research UX Refinement
-
-**Goal:** Streamline GRD for research workflows by removing GSD legacy, adding accessible EDA for non-data-scientists, and creating fast exploration paths.
-
-**Target features:**
-- Remove/repurpose GSD commands that don't fit research workflows
-- Rename phase/milestone concepts to match research terminology
-- Quick explore (`/grd:quick-explore`) — Fast EDA with summary output for quick decisions
-- Accessible EDA (`/grd:insights`) — Plain English data insights for business analysts
-
 ## Current State
 
-**Version:** v1.0 (shipped 2026-01-30)
-**Codebase:** 48,494 LOC (Markdown, TypeScript, Python)
-**Tech stack:** Claude Code hooks, MCP integration, papermill notebook execution
+**Version:** v1.1 (shipped 2026-02-01)
+**Codebase:** ~65,000 LOC (Markdown, TypeScript, Python)
+**Tech stack:** Claude Code hooks, MCP integration, papermill notebook execution, Rich console formatting
 
 **Shipped capabilities:**
 - `/grd:explore` — Data reconnaissance with hardware profiling and leakage detection
+- `/grd:quick-explore` — Fast EDA with Rich console output for quick decisions (v1.1)
+- `/grd:insights` — Plain English data insights for business analysts (v1.1)
 - `/grd:architect` — Hypothesis synthesis with testable OBJECTIVE.md generation
 - `/grd:research` — Recursive validation loop with Researcher/Critic/Evaluator agents
 - `/grd:evaluate` — Human decision gate with evidence packages
 - `/grd:graduate` — Notebook-to-script graduation path
+- Study-centric lifecycle commands: new-study, scope-study, plan-study, run-study, validate-study, complete-study (v1.1)
 
 ## Philosophy
 
@@ -37,6 +30,7 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - **Data-First**: No research objective is set without initial Exploratory Data Analysis (EDA)
 - **The Recursive Loop**: Self-correcting system — if results contradict the data profile, the agentic loop forces return to the data layer
 - **Critic-Led Rigor**: Automated Critic agent acts as scientific skeptic to prevent overfitting, data leakage, and logical fallacies
+- **Progressive Exploration**: Start fast (quick-explore) → add depth (insights/explore) → formalize hypothesis (architect)
 
 ## Requirements
 
@@ -51,13 +45,14 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - ✓ REVISE_DATA auto-routing — v1.0
 - ✓ Baseline experiment orchestration — v1.0
 - ✓ Hardware profiling and long-running experiment support — v1.0
+- ✓ GSD command cleanup — Remove/repurpose commands that don't fit research workflows — v1.1
+- ✓ Research terminology — Rename phase/milestone concepts to match research style — v1.1
+- ✓ Quick explore — Fast EDA producing summary for quick decisions — v1.1
+- ✓ Accessible EDA — Plain English insights for business analysts (no code, no jargon) — v1.1
 
 ### Active
 
-- [ ] GSD command cleanup — Remove/repurpose commands that don't fit research workflows
-- [ ] Research terminology — Rename phase/milestone concepts to match research style
-- [ ] Quick explore — Fast EDA producing summary for quick decisions
-- [ ] Accessible EDA — Plain English insights for business analysts (no code, no jargon)
+(None — next milestone not yet defined)
 
 ### Future
 
@@ -67,6 +62,8 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - [ ] Web UI for experiment visualization
 - [ ] Red-teaming mode for Critic (adversarial validation)
 - [ ] Automatic data profiling with statistical tests
+- [ ] Visual previews (ASCII charts, embedded images)
+- [ ] Confidence indicators in plain language
 
 ### Out of Scope
 
@@ -78,17 +75,20 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - Cloud-only storage — excludes on-prem/air-gapped researchers
 - Built-in model training — opinionated about frameworks, not extensible
 - GUI-first design — CLI researchers won't adopt, not scriptable
+- Full automated EDA libraries (ydata-profiling, Sweetviz) — Installation friction, HTML output doesn't fit terminal workflow
 
 ## Context
 
-**Existing codebase:** This is a brownfield refactor of the GSD (Get Shit Done) project. The v1.0 codebase has:
+**Existing codebase:** This is now a mature project with two shipped milestones. The v1.1 codebase has:
 - Claude Code hooks for workflow automation
 - Agent spawning system for specialized tasks (Explorer, Architect, Researcher, Critic, Evaluator, Graduator)
-- Workflow orchestration via skill files (27 commands)
+- Workflow orchestration via skill files (32 commands with study-centric terminology)
 - State tracking and context restoration
 - Template system for artifacts (DATA_REPORT.md, OBJECTIVE.md, SCORECARD.json, etc.)
 - Notebook execution via papermill with graduation validation
 - Hardware profiling for reproducibility
+- Fast EDA paths with Rich console formatting (quick-explore, insights)
+- Plain English insights generation with actionable recommendations
 
 **Target audience:** ML researchers who need structure for experimentation without the overhead of product management tooling.
 
@@ -99,10 +99,12 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 ### Phase 1: Data Reconnaissance (Explorer)
 - **Input:** Raw Dataset + High-level Project Goal
 - **Output:** `DATA_REPORT.md` (distributions, anomalies, leakage risks, baseline signals, hardware profile)
+- **Fast paths:** `/grd:quick-explore` (summary output), `/grd:insights` (plain English)
 
 ### Phase 2: Hypothesis Synthesis (Architect)
 - **Input:** DATA_REPORT.md + Project Goal
 - **Output:** `OBJECTIVE.md` (testable hypothesis with falsification criteria)
+- **Note:** Warns if only quick-explore data available; recommends full explore for production
 
 ### Phase 3: Recursive Agentic Loop
 1. **Researcher** develops code, training pipelines, experimental setups
@@ -151,6 +153,10 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 ├── notebooks/
 │   └── exploration/      # Exploratory notebooks (pre-graduation)
 ├── src/
+│   ├── grd/              # Core GRD modules
+│   │   ├── formatters.py # Rich console formatting
+│   │   ├── quick.py      # Quick explore analysis
+│   │   └── insights.py   # Plain English insights
 │   └── experiments/      # Graduated validated scripts
 └── human_eval/           # Narrative record of human decisions
     └── decision_log.md   # Why we pivoted or promoted a hypothesis
@@ -175,6 +181,9 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | REVISE_DATA auto-spawn Explorer | Completes recursive automation, no manual intervention | ✓ Good |
 | Session-level timeout approval | Prevents repeated prompts during long-running experiments | ✓ Good |
 | Random seed as hard graduation requirement | Enforces reproducibility for notebook-to-script | ✓ Good |
+| Study-centric terminology (v1.1) | Better matches research workflows than GSD naming | ✓ Good |
+| Quick explore with warning (v1.1) | Enables fast iteration while preventing shallow analysis | ✓ Good |
+| Inline Python for insights (v1.1) | Simpler than Jinja2 templates, easier to maintain | ✓ Good |
 
 ---
-*Last updated: 2026-01-30 after v1.1 milestone started*
+*Last updated: 2026-02-01 after v1.1 milestone*

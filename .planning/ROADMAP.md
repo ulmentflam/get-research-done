@@ -3,8 +3,8 @@
 ## Milestones
 
 - ✅ **v1.0 MVP** - Phases 1-9 (shipped 2026-01-30)
-- 🚧 **v1.1 Research UX Refinement** - Phases 10-14 (in progress)
-- 📋 **v2.0 Advanced Features** - Phases 14+ (planned)
+- ✅ **v1.1 Research UX Refinement** - Phases 10-14 (shipped 2026-02-01)
+- 📋 **v2.0 Advanced Features** - Phases 15+ (planned)
 
 ## Phases
 
@@ -27,145 +27,52 @@
 
 </details>
 
-### 🚧 v1.1 Research UX Refinement (In Progress)
+<details>
+<summary>✅ v1.1 Research UX Refinement (Phases 10-14) - SHIPPED 2026-02-01</summary>
 
 **Milestone Goal:** Streamline GRD for research workflows by removing GSD legacy, adding accessible EDA for non-data-scientists, and creating fast exploration paths.
 
-#### Phase 10: Command Cleanup & Foundation
+**Phases completed:** 10-14 (13 plans total)
 
-**Goal**: Remove GSD legacy commands and establish clean baseline for v1.1 features
+- [x] Phase 10: Command Cleanup & Foundation (2/2 plans) — completed 2026-01-31
+- [x] Phase 11: Terminology Rename (3/3 plans) — completed 2026-01-31
+- [x] Phase 12: Quick Explore (3/3 plans) — completed 2026-02-01
+- [x] Phase 13: Accessible Insights (2/2 plans) — completed 2026-02-01
+- [x] Phase 14: Integration Testing & Validation (3/3 plans) — completed 2026-02-01
 
-**Depends on**: Phase 9 (v1.0 complete)
+**Key accomplishments:**
+- Study-centric terminology (6 lifecycle commands renamed)
+- Quick Explore command with Rich console output
+- Accessible Insights with plain English explanations
+- Integration testing with 118/118 automated checks passed
 
-**Requirements**: CLEAN-01, CLEAN-02, CLEAN-03, CLEAN-04
+**Stats:** 76 files created/modified, +16,503 lines of code, 3 days to ship
 
-**Success Criteria** (what must be TRUE):
-1. All 32 duplicate " 2.md" skill files are deleted from `.claude/commands/grd/`
-2. GSD-specific commands (audit-milestone, plan-milestone-gaps) are removed and no longer appear in help
-3. Command count reduced from 64 files to 30 unique files (verified via ls count)
-4. Help documentation reflects only research-relevant commands
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 10-01-PLAN.md — Delete duplicates, remove deprecated commands, update help.md
-- [x] 10-02-PLAN.md — Restore audit/gap commands with study-centric naming (gap closure)
-
-#### Phase 11: Terminology Rename
-
-**Goal**: Rename lifecycle commands to match GRD research terminology
-
-**Depends on**: Phase 10
-
-**Requirements**: TERM-01, TERM-02, TERM-03, TERM-04, TERM-05, TERM-06, TERM-07
-
-**Rename Mapping:**
-| Current | New | Purpose |
-|---------|-----|---------|
-| `new-milestone` | `new-study` | Start a new research study |
-| `complete-milestone` | `complete-study` | Archive and conclude a study |
-| `discuss-phase` | `scope-study` | Scope the research approach |
-| `plan-phase` | `plan-study` | Plan the research execution |
-| `execute-phase` | `run-study` | Execute the research plan |
-| `verify-work` | `validate-study` | Validate research results |
-
-**Success Criteria** (what must be TRUE):
-1. All 6 commands renamed with new skill files created
-2. Old command names removed (no duplicates)
-3. All internal references updated (agent prompts, orchestrators, templates)
-4. Help documentation reflects new command names
-5. STATE.md and ROADMAP.md templates use new terminology
-
-**Plans:** 3 plans
-
-Plans:
-- [x] 11-01-PLAN.md — Rename 6 command files with git mv, update frontmatter
-- [x] 11-02-PLAN.md — Update all internal references to new command names
-- [x] 11-03-PLAN.md — Update broader terminology (Phase->Study, Milestone->Version)
-
-#### Phase 12: Quick Explore
-
-**Goal**: Enable fast EDA producing summary output for quick data familiarization decisions
-
-**Depends on**: Phase 11
-
-**Requirements**: QUICK-01, QUICK-02, QUICK-03, QUICK-04, QUICK-05
-
-**Success Criteria** (what must be TRUE):
-1. User can run `/grd:quick-explore <dataset>` and receive analysis results in under 60 seconds
-2. Quick explore outputs summary statistics (row count, column types, missing values percentage) to console
-3. Distribution patterns are highlighted with simple indicators (skewness flags, outlier alerts)
-4. Output is markdown-formatted and copy-paste ready for team communication
-5. DATA_REPORT.md contains "Quick Explore" mode header and note about running full explore for rigor
-
-**Plans:** 3 plans
-
-Plans:
-- [x] 12-01-PLAN.md — Create quick-explore command and formatters module
-- [x] 12-02-PLAN.md — Create quick.py analysis module and update data-report template
-- [x] 12-03-PLAN.md — Integrate quick mode into Explorer/Architect agents and help.md
-
-#### Phase 13: Accessible Insights
-
-**Goal**: Generate plain English data insights for business analyst audience without code or jargon
-
-**Depends on**: Phase 12
-
-**Requirements**: INSIGHT-01, INSIGHT-02, INSIGHT-03, INSIGHT-04, INSIGHT-05
-
-**Success Criteria** (what must be TRUE):
-1. User can run `/grd:insights <dataset>` to generate business-friendly EDA report
-2. Full technical DATA_REPORT.md is saved to file (same rigor as regular explore)
-3. Plain English summary is displayed where every statistic includes "What This Means" explanation
-4. Actionable recommendations based on data characteristics appear in summary
-5. LLM prompts for further exploration are provided as copy-paste ready suggestions
-
-**Plans:** 2 plans
-
-Plans:
-- [x] 13-01-PLAN.md — Create Jinja2 templates and insights.py module with narrative generation
-- [x] 13-02-PLAN.md — Create /grd:insights command and integrate with Explorer agent
-
-#### Phase 14: Integration Testing & Validation
-
-**Goal**: Validate workflow paths, gating behavior, and prevent regressions before release
-
-**Depends on**: Phase 13
-
-**Requirements**: (Integration testing spans all v1.1 requirements)
-
-**Success Criteria** (what must be TRUE):
-1. Progressive path works: quick-explore → full explore → architect proceeds without error
-2. Insights path works: insights → architect proceeds without insufficient-data warning
-3. Quick-only path triggers warning: quick-explore → architect warns about insufficient depth
-4. Critic routing validated: research → REVISE_DATA → spawns full explore (not quick-explore)
-5. Help documentation reflects all renamed commands and new commands
-
-**Plans:** 3 plans
-
-Plans:
-- [x] 14-01-PLAN.md — Create validation checklist and verification scripts
-- [x] 14-02-PLAN.md — Verify REVISE_DATA routing, execute automated validation
-- [x] 14-03-PLAN.md — Execute behavioral validation workflows (gap closure)
+</details>
 
 ### 📋 v2.0 Advanced Features (Planned)
 
 **Milestone Goal:** MLflow integration, DVC integration, multi-user support, web UI, red-teaming mode, automatic data profiling
 
-**Phases:** 15+ (to be defined)
+**Phases:** 15+ (to be defined via `/grd:new-study`)
+
+**Potential features:**
+- MLflow experiment tracking integration
+- DVC data versioning
+- Multi-user support with shared experiment registry
+- Web UI for experiment visualization
+- Red-teaming mode for Critic (adversarial validation)
+- Automatic data profiling with statistical tests
+- Visual previews (ASCII charts, embedded images)
+- Confidence indicators in plain language
 
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 10 → 11 → 12 → 13 → 14 → 15...
+Phases execute in numeric order: 15 → 16 → 17...
 
 | Phase | Milestone | Plans Complete | Status | Completed |
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
-| 10. Command Cleanup | v1.1 | 2/2 | Complete | 2026-01-31 |
-| 11. Terminology Rename | v1.1 | 3/3 | Complete | 2026-01-31 |
-| 12. Quick Explore | v1.1 | 3/3 | Complete | 2026-02-01 |
-| 13. Accessible Insights | v1.1 | 2/2 | Complete | 2026-02-01 |
-| 14. Integration Testing | v1.1 | 3/3 | Complete | 2026-02-01 |
-
-**Note (2026-02-01):** All v1.1 phases complete. Behavioral validation passed (SC-1, SC-2, SC-3 all verified). Ready for milestone completion.
+| 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
+| 15+. v2.0 Advanced | v2.0 | 0/? | Not started | - |
