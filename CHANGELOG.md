@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.0] - 2026-02-02
+
+### Added
+- Gemini CLI support with TOML agent conversion (`--gemini` flag)
+- Multi-runtime installer (`--claude`, `--opencode`, `--gemini`, `--all` flags)
+- Context bar scaling fix (shows 100% at 80% token limit)
+- Branching strategy options (squash merge, preserve history, delete branch)
+- Attribution commit settings (respect `attribution.commit` config)
+
+### Changed
+- Visual branding updated to GRD identity (research teal #4FB3D4 color palette)
+- Logo assets renamed (`grd-logo-2000.svg/png`)
+- Terminal preview shows v1.3.0 branding
+
 ## [1.2.0] - 2026-02-02
 
 ### Added
@@ -17,5 +31,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Notebook graduation workflow for production script conversion
 - Multi-runtime support (Claude Code, OpenCode)
 
-[Unreleased]: https://github.com/ulmentflam/get-research-done/compare/v1.2.0...HEAD
-[1.2.0]: https://github.com/ulmentflam/get-research-done/releases/tag/v1.2.0
+## [1.1.0] - 2026-02-01
+
+### Added
+- Quick explore command (`/grd:quick-explore`) with Rich console output
+- Accessible insights (`/grd:insights`) with plain English explanations
+- Study-centric terminology (experiment/study vocabulary)
+
+### Changed
+- Renamed 6 lifecycle commands to research terminology
+- GSD legacy commands removed or repurposed
+
+## [1.0.0] - 2026-01-30
+
+### Added
+- Initial release: recursive ML experimentation framework
+- Explorer agent with data profiling and leakage detection
+- Architect agent with hypothesis synthesis
+- Researcher/Critic/Evaluator recursive validation loop
+- Human evaluation gate with evidence packages
+- Notebook graduation workflow (papermill execution)
+- 27 CLI commands for research workflow
+- Multi-runtime support (Claude Code, OpenCode)
+
+[Unreleased]: https://github.com/ulmentflam/get-research-done/compare/v1.3.0...HEAD
+[1.3.0]: https://github.com/ulmentflam/get-research-done/compare/v1.2.0...v1.3.0
+[1.2.0]: https://github.com/ulmentflam/get-research-done/compare/v1.1.0...v1.2.0
+[1.1.0]: https://github.com/ulmentflam/get-research-done/compare/v1.0.0...v1.1.0
+[1.0.0]: https://github.com/ulmentflam/get-research-done/releases/tag/v1.0.0
