@@ -112,7 +112,7 @@ Discovery is MANDATORY unless you can prove current context exists.
 - Level 2+: New library not in package.json, external API, "choose/select/evaluate" in description
 - Level 3: "architecture/design/system", multiple external services, data modeling, auth design
 
-For niche domains (3D, games, audio, shaders, ML), suggest `/grd:research-phase` before plan-phase.
+For niche domains (3D, games, audio, shaders, ML), suggest `/grd:literature-review` before plan-phase.
 
 </discovery_levels>
 
@@ -1100,7 +1100,7 @@ PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE}-*
 # Read CONTEXT.md if exists (from /grd:scope-experiment)
 cat "${PHASE_DIR}"/*-CONTEXT.md 2>/dev/null
 
-# Read RESEARCH.md if exists (from /grd:research-phase)
+# Read RESEARCH.md if exists (from /grd:literature-review)
 cat "${PHASE_DIR}"/*-RESEARCH.md 2>/dev/null
 
 # Read DISCOVERY.md if exists (from mandatory discovery)

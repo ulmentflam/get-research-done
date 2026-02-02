@@ -128,7 +128,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Console window flash on Windows when running hooks
 - Empty `--config-dir` value validation
 - Consistent `allowed-tools` YAML format across agents
-- Corrected agent name in research-phase heading
+- Corrected agent name in literature-review heading
 - Removed hardcoded 2025 year from search query examples
 - Removed dead gsd-researcher agent references
 - Integrated unused reference files into documentation
@@ -237,7 +237,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Consistent zero-padding for phase directories (01-name, not 1-name)
 - Plan file naming: `{phase}-{plan}-PLAN.md` pattern restored across all agents
 - Double-path bug in researcher git add command
-- Removed `/gsd:research-phase` from next-step suggestions (use `/gsd:plan-phase` instead)
+- Removed `/gsd:literature-review` from next-step suggestions (use `/gsd:plan-phase` instead)
 
 ## [1.5.22] - 2025-01-16
 
@@ -327,13 +327,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Research subagent prompt template for context-only spawning
 
 ### Changed
-- `/gsd:research-phase` refactored to thin orchestrator — now injects rich context (key insight framing, downstream consumer info, quality gates) to gsd-researcher agent
+- `/gsd:literature-review` refactored to thin orchestrator — now injects rich context (key insight framing, downstream consumer info, quality gates) to gsd-researcher agent
 - `/gsd:research-project` refactored to spawn 4 parallel gsd-researcher agents with milestone-aware context (greenfield vs v1.1+) and roadmap implications guidance
 - `/gsd:debug` refactored to thin orchestrator (149 lines) — spawns gsd-debugger agent with full debugging expertise
 - `/gsd:new-milestone` now explicitly references MILESTONE-CONTEXT.md
 
 ### Deprecated
-- `workflows/research-phase.md` — consolidated into gsd-researcher agent
+- `workflows/literature-review.md` — consolidated into gsd-researcher agent
 - `workflows/research-project.md` — consolidated into gsd-researcher agent
 - `workflows/debug.md` — consolidated into gsd-debugger agent
 - `references/research-pitfalls.md` — consolidated into gsd-researcher agent
@@ -977,7 +977,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ### Added
 - Pre-roadmap research workflow
-- `/gsd:research-phase` for niche domain ecosystem discovery
+- `/gsd:literature-review` for niche domain ecosystem discovery
 - `/gsd:research-project` command with workflow and templates
 - `/gsd:create-roadmap` command with research-aware workflow
 - Research subagent prompt templates
@@ -989,7 +989,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.0.11] - 2025-12-15
 
 ### Added
-- `/gsd:research-phase` for niche domain ecosystem discovery
+- `/gsd:literature-review` for niche domain ecosystem discovery
 
 ## [1.0.10] - 2025-12-15
 

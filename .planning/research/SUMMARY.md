@@ -104,7 +104,7 @@ Best practice: **linear default, branch on verdict**. The most successful CLI wo
 | `execute-phase` | `run-experiment` | "Run" is standard for experiment execution (DVC, MLflow) |
 | `discuss-phase` | `scope-experiment` | "Scope" captures context gathering before design |
 | `verify-work` | `validate-results` | "Validate" is more statistical/research-native |
-| `research-phase` | `literature-review` | Explicit about what the research step does |
+| `literature-review` | `literature-review` | Explicit about what the research step does |
 | `list-phase-assumptions` | `list-experiment-assumptions` | Keep pattern, change noun |
 | `add-phase` | `add-experiment` | Keep pattern, change noun |
 | `insert-phase` | `insert-experiment` | Keep pattern, change noun |
@@ -169,7 +169,7 @@ new-study --> design-experiment --> run-experiment --> validate-results --> comp
 
 | Candidate | Consolidate Into | Rationale |
 |-----------|------------------|-----------|
-| `research-phase` | `literature-review` | Same function, research-native name |
+| `literature-review` | `literature-review` | Same function, research-native name |
 | `discuss-phase` | `scope-experiment` | Same function, research-native name |
 
 ### Flag Standardization
@@ -242,7 +242,7 @@ Based on research, suggested phase structure for v1.2:
 **Phases needing deeper research during planning:**
 - **Phase 3:** May need research on STATE.md schema versioning for future migrations
 
-**Phases with standard patterns (skip research-phase):**
+**Phases with standard patterns (skip literature-review):**
 - **Phase 1:** Straightforward file renames and content updates
 - **Phase 2:** Pattern established in COMMAND_CHAINING.md research
 - **Phase 4:** Standard documentation updates

@@ -99,7 +99,7 @@ Add note that this is the last plan and what comes after:
 
 **Also available:**
 - `/grd:scope-experiment 2` — gather context first
-- `/grd:research-phase 2` — investigate unknowns
+- `/grd:literature-review 2` — investigate unknowns
 - Review roadmap
 
 ---
@@ -128,7 +128,7 @@ Show completion status before next action:
 
 **Also available:**
 - `/grd:scope-experiment 3` — gather context first
-- `/grd:research-phase 3` — investigate unknowns
+- `/grd:literature-review 3` — investigate unknowns
 - Review what Phase 2 built
 
 ---
@@ -149,7 +149,7 @@ When there's no clear primary action:
 
 **To discuss context first:** `/grd:scope-experiment 3`
 
-**To research unknowns:** `/grd:research-phase 3`
+**To research unknowns:** `/grd:literature-review 3`
 
 <sub>`/clear` first → fresh context window</sub>
 

@@ -17,7 +17,7 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 - `execute-phase` → `run-experiment` — Execute designed experiment
 - `discuss-phase` → `scope-experiment` — Clarify experiment approach
 - `verify-work` → `validate-results` — Validate experiment results
-- `research-phase` → `literature-review` — Research before experiment design
+- `literature-review` → `literature-review` — Research before experiment design
 - Command flow fix: `new-study` → `design-experiment` → `run-experiment` (not `plan-phase`)
 
 **Expected impact:** Consistent research workflow where commands match mental model and chain correctly.

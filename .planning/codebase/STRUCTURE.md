@@ -47,7 +47,7 @@ get-shit-done/
   - `execute-phase.md` - Run phase plans
   - `map-codebase.md` - Analyze codebase structure
   - `validate-results.md` - Verify phase completion
-  - `research-phase.md` - Deep research for a phase
+  - `literature-review.md` - Deep research for a phase
   - `audit-milestone.md` - Audit milestone progress
 - Subdirectories: None (flat structure)
 - Pattern: Each file = one command, YAML frontmatter defines behavior
@@ -93,7 +93,7 @@ get-shit-done/
   - `execute-phase.md` - Execute all plans in a phase (wave-based)
   - `verify-phase.md` - Run verification criteria for phase
   - `validate-results.md` - Full verification workflow
-  - `research-phase.md` - Research domain for a phase
+  - `literature-review.md` - Research domain for a phase
   - `discovery-phase.md` - Discover requirements
   - `discuss-phase.md` - Discuss and refine phase details
   - `complete-milestone.md` - Mark milestone complete

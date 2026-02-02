@@ -81,7 +81,7 @@ Help articulate your vision for a phase before planning.
 
 Usage: `/grd:scope-experiment 2`
 
-**`/grd:research-phase <number>`**
+**`/grd:literature-review <number>`**
 Comprehensive ecosystem research for niche/complex domains.
 
 - Discovers standard stack, architecture patterns, pitfalls
@@ -89,7 +89,7 @@ Comprehensive ecosystem research for niche/complex domains.
 - Use for 3D, games, audio, shaders, ML, and other specialized domains
 - Goes beyond "which library" to ecosystem knowledge
 
-Usage: `/grd:research-phase 3`
+Usage: `/grd:literature-review 3`
 
 **`/grd:list-phase-assumptions <number>`**
 See what Claude is planning to do before it starts.
@@ -149,15 +149,15 @@ Add new experiment to end of current study.
 
 Usage: `/grd:add-experiment "Add feature ablation experiment"`
 
-**`/grd:insert-phase <after> <description>`**
-Insert urgent work as decimal phase between existing phases.
+**`/grd:insert-experiment <after> <description>`**
+Insert urgent work as decimal experiment between existing experiments.
 
-- Creates intermediate phase (e.g., 7.1 between 7 and 8)
+- Creates intermediate experiment (e.g., 7.1 between 7 and 8)
 - Useful for discovered work that must happen mid-study
-- Maintains phase ordering
+- Maintains experiment ordering
 
-Usage: `/grd:insert-phase 7 "Fix critical data leak bug"`
-Result: Creates Phase 7.1
+Usage: `/grd:insert-experiment 7 "Fix critical data leak bug"`
+Result: Creates Experiment 7.1
 
 **`/grd:remove-phase <number>`**
 Remove a future phase and renumber subsequent phases.
@@ -452,7 +452,7 @@ Example config:
 **Adding urgent mid-study work:**
 
 ```
-/grd:insert-phase 5 "Critical data preprocessing fix"
+/grd:insert-experiment 5 "Critical data preprocessing fix"
 /grd:design-experiment 5.1
 /grd:run-experiment 5.1
 ```

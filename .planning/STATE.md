@@ -72,7 +72,7 @@ v1.2 key decisions:
 | `execute-phase` | `run-experiment` | Complete (15-01) |
 | `discuss-phase` | `scope-experiment` | Complete (15-01) |
 | `validate-results` | `validate-results` | Skipped (already renamed in 11-01) |
-| `research-phase` | `literature-review` | Pending |
+| `literature-review` | `literature-review` | Pending |
 | `list-phase-assumptions` | `list-experiment-assumptions` | Pending |
 | `add-phase` | `add-experiment` | Pending |
 | `insert-phase` | `insert-experiment` | Pending |

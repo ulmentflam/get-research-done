@@ -14,7 +14,7 @@
 | 5 | `check-todos` | List and work on pending todos | Moves todo to `done/` | `.planning/todos/pending/` | Work on it, add to phase, brainstorm |
 | 6 | `complete-study` | Archive completed study | `studies/v{version}-*.md` | STUDY_PROTOCOL.md, HYPOTHESES.md, v{version}-STUDY-AUDIT.md | `/grd:new-study` |
 | 7 | `debug` | Systematic debugging with persistent state | `.planning/debug/*.md` | None | Fix now, plan fix, manual fix |
-| 8 | `discuss-phase` | Gather phase context through questioning | `{phase}-CONTEXT.md` | STATE.md, ROADMAP.md | `/grd:research-phase` or `/grd:design-experiment` |
+| 8 | `discuss-phase` | Gather phase context through questioning | `{phase}-CONTEXT.md` | STATE.md, ROADMAP.md | `/grd:literature-review` or `/grd:design-experiment` |
 | 9 | `evaluate` | Human evaluation gate (ML Phase 5) | `DECISION.md`, `decision_log.md` | `SCORECARD.json` | Seal, Iterate, Archive |
 | 10 | `execute-phase` | Execute all plans in a phase | `*-SUMMARY.md`, `*-VERIFICATION.md` | PLAN.md files, ROADMAP.md | `/grd:scope-experiment {Z+1}` or `/grd:audit-milestone` |
 | 11 | `explore` | Analyze data for ML projects | `.planning/DATA_REPORT.md` | PROJECT.md | `/grd:architect` |
@@ -33,7 +33,7 @@
 | 24 | `quick-explore` | Fast EDA console summary | `DATA_REPORT.md` (quick mode) | PROJECT.md | `/grd:explore` or `/grd:architect` |
 | 25 | `quick` | Execute ad-hoc task with GRD guarantees | `.planning/quick/NNN-*/PLAN.md, SUMMARY.md` | ROADMAP.md | `/grd:quick` |
 | 26 | `remove-phase` | Remove future phase and renumber | ROADMAP.md update, directory deletion | ROADMAP.md, STATE.md | `/grd:progress` |
-| 27 | `research-phase` | Research how to implement a phase (standalone) | `{phase}-RESEARCH.md` | ROADMAP.md | `/grd:design-experiment` |
+| 27 | `literature-review` | Research how to implement a phase (standalone) | `{phase}-RESEARCH.md` | ROADMAP.md | `/grd:design-experiment` |
 | 28 | `research` | Implement ML experiments (Phase 4) | `experiments/run_NNN/` | OBJECTIVE.md | Review verdict, `/grd:evaluate` |
 | 29 | `resume-work` | Resume from previous session | None | STATE.md | Context-dependent routing |
 | 30 | `set-profile` | Switch model profile | config.json update | config.json | None |
@@ -165,7 +165,7 @@ Context-dependent routing
 | `architect` | `research` |
 | `audit-study` | `complete-study`, `plan-study-gaps` |
 | `complete-study` | `new-study` |
-| `discuss-phase` | `research-phase`, `plan-phase` |
+| `discuss-phase` | `literature-review`, `plan-phase` |
 | `execute-phase` | `discuss-phase`, `plan-phase`, `verify-work`, `audit-milestone` |
 | `explore` | `architect` |
 | `insert-phase` | `plan-phase` |
@@ -179,7 +179,7 @@ Context-dependent routing
 | `plan-study-gaps` | `plan-phase`, `audit-study`, `complete-study` |
 | `progress` | `execute-phase`, `plan-phase`, `discuss-phase`, `complete-milestone`, `new-milestone` |
 | `quick-explore` | `explore`, `architect` |
-| `research-phase` | `plan-phase` |
+| `literature-review` | `plan-phase` |
 | `research` | `research --continue`, `evaluate`, `explore`, `architect` |
 | `verify-work` | `execute-phase --gaps-only`, `plan-phase --gaps`, `discuss-phase`, `audit-milestone`, `complete-milestone` |
 
@@ -231,7 +231,7 @@ Context-dependent routing
 | `REQUIREMENTS.md` | `new-project` | `plan-phase`, `execute-phase` |
 | `research/*.md` | `new-project` (phase 6) | `plan-phase` |
 | `{phase}-CONTEXT.md` | `discuss-phase` | `plan-phase` |
-| `{phase}-RESEARCH.md` | `plan-phase`, `research-phase` | `plan-phase` |
+| `{phase}-RESEARCH.md` | `plan-phase`, `literature-review` | `plan-phase` |
 | `*-PLAN.md` | `plan-phase` | `execute-phase` |
 | `*-SUMMARY.md` | `execute-phase` | `progress`, `verify-work`, `audit-study` |
 | `*-VERIFICATION.md` | `execute-phase` | `audit-study` |
@@ -267,7 +267,7 @@ Context-dependent routing
 ### Phase Workflow
 - `discuss-phase` - Gather context
 - `list-phase-assumptions` - Preview Claude's approach
-- `research-phase` - Domain research (standalone)
+- `literature-review` - Domain research (standalone)
 - `plan-phase` - Create plans
 - `execute-phase` - Run plans
 - `verify-work` - UAT validation

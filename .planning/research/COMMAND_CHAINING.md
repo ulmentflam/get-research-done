@@ -42,7 +42,7 @@ The most successful CLI workflows (Git, Terraform, Docker) share a common struct
 
 1. **Command bloat** — Too many commands for similar tasks creates confusion
 2. **Hidden state** — When users can't see what state they're in
-3. **Inconsistent naming** — `plan-phase` vs `execute-phase` vs `research-phase` (GRD does this well)
+3. **Inconsistent naming** — `plan-phase` vs `execute-phase` vs `literature-review` (GRD does this well)
 4. **No escape hatch** — Users trapped in flows they can't exit
 
 ### GRD Alignment Assessment
@@ -53,7 +53,7 @@ GRD's current command structure follows the linear phases pattern well:
 new-project --> plan-phase --> execute-phase --> verify-work --> complete-milestone
          \                          |
           \--> discuss-phase -------+
-           \--> research-phase -----+
+           \--> literature-review -----+
 ```
 
 **Strength:** Clear phase-based progression

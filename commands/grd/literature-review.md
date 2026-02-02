@@ -1,6 +1,6 @@
 ---
-name: grd:research-phase
-description: Research how to implement a phase (standalone - usually use /grd:design-experiment instead)
+name: grd:literature-review
+description: Comprehensive ecosystem research for niche/complex domains
 argument-hint: "[phase]"
 allowed-tools:
   - Read

@@ -13,7 +13,7 @@ Requirements for Command Unification milestone. Each maps to roadmap phases.
 - [ ] **RENAME-02**: Rename `execute-phase` to `run-experiment` (file, content, help.md)
 - [ ] **RENAME-03**: Rename `discuss-phase` to `scope-experiment` (file, content, help.md)
 - [ ] **RENAME-04**: Rename `validate-results` to `validate-results` (file, content, help.md)
-- [ ] **RENAME-05**: Rename `research-phase` to `literature-review` (file, content, help.md)
+- [ ] **RENAME-05**: Rename `literature-review` to `literature-review` (file, content, help.md)
 - [ ] **RENAME-06**: Rename `list-phase-assumptions` to `list-experiment-assumptions` (file, content, help.md)
 - [ ] **RENAME-07**: Rename `add-phase` to `add-experiment` (file, content, help.md)
 - [ ] **RENAME-08**: Rename `insert-phase` to `insert-experiment` (file, content, help.md)

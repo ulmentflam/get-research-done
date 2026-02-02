@@ -238,7 +238,7 @@ Based on user selection, route to appropriate workflow:
 
   **Also available:**
   - `/grd:scope-experiment [N]` — gather context first
-  - `/grd:research-phase [N]` — investigate unknowns
+  - `/grd:literature-review [N]` — investigate unknowns
 
   ---
   ```

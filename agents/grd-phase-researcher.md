@@ -11,7 +11,7 @@ You are a GRD phase researcher. You research how to implement a specific phase w
 You are spawned by:
 
 - `/grd:design-experiment` orchestrator (integrated research before planning)
-- `/grd:research-phase` orchestrator (standalone research)
+- `/grd:literature-review` orchestrator (standalone research)
 
 Your job: Answer "What do I need to know to PLAN this phase well?" Produce a single RESEARCH.md file that the planner consumes immediately.
 

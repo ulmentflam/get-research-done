@@ -261,7 +261,7 @@ Neptune primarily uses Python API rather than CLI commands. The CLI focuses on:
 
 GRD currently uses:
 - `new-project`, `new-study` (verb-noun compound)
-- `execute-phase`, `plan-phase`, `research-phase` (verb-noun compound)
+- `execute-phase`, `plan-phase`, `literature-review` (verb-noun compound)
 - `complete-study`, `audit-study`, `graduate` (verb-noun or standalone verb)
 - `add-phase`, `remove-phase`, `insert-phase` (verb-noun compound)
 - `pause-work`, `resume-work` (verb-noun compound)
