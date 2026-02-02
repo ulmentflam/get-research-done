@@ -9,12 +9,12 @@ Requirements for v1.3 Branding & Gemini Integration milestone.
 
 ### Branding
 
-- [ ] **BRAND-01**: SVG logo displays "GRD" ASCII art instead of "GSD"
-- [ ] **BRAND-02**: Terminal preview SVG shows `npx get-research-done` command
-- [ ] **BRAND-03**: Terminal preview shows "Get Research Done v1.3.0" title
-- [ ] **BRAND-04**: Terminal preview shows GRD install output and `/grd:help` command
-- [ ] **BRAND-05**: PNG logo regenerated from updated SVG
-- [ ] **BRAND-06**: Logo filename renamed from `gsd-logo-2000.*` to `grd-logo-2000.*`
+- [x] **BRAND-01**: SVG logo displays "GRD" ASCII art instead of "GSD"
+- [x] **BRAND-02**: Terminal preview SVG shows `npx get-research-done` command
+- [x] **BRAND-03**: Terminal preview shows "Get Research Done v1.3.0" title
+- [x] **BRAND-04**: Terminal preview shows GRD install output and `/grd:help` command
+- [x] **BRAND-05**: PNG logo regenerated from updated SVG
+- [x] **BRAND-06**: Logo filename renamed from `gsd-logo-2000.*` to `grd-logo-2000.*`
 
 ### GSD Sync
 
@@ -54,12 +54,12 @@ Deferred to future milestones:
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BRAND-01 | Phase 22 | Pending |
-| BRAND-02 | Phase 22 | Pending |
-| BRAND-03 | Phase 22 | Pending |
-| BRAND-04 | Phase 22 | Pending |
-| BRAND-05 | Phase 22 | Pending |
-| BRAND-06 | Phase 22 | Pending |
+| BRAND-01 | Phase 22 | Complete |
+| BRAND-02 | Phase 22 | Complete |
+| BRAND-03 | Phase 22 | Complete |
+| BRAND-04 | Phase 22 | Complete |
+| BRAND-05 | Phase 22 | Complete |
+| BRAND-06 | Phase 22 | Complete |
 | SYNC-01 | Phase 20 | Complete |
 | SYNC-02 | Phase 20 | Complete |
 | SYNC-03 | Phase 20 | Complete |
