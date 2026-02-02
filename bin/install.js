@@ -920,10 +920,10 @@ function uninstall(isGlobal, runtime = 'claude') {
       settings.hooks.SessionStart = settings.hooks.SessionStart.filter(entry => {
         if (entry.hooks && Array.isArray(entry.hooks)) {
           // Filter out GRD hooks
-          const hasGsdHook = entry.hooks.some(h =>
+          const hasGrdHook = entry.hooks.some(h =>
             h.command && (h.command.includes('grd-check-update') || h.command.includes('grd-statusline'))
           );
-          return !hasGsdHook;
+          return !hasGrdHook;
         }
         return true;
       });
@@ -1295,11 +1295,11 @@ function install(isGlobal, runtime = 'claude') {
     }
 
     // Check if GRD update hook already exists
-    const hasGsdUpdateHook = settings.hooks.SessionStart.some(entry =>
+    const hasGrdUpdateHook = settings.hooks.SessionStart.some(entry =>
       entry.hooks && entry.hooks.some(h => h.command && h.command.includes('grd-check-update'))
     );
 
-    if (!hasGsdUpdateHook) {
+    if (!hasGrdUpdateHook) {
       settings.hooks.SessionStart.push({
         hooks: [
           {

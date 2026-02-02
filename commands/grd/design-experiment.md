@@ -196,7 +196,7 @@ Answer: "What do I need to know to PLAN this phase well?"
 </objective>
 
 <phase_context>
-**IMPORTANT:** If CONTEXT.md exists below, it contains user decisions from /gsd:discuss-phase.
+**IMPORTANT:** If CONTEXT.md exists below, it contains user decisions from /grd:discuss-phase.
 
 - **Decisions section** = Locked choices — research THESE deeply, don't explore alternatives
 - **Claude's Discretion section** = Your freedom areas — research options, make recommendations
@@ -298,7 +298,7 @@ Fill prompt with inlined content and spawn:
 
 **Phase Context (if exists):**
 
-IMPORTANT: If phase context exists below, it contains USER DECISIONS from /gsd:discuss-phase.
+IMPORTANT: If phase context exists below, it contains USER DECISIONS from /grd:discuss-phase.
 - **Decisions** = LOCKED — honor these exactly, do not revisit or suggest alternatives
 - **Claude's Discretion** = Your freedom — make implementation choices here
 - **Deferred Ideas** = Out of scope — do NOT include in this phase
@@ -401,7 +401,7 @@ Fill checker prompt with inlined content and spawn:
 
 **Phase Context (if exists):**
 
-IMPORTANT: If phase context exists below, it contains USER DECISIONS from /gsd:discuss-phase.
+IMPORTANT: If phase context exists below, it contains USER DECISIONS from /grd:discuss-phase.
 Plans MUST honor these decisions. Flag as issue if plans contradict user's stated vision.
 
 - **Decisions** = LOCKED — plans must implement these exactly

@@ -27,7 +27,7 @@ You are NOT the executor (verifies code after execution) or the verifier (checks
 </role>
 
 <upstream_input>
-**CONTEXT.md** (if exists) — User decisions from `/gsd:discuss-phase`
+**CONTEXT.md** (if exists) — User decisions from `/grd:discuss-phase`
 
 | Section | How You Use It |
 |---------|----------------|
@@ -253,7 +253,7 @@ issue:
 
 ## Dimension 7: Context Compliance (if CONTEXT.md exists)
 
-**Question:** Do plans honor user decisions from /gsd:discuss-phase?
+**Question:** Do plans honor user decisions from /grd:discuss-phase?
 
 **Only check this dimension if CONTEXT.md was provided in the verification context.**
 
