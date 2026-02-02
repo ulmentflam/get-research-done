@@ -21,6 +21,8 @@ Output ONLY the reference content below. Do NOT add:
 
 ## Quick Start
 
+GRD supports multiple Claude-compatible runtimes: **Claude Code**, **OpenCode**, and **Gemini CLI**.
+
 1. `/grd:new-project` - Initialize (questioning → research → requirements → roadmap)
 2. `/grd:design-experiment 1` - Plan first experiment
 3. `/grd:run-experiment 1` - Execute experiment
@@ -35,6 +37,35 @@ GRD evolves fast. Update periodically:
 ```bash
 npx get-research-done@latest
 ```
+
+## Installation Options
+
+GRD supports multiple Claude-compatible runtimes:
+
+| Runtime | Flag | Config Directory |
+|---------|------|------------------|
+| Claude Code | `--claude` | `~/.claude/` |
+| OpenCode | `--opencode` | `~/.opencode/` |
+| Gemini CLI | `--gemini` | `~/.gemini/` |
+
+**Examples:**
+
+```bash
+npx get-research-done --claude --global    # Claude Code only
+npx get-research-done --gemini --global    # Gemini CLI only
+npx get-research-done --both --global      # Claude Code + OpenCode
+npx get-research-done --all --global       # All runtimes
+```
+
+**Gemini CLI Setup:**
+
+For Gemini CLI, set the `GEMINI_API_KEY` environment variable:
+
+```bash
+export GEMINI_API_KEY="your-api-key"
+```
+
+Get your API key from [Google AI Studio](https://aistudio.google.com/apikey).
 
 ## Core Workflow
 
