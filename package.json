@@ -36,7 +36,7 @@
     "url": "https://github.com/ulmentflam/get-research-done/issues"
   },
   "engines": {
-    "node": ">=16.7.0"
+    "node": ">=18.0.0"
   },
   "devDependencies": {
     "esbuild": "^0.27.2"
