@@ -156,7 +156,7 @@ Fix plans verified ✓
 
 **Execute fix plans** — run diagnosed fixes
 
-/grd:run-experiment {Z} --gaps-only
+/grd:run-experiment {Z} --gaps
 
 <sub>/clear first → fresh context window</sub>
 
