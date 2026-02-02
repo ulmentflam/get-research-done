@@ -159,16 +159,16 @@ Insert urgent work as decimal experiment between existing experiments.
 Usage: `/grd:insert-experiment 7 "Fix critical data leak bug"`
 Result: Creates Experiment 7.1
 
-**`/grd:remove-phase <number>`**
-Remove a future phase and renumber subsequent phases.
+**`/grd:remove-experiment <number>`**
+Remove a future experiment and renumber subsequent experiments.
 
-- Deletes phase directory and all references
-- Renumbers all subsequent phases to close the gap
-- Only works on future (unstarted) phases
+- Deletes experiment directory and all references
+- Renumbers all subsequent experiments to close the gap
+- Only works on future (unstarted) experiments
 - Git commit preserves historical record
 
-Usage: `/grd:remove-phase 17`
-Result: Phase 17 deleted, phases 18-20 become 17-19
+Usage: `/grd:remove-experiment 17`
+Result: Experiment 17 deleted, experiments 18-20 become 17-19
 
 ### Study Management
 
