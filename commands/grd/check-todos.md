@@ -138,7 +138,7 @@ Use AskUserQuestion:
 - question: "What would you like to do with this todo?"
 - options:
   - "Work on it now" — move to done, start working
-  - "Create a phase" — /grd:add-phase with this scope
+  - "Create a phase" — /grd:add-experiment with this scope
   - "Brainstorm approach" — think through before deciding
   - "Put it back" — return to list
 </step>
@@ -154,7 +154,7 @@ Update STATE.md todo count. Present problem/solution context. Begin work or ask 
 Note todo reference in phase planning notes. Keep in pending. Return to list or exit.
 
 **Create a phase:**
-Display: `/grd:add-phase [description from todo]`
+Display: `/grd:add-experiment [description from todo]`
 Keep in pending. User runs command in fresh context.
 
 **Brainstorm approach:**
@@ -213,7 +213,7 @@ Confirm: "Committed: docs: start work on todo - [title]"
 <anti_patterns>
 - Don't delete todos — move to done/ when work begins
 - Don't start work without moving to done/ first
-- Don't create plans from this command — route to /grd:design-experiment or /grd:add-phase
+- Don't create plans from this command — route to /grd:design-experiment or /grd:add-experiment
 </anti_patterns>
 
 <success_criteria>

@@ -15,7 +15,7 @@ Create all experiments necessary to close gaps identified by `/grd:audit-study`.
 
 Reads STUDY-AUDIT.md, groups gaps into logical experiments, creates experiment entries in STUDY_PROTOCOL.md, and offers to plan each experiment.
 
-One command creates all follow-up experiments — no manual `/grd:add-phase` per gap.
+One command creates all follow-up experiments — no manual `/grd:add-experiment` per gap.
 </objective>
 
 <execution_context>
@@ -198,7 +198,7 @@ git commit -m "docs(protocol): add gap closure experiments {N}-{M}"
 ---
 
 **Also available:**
-- `/grd:execute-phase {N}` — if plans already exist
+- `/grd:run-experiment {N}` — if plans already exist
 - `cat .planning/STUDY_PROTOCOL.md` — see updated protocol
 
 ---
