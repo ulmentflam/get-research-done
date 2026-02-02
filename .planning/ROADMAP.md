@@ -90,6 +90,12 @@ Plans:
 
 **Requirements:** CHAIN-01, CHAIN-02, CHAIN-03, CHAIN-04, CHAIN-05, CHAIN-06
 
+**Plans:** 2 plans
+
+Plans:
+- [ ] 16-01-PLAN.md — Replace milestone terminology with study equivalents in routing (audit-study, complete-study, new-study)
+- [ ] 16-02-PLAN.md — Add evaluate->graduate route for Seal decision and standardize --gaps flag
+
 **Success Criteria:**
 1. Running `new-study` suggests `design-experiment` as next step (not `plan-phase`)
 2. Running `evaluate` with Seal decision explicitly suggests `graduate` as next step
@@ -156,7 +162,7 @@ Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15. Command Renames | v1.2 | 4/4 | Complete | 2026-02-02 |
-| 16. Command Chaining | v1.2 | 0/? | Not started | - |
+| 16. Command Chaining | v1.2 | 0/2 | Not started | - |
 | 17. Artifact Updates | v1.2 | 0/? | Not started | - |
 | 18. Version History Reset | v1.2 | 0/? | Not started | - |
 | 19. Documentation & Testing | v1.2 | 0/? | Not started | - |
