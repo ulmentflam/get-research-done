@@ -11,9 +11,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 16 - Command Chaining Fixes
-Plan: 1 of 1 complete
+Plan: 2 of 2 complete
 Status: Phase complete
-Last activity: 2026-02-02 - Completed 16-01-PLAN.md
+Last activity: 2026-02-02 - Completed 16-02-PLAN.md
 
 Progress: [████------] 40% (2/5 phases)
 
@@ -68,6 +68,8 @@ v1.2 key decisions:
 - Preserve CHANGELOG.md: Historical references intentionally not updated
 - Batch sed replacements: Comprehensive coverage across 33 active files
 - Route to study-level commands: audit-study, complete-study, new-study instead of milestone equivalents
+- Use --gaps as primary flag: Standardized across commands with --gaps-only as backward compat
+- Explicit next-step routing: Suggest specific commands after completion (e.g., /grd:graduate after Seal)
 
 ### v1.2 Command Rename Mapping
 
@@ -96,10 +98,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 16-01-PLAN.md (Command Chaining Fixes)
+Stopped at: Completed 16-02-PLAN.md (Command Chaining Improvements)
 Resume file: None
 
-Phase 16 complete and verified. Next step: Continue to Phase 17 (Artifact Updates)
+Phase 16 complete. Next step: Continue to Phase 17 (Artifact Updates)
 
 ---
 *State initialized: 2026-01-27*
