@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 15 - Command Renames
-Plan: Not started
-Status: Ready to plan Phase 15
-Last activity: 2026-02-01 - Roadmap created for v1.2
+Plan: 1 of 4 complete
+Status: In progress
+Last activity: 2026-02-01 - Completed 15-01-PLAN.md
 
-Progress: [----------] 0% (0/5 phases)
+Progress: [█---------] 10% (1/10 plans)
 
 ## Milestone History
 
@@ -60,15 +60,18 @@ v1.2 key decisions:
 - No backward compatibility aliases: Clean break chosen over deprecation period
 - Keep ROADMAP.md: Update terminology rather than replace with STUDY_PROTOCOL.md
 - Phase ordering (renames -> chains -> artifacts -> version -> docs): Each phase depends on prior
+- design-experiment over plan-experiment: Emphasizes experimental design
+- run-experiment over execute-experiment: Shorter, more direct
+- scope-experiment over define-experiment: Scope implies boundaries
 
 ### v1.2 Command Rename Mapping
 
 | Current | New | Status |
 |---------|-----|--------|
-| `plan-phase` | `design-experiment` | Pending |
-| `execute-phase` | `run-experiment` | Pending |
-| `discuss-phase` | `scope-experiment` | Pending |
-| `validate-results` | `validate-results` | Pending |
+| `plan-phase` | `design-experiment` | Complete (15-01) |
+| `execute-phase` | `run-experiment` | Complete (15-01) |
+| `discuss-phase` | `scope-experiment` | Complete (15-01) |
+| `validate-results` | `validate-results` | Skipped (already renamed in 11-01) |
 | `research-phase` | `literature-review` | Pending |
 | `list-phase-assumptions` | `list-experiment-assumptions` | Pending |
 | `add-phase` | `add-experiment` | Pending |
@@ -88,10 +91,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Roadmap created for v1.2 milestone
+Stopped at: Completed 15-01-PLAN.md (Core command renames)
 Resume file: None
 
-Next step: `/grd:design-experiment 15` to plan Command Renames phase
+Next step: `/grd:run-experiment 15` to continue Phase 15 or `/grd:design-experiment 15` to plan next experiment
 
 ---
 *State initialized: 2026-01-27*
