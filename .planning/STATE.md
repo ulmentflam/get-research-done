@@ -6,16 +6,16 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 
 **Core value:** Structured ML experimentation with scientific rigor - from hypothesis to validated conclusion, with a Critic agent enforcing skepticism at every step.
 
-**Current focus:** Planning next milestone (v2.0)
+**Current focus:** v1.3 Branding & Gemini Integration
 
 ## Current Position
 
-Phase: 19 complete (v1.2 shipped)
-Plan: Not started
-Status: Ready to plan next milestone
-Last activity: 2026-02-02 - v1.2 Command Unification milestone shipped
+Phase: Not started (defining requirements)
+Plan: —
+Status: Defining requirements
+Last activity: 2026-02-02 — Milestone v1.3 started
 
-Progress: [          ] 0% (awaiting v2.0 planning)
+Progress: [          ] 0% (defining requirements)
 
 ## Milestone History
 

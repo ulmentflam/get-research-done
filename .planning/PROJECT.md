@@ -59,7 +59,12 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 
 ### Active
 
-(No active milestone — ready for v2.0 planning)
+**v1.3 Branding & Gemini Integration**
+
+- [ ] Update SVG assets with GRD branding (logo, terminal preview)
+- [ ] Regenerate PNG from updated SVG
+- [ ] Cherry-pick Gemini CLI from upstream GSD
+- [ ] Adapt Gemini CLI for GRD terminology and workflows
 
 ### Future
 
@@ -196,4 +201,4 @@ Structured ML experimentation with scientific rigor — from hypothesis to valid
 | Intentional stale refs in agents (v1.2) | Deferred agent prompt updates to minimize scope | — Pending |
 
 ---
-*Last updated: 2026-02-02 after v1.2 milestone completion*
+*Last updated: 2026-02-02 after v1.3 milestone started*
