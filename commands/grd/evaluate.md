@@ -557,7 +557,7 @@ Logged to:
 - .planning/STATE.md (Research Loop State updated)
 
 {Next steps based on decision:
-  - Seal: "Experiment validated. Review run directory for artifacts."
+  - Seal: "Experiment validated. Next: /grd:graduate"
   - Iterate: "Ready for next iteration. Run /grd:research --continue"
   - Archive: "Proceeding with archive workflow..." (triggers Phase 5)}
 ```
@@ -993,6 +993,7 @@ This negative result is preserved for future reference.
 This experiment is validated and ready for production/publication.
 
 **Next steps:**
+- `/grd:graduate` — Convert validated notebook to production script
 - Review final artifacts in run directory
 - Consider downstream actions (deployment, paper submission, etc.)
 ```
