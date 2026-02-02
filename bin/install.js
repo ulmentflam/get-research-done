@@ -1061,8 +1061,6 @@ function finishInstall(settingsPath, settings, statuslineCommand, shouldInstallS
   const command = isOpencode ? '/grd-help' : '/grd:help';
   console.log(`
   ${green}Done!${reset} Launch ${program} and run ${cyan}${command}${reset}.
-
-  ${cyan}Join the community:${reset} https://discord.gg/5JJgD5svVS
 `);
 }
 

@@ -8,8 +8,7 @@
 
 [![npm version](https://img.shields.io/npm/v/get-research-done?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-research-done)
 [![npm downloads](https://img.shields.io/npm/dm/get-research-done?style=for-the-badge&logo=npm&logoColor=white&color=CB3837)](https://www.npmjs.com/package/get-research-done)
-[![Discord](https://img.shields.io/badge/Discord-Join%20Server-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/5JJgD5svVS)
-[![GitHub stars](https://img.shields.io/github/stars/glittercowboy/get-research-done?style=for-the-badge&logo=github&color=181717)](https://github.com/glittercowboy/get-research-done)
+[![GitHub stars](https://img.shields.io/github/stars/ulmentflam/get-research-done?style=for-the-badge&logo=github&color=181717)](https://github.com/ulmentflam/get-research-done)
 [![License](https://img.shields.io/badge/license-MIT-blue?style=for-the-badge)](LICENSE)
 
 <br>
@@ -30,7 +29,7 @@ npx get-research-done
 
 *"I've done SpecKit, OpenSpec and Taskmaster — this has produced the best results for me."*
 
-*"By far the most powerful addition to my Claude Code. Nothing over-engineered. Literally just gets shit done."*
+*"By far the most powerful addition to my Claude Code. Nothing over-engineered. Literally just gets research done."*
 
 <br>
 
@@ -115,7 +114,7 @@ Use `--claude`, `--opencode`, or `--both` to skip the runtime prompt.
 Clone the repository and run the installer locally:
 
 ```bash
-git clone https://github.com/glittercowboy/get-research-done.git
+git clone https://github.com/ulmentflam/get-research-done.git
 cd get-research-done
 node bin/install.js --claude --local
 ```
@@ -412,6 +411,15 @@ Insufficient skepticism causes most ML research failures. GRD makes skepticism s
 | `/grd:new-project` | Initialize project with questioning → research → requirements |
 | `/grd:map-codebase` | Analyze existing codebase before new-project |
 
+### Study Management
+
+| Command | What it does |
+|---------|--------------|
+| `/grd:new-study` | Start a new research study — define hypotheses, create STUDY_PROTOCOL.md |
+| `/grd:complete-study <version>` | Archive completed study with findings and prepare for next |
+| `/grd:audit-study` | Audit study against original hypotheses before archiving |
+| `/grd:plan-study-gaps` | Create experiments to close gaps identified by audit |
+
 ### Navigation
 
 | Command | What it does |
@@ -419,7 +427,6 @@ Insufficient skepticism causes most ML research failures. GRD makes skepticism s
 | `/grd:progress` | Where am I? What's next? |
 | `/grd:help` | Show all commands and usage guide |
 | `/grd:update` | Update GRD with changelog preview |
-| `/grd:join-discord` | Join the GRD Discord community |
 
 ### Session
 
@@ -537,11 +544,11 @@ This removes all GRD commands, agents, hooks, and settings while preserving your
 
 ## Star History
 
-<a href="https://star-history.com/#glittercowboy/get-research-done&Date">
+<a href="https://star-history.com/#ulmentflam/get-research-done&Date">
  <picture>
-   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-research-done&type=Date&theme=dark" />
-   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=glittercowboy/get-research-done&type=Date" />
-   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=glittercowboy/get-research-done&type=Date" />
+   <source media="(prefers-color-scheme: dark)" srcset="https://api.star-history.com/svg?repos=ulmentflam/get-research-done&type=Date&theme=dark" />
+   <source media="(prefers-color-scheme: light)" srcset="https://api.star-history.com/svg?repos=ulmentflam/get-research-done&type=Date" />
+   <img alt="Star History Chart" src="https://api.star-history.com/svg?repos=ulmentflam/get-research-done&type=Date" />
  </picture>
 </a>
 

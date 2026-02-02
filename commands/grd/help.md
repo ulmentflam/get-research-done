@@ -1,10 +1,10 @@
 ---
 name: grd:help
-description: Show available GSD commands and usage guide
+description: Show available GRD commands and usage guide
 ---
 
 <objective>
-Display the complete GSD command reference.
+Display the complete GRD command reference.
 
 Output ONLY the reference content below. Do NOT add:
 
@@ -15,9 +15,9 @@ Output ONLY the reference content below. Do NOT add:
   </objective>
 
 <reference>
-# GSD Command Reference
+# GRD Command Reference
 
-**GSD** (Get Shit Done) creates hierarchical project plans optimized for solo agentic development with Claude Code.
+**GRD** (Get Research Done) creates hierarchical research plans optimized for hypothesis-driven ML experimentation with Claude Code.
 
 ## Quick Start
 
@@ -27,10 +27,10 @@ Output ONLY the reference content below. Do NOT add:
 
 ## Staying Updated
 
-GSD evolves fast. Update periodically:
+GRD evolves fast. Update periodically:
 
 ```bash
-npx get-research-done-cc@latest
+npx get-research-done@latest
 ```
 
 ## Core Workflow
@@ -45,7 +45,7 @@ npx get-research-done-cc@latest
 Initialize new project through unified flow.
 
 One command takes you from idea to ready-for-planning:
-- Deep questioning to understand what you're building
+- Deep questioning to understand what you're researching
 - Optional domain research (spawns 4 parallel researcher agents)
 - Requirements definition with v1/v2/out-of-scope scoping
 - Roadmap creation with phase breakdown and success criteria
@@ -126,7 +126,7 @@ Usage: `/grd:execute-phase 5`
 ### Quick Mode
 
 **`/grd:quick`**
-Execute small, ad-hoc tasks with GSD guarantees but skip optional agents.
+Execute small, ad-hoc tasks with GRD guarantees but skip optional agents.
 
 Quick mode uses the same system with a shorter path:
 - Spawns planner + executor (skips researcher, checker, verifier)
@@ -141,22 +141,22 @@ Result: Creates `.planning/quick/NNN-slug/PLAN.md`, `.planning/quick/NNN-slug/SU
 ### Roadmap Management
 
 **`/grd:add-phase <description>`**
-Add new phase to end of current milestone.
+Add new phase to end of current study.
 
 - Appends to ROADMAP.md
 - Uses next sequential number
 - Updates phase directory structure
 
-Usage: `/grd:add-phase "Add admin dashboard"`
+Usage: `/grd:add-phase "Add feature ablation experiment"`
 
 **`/grd:insert-phase <after> <description>`**
 Insert urgent work as decimal phase between existing phases.
 
 - Creates intermediate phase (e.g., 7.1 between 7 and 8)
-- Useful for discovered work that must happen mid-milestone
+- Useful for discovered work that must happen mid-study
 - Maintains phase ordering
 
-Usage: `/grd:insert-phase 7 "Fix critical auth bug"`
+Usage: `/grd:insert-phase 7 "Fix critical data leak bug"`
 Result: Creates Phase 7.1
 
 **`/grd:remove-phase <number>`**
@@ -170,29 +170,47 @@ Remove a future phase and renumber subsequent phases.
 Usage: `/grd:remove-phase 17`
 Result: Phase 17 deleted, phases 18-20 become 17-19
 
-### Milestone Management
+### Study Management
 
-**`/grd:new-milestone <name>`**
-Start a new milestone through unified flow.
+**`/grd:new-study <name>`**
+Start a new research study through unified flow.
 
-- Deep questioning to understand what you're building next
-- Optional domain research (spawns 4 parallel researcher agents)
-- Requirements definition with scoping
-- Roadmap creation with phase breakdown
+- Deep questioning to understand your research question
+- Optional literature review (spawns 4 parallel researcher agents)
+- Hypothesis definition with testable claims
+- Study protocol creation with experiments and success criteria
 
-Mirrors `/grd:new-project` flow for brownfield projects (existing PROJECT.md).
+Creates: HYPOTHESES.md, STUDY_PROTOCOL.md
 
-Usage: `/grd:new-milestone "v2.0 Features"`
+Usage: `/grd:new-study "v2.0 Model Comparison"`
 
-**`/grd:complete-milestone <version>`**
-Archive completed milestone and prepare for next version.
+**`/grd:complete-study <version>`**
+Archive completed study with findings.
 
-- Creates MILESTONES.md entry with stats
-- Archives full details to milestones/ directory
+- Creates STUDIES.md entry with hypothesis outcomes
+- Archives protocol and findings to studies/ directory
+- Documents which hypotheses were supported/rejected
 - Creates git tag for the release
-- Prepares workspace for next version
 
-Usage: `/grd:complete-milestone 1.0.0`
+Usage: `/grd:complete-study 1.0.0`
+
+**`/grd:audit-study [version]`**
+Audit study against original hypotheses.
+
+- Verifies all primary hypotheses were tested
+- Checks methodology and statistical rigor
+- Creates STUDY-AUDIT.md with gaps and limitations
+
+Usage: `/grd:audit-study`
+
+**`/grd:plan-study-gaps`**
+Create experiments to close gaps from audit.
+
+- Groups gaps into logical follow-up experiments
+- Adds experiments to STUDY_PROTOCOL.md
+- Ready for `/grd:plan-phase` on new experiments
+
+Usage: `/grd:plan-study-gaps`
 
 ### Progress Tracking
 
@@ -204,7 +222,7 @@ Check project status and intelligently route to next action.
 - Displays current position and what's next
 - Lists key decisions and open issues
 - Offers to execute next plan or create it if missing
-- Detects 100% milestone completion
+- Detects 100% study completion
 
 Usage: `/grd:progress`
 
@@ -239,7 +257,7 @@ Systematic debugging with persistent state across context resets.
 - Survives `/clear` — run `/grd:debug` with no args to resume
 - Archives resolved issues to `.planning/debug/resolved/`
 
-Usage: `/grd:debug "login button doesn't work"`
+Usage: `/grd:debug "model training doesn't converge"`
 Usage: `/grd:debug` (resume active session)
 
 ### Todo Management
@@ -254,19 +272,19 @@ Capture idea or task as todo from current conversation.
 - Updates STATE.md todo count
 
 Usage: `/grd:add-todo` (infers from conversation)
-Usage: `/grd:add-todo Add auth token refresh`
+Usage: `/grd:add-todo Add hyperparameter sweep experiment`
 
 **`/grd:check-todos [area]`**
 List pending todos and select one to work on.
 
 - Lists all pending todos with title, area, age
-- Optional area filter (e.g., `/grd:check-todos api`)
+- Optional area filter (e.g., `/grd:check-todos models`)
 - Loads full context for selected todo
 - Routes to appropriate action (work now, add to phase, brainstorm)
 - Moves todo to done/ when work begins
 
 Usage: `/grd:check-todos`
-Usage: `/grd:check-todos api`
+Usage: `/grd:check-todos models`
 
 ### User Acceptance Testing
 
@@ -280,27 +298,27 @@ Validate built features through conversational UAT.
 
 Usage: `/grd:verify-work 3`
 
-### Milestone Auditing
+### Study Auditing
 
-**`/grd:audit-milestone [version]`**
-Audit milestone completion against original intent.
+**`/grd:audit-study [version]`**
+Audit study completion against original intent.
 
 - Reads all phase VERIFICATION.md files
 - Checks requirements coverage
 - Spawns integration checker for cross-phase wiring
-- Creates MILESTONE-AUDIT.md with gaps and tech debt
+- Creates STUDY-AUDIT.md with gaps and tech debt
 
-Usage: `/grd:audit-milestone`
+Usage: `/grd:audit-study`
 
-**`/grd:plan-milestone-gaps`**
+**`/grd:plan-study-gaps`**
 Create phases to close gaps identified by audit.
 
-- Reads MILESTONE-AUDIT.md and groups gaps into phases
+- Reads STUDY-AUDIT.md and groups gaps into phases
 - Prioritizes by requirement priority (must/should/nice)
 - Adds gap closure phases to ROADMAP.md
 - Ready for `/grd:plan-phase` on new phases
 
-Usage: `/grd:plan-milestone-gaps`
+Usage: `/grd:plan-study-gaps`
 
 ### Configuration
 
@@ -314,7 +332,7 @@ Configure workflow toggles and model profile interactively.
 Usage: `/grd:settings`
 
 **`/grd:set-profile <profile>`**
-Quick switch model profile for GSD agents.
+Quick switch model profile for GRD agents.
 
 - `quality` — Opus everywhere except verification
 - `balanced` — Opus for planning, Sonnet for execution (default)
@@ -328,23 +346,15 @@ Usage: `/grd:set-profile budget`
 Show this command reference.
 
 **`/grd:update`**
-Update GSD to latest version with changelog preview.
+Update GRD to latest version with changelog preview.
 
 - Shows installed vs latest version comparison
 - Displays changelog entries for versions you've missed
 - Highlights breaking changes
 - Confirms before running install
-- Better than raw `npx get-research-done-cc`
+- Better than raw `npx get-research-done`
 
 Usage: `/grd:update`
-
-**`/grd:join-discord`**
-Join the GSD Discord community.
-
-- Get help, share what you're building, stay updated
-- Connect with other GSD users
-
-Usage: `/grd:join-discord`
 
 ## Files & Structure
 
@@ -439,35 +449,35 @@ Example config:
 /grd:progress  # See where you left off and continue
 ```
 
-**Adding urgent mid-milestone work:**
+**Adding urgent mid-study work:**
 
 ```
-/grd:insert-phase 5 "Critical security fix"
+/grd:insert-phase 5 "Critical data preprocessing fix"
 /grd:plan-phase 5.1
 /grd:execute-phase 5.1
 ```
 
-**Completing a milestone:**
+**Completing a study:**
 
 ```
-/grd:complete-milestone 1.0.0
+/grd:complete-study 1.0.0
 /clear
-/grd:new-milestone  # Start next milestone (questioning → research → requirements → roadmap)
+/grd:new-study  # Start next study (questioning → research → requirements → roadmap)
 ```
 
 **Capturing ideas during work:**
 
 ```
 /grd:add-todo                    # Capture from conversation context
-/grd:add-todo Fix modal z-index  # Capture with explicit description
+/grd:add-todo Try different loss function  # Capture with explicit description
 /grd:check-todos                 # Review and work on todos
-/grd:check-todos api             # Filter by area
+/grd:check-todos models          # Filter by area
 ```
 
 **Debugging an issue:**
 
 ```
-/grd:debug "form submission fails silently"  # Start debug session
+/grd:debug "model outputs NaN after epoch 3"  # Start debug session
 # ... investigation happens, context fills up ...
 /clear
 /grd:debug                                    # Resume from where you left off

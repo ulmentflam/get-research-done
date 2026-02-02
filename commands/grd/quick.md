@@ -1,6 +1,6 @@
 ---
 name: grd:quick
-description: Execute a quick task with GSD guarantees (atomic commits, state tracking) but skip optional agents
+description: Execute a quick task with GRD guarantees (atomic commits, state tracking) but skip optional agents
 argument-hint: ""
 allowed-tools:
   - Read
@@ -14,7 +14,7 @@ allowed-tools:
 ---
 
 <objective>
-Execute small, ad-hoc tasks with GSD guarantees (atomic commits, STATE.md tracking) while skipping optional agents (research, plan-checker, verifier).
+Execute small, ad-hoc tasks with GRD guarantees (atomic commits, STATE.md tracking) while skipping optional agents (research, plan-checker, verifier).
 
 Quick mode is the same system with a shorter path:
 - Spawns grd-planner (quick mode) + grd-executor(s)
@@ -26,7 +26,7 @@ Use when: You know exactly what to do and the task is small enough to not need r
 </objective>
 
 <execution_context>
-Orchestration is inline - no separate workflow file. Quick mode is deliberately simpler than full GSD.
+Orchestration is inline - no separate workflow file. Quick mode is deliberately simpler than full GRD.
 </execution_context>
 
 <context>
@@ -57,7 +57,7 @@ Store resolved models for use in Task calls below.
 
 **Step 1: Pre-flight validation**
 
-Check that an active GSD project exists:
+Check that an active GRD project exists:
 
 ```bash
 if [ ! -f .planning/ROADMAP.md ]; then
@@ -282,7 +282,7 @@ Display completion output:
 ```
 ---
 
-GSD > QUICK TASK COMPLETE
+GRD > QUICK TASK COMPLETE
 
 Quick Task ${next_num}: ${DESCRIPTION}
 
