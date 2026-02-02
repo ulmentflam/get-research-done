@@ -102,7 +102,7 @@ Plans:
 - [x] 20-01-PLAN.md - Add upstream remote, document features, create cherry-pick decisions - completed 2026-02-02
 
 ### Phase 21: Gemini CLI Integration
-**Goal**: Cherry-pick Gemini CLI and selected features from GSD, adapt to GRD
+**Goal**: Cherry-pick Gemini CLI and selected features from GSD, adapt to GRD branding
 **Depends on**: Phase 20 (need cherry-pick list and commit hashes)
 **Requirements**: SYNC-04, SYNC-05
 **Success Criteria** (what must be TRUE):
@@ -110,7 +110,9 @@ Plans:
   2. Gemini CLI uses GRD terminology and conventions
   3. Any additional cherry-picked features function correctly
   4. No GSD-specific references remain in cherry-picked code
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 21-01-PLAN.md - Cherry-pick universal improvements and Gemini support, adapt branding
 
 ### Phase 22: Branding Updates
 **Goal**: Update SVG/PNG assets to reflect GRD identity
@@ -143,6 +145,6 @@ Plans:
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15-19. v1.2 Command Unification | v1.2 | 12/12 | Complete | 2026-02-02 |
 | 20. GSD Sync Setup & Exploration | v1.3 | 1/1 | Complete | 2026-02-02 |
-| 21. Gemini CLI Integration | v1.3 | 0/TBD | Not started | - |
+| 21. Gemini CLI Integration | v1.3 | 0/1 | Not started | - |
 | 22. Branding Updates | v1.3 | 0/TBD | Not started | - |
 | 23. Documentation & Finalization | v1.3 | 0/TBD | Not started | - |
