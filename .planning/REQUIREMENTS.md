@@ -54,26 +54,26 @@ Deferred to future milestones:
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| BRAND-01 | TBD | Pending |
-| BRAND-02 | TBD | Pending |
-| BRAND-03 | TBD | Pending |
-| BRAND-04 | TBD | Pending |
-| BRAND-05 | TBD | Pending |
-| BRAND-06 | TBD | Pending |
-| SYNC-01 | TBD | Pending |
-| SYNC-02 | TBD | Pending |
-| SYNC-03 | TBD | Pending |
-| SYNC-04 | TBD | Pending |
-| SYNC-05 | TBD | Pending |
-| DOCS-01 | TBD | Pending |
-| DOCS-02 | TBD | Pending |
-| DOCS-03 | TBD | Pending |
+| BRAND-01 | Phase 22 | Pending |
+| BRAND-02 | Phase 22 | Pending |
+| BRAND-03 | Phase 22 | Pending |
+| BRAND-04 | Phase 22 | Pending |
+| BRAND-05 | Phase 22 | Pending |
+| BRAND-06 | Phase 22 | Pending |
+| SYNC-01 | Phase 20 | Pending |
+| SYNC-02 | Phase 20 | Pending |
+| SYNC-03 | Phase 20 | Pending |
+| SYNC-04 | Phase 21 | Pending |
+| SYNC-05 | Phase 21 | Pending |
+| DOCS-01 | Phase 23 | Pending |
+| DOCS-02 | Phase 23 | Pending |
+| DOCS-03 | Phase 23 | Pending |
 
 **Coverage:**
 - v1.3 requirements: 14 total
-- Mapped to phases: 0
-- Unmapped: 14
+- Mapped to phases: 14
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-02-02*
-*Last updated: 2026-02-02 after initial definition*
+*Last updated: 2026-02-02 after roadmap creation*
