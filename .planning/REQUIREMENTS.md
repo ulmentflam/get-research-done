@@ -21,12 +21,12 @@ Requirements for Command Unification milestone. Each maps to roadmap phases.
 
 ### Command Chaining Fixes
 
-- [ ] **CHAIN-01**: Update `new-study` to route to `design-experiment` (not `plan-phase`)
-- [ ] **CHAIN-02**: Replace all `audit-milestone` references with `audit-study`
-- [ ] **CHAIN-03**: Replace all `complete-milestone` references with `complete-study`
-- [ ] **CHAIN-04**: Replace all `new-milestone` references with `new-study`
-- [ ] **CHAIN-05**: Add explicit route from `evaluate` Seal decision to `graduate`
-- [ ] **CHAIN-06**: Standardize flag `--gaps-only` to `--gaps` everywhere
+- [x] **CHAIN-01**: Update `new-study` to route to `design-experiment` (not `plan-phase`)
+- [x] **CHAIN-02**: Replace all `audit-milestone` references with `audit-study`
+- [x] **CHAIN-03**: Replace all `complete-milestone` references with `complete-study`
+- [x] **CHAIN-04**: Replace all `new-milestone` references with `new-study`
+- [x] **CHAIN-05**: Add explicit route from `evaluate` Seal decision to `graduate`
+- [x] **CHAIN-06**: Standardize flag `--gaps-only` to `--gaps` everywhere
 
 ### Artifact Updates
 
@@ -87,12 +87,12 @@ Which phases cover which requirements. Updated during roadmap creation.
 | RENAME-07 | Phase 15 | Complete |
 | RENAME-08 | Phase 15 | Complete |
 | RENAME-09 | Phase 15 | Complete |
-| CHAIN-01 | Phase 16 | Pending |
-| CHAIN-02 | Phase 16 | Pending |
-| CHAIN-03 | Phase 16 | Pending |
-| CHAIN-04 | Phase 16 | Pending |
-| CHAIN-05 | Phase 16 | Pending |
-| CHAIN-06 | Phase 16 | Pending |
+| CHAIN-01 | Phase 16 | Complete |
+| CHAIN-02 | Phase 16 | Complete |
+| CHAIN-03 | Phase 16 | Complete |
+| CHAIN-04 | Phase 16 | Complete |
+| CHAIN-05 | Phase 16 | Complete |
+| CHAIN-06 | Phase 16 | Complete |
 | ARTIFACT-01 | Phase 17 | Pending |
 | ARTIFACT-02 | Phase 17 | Pending |
 | ARTIFACT-03 | Phase 17 | Pending |
