@@ -344,7 +344,7 @@ Present summary:
 All tests passed. Ready to continue.
 
 - `/grd:design-experiment {next}` — Plan next phase
-- `/grd:execute-phase {next}` — Execute next phase
+- `/grd:run-experiment {next}` — Execute next phase
 ```
 </step>
 
@@ -403,7 +403,7 @@ Task(
 </planning_context>
 
 <downstream_consumer>
-Output consumed by /grd:execute-phase
+Output consumed by /grd:run-experiment
 Plans must be executable prompts.
 </downstream_consumer>
 """,
@@ -538,7 +538,7 @@ Plans verified and ready for execution.
 
 **Execute fixes** — run fix plans
 
-`/clear` then `/grd:execute-phase {phase} --gaps-only`
+`/clear` then `/grd:run-experiment {phase} --gaps-only`
 
 ───────────────────────────────────────────────────────────────
 ```
@@ -592,5 +592,5 @@ Default to **major** if unclear. User can correct if needed.
 - [ ] If issues: grd-planner creates fix plans (gap_closure mode)
 - [ ] If issues: grd-plan-checker verifies fix plans
 - [ ] If issues: revision loop until plans pass (max 3 iterations)
-- [ ] Ready for `/grd:execute-phase --gaps-only` when complete
+- [ ] Ready for `/grd:run-experiment --gaps-only` when complete
 </success_criteria>

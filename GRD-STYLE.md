@@ -164,7 +164,7 @@ Build authentication system
 
 **Static references** (always load):
 ```
-@~/.claude/get-research-done/workflows/execute-phase.md
+@~/.claude/get-research-done/workflows/run-experiment.md
 @.planning/PROJECT.md
 ```
 
@@ -181,7 +181,7 @@ Build authentication system
 
 | Type | Convention | Example |
 |------|------------|---------|
-| Files | kebab-case | `execute-phase.md` |
+| Files | kebab-case | `run-experiment.md` |
 | Commands | `grd:kebab-case` | `grd:run-experiment` |
 | XML tags | kebab-case | `<execution_context>` |
 | Step names | snake_case | `name="load_project_state"` |
