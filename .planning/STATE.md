@@ -11,11 +11,11 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 15 - Command Renames
-Plan: 1 of 4 complete
+Plan: 2 of 4 complete
 Status: In progress
-Last activity: 2026-02-01 - Completed 15-01-PLAN.md
+Last activity: 2026-02-01 - Completed 15-02-PLAN.md
 
-Progress: [█---------] 10% (1/10 plans)
+Progress: [██--------] 20% (2/10 plans)
 
 ## Milestone History
 
@@ -63,6 +63,8 @@ v1.2 key decisions:
 - design-experiment over plan-experiment: Emphasizes experimental design
 - run-experiment over execute-experiment: Shorter, more direct
 - scope-experiment over define-experiment: Scope implies boundaries
+- literature-review as noun phrase: Preserves research convention
+- list-experiment-assumptions not shortened: Consistent with experiment prefix pattern
 
 ### v1.2 Command Rename Mapping
 
@@ -71,9 +73,9 @@ v1.2 key decisions:
 | `plan-phase` | `design-experiment` | Complete (15-01) |
 | `execute-phase` | `run-experiment` | Complete (15-01) |
 | `discuss-phase` | `scope-experiment` | Complete (15-01) |
-| `validate-results` | `validate-results` | Skipped (already renamed in 11-01) |
-| `literature-review` | `literature-review` | Pending |
-| `list-experiment-assumptions` | `list-experiment-assumptions` | Pending |
+| `verify-work` | `validate-results` | Complete (15-02) |
+| `research-phase` | `literature-review` | Complete (15-02) |
+| `list-phase-assumptions` | `list-experiment-assumptions` | Complete (15-02) |
 | `add-phase` | `add-experiment` | Pending |
 | `insert-phase` | `insert-experiment` | Pending |
 | `remove-phase` | `remove-experiment` | Pending |
@@ -91,10 +93,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-01
-Stopped at: Completed 15-01-PLAN.md (Core command renames)
+Stopped at: Completed 15-02-PLAN.md (Supporting command renames)
 Resume file: None
 
-Next step: `/grd:run-experiment 15` to continue Phase 15 or `/grd:design-experiment 15` to plan next experiment
+Next step: `/grd:run-experiment 15` to continue Phase 15
 
 ---
 *State initialized: 2026-01-27*
