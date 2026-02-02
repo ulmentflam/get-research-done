@@ -66,6 +66,14 @@
 
 **Requirements:** RENAME-01, RENAME-02, RENAME-03, RENAME-04, RENAME-05, RENAME-06, RENAME-07, RENAME-08, RENAME-09
 
+**Plans:** 4 plans
+
+Plans:
+- [ ] 15-01-PLAN.md — Rename core workflow commands (plan-phase, execute-phase, discuss-phase)
+- [ ] 15-02-PLAN.md — Rename verification and research commands (verify-work, research-phase, list-phase-assumptions)
+- [ ] 15-03-PLAN.md — Rename roadmap management commands (add-phase, insert-phase, remove-phase)
+- [ ] 15-04-PLAN.md — Update help.md and final verification
+
 **Success Criteria:**
 1. User can run `design-experiment` instead of `plan-phase` and it functions identically
 2. User can run `run-experiment` instead of `execute-phase` and it functions identically
@@ -147,7 +155,7 @@ Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 |-------|-----------|----------------|--------|-----------|
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
-| 15. Command Renames | v1.2 | 0/? | Not started | - |
+| 15. Command Renames | v1.2 | 0/4 | Planned | - |
 | 16. Command Chaining | v1.2 | 0/? | Not started | - |
 | 17. Artifact Updates | v1.2 | 0/? | Not started | - |
 | 18. Version History Reset | v1.2 | 0/? | Not started | - |
