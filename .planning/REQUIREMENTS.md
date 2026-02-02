@@ -26,9 +26,9 @@ Requirements for v1.3 Branding & Gemini Integration milestone.
 
 ### Documentation
 
-- [ ] **DOCS-01**: README.md updated with current GRD branding and features
-- [ ] **DOCS-02**: help.md command reference updated with any new commands
-- [ ] **DOCS-03**: Any new cherry-picked features documented
+- [x] **DOCS-01**: README.md updated with current GRD branding and features
+- [x] **DOCS-02**: help.md command reference updated with any new commands
+- [x] **DOCS-03**: Any new cherry-picked features documented
 
 ## Future Requirements
 
@@ -65,9 +65,9 @@ Deferred to future milestones:
 | SYNC-03 | Phase 20 | Complete |
 | SYNC-04 | Phase 21 | Complete |
 | SYNC-05 | Phase 21 | Complete |
-| DOCS-01 | Phase 23 | Pending |
-| DOCS-02 | Phase 23 | Pending |
-| DOCS-03 | Phase 23 | Pending |
+| DOCS-01 | Phase 23 | Complete |
+| DOCS-02 | Phase 23 | Complete |
+| DOCS-03 | Phase 23 | Complete |
 
 **Coverage:**
 - v1.3 requirements: 14 total
