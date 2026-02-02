@@ -137,7 +137,9 @@ Plans:
   1. README.md reflects current GRD branding and v1.3 features
   2. help.md includes any new commands from cherry-picks
   3. All cherry-picked features have usage documentation
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 23-01-PLAN.md — Update README.md, help.md, and CHANGELOG.md with v1.3 documentation
 
 ## Progress
 
@@ -149,4 +151,4 @@ Plans:
 | 20. GSD Sync Setup & Exploration | v1.3 | 1/1 | Complete | 2026-02-02 |
 | 21. Gemini CLI Integration | v1.3 | 1/1 | Complete | 2026-02-02 |
 | 22. Branding Updates | v1.3 | 1/1 | Complete | 2026-02-02 |
-| 23. Documentation & Finalization | v1.3 | 0/TBD | Not started | - |
+| 23. Documentation & Finalization | v1.3 | 0/1 | Not started | - |
