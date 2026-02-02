@@ -81,7 +81,7 @@
 
 **Milestone Goal:** Update visual branding to GRD identity, sync with upstream GSD for Gemini CLI and other features, and finalize documentation.
 
-- [ ] Phase 20: GSD Sync Setup & Exploration (SYNC-01, SYNC-02, SYNC-03)
+- [x] Phase 20: GSD Sync Setup & Exploration (SYNC-01, SYNC-02, SYNC-03) - completed 2026-02-02
 - [ ] Phase 21: Gemini CLI Integration (SYNC-04, SYNC-05)
 - [ ] Phase 22: Branding Updates (BRAND-01, BRAND-02, BRAND-03, BRAND-04, BRAND-05, BRAND-06)
 - [ ] Phase 23: Documentation & Finalization (DOCS-01, DOCS-02, DOCS-03)
@@ -99,7 +99,7 @@
   4. Gemini CLI location identified in GSD codebase
 **Plans**: 1 plan
 Plans:
-- [ ] 20-01-PLAN.md - Add upstream remote, document features, create cherry-pick decisions
+- [x] 20-01-PLAN.md - Add upstream remote, document features, create cherry-pick decisions - completed 2026-02-02
 
 ### Phase 21: Gemini CLI Integration
 **Goal**: Cherry-pick Gemini CLI and selected features from GSD, adapt to GRD
@@ -142,7 +142,7 @@ Plans:
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15-19. v1.2 Command Unification | v1.2 | 12/12 | Complete | 2026-02-02 |
-| 20. GSD Sync Setup & Exploration | v1.3 | 0/1 | Planned | - |
+| 20. GSD Sync Setup & Exploration | v1.3 | 1/1 | Complete | 2026-02-02 |
 | 21. Gemini CLI Integration | v1.3 | 0/TBD | Not started | - |
 | 22. Branding Updates | v1.3 | 0/TBD | Not started | - |
 | 23. Documentation & Finalization | v1.3 | 0/TBD | Not started | - |
