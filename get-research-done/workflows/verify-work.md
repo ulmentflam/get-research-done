@@ -1,5 +1,5 @@
 <purpose>
-Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /grd:design-experiment --gaps.
+Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /grd:plan-phase --gaps.
 
 User tests, Claude records. One test at a time. Plain text responses.
 </purpose>
@@ -78,7 +78,7 @@ If no, continue to `create_uat_file`.
 ```
 No active UAT sessions.
 
-Provide a phase number to start testing (e.g., /grd:validate-results 4)
+Provide a phase number to start testing (e.g., /grd:verify-work 4)
 ```
 
 **If no active sessions AND $ARGUMENTS provided:**
@@ -250,7 +250,7 @@ reported: "{verbatim user response}"
 severity: {inferred}
 ```
 
-Append to Gaps section (structured YAML for design-experiment --gaps):
+Append to Gaps section (structured YAML for plan-phase --gaps):
 ```yaml
 - truth: "{expected behavior from test}"
   status: failed
@@ -343,8 +343,8 @@ Present summary:
 ```
 All tests passed. Ready to continue.
 
-- `/grd:design-experiment {next}` — Plan next phase
-- `/grd:run-experiment {next}` — Execute next phase
+- `/grd:plan-phase {next}` — Plan next phase
+- `/grd:execute-phase {next}` — Execute next phase
 ```
 </step>
 
@@ -403,7 +403,7 @@ Task(
 </planning_context>
 
 <downstream_consumer>
-Output consumed by /grd:run-experiment
+Output consumed by /grd:execute-phase
 Plans must be executable prompts.
 </downstream_consumer>
 """,
@@ -510,7 +510,7 @@ Display: `Max iterations reached. {N} issues remain.`
 Offer options:
 1. Force proceed (execute despite issues)
 2. Provide guidance (user gives direction, retry)
-3. Abandon (exit, user runs /grd:design-experiment manually)
+3. Abandon (exit, user runs /grd:plan-phase manually)
 
 Wait for user response.
 </step>
@@ -538,7 +538,7 @@ Plans verified and ready for execution.
 
 **Execute fixes** — run fix plans
 
-`/clear` then `/grd:run-experiment {phase} --gaps-only`
+`/clear` then `/grd:execute-phase {phase} --gaps-only`
 
 ───────────────────────────────────────────────────────────────
 ```
@@ -592,5 +592,5 @@ Default to **major** if unclear. User can correct if needed.
 - [ ] If issues: grd-planner creates fix plans (gap_closure mode)
 - [ ] If issues: grd-plan-checker verifies fix plans
 - [ ] If issues: revision loop until plans pass (max 3 iterations)
-- [ ] Ready for `/grd:run-experiment --gaps-only` when complete
+- [ ] Ready for `/grd:execute-phase --gaps-only` when complete
 </success_criteria>
