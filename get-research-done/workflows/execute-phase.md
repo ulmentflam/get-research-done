@@ -488,7 +488,7 @@ Present gaps and offer next command:
 User runs `/grd:design-experiment {X} --gaps` which:
 1. Reads VERIFICATION.md gaps
 2. Creates additional plans (04, 05, etc.) with `gap_closure: true` to close gaps
-3. User then runs `/grd:execute-phase {X} --gaps-only`
+3. User then runs `/grd:run-experiment {X} --gaps-only`
 4. Execute-phase runs only gap closure plans (04-05)
 5. Verifier runs again after new plans complete
 
@@ -644,7 +644,7 @@ No polling (Task blocks). No context bleed.
 
 If phase execution was interrupted (context limit, user exit, error):
 
-1. Run `/grd:execute-phase {phase}` again
+1. Run `/grd:run-experiment {phase}` again
 2. discover_plans finds completed SUMMARYs
 3. Skips completed plans
 4. Resumes from first incomplete plan

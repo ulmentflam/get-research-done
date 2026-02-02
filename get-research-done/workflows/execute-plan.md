@@ -1714,14 +1714,14 @@ Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 **{phase}-{next-plan}: [Plan Name]** — [objective from next PLAN.md]
 
-`/grd:execute-phase {phase}`
+`/grd:run-experiment {phase}`
 
 <sub>`/clear` first → fresh context window</sub>
 
 ---
 
 **Also available:**
-- `/grd:verify-work {phase}-{plan}` — manual acceptance testing before continuing
+- `/grd:validate-results {phase}-{plan}` — manual acceptance testing before continuing
 - Review what was built before continuing
 
 ---
@@ -1782,7 +1782,7 @@ All {Y} plans finished.
 ---
 
 **Also available:**
-- `/grd:verify-work {Z}` — manual acceptance testing before continuing
+- `/grd:validate-results {Z}` — manual acceptance testing before continuing
 - `/grd:discuss-phase {Z+1}` — gather context first
 - Review phase accomplishments before continuing
 
@@ -1820,7 +1820,7 @@ All {Y} plans finished.
 ---
 
 **Also available:**
-- `/grd:verify-work` — manual acceptance testing before completing milestone
+- `/grd:validate-results` — manual acceptance testing before completing milestone
 - `/grd:add-phase <description>` — add another phase before completing
 - Review accomplishments before archiving
 

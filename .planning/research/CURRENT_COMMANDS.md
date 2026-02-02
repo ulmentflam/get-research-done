@@ -27,7 +27,7 @@
 | 18 | `new-project` | Initialize new project | PROJECT.md, config.json, research/, REQUIREMENTS.md, ROADMAP.md, STATE.md | None | `/grd:design-experiment 1` |
 | 19 | `new-study` | Start new research study | HYPOTHESES.md, STUDY_PROTOCOL.md | PROJECT.md, STATE.md | `/grd:design-experiment {N}` |
 | 20 | `pause-work` | Create context handoff | `.continue-here.md` | STATE.md | `/grd:resume-work` |
-| 21 | `plan-phase` | Create detailed execution plan | `*-PLAN.md`, `*-RESEARCH.md` | ROADMAP.md, STATE.md | `/grd:execute-phase` |
+| 21 | `plan-phase` | Create detailed execution plan | `*-PLAN.md`, `*-RESEARCH.md` | ROADMAP.md, STATE.md | `/grd:run-experiment` |
 | 22 | `plan-study-gaps` | Create experiments to close audit gaps | STUDY_PROTOCOL.md update | v{version}-STUDY-AUDIT.md | `/grd:design-experiment {N}` |
 | 23 | `progress` | Check project status and route | None | STATE.md, ROADMAP.md | Context-dependent routing |
 | 24 | `quick-explore` | Fast EDA console summary | `DATA_REPORT.md` (quick mode) | PROJECT.md | `/grd:explore` or `/grd:architect` |
@@ -39,7 +39,7 @@
 | 30 | `set-profile` | Switch model profile | config.json update | config.json | None |
 | 31 | `settings` | Configure workflow toggles | config.json update | config.json | None |
 | 32 | `update` | Update GRD to latest version | None | None | Restart Claude Code |
-| 33 | `verify-work` | Validate features through UAT | `{phase}-UAT.md`, fix plans | SUMMARY.md files | `/grd:execute-phase --gaps-only` |
+| 33 | `verify-work` | Validate features through UAT | `{phase}-UAT.md`, fix plans | SUMMARY.md files | `/grd:run-experiment --gaps-only` |
 
 ---
 
@@ -63,12 +63,12 @@ v             v
 /grd:design-experiment 1
        |
        v
-/grd:execute-phase 1
+/grd:run-experiment 1
        |
-       +---> /grd:verify-work 1 (optional)
+       +---> /grd:validate-results 1 (optional)
        |              |
        |              v (if issues)
-       |     /grd:execute-phase 1 --gaps-only
+       |     /grd:run-experiment 1 --gaps-only
        |
        v
 /grd:discuss-phase 2  OR  /grd:design-experiment 2
@@ -116,7 +116,7 @@ v             v
 /grd:design-experiment N
        |
        v
-/grd:execute-phase N
+/grd:run-experiment N
        |
        v
    ... experiments ...
@@ -131,7 +131,7 @@ v             v
                            /grd:design-experiment N
                                     |
                                     v
-                           /grd:execute-phase N
+                           /grd:run-experiment N
                                     |
                                     v
                            /grd:audit-study (re-audit)

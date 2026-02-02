@@ -166,7 +166,7 @@ Changes not staged for commit:
 
 | Practice | Example | Why It Works |
 |----------|---------|--------------|
-| **Primary action prominent** | `/grd:execute-phase 5` in a box | Reduces decision fatigue |
+| **Primary action prominent** | `/grd:run-experiment 5` in a box | Reduces decision fatigue |
 | **Alternatives available** | "Also available:" section | Power users need escape hatches |
 | **Context-specific** | Show different options based on state | Relevance builds trust |
 | **Clear next step** | "Next Up: Phase 6" with goal | Users know what's ahead |
@@ -189,7 +189,7 @@ From `execute-phase.md`:
 
 **Also available:**
 - /grd:design-experiment {Z+1} -- skip discussion, plan directly
-- /grd:verify-work {Z} -- manual acceptance testing before continuing
+- /grd:validate-results {Z} -- manual acceptance testing before continuing
 ```
 
 **What makes this work:**

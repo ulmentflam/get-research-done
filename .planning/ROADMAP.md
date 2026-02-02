@@ -70,7 +70,7 @@
 
 Plans:
 - [ ] 15-01-PLAN.md — Rename core workflow commands (plan-phase, execute-phase, discuss-phase)
-- [ ] 15-02-PLAN.md — Rename verification and research commands (verify-work, research-phase, list-phase-assumptions)
+- [ ] 15-02-PLAN.md — Rename verification and research commands (validate-results, research-phase, list-phase-assumptions)
 - [ ] 15-03-PLAN.md — Rename roadmap management commands (add-phase, insert-phase, remove-phase)
 - [ ] 15-04-PLAN.md — Update help.md and final verification
 

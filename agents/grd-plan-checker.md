@@ -658,7 +658,7 @@ When all checks pass:
 
 ### Ready for Execution
 
-Plans verified. Run `/grd:execute-phase {phase}` to proceed.
+Plans verified. Run `/grd:run-experiment {phase}` to proceed.
 ```
 
 ## ISSUES FOUND

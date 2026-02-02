@@ -1271,7 +1271,7 @@ Return structured planning outcome to orchestrator.
 
 ### Next Steps
 
-Execute: `/grd:execute-phase {phase}`
+Execute: `/grd:run-experiment {phase}`
 
 <sub>`/clear` first - fresh context window</sub>
 ```
@@ -1315,7 +1315,7 @@ Execute: `/grd:execute-phase {phase}`
 
 ### Next Steps
 
-Execute: `/grd:execute-phase {phase} --gaps-only`
+Execute: `/grd:run-experiment {phase} --gaps-only`
 ```
 
 ## Revision Complete
@@ -1381,6 +1381,6 @@ Planning complete when:
 - [ ] PLAN file(s) exist with gap_closure: true
 - [ ] Each plan: tasks derived from gap.missing items
 - [ ] PLAN file(s) committed to git
-- [ ] User knows to run `/grd:execute-phase {X}` next
+- [ ] User knows to run `/grd:run-experiment {X}` next
 
 </success_criteria>

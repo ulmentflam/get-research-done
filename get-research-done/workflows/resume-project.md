@@ -181,7 +181,7 @@ What would you like to do?
 [Primary action based on state - e.g.:]
 1. Resume interrupted agent [if interrupted agent found]
    OR
-1. Execute phase (/grd:execute-phase {phase})
+1. Execute phase (/grd:run-experiment {phase})
    OR
 1. Discuss Phase 3 context (/grd:discuss-phase 3) [if CONTEXT.md missing]
    OR
@@ -216,7 +216,7 @@ Based on user selection, route to appropriate workflow:
 
   **{phase}-{plan}: [Plan Name]** — [objective from PLAN.md]
 
-  `/grd:execute-phase {phase}`
+  `/grd:run-experiment {phase}`
 
   <sub>`/clear` first → fresh context window</sub>
 

@@ -46,7 +46,7 @@ get-shit-done/
   - `plan-phase.md` - Create plans for a phase
   - `execute-phase.md` - Run phase plans
   - `map-codebase.md` - Analyze codebase structure
-  - `verify-work.md` - Verify phase completion
+  - `validate-results.md` - Verify phase completion
   - `research-phase.md` - Deep research for a phase
   - `audit-milestone.md` - Audit milestone progress
 - Subdirectories: None (flat structure)
@@ -92,7 +92,7 @@ get-shit-done/
   - `execute-plan.md` - Execute all tasks in a plan
   - `execute-phase.md` - Execute all plans in a phase (wave-based)
   - `verify-phase.md` - Run verification criteria for phase
-  - `verify-work.md` - Full verification workflow
+  - `validate-results.md` - Full verification workflow
   - `research-phase.md` - Research domain for a phase
   - `discovery-phase.md` - Discover requirements
   - `discuss-phase.md` - Discuss and refine phase details

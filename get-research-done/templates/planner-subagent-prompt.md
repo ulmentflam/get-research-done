@@ -34,7 +34,7 @@ Template for spawning grd-planner agent. The agent contains all planning experti
 </planning_context>
 
 <downstream_consumer>
-Output consumed by /grd:execute-phase
+Output consumed by /grd:run-experiment
 Plans must be executable prompts with:
 - Frontmatter (wave, depends_on, files_modified, autonomous)
 - Tasks in XML format
