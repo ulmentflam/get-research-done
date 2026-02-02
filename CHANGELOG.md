@@ -146,13 +146,13 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.6.3] - 2025-01-17
 
 ### Added
-- `--gaps-only` flag for `/gsd:execute-phase` — executes only gap closure plans after verify-work finds issues, eliminating redundant state discovery
+- `--gaps-only` flag for `/gsd:execute-phase` — executes only gap closure plans after validate-results finds issues, eliminating redundant state discovery
 
 ## [1.6.2] - 2025-01-17
 
 ### Changed
 - README restructured with clearer 6-step workflow: init → discuss → plan → execute → verify → complete
-- Discuss-phase and verify-work now emphasized as critical steps in core workflow documentation
+- Discuss-phase and validate-results now emphasized as critical steps in core workflow documentation
 - "Subagent Execution" section replaced with "Multi-Agent Orchestration" explaining thin orchestrator pattern and 30-40% context efficiency
 - Brownfield instructions consolidated into callout at top of "How It Works" instead of separate section
 - Phase directories now created at discuss/plan-phase instead of during roadmap creation
@@ -176,7 +176,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - **BREAKING:** `/gsd:research-project` — integrated into project/milestone flows
 
 ### Added
-- `/gsd:verify-work` now includes next-step routing after verification completes
+- `/gsd:validate-results` now includes next-step routing after verification completes
 
 ## [1.5.30] - 2026-01-17
 
@@ -259,7 +259,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 - Added optional `/gsd:discuss-phase` documentation for UI/UX/behavior decisions before planning
 
 ### Fixed
-- verify-work now shows clear checkpoint box with action prompt ("Type 'pass' or describe what's wrong")
+- validate-results now shows clear checkpoint box with action prompt ("Type 'pass' or describe what's wrong")
 - Planner uses correct `{phase}-{plan}-PLAN.md` naming convention
 - Planner no longer surfaces internal `user_setup` in output
 - Research synthesizer commits all research files together (not individually)
@@ -572,7 +572,7 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.4.17] - 2026-01-14
 
 ### Changed
-- Redesigned verify-work as conversational UAT with persistent state
+- Redesigned validate-results as conversational UAT with persistent state
 
 ## [1.4.16] - 2026-01-13
 
@@ -715,12 +715,12 @@ Format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 ## [1.3.30] - 2026-01-08
 
 ### Added
-- verify-work option surfaces after plan execution
+- validate-results option surfaces after plan execution
 
 ## [1.3.29] - 2026-01-08
 
 ### Added
-- `/gsd:verify-work` for conversational UAT validation
+- `/gsd:validate-results` for conversational UAT validation
 - `/gsd:plan-fix` for fixing UAT issues
 - UAT issues template
 
