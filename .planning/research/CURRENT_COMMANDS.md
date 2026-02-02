@@ -22,7 +22,7 @@
 | 13 | `help` | Show command reference | None | None | None |
 | 14 | `insert-phase` | Insert decimal phase (e.g., 7.1) | Phase directory, ROADMAP.md update | ROADMAP.md, STATE.md | `/grd:design-experiment {N.M}` |
 | 15 | `insights` | Generate plain English data insights | `DATA_REPORT.md`, `INSIGHTS_SUMMARY.md` | PROJECT.md | `/grd:architect` |
-| 16 | `list-phase-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:scope-experiment`, `/grd:design-experiment` |
+| 16 | `list-experiment-assumptions` | Surface Claude's assumptions | None (conversational) | STATE.md, ROADMAP.md | `/grd:scope-experiment`, `/grd:design-experiment` |
 | 17 | `map-codebase` | Analyze existing codebase | `.planning/codebase/*.md` (7 files) | Existing code files | `/grd:new-project` |
 | 18 | `new-project` | Initialize new project | PROJECT.md, config.json, research/, REQUIREMENTS.md, ROADMAP.md, STATE.md | None | `/grd:design-experiment 1` |
 | 19 | `new-study` | Start new research study | HYPOTHESES.md, STUDY_PROTOCOL.md | PROJECT.md, STATE.md | `/grd:design-experiment {N}` |
@@ -170,7 +170,7 @@ Context-dependent routing
 | `explore` | `architect` |
 | `insert-phase` | `plan-phase` |
 | `insights` | `architect` |
-| `list-phase-assumptions` | `discuss-phase`, `plan-phase` |
+| `list-experiment-assumptions` | `discuss-phase`, `plan-phase` |
 | `map-codebase` | `new-project` |
 | `new-project` | `discuss-phase 1`, `plan-phase 1` |
 | `new-study` | `discuss-phase`, `plan-phase` |
@@ -266,7 +266,7 @@ Context-dependent routing
 
 ### Phase Workflow
 - `discuss-phase` - Gather context
-- `list-phase-assumptions` - Preview Claude's approach
+- `list-experiment-assumptions` - Preview Claude's approach
 - `literature-review` - Domain research (standalone)
 - `plan-phase` - Create plans
 - `execute-phase` - Run plans

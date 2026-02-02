@@ -91,14 +91,14 @@ Comprehensive ecosystem research for niche/complex domains.
 
 Usage: `/grd:literature-review 3`
 
-**`/grd:list-phase-assumptions <number>`**
+**`/grd:list-experiment-assumptions <number>`**
 See what Claude is planning to do before it starts.
 
 - Shows Claude's intended approach for a phase
 - Lets you course-correct if Claude misunderstood your vision
 - No files created - conversational output only
 
-Usage: `/grd:list-phase-assumptions 3`
+Usage: `/grd:list-experiment-assumptions 3`
 
 **`/grd:design-experiment <number>`**
 Create detailed execution plan for a specific phase.

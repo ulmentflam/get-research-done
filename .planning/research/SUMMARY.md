@@ -105,7 +105,7 @@ Best practice: **linear default, branch on verdict**. The most successful CLI wo
 | `discuss-phase` | `scope-experiment` | "Scope" captures context gathering before design |
 | `verify-work` | `validate-results` | "Validate" is more statistical/research-native |
 | `literature-review` | `literature-review` | Explicit about what the research step does |
-| `list-phase-assumptions` | `list-experiment-assumptions` | Keep pattern, change noun |
+| `list-experiment-assumptions` | `list-experiment-assumptions` | Keep pattern, change noun |
 | `add-phase` | `add-experiment` | Keep pattern, change noun |
 | `insert-phase` | `insert-experiment` | Keep pattern, change noun |
 | `remove-phase` | `remove-experiment` | Keep pattern, change noun |

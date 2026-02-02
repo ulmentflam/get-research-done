@@ -1,6 +1,6 @@
 ---
-name: grd:list-phase-assumptions
-description: Surface Claude's assumptions about a phase approach before planning
+name: grd:list-experiment-assumptions
+description: See what Claude is planning to do for an experiment
 argument-hint: "[phase]"
 allowed-tools:
   - Read
@@ -17,7 +17,7 @@ Output: Conversational output only (no file creation) - ends with "What do you t
 </objective>
 
 <execution_context>
-@~/.claude/get-research-done/workflows/list-phase-assumptions.md
+@~/.claude/get-research-done/workflows/list-experiment-assumptions.md
 </execution_context>
 
 <context>
@@ -33,7 +33,7 @@ Phase number: $ARGUMENTS (required)
 <process>
 1. Validate phase number argument (error if missing or invalid)
 2. Check if phase exists in roadmap
-3. Follow list-phase-assumptions.md workflow:
+3. Follow list-experiment-assumptions.md workflow:
    - Analyze roadmap description
    - Surface assumptions about: technical approach, implementation order, scope, risks, dependencies
    - Present assumptions clearly

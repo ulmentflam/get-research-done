@@ -52,7 +52,7 @@ Standard format for presenting next steps after completing a command or workflow
 
 **Also available:**
 - Review plan before executing
-- `/grd:list-phase-assumptions 2` — check assumptions
+- `/grd:list-experiment-assumptions 2` — check assumptions
 
 ---
 ```

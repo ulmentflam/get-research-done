@@ -14,8 +14,8 @@ Phase number: $ARGUMENTS (required)
 ```
 Error: Phase number required.
 
-Usage: /grd:list-phase-assumptions [phase-number]
-Example: /grd:list-phase-assumptions 3
+Usage: /grd:list-experiment-assumptions [phase-number]
+Example: /grd:list-experiment-assumptions 3
 ```
 
 Exit workflow.

@@ -209,7 +209,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 
 **Also available:**
 - `/grd:design-experiment {phase}` — skip discussion, plan directly
-- `/grd:list-phase-assumptions {phase}` — see Claude's assumptions
+- `/grd:list-experiment-assumptions {phase}` — see Claude's assumptions
 
 ---
 ```
