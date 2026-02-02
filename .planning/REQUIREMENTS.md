@@ -21,8 +21,8 @@ Requirements for v1.3 Branding & Gemini Integration milestone.
 - [x] **SYNC-01**: GSD upstream added as git remote
 - [x] **SYNC-02**: GSD changelog/commits explored to identify new features since fork
 - [x] **SYNC-03**: Features to cherry-pick identified and documented
-- [ ] **SYNC-04**: Gemini CLI cherry-picked and adapted to GRD
-- [ ] **SYNC-05**: Additional selected features cherry-picked and adapted
+- [x] **SYNC-04**: Gemini CLI cherry-picked and adapted to GRD
+- [x] **SYNC-05**: Additional selected features cherry-picked and adapted
 
 ### Documentation
 
@@ -63,8 +63,8 @@ Deferred to future milestones:
 | SYNC-01 | Phase 20 | Complete |
 | SYNC-02 | Phase 20 | Complete |
 | SYNC-03 | Phase 20 | Complete |
-| SYNC-04 | Phase 21 | Pending |
-| SYNC-05 | Phase 21 | Pending |
+| SYNC-04 | Phase 21 | Complete |
+| SYNC-05 | Phase 21 | Complete |
 | DOCS-01 | Phase 23 | Pending |
 | DOCS-02 | Phase 23 | Pending |
 | DOCS-03 | Phase 23 | Pending |
