@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-02-02)
 
 ## Current Position
 
-Phase: 22 of 23 (Branding Updates)
+Phase: 23 of 23 (Documentation Finalization)
 Plan: 01 of 01 complete
-Status: Phase 22 complete ✓
-Last activity: 2026-02-02 - Phase 22 verified
+Status: Phase 23 complete - v1.3 ready for release
+Last activity: 2026-02-02 - Completed 23-01-PLAN.md
 
-Progress: [############--------] 67/78 plans (86%)
+Progress: [####################] 68/68 plans (100%)
 
 ## Milestone History
 
@@ -24,7 +24,7 @@ Progress: [############--------] 67/78 plans (86%)
 | v1.0 | GRD MVP | 1-9 (39 plans) | 2026-01-30 |
 | v1.1 | Research UX Refinement | 10-14 (13 plans) | 2026-02-01 |
 | v1.2 | Command Unification | 15-19 (12 plans) | 2026-02-02 |
-| v1.3 | Branding & Gemini Integration | 20-23 (TBD plans) | In progress |
+| v1.3 | Branding & Gemini Integration | 20-23 (4 plans) | Ready for release |
 
 ## Performance Metrics
 
@@ -47,14 +47,14 @@ Progress: [############--------] 67/78 plans (86%)
 - Timeline: 2 days (v1.1 to v1.2)
 
 **v1.3 Velocity:**
-- Total plans completed: 3
-- Average duration: 7 min
-- Total execution time: 21 min
+- Total plans completed: 4
+- Average duration: 6 min
+- Total execution time: 23 min
 
 **Cumulative:**
-- Total phases: 23 (21 completed, 2 in v1.3)
-- Total plans: 67 (completed)
-- Total milestones: 3 (shipped), 1 (in progress)
+- Total phases: 23 (all complete)
+- Total plans: 68 (completed)
+- Total milestones: 4 (v1.0, v1.1, v1.2, v1.3 ready)
 
 ## Accumulated Context
 
@@ -85,9 +85,16 @@ Full decision log in PROJECT.md Key Decisions table.
 | Chrome headless for PNG generation | Available on macOS without installation, reliable SVG rendering | 2026-02-02 |
 | CSS media queries for light mode | Modern standard, automatic theme switching, no JavaScript | 2026-02-02 |
 
+**v1.3 Phase 23 Decisions:**
+| Decision | Rationale | Date |
+|----------|-----------|------|
+| What's New section after Getting Started | Follows CONTEXT.md guidance for README structure | 2026-02-02 |
+| Collapsible Gemini CLI Setup section | Matches existing doc patterns with details blocks | 2026-02-02 |
+| Strikethrough grd-gemini with "Now built-in!" | Preserves community credit while noting integration | 2026-02-02 |
+
 ### Blockers/Concerns
 
-None - Phase 22 complete, ready for Phase 23
+None - v1.3 documentation complete, ready for release
 
 ### Quick Tasks Completed
 
@@ -97,11 +104,11 @@ None - Phase 22 complete, ready for Phase 23
 
 ## Session Continuity
 
-Last session: 2026-02-02T16:28:08Z
-Stopped at: Phase 22 complete
+Last session: 2026-02-02T21:54:58Z
+Stopped at: Phase 23 complete - v1.3 ready for release
 Resume file: None
 
-Phase 22 complete. Visual branding assets updated to GRD identity. Ready for Phase 23.
+v1.3 milestone complete. All documentation updated with Gemini CLI support, multi-runtime installer, and full version history. Ready for release tagging.
 
 ---
 *State initialized: 2026-01-27*
