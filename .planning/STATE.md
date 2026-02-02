@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 17 - Artifact Updates
-Plan: 3 of 3 complete
+Phase: 18 - Version History Reset
+Plan: 1 of 1 complete
 Status: Phase complete
-Last activity: 2026-02-02 - Completed Phase 17 (Artifact Updates) - verified
+Last activity: 2026-02-02 - Completed 18-01-PLAN.md (Version History Reset)
 
-Progress: [██████----] 60% (3/5 phases)
+Progress: [████████--] 80% (4/5 phases)
 
 ## Milestone History
 
@@ -40,7 +40,7 @@ Progress: [██████----] 60% (3/5 phases)
 
 **Cumulative:**
 - Total phases: 14 (completed) + 5 (v1.2 planned)
-- Total plans: 52
+- Total plans: 53
 - Total milestones: 2 (shipped) + 1 (active)
 
 ## Accumulated Context
@@ -76,6 +76,9 @@ v1.2 key decisions:
 - Updated Core Workflow diagram: Shows validate-results as integral part of experiment flow with visual branching for optional steps
 - Preserve {phase}-{plan} file naming convention: Maintains consistency with existing project structure (17-01)
 - Preserve research loop phase terminology: researcher|critic|evaluator refers to loop phases, not project phases (17-01)
+- Fresh CHANGELOG reset to GRD 1.2.0: Complete replacement over incremental edit for clean product positioning (18-01)
+- Footer-only GSD acknowledgment: Credits framework origins without positioning GRD as derivative (18-01)
+- Research-centric npm keywords: Removed technical jargon (meta-prompting, context-engineering), added data-science, experiment-tracking, reproducibility (18-01)
 
 ### v1.2 Command Rename Mapping
 
@@ -104,10 +107,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed Phase 17 (Artifact Updates) - all 3 plans executed, goal verified
+Stopped at: Completed 18-01-PLAN.md (Version History Reset)
 Resume file: None
 
-Phase 17 complete. Next step: Continue to Phase 18 (Version History Reset)
+Phase 18 complete. Next step: Continue to Phase 19 (Final Documentation Sync)
 
 ---
 *State initialized: 2026-01-27*
