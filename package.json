@@ -1,7 +1,7 @@
 {
   "name": "get-research-done",
   "version": "1.2.0",
-  "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation for Claude Code by Ulmentflam.",
+  "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation. Features Critic agent for automated skeptical review, Explorer for data reconnaissance, and Architect for hypothesis synthesis.",
   "bin": {
     "get-research-done": "bin/install.js"
   },
@@ -20,9 +20,10 @@
     "research",
     "ml",
     "machine-learning",
-    "meta-prompting",
-    "context-engineering",
-    "hypothesis-driven"
+    "hypothesis-driven",
+    "data-science",
+    "experiment-tracking",
+    "reproducibility"
   ],
   "author": "Ulmentflam",
   "license": "MIT",
