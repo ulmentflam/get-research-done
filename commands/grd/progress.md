@@ -182,7 +182,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 
 ## ▶ Next Up
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
+**Experiment {N}: {Name}** — {Goal from ROADMAP.md}
 <sub>✓ Context gathered, ready to plan</sub>
 
 `/grd:design-experiment {phase-number}`
@@ -199,7 +199,7 @@ Check if `{phase}-CONTEXT.md` exists in phase directory.
 
 ## ▶ Next Up
 
-**Phase {N}: {Name}** — {Goal from ROADMAP.md}
+**Experiment {N}: {Name}** — {Goal from ROADMAP.md}
 
 `/grd:scope-experiment {phase}` — gather context and clarify approach
 
@@ -268,11 +268,11 @@ Read ROADMAP.md to get the next phase's name and goal.
 ```
 ---
 
-## ✓ Phase {Z} Complete
+## ✓ Experiment {Z} Complete
 
 ## ▶ Next Up
 
-**Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
+**Experiment {Z+1}: {Name}** — {Goal from ROADMAP.md}
 
 `/grd:scope-experiment {Z+1}` — gather context and clarify approach
 
@@ -296,7 +296,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 
 ## 🎉 Milestone Complete
 
-All {N} phases finished!
+All {N} experiments finished!
 
 ## ▶ Next Up
 

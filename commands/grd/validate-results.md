@@ -88,7 +88,7 @@ UAT complete ✓
 
 ## ▶ Next Up
 
-**Phase {Z+1}: {Name}** — {Goal from ROADMAP.md}
+**Experiment {Z+1}: {Name}** — {Goal from ROADMAP.md}
 
 /grd:scope-experiment {Z+1} — gather context and clarify approach
 
