@@ -97,7 +97,9 @@
   2. List of new GSD features since fork is documented with commit hashes
   3. Cherry-pick decisions are documented (what to take, what to skip, why)
   4. Gemini CLI location identified in GSD codebase
-**Plans**: TBD
+**Plans**: 1 plan
+Plans:
+- [ ] 20-01-PLAN.md - Add upstream remote, document features, create cherry-pick decisions
 
 ### Phase 21: Gemini CLI Integration
 **Goal**: Cherry-pick Gemini CLI and selected features from GSD, adapt to GRD
@@ -140,7 +142,7 @@
 | 1-9. v1.0 MVP | v1.0 | 39/39 | Complete | 2026-01-30 |
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15-19. v1.2 Command Unification | v1.2 | 12/12 | Complete | 2026-02-02 |
-| 20. GSD Sync Setup & Exploration | v1.3 | 0/TBD | Not started | - |
+| 20. GSD Sync Setup & Exploration | v1.3 | 0/1 | Planned | - |
 | 21. Gemini CLI Integration | v1.3 | 0/TBD | Not started | - |
 | 22. Branding Updates | v1.3 | 0/TBD | Not started | - |
 | 23. Documentation & Finalization | v1.3 | 0/TBD | Not started | - |
