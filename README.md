@@ -564,4 +564,6 @@ MIT License. See [LICENSE](LICENSE) for details.
 
 **Claude Code is powerful. GRD makes ML research systematic.**
 
+<sub>Built on the [GSD framework](https://github.com/glittercowboy/get-shit-done)</sub>
+
 </div>
