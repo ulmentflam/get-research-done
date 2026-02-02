@@ -119,16 +119,16 @@ Final phase verified ✓
 
 ## ▶ Next Up
 
-**Audit milestone** — verify requirements, cross-phase integration, E2E flows
+**Audit study** — verify requirements, cross-phase integration, E2E flows
 
-/grd:audit-milestone
+/grd:audit-study
 
 <sub>/clear first → fresh context window</sub>
 
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- /grd:complete-milestone — skip audit, archive directly
+- /grd:complete-study — skip audit, archive directly
 
 ───────────────────────────────────────────────────────────────
 
