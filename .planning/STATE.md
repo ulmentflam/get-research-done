@@ -10,12 +10,12 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 
 ## Current Position
 
-Phase: 15 - Command Renames
-Plan: 4 of 4 complete
+Phase: 16 - Command Chaining Fixes
+Plan: 1 of 1 complete
 Status: Phase complete
-Last activity: 2026-02-02 - Completed 15-04-PLAN.md
+Last activity: 2026-02-02 - Completed 16-01-PLAN.md
 
-Progress: [██--------] 20% (1/5 phases)
+Progress: [████------] 40% (2/5 phases)
 
 ## Milestone History
 
@@ -67,6 +67,7 @@ v1.2 key decisions:
 - list-experiment-assumptions not shortened: Consistent with experiment prefix pattern
 - Preserve CHANGELOG.md: Historical references intentionally not updated
 - Batch sed replacements: Comprehensive coverage across 33 active files
+- Route to study-level commands: audit-study, complete-study, new-study instead of milestone equivalents
 
 ### v1.2 Command Rename Mapping
 
@@ -95,10 +96,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 15-04-PLAN.md (Help documentation finalization)
+Stopped at: Completed 16-01-PLAN.md (Command Chaining Fixes)
 Resume file: None
 
-Phase 15 complete and verified. Next step: `/grd:scope-experiment 16` to gather context for Command Chaining Fixes
+Phase 16 complete and verified. Next step: Continue to Phase 17 (Artifact Updates)
 
 ---
 *State initialized: 2026-01-27*
