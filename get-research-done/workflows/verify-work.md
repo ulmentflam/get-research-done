@@ -1,5 +1,5 @@
 <purpose>
-Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /grd:plan-phase --gaps.
+Validate built features through conversational testing with persistent state. Creates UAT.md that tracks test progress, survives /clear, and feeds gaps into /grd:design-experiment --gaps.
 
 User tests, Claude records. One test at a time. Plain text responses.
 </purpose>
@@ -78,7 +78,7 @@ If no, continue to `create_uat_file`.
 ```
 No active UAT sessions.
 
-Provide a phase number to start testing (e.g., /grd:verify-work 4)
+Provide a phase number to start testing (e.g., /grd:validate-results 4)
 ```
 
 **If no active sessions AND $ARGUMENTS provided:**
@@ -250,7 +250,7 @@ reported: "{verbatim user response}"
 severity: {inferred}
 ```
 
-Append to Gaps section (structured YAML for plan-phase --gaps):
+Append to Gaps section (structured YAML for design-experiment --gaps):
 ```yaml
 - truth: "{expected behavior from test}"
   status: failed
@@ -343,7 +343,7 @@ Present summary:
 ```
 All tests passed. Ready to continue.
 
-- `/grd:plan-phase {next}` — Plan next phase
+- `/grd:design-experiment {next}` — Plan next phase
 - `/grd:execute-phase {next}` — Execute next phase
 ```
 </step>
@@ -510,7 +510,7 @@ Display: `Max iterations reached. {N} issues remain.`
 Offer options:
 1. Force proceed (execute despite issues)
 2. Provide guidance (user gives direction, retry)
-3. Abandon (exit, user runs /grd:plan-phase manually)
+3. Abandon (exit, user runs /grd:design-experiment manually)
 
 Wait for user response.
 </step>
