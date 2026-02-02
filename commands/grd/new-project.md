@@ -951,7 +951,7 @@ Present completion with next steps:
 
 ## ▶ Next Up
 
-**Phase 1: [Phase Name]** — [Goal from ROADMAP.md]
+**Experiment 1: [Experiment Name]** — [Goal from ROADMAP.md]
 
 /grd:scope-experiment 1 — gather context and clarify approach
 

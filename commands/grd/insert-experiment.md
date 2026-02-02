@@ -187,7 +187,7 @@ Project state updated: .planning/STATE.md
 
 ## ▶ Next Up
 
-**Phase {decimal_phase}: {description}** — urgent insertion
+**Experiment {decimal_phase}: {description}** — urgent insertion
 
 `/grd:design-experiment {decimal_phase}`
 

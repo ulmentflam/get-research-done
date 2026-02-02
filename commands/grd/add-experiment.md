@@ -168,7 +168,7 @@ Project state updated: .planning/STATE.md
 
 ## ▶ Next Up
 
-**Phase {N}: {description}**
+**Experiment {N}: {description}**
 
 `/grd:design-experiment {N}`
 

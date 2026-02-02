@@ -39,6 +39,81 @@ npx get-research-done@latest
 /grd:new-project → /grd:design-experiment → /grd:run-experiment → repeat
 ```
 
+## Commands by Category
+
+### Lifecycle Commands
+
+| Command | Description |
+|---------|-------------|
+| `/grd:new-project` | Initialize project with questioning → research → requirements → roadmap |
+| `/grd:new-study` | Start new research study |
+| `/grd:design-experiment` | Create detailed plan for experiment |
+| `/grd:run-experiment` | Execute experiment plans |
+| `/grd:validate-results` | Test experiment results through UAT |
+| `/grd:complete-study` | Archive completed study |
+| `/grd:audit-study` | Audit study against hypotheses |
+| `/grd:plan-study-gaps` | Create experiments to close audit gaps |
+| `/grd:progress` | Check status and route to next action |
+
+### Research Commands
+
+| Command | Description |
+|---------|-------------|
+| `/grd:scope-experiment` | Capture vision before planning |
+| `/grd:literature-review` | Comprehensive ecosystem research |
+| `/grd:list-experiment-assumptions` | See Claude's intended approach |
+| `/grd:research` | General domain research |
+| `/grd:architect` | Hypothesis synthesis from data |
+
+### Data Commands
+
+| Command | Description |
+|---------|-------------|
+| `/grd:explore` | Data reconnaissance and profiling |
+| `/grd:evaluate` | Model evaluation with evidence packages |
+| `/grd:insights` | Plain English data explanations |
+
+### Roadmap Management
+
+| Command | Description |
+|---------|-------------|
+| `/grd:add-experiment` | Add experiment to end of study |
+| `/grd:insert-experiment` | Insert urgent experiment between existing |
+| `/grd:remove-experiment` | Remove future experiment and renumber |
+
+### Session Management
+
+| Command | Description |
+|---------|-------------|
+| `/grd:pause-work` | Create context handoff |
+| `/grd:resume-work` | Restore previous session |
+
+### Quick Mode
+
+| Command | Description |
+|---------|-------------|
+| `/grd:quick` | Execute small ad-hoc tasks |
+| `/grd:quick-explore` | Fast data exploration |
+
+### Todo Management
+
+| Command | Description |
+|---------|-------------|
+| `/grd:add-todo` | Capture idea as todo |
+| `/grd:check-todos` | List and select todos to work on |
+
+### Utility Commands
+
+| Command | Description |
+|---------|-------------|
+| `/grd:help` | Show command reference |
+| `/grd:update` | Update GRD to latest |
+| `/grd:settings` | Configure workflow toggles |
+| `/grd:set-profile` | Switch model profile |
+| `/grd:debug` | Systematic debugging with persistence |
+| `/grd:map-codebase` | Map existing codebase |
+| `/grd:graduate` | Graduate notebook to production |
+
 ### Project Initialization
 
 **`/grd:new-project`**

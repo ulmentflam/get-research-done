@@ -494,7 +494,7 @@ Verification: {Passed | Passed with override | Skipped}
 
 ## ▶ Next Up
 
-**Execute Phase {X}** — run all {N} plans
+**Execute Experiment {X}** — run all {N} plans
 
 /grd:run-experiment {X}
 

@@ -16,13 +16,13 @@ Template for `.planning/STATE.md` — the project's living memory.
 See: .planning/PROJECT.md (updated [date])
 
 **Core value:** [One-liner from PROJECT.md Core Value section]
-**Current focus:** [Current phase name]
+**Current focus:** [Current experiment name]
 
 ## Current Position
 
-Phase: [X] of [Y] ([Phase name])
-Plan: [A] of [B] in current phase
-Status: [Ready to plan / Planning / Ready to execute / In progress / Phase complete]
+Experiment: [X] of [Y] ([Experiment name])
+Plan: [A] of [B] in current experiment
+Status: [Ready to plan / Planning / Ready to execute / In progress / Experiment complete]
 Last activity: [YYYY-MM-DD] — [What happened]
 
 Progress: [░░░░░░░░░░] 0%
@@ -78,9 +78,9 @@ Track REVISE_DATA cycles within current hypothesis:
 - Average duration: [X] min
 - Total execution time: [X.X] hours
 
-**By Phase:**
+**By Experiment:**
 
-| Phase | Plans | Total | Avg/Plan |
+| Experiment | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | - | - | - | - |
 
@@ -97,8 +97,8 @@ Track REVISE_DATA cycles within current hypothesis:
 Decisions are logged in PROJECT.md Key Decisions table.
 Recent decisions affecting current work:
 
-- [Phase X]: [Decision summary]
-- [Phase Y]: [Decision summary]
+- [Experiment X]: [Decision summary]
+- [Experiment Y]: [Decision summary]
 
 ### Research Decisions
 
@@ -156,7 +156,7 @@ _Notes from current research iteration appear here_
 
 <purpose>
 
-STATE.md is the project's short-term memory spanning all phases and sessions.
+STATE.md is the project's short-term memory spanning all experiments and sessions.
 
 **Problem it solves:** Information is captured in summaries, issues, and decisions but not systematically consumed. Sessions start without context.
 
@@ -173,7 +173,7 @@ STATE.md is the project's short-term memory spanning all phases and sessions.
 **Creation:** After ROADMAP.md is created (during init)
 - Reference PROJECT.md (read it for current context)
 - Initialize empty accumulated context sections
-- Set position to "Phase 1 ready to plan"
+- Set position to "Experiment 1 ready to plan"
 
 **Reading:** First step of every workflow
 - progress: Present status to user
@@ -183,10 +183,10 @@ STATE.md is the project's short-term memory spanning all phases and sessions.
 
 **Writing:** After every significant action
 - execute: After SUMMARY.md created
-  - Update position (phase, plan, status)
+  - Update position (experiment, plan, status)
   - Note new decisions (detail in PROJECT.md)
   - Add blockers/concerns
-- transition: After phase marked complete
+- transition: After experiment marked complete
   - Update progress bar
   - Clear resolved blockers
   - Refresh Project Reference date
@@ -198,26 +198,26 @@ STATE.md is the project's short-term memory spanning all phases and sessions.
 ### Project Reference
 Points to PROJECT.md for full context. Includes:
 - Core value (the ONE thing that matters)
-- Current focus (which phase)
+- Current focus (which experiment)
 - Last update date (triggers re-read if stale)
 
 Claude reads PROJECT.md directly for requirements, constraints, and decisions.
 
 ### Current Position
 Where we are right now:
-- Phase X of Y — which phase
-- Plan A of B — which plan within phase
+- Experiment X of Y — which experiment
+- Plan A of B — which plan within experiment
 - Status — current state
 - Last activity — what happened most recently
 - Progress bar — visual indicator of overall completion
 
-Progress calculation: (completed plans) / (total plans across all phases) × 100%
+Progress calculation: (completed plans) / (total plans across all experiments) × 100%
 
 ### Performance Metrics
 Track velocity to understand execution patterns:
 - Total plans completed
 - Average duration per plan
-- Per-phase breakdown
+- Per-experiment breakdown
 - Recent trend (improving/stable/degrading)
 
 Updated after each plan completion.
@@ -231,9 +231,9 @@ Updated after each plan completion.
 - Reference to .planning/todos/pending/
 - Brief list if few, count if many (e.g., "5 pending todos — see /grd:check-todos")
 
-**Blockers/Concerns:** From "Next Phase Readiness" sections
+**Blockers/Concerns:** From "Next Experiment Readiness" sections
 - Issues that affect future work
-- Prefix with originating phase
+- Prefix with originating experiment
 - Cleared when addressed
 
 ### Session Continuity
@@ -250,7 +250,7 @@ Tracks recursive validation cycles (STATE-01 requirement):
 - **Current Loop Progress**: Checklist tracking which agents have contributed
 - **Loop Notes**: Insights, decisions, and findings from the current iteration
 
-When a research loop starts (future phases), this section tracks:
+When a research loop starts (future experiments), this section tracks:
 - Explorer's data reconnaissance
 - Architect's hypothesis synthesis
 - Researcher's implementation
