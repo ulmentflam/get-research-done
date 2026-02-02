@@ -1,7 +1,7 @@
 ---
 name: grd:run-experiment
 description: Execute all plans in an experiment with wave-based parallelization
-argument-hint: "<phase-number> [--gaps-only]"
+argument-hint: "<phase-number> [--gaps]"
 allowed-tools:
   - Read
   - Write
@@ -31,7 +31,7 @@ Context budget: ~15% orchestrator, 100% fresh per subagent.
 Phase: $ARGUMENTS
 
 **Flags:**
-- `--gaps-only` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after validate-results creates fix plans.
+- `--gaps` — Execute only gap closure plans (plans with `gap_closure: true` in frontmatter). Use after validate-results creates fix plans. Also accepts `--gaps-only` for backward compatibility.
 
 @.planning/ROADMAP.md
 @.planning/STATE.md
@@ -64,7 +64,7 @@ Phase: $ARGUMENTS
 2. **Discover plans**
    - List all *-PLAN.md files in phase directory
    - Check which have *-SUMMARY.md (already complete)
-   - If `--gaps-only`: filter to only plans with `gap_closure: true`
+   - If `--gaps`: filter to only plans with `gap_closure: true`
    - Build list of incomplete plans
 
 3. **Group by wave**
