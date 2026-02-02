@@ -30,10 +30,10 @@ Requirements for Command Unification milestone. Each maps to roadmap phases.
 
 ### Artifact Updates
 
-- [ ] **ARTIFACT-01**: Update STATE.md template to track experiments instead of phases
-- [ ] **ARTIFACT-02**: Update ROADMAP.md terminology (phase -> experiment, milestone -> study)
-- [ ] **ARTIFACT-03**: Update help.md with complete new command reference
-- [ ] **ARTIFACT-04**: Update all "Next Up" sections across all 33 command files
+- [x] **ARTIFACT-01**: Update STATE.md template to track experiments instead of phases
+- [x] **ARTIFACT-02**: Update ROADMAP.md terminology (phase -> experiment, milestone -> study)
+- [x] **ARTIFACT-03**: Update help.md with complete new command reference
+- [x] **ARTIFACT-04**: Update all "Next Up" sections across all 33 command files
 
 ### Version History Reset
 
@@ -93,10 +93,10 @@ Which phases cover which requirements. Updated during roadmap creation.
 | CHAIN-04 | Phase 16 | Complete |
 | CHAIN-05 | Phase 16 | Complete |
 | CHAIN-06 | Phase 16 | Complete |
-| ARTIFACT-01 | Phase 17 | Pending |
-| ARTIFACT-02 | Phase 17 | Pending |
-| ARTIFACT-03 | Phase 17 | Pending |
-| ARTIFACT-04 | Phase 17 | Pending |
+| ARTIFACT-01 | Phase 17 | Complete |
+| ARTIFACT-02 | Phase 17 | Complete |
+| ARTIFACT-03 | Phase 17 | Complete |
+| ARTIFACT-04 | Phase 17 | Complete |
 | VERSION-01 | Phase 18 | Pending |
 | VERSION-02 | Phase 18 | Pending |
 | VERSION-03 | Phase 18 | Pending |

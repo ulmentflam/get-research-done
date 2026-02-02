@@ -115,9 +115,9 @@ Plans:
 **Plans:** 3 plans
 
 Plans:
-- [ ] 17-01-PLAN.md — Update STATE.md and ROADMAP.md templates with experiment terminology
-- [ ] 17-02-PLAN.md — Reorganize help.md with categorized commands and quick-start workflow
-- [ ] 17-03-PLAN.md — Update "Next Up" sections across 7 command files
+- [x] 17-01-PLAN.md — Update STATE.md and ROADMAP.md templates with experiment terminology
+- [x] 17-02-PLAN.md — Reorganize help.md with categorized commands and quick-start workflow
+- [x] 17-03-PLAN.md — Update "Next Up" sections across 7 command files
 
 **Success Criteria:**
 1. STATE.md template tracks experiments (not phases) with appropriate fields
@@ -170,6 +170,6 @@ Phases execute in numeric order: 15 -> 16 -> 17 -> 18 -> 19
 | 10-14. v1.1 Research UX | v1.1 | 13/13 | Complete | 2026-02-01 |
 | 15. Command Renames | v1.2 | 4/4 | Complete | 2026-02-02 |
 | 16. Command Chaining | v1.2 | 2/2 | Complete | 2026-02-02 |
-| 17. Artifact Updates | v1.2 | 0/3 | Not started | - |
+| 17. Artifact Updates | v1.2 | 3/3 | Complete | 2026-02-02 |
 | 18. Version History Reset | v1.2 | 0/? | Not started | - |
 | 19. Documentation & Testing | v1.2 | 0/? | Not started | - |
