@@ -11,9 +11,9 @@ See: .planning/PROJECT.md (updated 2026-02-01)
 ## Current Position
 
 Phase: 17 - Artifact Updates
-Plan: 3 of 4 complete
-Status: In progress
-Last activity: 2026-02-02 - Completed 17-03-PLAN.md
+Plan: 3 of 3 complete
+Status: Phase complete
+Last activity: 2026-02-02 - Completed 17-02-PLAN.md (re-execution)
 
 Progress: [█████-----] 50% (2.5/5 phases)
 
@@ -71,6 +71,11 @@ v1.2 key decisions:
 - Use --gaps as primary flag: Standardized across commands with --gaps-only as backward compat
 - Explicit next-step routing: Suggest specific commands after completion (e.g., /grd:graduate after Seal)
 - Experiment terminology in routing but not process steps: User-facing navigation uses 'Experiment', internal process documentation retains 'Phase' for technical clarity
+- Organized commands into 8 logical categories: Lifecycle, Research, Data, Roadmap Management, Session Management, Quick Mode, Todo Management, Utility (improves command discovery in help.md)
+- Extended Quick Start to 6 steps: Shows complete experiment lifecycle including validate-results and complete-study
+- Updated Core Workflow diagram: Shows validate-results as integral part of experiment flow with visual branching for optional steps
+- Preserve {phase}-{plan} file naming convention: Maintains consistency with existing project structure (17-01)
+- Preserve research loop phase terminology: researcher|critic|evaluator refers to loop phases, not project phases (17-01)
 
 ### v1.2 Command Rename Mapping
 
@@ -99,10 +104,10 @@ None.
 ## Session Continuity
 
 Last session: 2026-02-02
-Stopped at: Completed 17-03-PLAN.md (Next Up Section Updates)
+Stopped at: Completed 17-02-PLAN.md (Help Documentation Updates - re-execution)
 Resume file: None
 
-Phase 17 in progress (3/4 plans complete). Next: 17-04-PLAN.md (Version Bump)
+Phase 17 complete (3/3 plans). Next: Phase 18 (Version Reset)
 
 ---
 *State initialized: 2026-01-27*
