@@ -9,15 +9,15 @@ Requirements for Command Unification milestone. Each maps to roadmap phases.
 
 ### Command Renames
 
-- [ ] **RENAME-01**: Rename `plan-phase` to `design-experiment` (file, content, help.md)
-- [ ] **RENAME-02**: Rename `execute-phase` to `run-experiment` (file, content, help.md)
-- [ ] **RENAME-03**: Rename `discuss-phase` to `scope-experiment` (file, content, help.md)
-- [ ] **RENAME-04**: Rename `validate-results` to `validate-results` (file, content, help.md)
-- [ ] **RENAME-05**: Rename `literature-review` to `literature-review` (file, content, help.md)
-- [ ] **RENAME-06**: Rename `list-experiment-assumptions` to `list-experiment-assumptions` (file, content, help.md)
-- [ ] **RENAME-07**: Rename `add-phase` to `add-experiment` (file, content, help.md)
-- [ ] **RENAME-08**: Rename `insert-phase` to `insert-experiment` (file, content, help.md)
-- [ ] **RENAME-09**: Rename `remove-phase` to `remove-experiment` (file, content, help.md)
+- [x] **RENAME-01**: Rename `plan-phase` to `design-experiment` (file, content, help.md)
+- [x] **RENAME-02**: Rename `execute-phase` to `run-experiment` (file, content, help.md)
+- [x] **RENAME-03**: Rename `discuss-phase` to `scope-experiment` (file, content, help.md)
+- [x] **RENAME-04**: Rename `verify-work` to `validate-results` (file, content, help.md)
+- [x] **RENAME-05**: Rename `research-phase` to `literature-review` (file, content, help.md)
+- [x] **RENAME-06**: Rename `list-phase-assumptions` to `list-experiment-assumptions` (file, content, help.md)
+- [x] **RENAME-07**: Rename `add-phase` to `add-experiment` (file, content, help.md)
+- [x] **RENAME-08**: Rename `insert-phase` to `insert-experiment` (file, content, help.md)
+- [x] **RENAME-09**: Rename `remove-phase` to `remove-experiment` (file, content, help.md)
 
 ### Command Chaining Fixes
 
@@ -78,15 +78,15 @@ Which phases cover which requirements. Updated during roadmap creation.
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| RENAME-01 | Phase 15 | Pending |
-| RENAME-02 | Phase 15 | Pending |
-| RENAME-03 | Phase 15 | Pending |
-| RENAME-04 | Phase 15 | Pending |
-| RENAME-05 | Phase 15 | Pending |
-| RENAME-06 | Phase 15 | Pending |
-| RENAME-07 | Phase 15 | Pending |
-| RENAME-08 | Phase 15 | Pending |
-| RENAME-09 | Phase 15 | Pending |
+| RENAME-01 | Phase 15 | Complete |
+| RENAME-02 | Phase 15 | Complete |
+| RENAME-03 | Phase 15 | Complete |
+| RENAME-04 | Phase 15 | Complete |
+| RENAME-05 | Phase 15 | Complete |
+| RENAME-06 | Phase 15 | Complete |
+| RENAME-07 | Phase 15 | Complete |
+| RENAME-08 | Phase 15 | Complete |
+| RENAME-09 | Phase 15 | Complete |
 | CHAIN-01 | Phase 16 | Pending |
 | CHAIN-02 | Phase 16 | Pending |
 | CHAIN-03 | Phase 16 | Pending |
