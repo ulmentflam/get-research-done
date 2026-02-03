@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [1.3.1] - 2026-02-02
+
+### Changed
+- Updated documentation terminology from GSD to GRD throughout
+- Fixed package name and repository URLs in CONTRIBUTING.md and MAINTAINERS.md
+- Removed testimonial quotes from README.md
+
 ## [1.3.0] - 2026-02-02
 
 ### Added
@@ -54,7 +61,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - 27 CLI commands for research workflow
 - Multi-runtime support (Claude Code, OpenCode)
 
-[Unreleased]: https://github.com/ulmentflam/get-research-done/compare/v1.3.0...HEAD
+[Unreleased]: https://github.com/ulmentflam/get-research-done/compare/v1.3.1...HEAD
+[1.3.1]: https://github.com/ulmentflam/get-research-done/compare/v1.3.0...v1.3.1
 [1.3.0]: https://github.com/ulmentflam/get-research-done/compare/v1.2.0...v1.3.0
 [1.2.0]: https://github.com/ulmentflam/get-research-done/compare/v1.1.0...v1.2.0
 [1.1.0]: https://github.com/ulmentflam/get-research-done/compare/v1.0.0...v1.1.0

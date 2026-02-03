@@ -1,6 +1,6 @@
 {
   "name": "get-research-done",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "description": "A recursive, agentic framework for ML research with hypothesis-driven experimentation. Features Critic agent for automated skeptical review, Explorer for data reconnaissance, and Architect for hypothesis synthesis.",
   "bin": {
     "get-research-done": "bin/install.js"
