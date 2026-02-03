@@ -60,15 +60,15 @@ This is the most leveraged moment in any study. Deep questioning here surfaces t
 
 3. **Detect existing code/data (brownfield detection):**
    ```bash
-   CODE_FILES=$(find . -name "*.py" -o -name "*.ipynb" -o -name "*.R" -o -name "*.jl" 2>/dev/null | grep -v node_modules | grep -v .git | head -20)
-   DATA_FILES=$(find . -name "*.csv" -o -name "*.parquet" -o -name "*.json" -o -name "*.pkl" 2>/dev/null | grep -v node_modules | grep -v .git | head -20)
+   CODE_FILES=$(find . -name "*.py" -o -name "*.ipynb" -o -name "*.R" -o -name "*.jl" 2>/dev/null | grep -v node_modules | grep -v '/\.' | head -20)
+   DATA_FILES=$(find . -name "*.csv" -o -name "*.parquet" -o -name "*.json" -o -name "*.pkl" 2>/dev/null | grep -v node_modules | grep -v '/\.' | head -20)
    HAS_PACKAGE=$([ -f requirements.txt ] || [ -f pyproject.toml ] || [ -f environment.yml ] || [ -f setup.py ] && echo "yes")
    HAS_CODEBASE_MAP=$([ -d .planning/codebase ] && echo "yes")
    ```
 
 4. **Detect existing documentation:**
    ```bash
-   DOC_FILES=$(find . -name "*.md" -o -name "*.txt" -o -name "*.pdf" -o -name "*.docx" -o -name "*.tex" 2>/dev/null | grep -v node_modules | grep -v .git | grep -v .planning | head -20)
+   DOC_FILES=$(find . -name "*.md" -o -name "*.txt" -o -name "*.pdf" -o -name "*.docx" -o -name "*.tex" 2>/dev/null | grep -v node_modules | grep -v '/\.' | head -20)
    README_EXISTS=$([ -f README.md ] || [ -f readme.md ] && echo "yes")
    DOCS_DIR=$([ -d docs ] || [ -d documentation ] || [ -d notes ] && echo "yes")
    ```
