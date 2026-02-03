@@ -95,7 +95,7 @@ Gap: Statistical: insufficient power for HYP-02
 
 Find highest existing experiment:
 ```bash
-ls -d .planning/phases/*/ | sort -V | tail -1
+ls -d .planning/experiments/*/ | sort -V | tail -1
 ```
 
 New experiments continue from there:
@@ -156,7 +156,7 @@ Add new experiments to current study:
 ## 7. Create Experiment Directories
 
 ```bash
-mkdir -p ".planning/phases/{NN}-{name}"
+mkdir -p ".planning/experiments/{NN}-{name}"
 ```
 
 ## 8. Commit Protocol Update

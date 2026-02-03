@@ -78,8 +78,8 @@ Find the next plan to execute:
 cat .planning/ROADMAP.md
 # Look for phase with "In progress" status
 # Then find plans in that phase
-ls .planning/phases/XX-name/*-PLAN.md 2>/dev/null | sort
-ls .planning/phases/XX-name/*-SUMMARY.md 2>/dev/null | sort
+ls .planning/experiments/XX-name/*-PLAN.md 2>/dev/null | sort
+ls .planning/experiments/XX-name/*-SUMMARY.md 2>/dev/null | sort
 ```
 
 **Logic:**
@@ -92,8 +92,8 @@ ls .planning/phases/XX-name/*-SUMMARY.md 2>/dev/null | sort
 
 Phase directories can be integer or decimal format:
 
-- Integer: `.planning/phases/01-foundation/01-01-PLAN.md`
-- Decimal: `.planning/phases/01.1-hotfix/01.1-01-PLAN.md`
+- Integer: `.planning/experiments/01-foundation/01-01-PLAN.md`
+- Decimal: `.planning/experiments/01.1-hotfix/01.1-01-PLAN.md`
 
 Parse phase number from path (handles both formats):
 
@@ -160,7 +160,7 @@ Plans are divided into segments by checkpoints. Each segment is routed to optima
 
 ```bash
 # Find all checkpoints and their types
-grep -n "type=\"checkpoint" .planning/phases/XX-name/{phase}-{plan}-PLAN.md
+grep -n "type=\"checkpoint" .planning/experiments/XX-name/{phase}-{plan}-PLAN.md
 ```
 
 **2. Analyze execution strategy:**
@@ -227,7 +227,7 @@ No segmentation benefit - execute entirely in main
 
 2. Use Task tool with subagent_type="grd-executor" and model="{executor_model}":
 
-   Prompt: "Execute plan at .planning/phases/{phase}-{plan}-PLAN.md
+   Prompt: "Execute plan at .planning/experiments/{phase}-{plan}-PLAN.md
 
    This is an autonomous plan (no checkpoints). Execute all tasks, create SUMMARY.md in phase directory, commit with message following plan's commit guidance.
 
@@ -273,7 +273,7 @@ No segmentation benefit - execute entirely in main
 Execute segment-by-segment:
 
 For each autonomous segment:
-  Spawn subagent with prompt: "Execute tasks [X-Y] from plan at .planning/phases/{phase}-{plan}-PLAN.md. Read the plan for full context and deviation rules. Do NOT create SUMMARY or commit - just execute these tasks and report results."
+  Spawn subagent with prompt: "Execute tasks [X-Y] from plan at .planning/experiments/{phase}-{plan}-PLAN.md. Read the plan for full context and deviation rules. Do NOT create SUMMARY or commit - just execute these tasks and report results."
 
   Wait for subagent completion
 
@@ -527,7 +527,7 @@ Committing...
 <step name="load_prompt">
 Read the plan prompt:
 ```bash
-cat .planning/phases/XX-name/{phase}-{plan}-PLAN.md
+cat .planning/experiments/XX-name/{phase}-{plan}-PLAN.md
 ````
 
 This IS the execution instructions. Follow it exactly.
@@ -541,7 +541,7 @@ Before executing, check if previous phase had issues:
 
 ```bash
 # Find previous phase summary
-ls .planning/phases/*/SUMMARY.md 2>/dev/null | sort -r | head -2 | tail -1
+ls .planning/experiments/*/SUMMARY.md 2>/dev/null | sort -r | head -2 | tail -1
 ```
 
 If previous phase SUMMARY.md has "Issues Encountered" != "None" or "Next Phase Readiness" mentions blockers:
@@ -1255,12 +1255,12 @@ Pass timing data to SUMMARY.md creation.
 Check PLAN.md frontmatter for `user_setup` field:
 
 ```bash
-grep -A 50 "^user_setup:" .planning/phases/XX-name/{phase}-{plan}-PLAN.md | head -50
+grep -A 50 "^user_setup:" .planning/experiments/XX-name/{phase}-{plan}-PLAN.md | head -50
 ```
 
 **If user_setup exists and is not empty:**
 
-Create `.planning/phases/XX-name/{phase}-USER-SETUP.md` using template from `~/.claude/get-research-done/templates/user-setup.md`.
+Create `.planning/experiments/XX-name/{phase}-USER-SETUP.md` using template from `~/.claude/get-research-done/templates/user-setup.md`.
 
 **Content generation:**
 
@@ -1323,7 +1323,7 @@ Set `USER_SETUP_CREATED=true` if file was generated, for use in completion messa
 Create `{phase}-{plan}-SUMMARY.md` as specified in the prompt's `<output>` section.
 Use ~/.claude/get-research-done/templates/summary.md for structure.
 
-**File location:** `.planning/phases/XX-name/{phase}-{plan}-SUMMARY.md`
+**File location:** `.planning/experiments/XX-name/{phase}-{plan}-SUMMARY.md`
 
 **Frontmatter population:**
 
@@ -1527,7 +1527,7 @@ If `COMMIT_PLANNING_DOCS=true` (default):
 **1. Stage execution artifacts:**
 
 ```bash
-git add .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md
+git add .planning/experiments/XX-name/{phase}-{plan}-SUMMARY.md
 git add .planning/STATE.md
 ```
 
@@ -1555,7 +1555,7 @@ Tasks completed: [N]/[N]
 - [Task 2 name]
 - [Task 3 name]
 
-SUMMARY: .planning/phases/XX-name/{phase}-{plan}-SUMMARY.md
+SUMMARY: .planning/experiments/XX-name/{phase}-{plan}-SUMMARY.md
 EOF
 )"
 ```
@@ -1571,7 +1571,7 @@ Tasks completed: 3/3
 - Password hashing with bcrypt
 - Email confirmation flow
 
-SUMMARY: .planning/phases/08-user-auth/08-02-registration-SUMMARY.md
+SUMMARY: .planning/experiments/08-user-auth/08-02-registration-SUMMARY.md
 EOF
 )"
 ```
@@ -1645,7 +1645,7 @@ If `USER_SETUP_CREATED=true` (from generate_user_setup step), always include thi
 
 This phase introduced external services requiring manual configuration:
 
-📋 .planning/phases/{phase-dir}/{phase}-USER-SETUP.md
+📋 .planning/experiments/{phase-dir}/{phase}-USER-SETUP.md
 
 Quick view:
 - [ ] {ENV_VAR_1}
@@ -1653,7 +1653,7 @@ Quick view:
 - [ ] {Dashboard config task}
 
 Complete this setup for the integration to function.
-Run `cat .planning/phases/{phase-dir}/{phase}-USER-SETUP.md` for full details.
+Run `cat .planning/experiments/{phase-dir}/{phase}-USER-SETUP.md` for full details.
 
 ---
 ```
@@ -1665,8 +1665,8 @@ This warning appears BEFORE "Plan complete" messaging. User sees setup requireme
 List files in the phase directory:
 
 ```bash
-ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
+ls -1 .planning/experiments/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
+ls -1 .planning/experiments/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
 ```
 
 State the counts: "This phase has [X] plans and [Y] summaries."
@@ -1691,7 +1691,7 @@ Identify the next unexecuted plan:
 <if mode="yolo">
 ```
 Plan {phase}-{plan} complete.
-Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
+Summary: .planning/experiments/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 {Y} of {X} plans complete for Phase {Z}.
 
@@ -1704,7 +1704,7 @@ Loop back to identify_plan step automatically.
 <if mode="interactive" OR="custom with gates.execute_next_plan true">
 ```
 Plan {phase}-{plan} complete.
-Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
+Summary: .planning/experiments/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 {Y} of {X} plans complete for Phase {Z}.
 
@@ -1763,7 +1763,7 @@ Read ROADMAP.md to get the next phase's name and goal.
 
 ```
 Plan {phase}-{plan} complete.
-Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
+Summary: .planning/experiments/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 ## ✓ Phase {Z}: {Phase Name} Complete
 
@@ -1797,7 +1797,7 @@ All {Y} plans finished.
 🎉 MILESTONE COMPLETE!
 
 Plan {phase}-{plan} complete.
-Summary: .planning/phases/{phase-dir}/{phase}-{plan}-SUMMARY.md
+Summary: .planning/experiments/{phase-dir}/{phase}-{plan}-SUMMARY.md
 
 ## ✓ Phase {Z}: {Phase Name} Complete
 

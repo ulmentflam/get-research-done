@@ -69,7 +69,7 @@ grep -A5 "Phase ${PHASE}:" .planning/ROADMAP.md 2>/dev/null
 ## 2. Check Existing Research
 
 ```bash
-ls .planning/phases/${PHASE}-*/RESEARCH.md 2>/dev/null
+ls .planning/experiments/${PHASE}-*/RESEARCH.md 2>/dev/null
 ```
 
 **If exists:** Offer: 1) Update research, 2) View existing, 3) Skip. Wait for response.
@@ -81,7 +81,7 @@ ls .planning/phases/${PHASE}-*/RESEARCH.md 2>/dev/null
 ```bash
 grep -A20 "Phase ${PHASE}:" .planning/ROADMAP.md
 cat .planning/REQUIREMENTS.md 2>/dev/null
-cat .planning/phases/${PHASE}-*/*-CONTEXT.md 2>/dev/null
+cat .planning/experiments/${PHASE}-*/*-CONTEXT.md 2>/dev/null
 grep -A30 "### Decisions Made" .planning/STATE.md 2>/dev/null
 ```
 
@@ -142,7 +142,7 @@ Before declaring complete, verify:
 </quality_gate>
 
 <output>
-Write to: .planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.md
+Write to: .planning/experiments/${PHASE}-{slug}/${PHASE}-RESEARCH.md
 </output>
 ```
 
@@ -171,7 +171,7 @@ Continue research for Phase {phase_number}: {phase_name}
 </objective>
 
 <prior_state>
-Research file: @.planning/phases/${PHASE}-{slug}/${PHASE}-RESEARCH.md
+Research file: @.planning/experiments/${PHASE}-{slug}/${PHASE}-RESEARCH.md
 </prior_state>
 
 <checkpoint_response>

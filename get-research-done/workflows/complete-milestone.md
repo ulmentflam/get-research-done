@@ -53,7 +53,7 @@ Check if milestone is truly complete:
 
 ```bash
 cat .planning/ROADMAP.md
-ls .planning/phases/*/SUMMARY.md 2>/dev/null | wc -l
+ls .planning/experiments/*/SUMMARY.md 2>/dev/null | wc -l
 ```
 
 **Questions to ask:**
@@ -157,8 +157,8 @@ Milestone Stats:
 Read all phase SUMMARY.md files in milestone range:
 
 ```bash
-cat .planning/phases/01-*/01-*-SUMMARY.md
-cat .planning/phases/02-*/02-*-SUMMARY.md
+cat .planning/experiments/01-*/01-*-SUMMARY.md
+cat .planning/experiments/02-*/02-*-SUMMARY.md
 # ... for each phase in milestone
 ```
 
@@ -227,7 +227,7 @@ Perform full PROJECT.md evolution review at milestone completion.
 **Read all phase summaries in this milestone:**
 
 ```bash
-cat .planning/phases/*-*/*-SUMMARY.md
+cat .planning/experiments/*-*/*-SUMMARY.md
 ```
 
 **Full review checklist:**
@@ -460,7 +460,7 @@ Extract completed milestone details and create archive file.
    ✅ ROADMAP.md deleted (fresh one for next milestone)
    ```
 
-**Note:** Phase directories (`.planning/phases/`) are NOT deleted. They accumulate across milestones as the raw execution history. Phase numbering continues (v1.0 phases 1-4, v1.1 phases 5-8, etc.).
+**Note:** Phase directories (`.planning/experiments/`) are NOT deleted. They accumulate across milestones as the raw execution history. Phase numbering continues (v1.0 phases 1-4, v1.1 phases 5-8, etc.).
 
 </step>
 

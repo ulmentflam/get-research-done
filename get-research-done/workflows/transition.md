@@ -39,8 +39,8 @@ Note accumulated context that may need updating after transition.
 Check current phase has all plan summaries:
 
 ```bash
-ls .planning/phases/XX-current/*-PLAN.md 2>/dev/null | sort
-ls .planning/phases/XX-current/*-SUMMARY.md 2>/dev/null | sort
+ls .planning/experiments/XX-current/*-PLAN.md 2>/dev/null | sort
+ls .planning/experiments/XX-current/*-SUMMARY.md 2>/dev/null | sort
 ```
 
 **Verification logic:**
@@ -111,7 +111,7 @@ Wait for user decision.
 Check for lingering handoffs:
 
 ```bash
-ls .planning/phases/XX-current/.continue-here*.md 2>/dev/null
+ls .planning/experiments/XX-current/.continue-here*.md 2>/dev/null
 ```
 
 If found, delete them — phase is complete, handoffs are stale.
@@ -168,7 +168,7 @@ Evolve PROJECT.md to reflect learnings from completed phase.
 **Read phase summaries:**
 
 ```bash
-cat .planning/phases/XX-current/*-SUMMARY.md
+cat .planning/experiments/XX-current/*-SUMMARY.md
 ```
 
 **Assess requirement changes:**
@@ -189,8 +189,8 @@ cat .planning/phases/XX-current/*-SUMMARY.md
    - Extract decisions from SUMMARY.md files
    - Add to Key Decisions table with outcome if known
 
-5. **"What This Is" still accurate?**
-   - If the product has meaningfully changed, update the description
+5. **"Study Overview" still accurate?**
+   - If the research focus has meaningfully changed, update the description
    - Keep it current and accurate
 
 **Update PROJECT.md:**
@@ -243,7 +243,7 @@ After (Phase 2 shipped JWT auth, discovered rate limiting needed):
 - [ ] Invalidated requirements moved to Out of Scope with reason
 - [ ] Emerged requirements added to Active
 - [ ] New decisions logged with rationale
-- [ ] "What This Is" updated if product changed
+- [ ] "Study Overview" updated if research focus changed
 - [ ] "Last updated" footer reflects this transition
 
 </step>
@@ -318,7 +318,7 @@ Update Project Reference section in STATE.md.
 
 See: .planning/PROJECT.md (updated [today])
 
-**Core value:** [Current core value from PROJECT.md]
+**Expected contribution:** [From PROJECT.md Expected Contribution section]
 **Current focus:** [Next phase name]
 ```
 

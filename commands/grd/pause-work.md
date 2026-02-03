@@ -38,7 +38,7 @@ Ask user for clarifications if needed.
 </step>
 
 <step name="write">
-**Write handoff to `.planning/phases/XX-name/.continue-here.md`:**
+**Write handoff to `.planning/experiments/XX-name/.continue-here.md`:**
 
 ```markdown
 ---
@@ -102,14 +102,14 @@ git check-ignore -q .planning 2>/dev/null && COMMIT_PLANNING_DOCS=false
 **If `COMMIT_PLANNING_DOCS=true` (default):**
 
 ```bash
-git add .planning/phases/*/.continue-here.md
+git add .planning/experiments/*/.continue-here.md
 git commit -m "wip: [phase-name] paused at task [X]/[Y]"
 ```
 </step>
 
 <step name="confirm">
 ```
-✓ Handoff created: .planning/phases/[XX-name]/.continue-here.md
+✓ Handoff created: .planning/experiments/[XX-name]/.continue-here.md
 
 Current state:
 

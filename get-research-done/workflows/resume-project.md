@@ -41,7 +41,7 @@ cat .planning/PROJECT.md
 
 **From STATE.md extract:**
 
-- **Project Reference**: Core value and current focus
+- **Project Reference**: Expected contribution and current focus
 - **Current Position**: Phase X of Y, Plan A of B, Status
 - **Progress**: Visual progress bar
 - **Recent Decisions**: Key decisions affecting current work
@@ -51,10 +51,10 @@ cat .planning/PROJECT.md
 
 **From PROJECT.md extract:**
 
-- **What This Is**: Current accurate description
-- **Requirements**: Validated, Active, Out of Scope
+- **Study Overview**: Current accurate description
+- **Hypotheses**: Validated, Active, Out of Scope
 - **Key Decisions**: Full decision log with outcomes
-- **Constraints**: Hard limits on implementation
+- **Research Environment**: Data, compute, timeline, prior work
 
 </step>
 
@@ -63,10 +63,10 @@ Look for incomplete work that needs attention:
 
 ```bash
 # Check for continue-here files (mid-plan resumption)
-ls .planning/phases/*/.continue-here*.md 2>/dev/null
+ls .planning/experiments/*/.continue-here*.md 2>/dev/null
 
 # Check for plans without summaries (incomplete execution)
-for plan in .planning/phases/*/*-PLAN.md; do
+for plan in .planning/experiments/*/*-PLAN.md; do
   summary="${plan/PLAN/SUMMARY}"
   [ ! -f "$summary" ] && echo "Incomplete: $plan"
 done 2>/dev/null
@@ -103,7 +103,7 @@ Present complete project status to user:
 ╔══════════════════════════════════════════════════════════════╗
 ║  PROJECT STATUS                                               ║
 ╠══════════════════════════════════════════════════════════════╣
-║  Building: [one-liner from PROJECT.md "What This Is"]         ║
+║  Investigating: [one-liner from PROJECT.md "Study Overview"]  ║
 ║                                                               ║
 ║  Phase: [X] of [Y] - [Phase name]                            ║
 ║  Plan:  [A] of [B] - [Status]                                ║
@@ -197,7 +197,7 @@ What would you like to do?
 **Note:** When offering phase planning, check for CONTEXT.md existence first:
 
 ```bash
-ls .planning/phases/XX-name/*-CONTEXT.md 2>/dev/null
+ls .planning/experiments/XX-name/*-CONTEXT.md 2>/dev/null
 ```
 
 If missing, suggest scope-experiment before plan. If exists, offer plan directly.
@@ -271,7 +271,7 @@ If STATE.md is missing but other artifacts exist:
 
 "STATE.md missing. Reconstructing from artifacts..."
 
-1. Read PROJECT.md → Extract "What This Is" and Core Value
+1. Read PROJECT.md → Extract "Study Overview" and Expected Contribution
 2. Read ROADMAP.md → Determine phases, find current position
 3. Scan \*-SUMMARY.md files → Extract decisions, concerns
 4. Count pending todos in .planning/todos/pending/

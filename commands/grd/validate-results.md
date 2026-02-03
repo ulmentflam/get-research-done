@@ -163,7 +163,7 @@ Fix plans verified ✓
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/phases/{phase_dir}/*-PLAN.md — review fix plans
+- cat .planning/experiments/{phase_dir}/*-PLAN.md — review fix plans
 - /grd:design-experiment {Z} --gaps — regenerate fix plans
 
 ───────────────────────────────────────────────────────────────

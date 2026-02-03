@@ -25,15 +25,15 @@ Output: Experiment deleted, all subsequent experiments renumbered, git commit as
 
 <step name="parse_arguments">
 Parse the command arguments:
-- Argument is the phase number to remove (integer or decimal)
-- Example: `/grd:remove-experiment 17` → phase = 17
-- Example: `/grd:remove-experiment 16.1` → phase = 16.1
+- Argument is the experiment number to remove (integer or decimal)
+- Example: `/grd:remove-experiment 17` → experiment = 17
+- Example: `/grd:remove-experiment 16.1` → experiment = 16.1
 
 If no argument provided:
 
 ```
-ERROR: Phase number required
-Usage: /grd:remove-experiment <phase-number>
+ERROR: Experiment number required
+Usage: /grd:remove-experiment <experiment-number>
 Example: /grd:remove-experiment 17
 ```
 
@@ -48,96 +48,96 @@ cat .planning/STATE.md 2>/dev/null
 cat .planning/ROADMAP.md 2>/dev/null
 ```
 
-Parse current phase number from STATE.md "Current Position" section.
+Parse current experiment number from STATE.md "Current Position" section.
 </step>
 
 <step name="validate_phase_exists">
-Verify the target phase exists in ROADMAP.md:
+Verify the target experiment exists in ROADMAP.md:
 
-1. Search for `### Phase {target}:` heading
+1. Search for `### Experiment {target}:` heading
 2. If not found:
 
    ```
-   ERROR: Phase {target} not found in roadmap
-   Available phases: [list phase numbers]
+   ERROR: Experiment {target} not found in roadmap
+   Available experiments: [list experiment numbers]
    ```
 
    Exit.
 </step>
 
 <step name="validate_future_phase">
-Verify the phase is a future phase (not started):
+Verify the experiment is a future experiment (not started):
 
-1. Compare target phase to current phase from STATE.md
-2. Target must be > current phase number
+1. Compare target experiment to current experiment from STATE.md
+2. Target must be > current experiment number
 
-If target <= current phase:
+If target <= current experiment:
 
 ```
-ERROR: Cannot remove Phase {target}
+ERROR: Cannot remove Experiment {target}
 
-Only future phases can be removed:
-- Current phase: {current}
-- Phase {target} is current or completed
+Only future experiments can be removed:
+- Current experiment: {current}
+- Experiment {target} is current or completed
 
 To abandon current work, use /grd:pause-work instead.
 ```
 
 Exit.
 
-3. Check for SUMMARY.md files in phase directory:
+3. Check for SUMMARY.md files in experiment directory:
 
 ```bash
-ls .planning/phases/{target}-*/*-SUMMARY.md 2>/dev/null
+ls .planning/experiments/{target}-*/*-SUMMARY.md 2>/dev/null
 ```
 
 If any SUMMARY.md files exist:
 
 ```
-ERROR: Phase {target} has completed work
+ERROR: Experiment {target} has completed work
 
 Found executed plans:
 - {list of SUMMARY.md files}
 
-Cannot remove phases with completed work.
+Cannot remove experiments with completed work.
 ```
 
 Exit.
 </step>
 
 <step name="gather_phase_info">
-Collect information about the phase being removed:
+Collect information about the experiment being removed:
 
-1. Extract phase name from ROADMAP.md heading: `### Phase {target}: {Name}`
-2. Find phase directory: `.planning/phases/{target}-{slug}/`
-3. Find all subsequent phases (integer and decimal) that need renumbering
+1. Extract experiment name from STUDY_PROTOCOL.md heading: `### Experiment {target}: {Name}`
+2. Find experiment directory: `.planning/experiments/{target}-{slug}/`
+3. Find all subsequent experiments (integer and decimal) that need renumbering
 
-**Subsequent phase detection:**
+**Subsequent experiment detection:**
 
-For integer phase removal (e.g., 17):
-- Find all phases > 17 (integers: 18, 19, 20...)
-- Find all decimal phases >= 17.0 and < 18.0 (17.1, 17.2...) → these become 16.x
-- Find all decimal phases for subsequent integers (18.1, 19.1...) → renumber with their parent
+For integer experiment removal (e.g., 17):
+- Find all experiments > 17 (integers: 18, 19, 20...)
+- Find all decimal experiments >= 17.0 and < 18.0 (17.1, 17.2...) → these become 16.x
+- Find all decimal experiments for subsequent integers (18.1, 19.1...) → renumber with their parent
 
-For decimal phase removal (e.g., 17.1):
-- Find all decimal phases > 17.1 and < 18 (17.2, 17.3...) → renumber down
-- Integer phases unchanged
+For decimal experiment removal (e.g., 17.1):
+- Find all decimal experiments > 17.1 and < 18 (17.2, 17.3...) → renumber down
+- Integer experiments unchanged
 
-List all phases that will be renumbered.
+List all experiments that will be renumbered.
 </step>
 
 <step name="confirm_removal">
 Present removal summary and confirm:
 
 ```
-Removing Phase {target}: {Name}
+Removing Experiment {target}: {Name}
 
 This will:
-- Delete: .planning/phases/{target}-{slug}/
-- Renumber {N} subsequent phases:
-  - Phase 18 → Phase 17
-  - Phase 18.1 → Phase 17.1
-  - Phase 19 → Phase 18
+- Delete: .planning/experiments/{target}-{slug}/
+- Renumber {N} subsequent experiments:
+  - Experiment 18 → Experiment 17
+  - Experiment 18.1 → Experiment 17.1
+  - Experiment 19 → Experiment 18
   [etc.]
 
 Proceed? (y/n)
@@ -147,31 +147,31 @@ Wait for confirmation.
 </step>
 
 <step name="delete_phase_directory">
-Delete the target phase directory if it exists:
+Delete the target experiment directory if it exists:
 
 ```bash
-if [ -d ".planning/phases/{target}-{slug}" ]; then
-  rm -rf ".planning/phases/{target}-{slug}"
-  echo "Deleted: .planning/phases/{target}-{slug}/"
+if [ -d ".planning/experiments/{target}-{slug}" ]; then
+  rm -rf ".planning/experiments/{target}-{slug}"
+  echo "Deleted: .planning/experiments/{target}-{slug}/"
 fi
 ```
 
-If directory doesn't exist, note: "No directory to delete (phase not yet created)"
+If directory doesn't exist, note: "No directory to delete (experiment not yet created)"
 </step>
 
 <step name="renumber_directories">
-Rename all subsequent phase directories:
+Rename all subsequent experiment directories:
 
-For each phase directory that needs renumbering (in reverse order to avoid conflicts):
+For each experiment directory that needs renumbering (in reverse order to avoid conflicts):
 
 ```bash
 # Example: renaming 18-dashboard to 17-dashboard
-mv ".planning/phases/18-dashboard" ".planning/phases/17-dashboard"
+mv ".planning/experiments/18-dashboard" ".planning/experiments/17-dashboard"
 ```
 
 Process in descending order (20→19, then 19→18, then 18→17) to avoid overwriting.
 
-Also rename decimal phase directories:
+Also rename decimal experiment directories:
 - `17.1-fix-bug` → `16.1-fix-bug` (if removing integer 17)
 - `17.2-hotfix` → `17.1-hotfix` (if removing decimal 17.1)
 </step>
@@ -179,7 +179,7 @@ Also rename decimal phase directories:
 <step name="rename_files_in_directories">
 Rename plan files inside renumbered directories:
 
-For each renumbered directory, rename files that contain the phase number:
+For each renumbered directory, rename files that contain the experiment number:
 
 ```bash
 # Inside 17-dashboard (was 18-dashboard):
@@ -189,34 +189,34 @@ mv "18-01-SUMMARY.md" "17-01-SUMMARY.md"  # if exists
 # etc.
 ```
 
-Also handle CONTEXT.md and DISCOVERY.md (these don't have phase prefixes, so no rename needed).
+Also handle CONTEXT.md and DISCOVERY.md (these don't have experiment prefixes, so no rename needed).
 </step>
 
 <step name="update_roadmap">
 Update ROADMAP.md:
 
-1. **Remove the phase section entirely:**
-   - Delete from `### Phase {target}:` to the next phase heading (or section end)
+1. **Remove the experiment section entirely:**
+   - Delete from `### Experiment {target}:` to the next experiment heading (or section end)
 
-2. **Remove from phase list:**
-   - Delete line `- [ ] **Phase {target}: {Name}**` or similar
+2. **Remove from experiment list:**
+   - Delete line `- [ ] **Experiment {target}: {Name}**` or similar
 
 3. **Remove from Progress table:**
-   - Delete the row for Phase {target}
+   - Delete the row for Experiment {target}
 
-4. **Renumber all subsequent phases:**
-   - `### Phase 18:` → `### Phase 17:`
-   - `- [ ] **Phase 18:` → `- [ ] **Phase 17:`
+4. **Renumber all subsequent experiments:**
+   - `### Experiment 18:` → `### Experiment 17:`
+   - `- [ ] **Experiment 18:` → `- [ ] **Experiment 17:`
    - Table rows: `| 18. Dashboard |` → `| 17. Dashboard |`
    - Plan references: `18-01:` → `17-01:`
 
 5. **Update dependency references:**
-   - `**Depends on:** Phase 18` → `**Depends on:** Phase 17`
-   - For the phase that depended on the removed phase:
-     - `**Depends on:** Phase 17` (removed) → `**Depends on:** Phase 16`
+   - `**Depends on:** Experiment 18` → `**Depends on:** Experiment 17`
+   - For the experiment that depended on the removed experiment:
+     - `**Depends on:** Experiment 17` (removed) → `**Depends on:** Experiment 16`
 
-6. **Renumber decimal phases:**
-   - `### Phase 17.1:` → `### Phase 16.1:` (if integer 17 removed)
+6. **Renumber decimal experiments:**
+   - `### Experiment 17.1:` → `### Experiment 16.1:` (if integer 17 removed)
    - Update all references consistently
 
 Write updated ROADMAP.md.
@@ -225,8 +225,8 @@ Write updated ROADMAP.md.
 <step name="update_state">
 Update STATE.md:
 
-1. **Update total phase count:**
-   - `Phase: 16 of 20` → `Phase: 16 of 19`
+1. **Update total experiment count:**
+   - `Experiment: 16 of 20` → `Experiment: 16 of 19`
 
 2. **Recalculate progress percentage:**
    - New percentage based on completed plans / new total plans
@@ -237,12 +237,12 @@ Write updated STATE.md.
 </step>
 
 <step name="update_file_contents">
-Search for and update phase references inside plan files:
+Search for and update experiment references inside plan files:
 
 ```bash
-# Find files that reference the old phase numbers
-grep -r "Phase 18" .planning/phases/17-*/ 2>/dev/null
-grep -r "Phase 19" .planning/phases/18-*/ 2>/dev/null
+# Find files that reference the old experiment numbers
+grep -r "Experiment 18" .planning/experiments/17-*/ 2>/dev/null
+grep -r "Experiment 19" .planning/experiments/18-*/ 2>/dev/null
 # etc.
 ```
 
@@ -265,7 +265,7 @@ git check-ignore -q .planning 2>/dev/null && COMMIT_PLANNING_DOCS=false
 
 ```bash
 git add .planning/
-git commit -m "chore: remove phase {target} ({original-phase-name})"
+git commit -m "chore: remove experiment {target} ({original-experiment-name})"
 ```
 
 The commit message preserves the historical record of what was removed.
@@ -275,16 +275,16 @@ The commit message preserves the historical record of what was removed.
 Present completion summary:
 
 ```
-Phase {target} ({original-name}) removed.
+Experiment {target} ({original-name}) removed.
 
 Changes:
-- Deleted: .planning/phases/{target}-{slug}/
-- Renumbered: Phases {first-renumbered}-{last-old} → {first-renumbered-1}-{last-new}
+- Deleted: .planning/experiments/{target}-{slug}/
+- Renumbered: Experiments {first-renumbered}-{last-old} → {first-renumbered-1}-{last-new}
 - Updated: ROADMAP.md, STATE.md
-- Committed: chore: remove phase {target} ({original-name})
+- Committed: chore: remove experiment {target} ({original-name})
 
-Current roadmap: {total-remaining} phases
-Current position: Phase {current} of {new-total}
+Current roadmap: {total-remaining} experiments
+Current position: Experiment {current} of {new-total}
 
 ---
 
@@ -292,7 +292,7 @@ Current position: Phase {current} of {new-total}
 
 Would you like to:
 - `/grd:progress` — see updated roadmap status
-- Continue with current phase
+- Continue with current experiment
 - Review roadmap
 
 ---
@@ -303,47 +303,47 @@ Would you like to:
 
 <anti_patterns>
 
-- Don't remove completed phases (have SUMMARY.md files)
-- Don't remove current or past phases
+- Don't remove completed experiments (have SUMMARY.md files)
+- Don't remove current or past experiments
 - Don't leave gaps in numbering - always renumber
-- Don't add "removed phase" notes to STATE.md - git commit is the record
-- Don't ask about each decimal phase - just renumber them
-- Don't modify completed phase directories
+- Don't add "removed experiment" notes to STATE.md - git commit is the record
+- Don't ask about each decimal experiment - just renumber them
+- Don't modify completed experiment directories
 </anti_patterns>
 
 <edge_cases>
 
-**Removing a decimal phase (e.g., 17.1):**
+**Removing a decimal experiment (e.g., 17.1):**
 - Only affects other decimals in same series (17.2 → 17.1, 17.3 → 17.2)
-- Integer phases unchanged
+- Integer experiments unchanged
 - Simpler operation
 
-**No subsequent phases to renumber:**
-- Removing the last phase (e.g., Phase 20 when that's the end)
+**No subsequent experiments to renumber:**
+- Removing the last experiment (e.g., Experiment 20 when that's the end)
 - Just delete and update ROADMAP.md, no renumbering needed
 
-**Phase directory doesn't exist:**
-- Phase may be in ROADMAP.md but directory not created yet
+**Experiment directory doesn't exist:**
+- Experiment may be in STUDY_PROTOCOL.md but directory not created yet
 - Skip directory deletion, proceed with ROADMAP.md updates
 
-**Decimal phases under removed integer:**
-- Removing Phase 17 when 17.1, 17.2 exist
+**Decimal experiments under removed integer:**
+- Removing Experiment 17 when 17.1, 17.2 exist
 - 17.1 → 16.1, 17.2 → 16.2
 - They maintain their position in execution order (after current last integer)
 
 </edge_cases>
 
 <success_criteria>
-Phase removal is complete when:
+Experiment removal is complete when:
 
-- [ ] Target phase validated as future/unstarted
-- [ ] Phase directory deleted (if existed)
-- [ ] All subsequent phase directories renumbered
+- [ ] Target experiment validated as future/unstarted
+- [ ] Experiment directory deleted (if existed)
+- [ ] All subsequent experiment directories renumbered
 - [ ] Files inside directories renamed ({old}-01-PLAN.md → {new}-01-PLAN.md)
 - [ ] ROADMAP.md updated (section removed, all references renumbered)
-- [ ] STATE.md updated (phase count, progress percentage)
-- [ ] Dependency references updated in subsequent phases
+- [ ] STATE.md updated (experiment count, progress percentage)
+- [ ] Dependency references updated in subsequent experiments
 - [ ] Changes committed with descriptive message
-- [ ] No gaps in phase numbering
+- [ ] No gaps in experiment numbering
 - [ ] User informed of changes
 </success_criteria>

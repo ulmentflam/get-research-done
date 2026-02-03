@@ -169,7 +169,7 @@ git check-ignore -q .planning 2>/dev/null && COMMIT_PLANNING_DOCS=false
 
 Commit the updated UAT.md:
 ```bash
-git add ".planning/phases/XX-name/{phase}-UAT.md"
+git add ".planning/experiments/XX-name/{phase}-UAT.md"
 git commit -m "docs({phase}): add root causes from diagnosis"
 ```
 </step>

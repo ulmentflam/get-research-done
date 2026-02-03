@@ -33,8 +33,8 @@ Version: $ARGUMENTS (optional — defaults to current study)
 @.planning/config.json (if exists)
 
 **Completed Work:**
-Glob: .planning/phases/*/*-SUMMARY.md
-Glob: .planning/phases/*/*-VERIFICATION.md
+Glob: .planning/experiments/*/*-SUMMARY.md
+Glob: .planning/experiments/*/*-VERIFICATION.md
 </context>
 
 <process>
@@ -61,7 +61,7 @@ Store resolved model for use in Task call below.
 
 ```bash
 # Get experiments in study
-ls -d .planning/phases/*/ | sort -V
+ls -d .planning/experiments/*/ | sort -V
 ```
 
 - Parse version from arguments or detect current from STUDY_PROTOCOL.md
@@ -74,8 +74,8 @@ ls -d .planning/phases/*/ | sort -V
 For each experiment directory, read the VERIFICATION.md:
 
 ```bash
-cat .planning/phases/01-*/*-VERIFICATION.md
-cat .planning/phases/02-*/*-VERIFICATION.md
+cat .planning/experiments/01-*/*-VERIFICATION.md
+cat .planning/experiments/02-*/*-VERIFICATION.md
 # etc.
 ```
 

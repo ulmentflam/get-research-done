@@ -148,7 +148,7 @@ Confirm phase exists and has plans:
 ```bash
 # Match both zero-padded (05-*) and unpadded (5-*) folders
 PADDED_PHASE=$(printf "%02d" ${PHASE_ARG} 2>/dev/null || echo "${PHASE_ARG}")
-PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE_ARG}-* 2>/dev/null | head -1)
+PHASE_DIR=$(ls -d .planning/experiments/${PADDED_PHASE}-* .planning/experiments/${PHASE_ARG}-* 2>/dev/null | head -1)
 if [ -z "$PHASE_DIR" ]; then
   echo "ERROR: No phase directory matching '${PHASE_ARG}'"
   exit 1
@@ -592,7 +592,7 @@ If `COMMIT_PLANNING_DOCS=true` (default):
 
 Commit phase completion (roadmap, state, verification):
 ```bash
-git add .planning/ROADMAP.md .planning/STATE.md .planning/phases/{phase_dir}/*-VERIFICATION.md
+git add .planning/ROADMAP.md .planning/STATE.md .planning/experiments/{phase_dir}/*-VERIFICATION.md
 git add .planning/REQUIREMENTS.md  # if updated
 git commit -m "docs(phase-{X}): complete phase execution"
 ```

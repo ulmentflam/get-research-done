@@ -216,7 +216,7 @@ All phase goals verified ✓
 **Phase {Z}: {Name}**
 
 Score: {N}/{M} must-haves verified
-Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
+Report: .planning/experiments/{phase_dir}/{phase}-VERIFICATION.md
 
 ### What's Missing
 
@@ -235,7 +235,7 @@ Report: .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/phases/{phase_dir}/{phase}-VERIFICATION.md — see full report
+- cat .planning/experiments/{phase_dir}/{phase}-VERIFICATION.md — see full report
 - /grd:validate-results {Z} — manual testing before planning
 
 ───────────────────────────────────────────────────────────────

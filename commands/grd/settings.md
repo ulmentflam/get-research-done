@@ -53,11 +53,11 @@ AskUserQuestion([
     ]
   },
   {
-    question: "Spawn Plan Researcher? (researches domain before planning)",
+    question: "Spawn Plan Researcher? (researches methods before planning)",
     header: "Research",
     multiSelect: false,
     options: [
-      { label: "Yes", description: "Research phase goals before planning" },
+      { label: "Yes", description: "Research methods and baselines before planning" },
       { label: "No", description: "Skip research, plan directly" }
     ]
   },
@@ -66,16 +66,16 @@ AskUserQuestion([
     header: "Plan Check",
     multiSelect: false,
     options: [
-      { label: "Yes", description: "Verify plans meet phase goals" },
+      { label: "Yes", description: "Verify plans test the hypothesis" },
       { label: "No", description: "Skip plan verification" }
     ]
   },
   {
-    question: "Spawn Execution Verifier? (verifies phase completion)",
+    question: "Spawn Execution Verifier? (verifies experiment completion)",
     header: "Verifier",
     multiSelect: false,
     options: [
-      { label: "Yes", description: "Verify must-haves after execution" },
+      { label: "Yes", description: "Verify success criteria after execution" },
       { label: "No", description: "Skip post-execution verification" }
     ]
   },
@@ -85,8 +85,8 @@ AskUserQuestion([
     multiSelect: false,
     options: [
       { label: "None (Recommended)", description: "Commit directly to current branch" },
-      { label: "Per Phase", description: "Create branch for each phase (grd/phase-{N}-{name})" },
-      { label: "Per Milestone", description: "Create branch for entire milestone (grd/{version}-{name})" }
+      { label: "Per Experiment", description: "Create branch for each experiment (grd/exp-{N}-{name})" },
+      { label: "Per Study", description: "Create branch for entire study (grd/{version}-{name})" }
     ]
   }
 ])
@@ -108,7 +108,7 @@ Merge new settings into existing config.json:
     "verifier": true/false
   },
   "git": {
-    "branching_strategy": "none" | "phase" | "milestone"
+    "branching_strategy": "none" | "experiment" | "study"
   }
 }
 ```
@@ -130,7 +130,7 @@ Display:
 | Plan Researcher      | {On/Off} |
 | Plan Checker         | {On/Off} |
 | Execution Verifier   | {On/Off} |
-| Git Branching        | {None/Per Phase/Per Milestone} |
+| Git Branching        | {None/Per Experiment/Per Study} |
 
 These settings apply to future /grd:design-experiment and /grd:run-experiment runs.
 

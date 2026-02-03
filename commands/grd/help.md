@@ -216,13 +216,13 @@ Usage: `/grd:list-experiment-assumptions 3`
 **`/grd:design-experiment <number>`**
 Create detailed execution plan for an experiment.
 
-- Generates `.planning/phases/XX-phase-name/XX-YY-PLAN.md`
+- Generates `.planning/experiments/XX-phase-name/XX-YY-PLAN.md`
 - Breaks experiment into concrete, actionable tasks
 - Includes verification criteria and success measures
 - Multiple plans per experiment supported (XX-01, XX-02, etc.)
 
 Usage: `/grd:design-experiment 1`
-Result: Creates `.planning/phases/01-foundation/01-01-PLAN.md`
+Result: Creates `.planning/experiments/01-foundation/01-01-PLAN.md`
 
 ### Execution
 

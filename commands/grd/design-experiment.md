@@ -94,8 +94,8 @@ fi
 **Check for existing research and plans:**
 
 ```bash
-ls .planning/phases/${PHASE}-*/*-RESEARCH.md 2>/dev/null
-ls .planning/phases/${PHASE}-*/*-PLAN.md 2>/dev/null
+ls .planning/experiments/${PHASE}-*/*-RESEARCH.md 2>/dev/null
+ls .planning/experiments/${PHASE}-*/*-PLAN.md 2>/dev/null
 ```
 
 ## 3. Validate Phase
@@ -110,12 +110,12 @@ grep -A5 "Phase ${PHASE}:" .planning/ROADMAP.md 2>/dev/null
 
 ```bash
 # PHASE is already normalized (08, 02.1, etc.) from step 2
-PHASE_DIR=$(ls -d .planning/phases/${PHASE}-* 2>/dev/null | head -1)
+PHASE_DIR=$(ls -d .planning/experiments/${PHASE}-* 2>/dev/null | head -1)
 if [ -z "$PHASE_DIR" ]; then
   # Create phase directory from roadmap name
   PHASE_NAME=$(grep "Phase ${PHASE}:" .planning/ROADMAP.md | sed 's/.*Phase [0-9]*: //' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
-  mkdir -p ".planning/phases/${PHASE}-${PHASE_NAME}"
-  PHASE_DIR=".planning/phases/${PHASE}-${PHASE_NAME}"
+  mkdir -p ".planning/experiments/${PHASE}-${PHASE_NAME}"
+  PHASE_DIR=".planning/experiments/${PHASE}-${PHASE_NAME}"
 fi
 
 # Load CONTEXT.md immediately - this informs ALL downstream agents
@@ -545,7 +545,7 @@ Verification: {Passed | Passed with override | Skipped}
 ───────────────────────────────────────────────────────────────
 
 **Also available:**
-- cat .planning/phases/{phase-dir}/*-PLAN.md — review plans
+- cat .planning/experiments/{phase-dir}/*-PLAN.md — review plans
 - /grd:design-experiment {X} --research — re-research first
 
 ───────────────────────────────────────────────────────────────

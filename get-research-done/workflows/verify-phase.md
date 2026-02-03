@@ -30,7 +30,7 @@ Then verify each level against the actual codebase.
 ```bash
 # Phase directory (match both zero-padded and unpadded)
 PADDED_PHASE=$(printf "%02d" ${PHASE_ARG} 2>/dev/null || echo "${PHASE_ARG}")
-PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE_ARG}-* 2>/dev/null | head -1)
+PHASE_DIR=$(ls -d .planning/experiments/${PADDED_PHASE}-* .planning/experiments/${PHASE_ARG}-* 2>/dev/null | head -1)
 
 # Phase goal from ROADMAP
 grep -A 5 "Phase ${PHASE_NUM}" .planning/ROADMAP.md
@@ -577,7 +577,7 @@ See ~/.claude/get-research-done/templates/verification-report.md for complete te
 
 **Status:** {passed | gaps_found | human_needed}
 **Score:** {N}/{M} must-haves verified
-**Report:** .planning/phases/{phase_dir}/{phase}-VERIFICATION.md
+**Report:** .planning/experiments/{phase_dir}/{phase}-VERIFICATION.md
 
 {If passed:}
 All must-haves verified. Phase goal achieved. Ready to proceed.

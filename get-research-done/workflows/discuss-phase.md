@@ -132,7 +132,7 @@ Check if CONTEXT.md already exists:
 ```bash
 # Match both zero-padded (05-*) and unpadded (5-*) folders
 PADDED_PHASE=$(printf "%02d" ${PHASE})
-ls .planning/phases/${PADDED_PHASE}-*/*-CONTEXT.md .planning/phases/${PHASE}-*/*-CONTEXT.md 2>/dev/null
+ls .planning/experiments/${PADDED_PHASE}-*/*-CONTEXT.md .planning/experiments/${PHASE}-*/*-CONTEXT.md 2>/dev/null
 ```
 
 **If exists:**
@@ -284,12 +284,12 @@ Create CONTEXT.md capturing decisions made.
 ```bash
 # Match existing directory (padded or unpadded)
 PADDED_PHASE=$(printf "%02d" ${PHASE})
-PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE}-* 2>/dev/null | head -1)
+PHASE_DIR=$(ls -d .planning/experiments/${PADDED_PHASE}-* .planning/experiments/${PHASE}-* 2>/dev/null | head -1)
 if [ -z "$PHASE_DIR" ]; then
   # Create from roadmap name (lowercase, hyphens)
   PHASE_NAME=$(grep "Phase ${PHASE}:" .planning/ROADMAP.md | sed 's/.*Phase [0-9]*: //' | tr '[:upper:]' '[:lower:]' | tr ' ' '-')
-  mkdir -p ".planning/phases/${PADDED_PHASE}-${PHASE_NAME}"
-  PHASE_DIR=".planning/phases/${PADDED_PHASE}-${PHASE_NAME}"
+  mkdir -p ".planning/experiments/${PADDED_PHASE}-${PHASE_NAME}"
+  PHASE_DIR=".planning/experiments/${PADDED_PHASE}-${PHASE_NAME}"
 fi
 ```
 
@@ -356,7 +356,7 @@ Write file.
 Present summary and next steps:
 
 ```
-Created: .planning/phases/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
+Created: .planning/experiments/${PADDED_PHASE}-${SLUG}/${PADDED_PHASE}-CONTEXT.md
 
 ## Decisions Captured
 

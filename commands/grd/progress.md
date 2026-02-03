@@ -120,9 +120,9 @@ CONTEXT: [✓ if CONTEXT.md exists | - if not]
 List files in the current phase directory:
 
 ```bash
-ls -1 .planning/phases/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
-ls -1 .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null | wc -l
+ls -1 .planning/experiments/[current-phase-dir]/*-PLAN.md 2>/dev/null | wc -l
+ls -1 .planning/experiments/[current-phase-dir]/*-SUMMARY.md 2>/dev/null | wc -l
+ls -1 .planning/experiments/[current-phase-dir]/*-UAT.md 2>/dev/null | wc -l
 ```
 
 State: "This phase has {X} plans, {Y} summaries."
@@ -133,7 +133,7 @@ Check for UAT.md files with status "diagnosed" (has gaps needing fixes).
 
 ```bash
 # Check for diagnosed UAT with gaps
-grep -l "status: diagnosed" .planning/phases/[current-phase-dir]/*-UAT.md 2>/dev/null
+grep -l "status: diagnosed" .planning/experiments/[current-phase-dir]/*-UAT.md 2>/dev/null
 ```
 
 Track:

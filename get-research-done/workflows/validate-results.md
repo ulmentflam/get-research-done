@@ -94,7 +94,7 @@ Parse $ARGUMENTS as phase number (e.g., "4") or plan number (e.g., "04-02").
 ```bash
 # Find phase directory (match both zero-padded and unpadded)
 PADDED_PHASE=$(printf "%02d" ${PHASE_ARG} 2>/dev/null || echo "${PHASE_ARG}")
-PHASE_DIR=$(ls -d .planning/phases/${PADDED_PHASE}-* .planning/phases/${PHASE_ARG}-* 2>/dev/null | head -1)
+PHASE_DIR=$(ls -d .planning/experiments/${PADDED_PHASE}-* .planning/experiments/${PHASE_ARG}-* 2>/dev/null | head -1)
 
 # Find SUMMARY files
 ls "$PHASE_DIR"/*-SUMMARY.md 2>/dev/null
@@ -178,7 +178,7 @@ skipped: 0
 [none yet]
 ```
 
-Write to `.planning/phases/XX-name/{phase}-UAT.md`
+Write to `.planning/experiments/XX-name/{phase}-UAT.md`
 
 Proceed to `present_test`.
 </step>
@@ -317,7 +317,7 @@ git check-ignore -q .planning 2>/dev/null && COMMIT_PLANNING_DOCS=false
 
 Commit the UAT file:
 ```bash
-git add ".planning/phases/XX-name/{phase}-UAT.md"
+git add ".planning/experiments/XX-name/{phase}-UAT.md"
 git commit -m "test({phase}): complete UAT - {passed} passed, {issues} issues"
 ```
 
@@ -392,7 +392,7 @@ Task(
 **Mode:** gap_closure
 
 **UAT with diagnoses:**
-@.planning/phases/{phase_dir}/{phase}-UAT.md
+@.planning/experiments/{phase_dir}/{phase}-UAT.md
 
 **Project State:**
 @.planning/STATE.md
@@ -443,7 +443,7 @@ Task(
 **Phase Goal:** Close diagnosed gaps from UAT
 
 **Plans to verify:**
-@.planning/phases/{phase_dir}/*-PLAN.md
+@.planning/experiments/{phase_dir}/*-PLAN.md
 
 </verification_context>
 
@@ -482,7 +482,7 @@ Task(
 **Mode:** revision
 
 **Existing plans:**
-@.planning/phases/{phase_dir}/*-PLAN.md
+@.planning/experiments/{phase_dir}/*-PLAN.md
 
 **Checker issues:**
 {structured_issues_from_checker}
