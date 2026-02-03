@@ -1,6 +1,6 @@
 ---
 name: grd:new-project
-description: Initialize a new research project with deep context gathering and PROJECT.md
+description: Design a research study from question to testable hypotheses
 allowed-tools:
   - Read
   - Bash
@@ -11,9 +11,9 @@ allowed-tools:
 
 <objective>
 
-Initialize a new research project through unified flow: questioning → literature review (optional) → hypotheses → study protocol.
+Design a research study through unified flow: questioning → literature review (optional) → hypotheses → study protocol.
 
-This is the most leveraged moment in any project. Deep questioning here means better hypotheses, better experiments, better outcomes. One command takes you from idea to ready-for-experimentation.
+This is the most leveraged moment in any study. Deep questioning here surfaces the real research question — the one worth answering. Better questions lead to better hypotheses, sharper experiments, and clearer conclusions. One command takes you from idea to ready-for-experimentation.
 
 **Creates:**
 - `.planning/PROJECT.md` — project context and research question
@@ -272,13 +272,13 @@ Synthesize all context into `.planning/PROJECT.md` using the template from `temp
 
 [The core question this project investigates — clear, specific, answerable]
 
-## What This Is
+## Study Overview
 
-[One paragraph describing the research project]
+[One paragraph describing what this research investigates and why]
 
-## Core Value
+## Expected Contribution
 
-[The ONE insight or capability that makes this research worthwhile]
+[The ONE insight, method, or finding that makes this research worthwhile]
 
 ## Hypotheses
 
@@ -301,7 +301,7 @@ Synthesize all context into `.planning/PROJECT.md` using the template from `temp
 - [Exclusion 1] — [why]
 - [Exclusion 2] — [why]
 
-## Context & Constraints
+## Research Environment
 
 - **Data:** [what's available, what's needed]
 - **Compute:** [resources available]
@@ -364,21 +364,21 @@ EOF
 questions: [
   {
     header: "Mode",
-    question: "How do you want to work?",
+    question: "How should the study proceed?",
     multiSelect: false,
     options: [
-      { label: "YOLO (Recommended)", description: "Auto-approve, just execute" },
-      { label: "Interactive", description: "Confirm at each step" }
+      { label: "Autonomous (Recommended)", description: "Execute without confirmation" },
+      { label: "Guided", description: "Confirm before each experiment" }
     ]
   },
   {
-    header: "Depth",
-    question: "How thorough should the study be?",
+    header: "Rigor",
+    question: "What level of rigor?",
     multiSelect: false,
     options: [
-      { label: "Quick", description: "Ship fast (3-5 experiments, 1-3 plans each)" },
-      { label: "Standard", description: "Balanced scope and rigor (5-8 experiments, 3-5 plans each)" },
-      { label: "Comprehensive", description: "Thorough coverage (8-12 experiments, 5-10 plans each)" }
+      { label: "Exploratory", description: "Rapid validation (3-5 experiments, 1-3 plans each)" },
+      { label: "Standard", description: "Balanced depth and coverage (5-8 experiments, 3-5 plans each)" },
+      { label: "Rigorous", description: "Comprehensive coverage for publication-quality work (8-12 experiments, 5-10 plans each)" }
     ]
   },
   {
@@ -460,8 +460,8 @@ Create `.planning/config.json` with all settings:
 
 ```json
 {
-  "mode": "yolo|interactive",
-  "depth": "quick|standard|comprehensive",
+  "mode": "autonomous|guided",
+  "rigor": "exploratory|standard|rigorous",
   "parallelization": true|false,
   "commit_docs": true|false,
   "model_profile": "quality|balanced|budget",
@@ -488,7 +488,7 @@ git commit -m "$(cat <<'EOF'
 chore: add project config
 
 Mode: [chosen mode]
-Depth: [chosen depth]
+Rigor: [chosen rigor]
 Parallelization: [enabled/disabled]
 Workflow agents: research=[on/off], plan_check=[on/off], verifier=[on/off]
 EOF
@@ -1010,7 +1010,7 @@ See: `STUDY_PROTOCOL.md`, `HYPOTHESES.md`
 
 See: .planning/PROJECT.md (updated [date])
 
-**Core value:** [One-liner from PROJECT.md]
+**Expected contribution:** [One-liner from PROJECT.md]
 **Current focus:** Experiment 1
 
 ## Current Position
@@ -1199,7 +1199,7 @@ Present completion with next steps:
 - [ ] Brownfield detection completed
 - [ ] Deep questioning completed (threads followed, not rushed)
 - [ ] PROJECT.md captures research question and context → **committed**
-- [ ] config.json has workflow mode, depth, parallelization → **committed**
+- [ ] config.json has workflow mode, rigor, parallelization → **committed**
 - [ ] Literature review completed (if selected) — 4 parallel agents spawned → **committed**
 - [ ] Hypotheses gathered (from research or conversation)
 - [ ] User scoped each hypothesis (primary/secondary/defer)

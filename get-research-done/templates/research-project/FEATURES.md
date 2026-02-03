@@ -126,7 +126,7 @@ Features to defer until product-market fit is established.
 
 **Differentiators:**
 - These are where you compete
-- Should align with the Core Value from PROJECT.md
+- Should align with the Expected Contribution from PROJECT.md
 - Don't try to differentiate on everything
 
 **Anti-Features:**

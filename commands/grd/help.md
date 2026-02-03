@@ -479,13 +479,13 @@ Usage: `/grd:update`
 
 Set during `/grd:new-project`:
 
-**Interactive Mode**
+**Guided Mode**
 
 - Confirms each major decision
 - Pauses at checkpoints for approval
 - More guidance throughout
 
-**YOLO Mode**
+**Autonomous Mode**
 
 - Auto-approves most decisions
 - Executes plans without confirmation

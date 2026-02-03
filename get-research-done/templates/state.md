@@ -15,7 +15,7 @@ Template for `.planning/STATE.md` — the project's living memory.
 
 See: .planning/PROJECT.md (updated [date])
 
-**Core value:** [One-liner from PROJECT.md Core Value section]
+**Expected contribution:** [One-liner from PROJECT.md Expected Contribution section]
 **Current focus:** [Current experiment name]
 
 ## Current Position
@@ -197,11 +197,11 @@ STATE.md is the project's short-term memory spanning all experiments and session
 
 ### Project Reference
 Points to PROJECT.md for full context. Includes:
-- Core value (the ONE thing that matters)
+- Expected contribution (the ONE insight that matters)
 - Current focus (which experiment)
 - Last update date (triggers re-read if stale)
 
-Claude reads PROJECT.md directly for requirements, constraints, and decisions.
+Claude reads PROJECT.md directly for hypotheses, environment, and decisions.
 
 ### Current Position
 Where we are right now:

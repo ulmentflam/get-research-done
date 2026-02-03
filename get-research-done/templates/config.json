@@ -1,6 +1,6 @@
 {
-  "mode": "interactive",
-  "depth": "standard",
+  "mode": "guided",
+  "rigor": "standard",
   "workflow": {
     "research": true,
     "plan_check": true,

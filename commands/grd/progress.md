@@ -51,7 +51,7 @@ If missing both ROADMAP.md and PROJECT.md: suggest `/grd:new-project`.
 
 - Read `.planning/STATE.md` for living memory (position, decisions, issues)
 - Read `.planning/ROADMAP.md` for phase structure and objectives
-- Read `.planning/PROJECT.md` for current state (What This Is, Core Value, Requirements)
+- Read `.planning/PROJECT.md` for current state (Research Question, Study Overview, Expected Contribution, Hypotheses)
 - Read `.planning/config.json` for settings (model_profile, workflow toggles)
   </step>
 
