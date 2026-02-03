@@ -355,7 +355,7 @@ const claudeToGeminiTools = {
   WebSearch: 'google_web_search',
   WebFetch: 'web_fetch',
   TodoWrite: 'write_todos',
-  AskUserQuestion: 'ask_user',
+  // AskUserQuestion excluded — no Gemini equivalent
 };
 
 /**
@@ -390,6 +390,10 @@ function convertGeminiToolName(claudeTool) {
   }
   // Task: exclude — agents are auto-registered as callable tools
   if (claudeTool === 'Task') {
+    return null;
+  }
+  // AskUserQuestion: exclude — no Gemini equivalent, agent can output questions as text
+  if (claudeTool === 'AskUserQuestion') {
     return null;
   }
   // Check for explicit mapping
